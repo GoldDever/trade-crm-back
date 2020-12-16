@@ -10,7 +10,7 @@ logs/
 **/*.log.gz
 
 ## Directory-based project format:
-.idea/**
+.idea
 src/main/resources/hibernate.properties
 # if you remove the above rule, at least ignore the following:
 
