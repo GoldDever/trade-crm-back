@@ -6,7 +6,15 @@
 
     <groupId>ru.javamentor</groupId>
     <artifactId>trade-crm-back</artifactId>
+    <packaging>pom</packaging>
     <version>0.1</version>
+    <modules>
+        <module>Abstract-Service</module>
+        <module>Implement-Service</module>
+        <module>Model</module>
+        <module>Repository</module>
+        <module>Security</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
