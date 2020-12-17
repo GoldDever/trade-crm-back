@@ -3,7 +3,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "U_TYPE")
+@DiscriminatorColumn(name = "USER_TYPE")
 public class User {
 
     @Id

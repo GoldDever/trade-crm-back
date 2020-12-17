@@ -13,7 +13,12 @@ public class Role {
     @Column(name = "role_name")
     private String roleName;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "permissions_roles",
+            joinColumns = { @JoinColumn(name = "roles_id") },
+            inverseJoinColumns = { @JoinColumn(name = "permissions_id") }
+    )
     private Set<Permission> permissions;
 
     public Role() {

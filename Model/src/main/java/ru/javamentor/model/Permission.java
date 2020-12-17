@@ -13,9 +13,6 @@ public class Permission {
     @Column(name = "permission_name")
     private String permissionName;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private Set<Role> roles;
-
     public Permission() {
     }
 
