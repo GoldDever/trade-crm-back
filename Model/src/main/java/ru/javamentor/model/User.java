@@ -1,3 +1,5 @@
+package ru.javamentor.model;
+
 import javax.persistence.*;
 
 @Entity

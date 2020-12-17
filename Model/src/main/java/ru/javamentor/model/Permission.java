@@ -1,3 +1,5 @@
+package ru.javamentor.model;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -16,10 +18,9 @@ public class Permission {
     public Permission() {
     }
 
-    public Permission(Long id, String permissionName, Set<Role> roles) {
+    public Permission(Long id, String permissionName) {
         this.id = id;
         this.permissionName = permissionName;
-        this.roles = roles;
     }
 
     public Long getId() {
@@ -36,13 +37,5 @@ public class Permission {
 
     public void setPermissionName(String permissionName) {
         this.permissionName = permissionName;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 }
