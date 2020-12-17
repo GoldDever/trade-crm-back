@@ -18,6 +18,9 @@ public class LoginRestController {
         this.userLoginDto = userLoginDto;
     }
 
+    /**
+     * Контроллер для логина
+     */
     @GetMapping("/login")
     public ResponseEntity<UserLoginDto> loginIntoApp(UserLoginDto userLoginDto) {
         if (userLoginDto == null) {
