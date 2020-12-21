@@ -9,7 +9,7 @@ docker -v
 
 Установку PostgreSQL, создание контейнера и его запуск можно совместить в одну большую, но вполне понятную команду
 ```
-docker run --name trade -e POSTGRES_BD=trade_crm -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -d -p 5432:5432 postgres
+docker run --name trade -e POSTGRES_DB=trade_crm -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -d -p 5437:5432 postgres
 ```
 
 - run - запуск нового контейнера
