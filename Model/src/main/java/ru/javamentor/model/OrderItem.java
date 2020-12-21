@@ -39,6 +39,14 @@ public class OrderItem {
     public OrderItem() {
     }
 
+    public OrderItem(String idFromErp, String invoiceIssued, Integer productCount, Product product, BigDecimal itemFullPrice) {
+        this.idFromErp = idFromErp;
+        this.invoiceIssued = invoiceIssued;
+        this.productCount = productCount;
+        this.product = product;
+        this.itemFullPrice = itemFullPrice;
+    }
+
     public Long getId() {
         return id;
     }

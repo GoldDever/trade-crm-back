@@ -48,6 +48,17 @@ public class Order {
     public Order() {
     }
 
+    public Order(String idFromErp, Client client, Manager manager, BigDecimal orderFullPrice, Boolean isApproved, Boolean paid, Boolean shipped, LocalDateTime createTime) {
+        this.idFromErp = idFromErp;
+        this.client = client;
+        this.manager = manager;
+        this.orderFullPrice = orderFullPrice;
+        this.isApproved = isApproved;
+        this.paid = paid;
+        this.shipped = shipped;
+        this.createTime = createTime;
+    }
+
     public Long getId() {
         return id;
     }
