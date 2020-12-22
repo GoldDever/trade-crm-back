@@ -88,14 +88,9 @@ create database trade_crm
 
 Делаем резервную копию 
 ```
-docker exec trade pg_dump -u root --password=root trade-crm > trade-crm.tar
+docker exec trade pg_dump -u root --password=root trade-crm > trade-crm.tar.gz
 ```
 - exec - выполнение команды внутри контейнера
 - pg_dump - дамп базы данных
 - -u - пользователь
 - -password - пароль
- 
-Далее переводим наш архив в gzip
-```
-gzip trade-crm.tar
-```
