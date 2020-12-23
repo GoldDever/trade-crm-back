@@ -83,3 +83,14 @@ create database trade_crm
 Далее по цепочке "+" -> Data Source -> PostgreSQL
 
 В поля User, Password и Database вводим соответствующие значения, что вводили ранее. После этого нажимаем кнопку "Test Connection" и если видим зелёную галочку, то всё OK! 
+
+#Сохранение бэкапа базы данных из Docker контейнера
+
+Делаем резервную копию 
+```
+docker exec trade pg_dump -u root --password=root trade-crm | gzip > trade-crm.sql.gz
+```
+- exec - выполнение команды внутри контейнера
+- pg_dump - дамп базы данных
+- -u - пользователь
+- -password - пароль
