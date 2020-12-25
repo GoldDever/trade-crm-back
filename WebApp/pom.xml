@@ -17,6 +17,18 @@
             <version>0.1</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>ru.javamentor</groupId>
+            <artifactId>Abstract-Service</artifactId>
+            <version>0.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>ru.javamentor</groupId>
+            <artifactId>Implement-Service</artifactId>
+            <version>0.1</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <properties>

@@ -10,6 +10,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>Repository</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>ru.javamentor</groupId>
+            <artifactId>Model</artifactId>
+            <version>0.1</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 
 </project>
