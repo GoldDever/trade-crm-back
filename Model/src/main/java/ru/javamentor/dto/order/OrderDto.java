@@ -12,7 +12,7 @@ public class OrderDto {
     private ClientDto client;
     private ManagerDto manager;
     private BigDecimal orderFullPrice;
-    private Boolean isApproved;
+    private Boolean approved;
     private Boolean paid;
     private Boolean shipped;
     private LocalDateTime createTime;
@@ -21,14 +21,14 @@ public class OrderDto {
     }
 
     public OrderDto(Long id, String idFromErp, ClientDto client, ManagerDto manager,
-                    BigDecimal orderFullPrice, Boolean isApproved, Boolean paid,
+                    BigDecimal orderFullPrice, Boolean approved, Boolean paid,
                     Boolean shipped, LocalDateTime createTime) {
         this.id = id;
         this.idFromErp = idFromErp;
         this.client = client;
         this.manager = manager;
         this.orderFullPrice = orderFullPrice;
-        this.isApproved = isApproved;
+        this.approved = approved;
         this.paid = paid;
         this.shipped = shipped;
         this.createTime = createTime;
@@ -75,11 +75,11 @@ public class OrderDto {
     }
 
     public Boolean getApproved() {
-        return isApproved;
+        return approved;
     }
 
     public void setApproved(Boolean approved) {
-        isApproved = approved;
+        this.approved = approved;
     }
 
     public Boolean getPaid() {

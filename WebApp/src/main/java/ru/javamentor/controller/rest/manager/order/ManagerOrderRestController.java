@@ -2,11 +2,14 @@ package ru.javamentor.controller.rest.manager.order;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.javamentor.dto.order.AddItemDto;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.Client;
@@ -46,11 +49,11 @@ public class ManagerOrderRestController {
     @Autowired
     UnitService unitService;
 
-    @PostMapping("/{orderId}/addItem")
-    public ResponseEntity<?> addItem(OrderDto orderDto,
-                                     OrderItemDto orderItemDto,
+    @PostMapping(value = "/{orderId}/addItem", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> addItem(@RequestBody AddItemDto addItemDto,
                                      @PathVariable String orderId) {
 
+        OrderDto orderDto = addItemDto.getOrderDto();
         Client client = (Client) userService.getUserById(orderDto.getClient().getId());
         Manager manager = (Manager) userService.getUserById(orderDto.getManager().getId());
         Order order = orderService.getOrderById(Long.valueOf(orderId));
@@ -67,6 +70,7 @@ public class ManagerOrderRestController {
         order.setShipped(orderDto.getShipped());
         order.setCreateTime(orderDto.getCreateTime());
 
+        OrderItemDto orderItemDto = addItemDto.getOrderItemDto();
         Set<Supplier> suppliers = new HashSet<>();
         Supplier supplier = supplierService.getSupplierById(orderItemDto.getProduct().getSupplierId());
         suppliers.add(supplier);
