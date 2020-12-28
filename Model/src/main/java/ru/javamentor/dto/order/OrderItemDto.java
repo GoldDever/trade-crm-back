@@ -12,18 +12,19 @@ public class OrderItemDto {
     private String idFromErp;
     private String invoiceIssued;
     private Integer productCount;
+    private OrderDto orderDto;
     private ProductDto product;
     private BigDecimal itemFullPrice;
 
     public OrderItemDto() {
     }
 
-    public OrderItemDto(Long id, String idFromErp, String invoiceIssued, Integer productCount,
-                        ProductDto product, BigDecimal itemFullPrice) {
+    public OrderItemDto(Long id, String idFromErp, String invoiceIssued, Integer productCount, OrderDto orderDto, ProductDto product, BigDecimal itemFullPrice) {
         this.id = id;
         this.idFromErp = idFromErp;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
+        this.orderDto = orderDto;
         this.product = product;
         this.itemFullPrice = itemFullPrice;
     }
@@ -74,5 +75,13 @@ public class OrderItemDto {
 
     public void setItemFullPrice(BigDecimal itemFullPrice) {
         this.itemFullPrice = itemFullPrice;
+    }
+
+    public OrderDto getOrderDto() {
+        return orderDto;
+    }
+
+    public void setOrderDto(OrderDto orderDto) {
+        this.orderDto = orderDto;
     }
 }

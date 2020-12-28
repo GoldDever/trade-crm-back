@@ -44,11 +44,13 @@ public class OrderItem {
     public OrderItem() {
     }
 
-    public OrderItem(String idFromErp, String invoiceIssued, Integer productCount, Product product, BigDecimal itemFullPrice) {
+    public OrderItem(Long id, String idFromErp, String invoiceIssued, Integer productCount, Product product, Order order, BigDecimal itemFullPrice) {
+        this.id = id;
         this.idFromErp = idFromErp;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
         this.product = product;
+        this.order = order;
         this.itemFullPrice = itemFullPrice;
     }
 
@@ -98,5 +100,13 @@ public class OrderItem {
 
     public void setItemFullPrice(BigDecimal itemFullPrice) {
         this.itemFullPrice = itemFullPrice;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
