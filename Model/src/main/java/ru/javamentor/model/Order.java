@@ -35,14 +35,14 @@ public class Order {
     @Column(name = "order_full_price")
     private BigDecimal orderFullPrice;
 
-    @Column(name = "is_approved")
-    private Boolean isApproved;
+    @Column(name = "is_approve")
+    private Boolean isApprove;
 
     @Column(name = "paid")
-    private Boolean paid;
+    private Boolean isPaid;
 
     @Column(name = "shipped")
-    private Boolean shipped;
+    private Boolean isShipped;
 
     @Column(name = "create_time")
     private LocalDateTime createTime;
@@ -50,14 +50,15 @@ public class Order {
     public Order() {
     }
 
-    public Order(String idFromErp, Client client, Manager manager, BigDecimal orderFullPrice, Boolean isApproved, Boolean paid, Boolean shipped, LocalDateTime createTime) {
+    public Order(Long id, String idFromErp, Client client, Manager manager, BigDecimal orderFullPrice, Boolean isApprove, Boolean isPaid, Boolean isShipped, LocalDateTime createTime) {
+        this.id = id;
         this.idFromErp = idFromErp;
         this.client = client;
         this.manager = manager;
         this.orderFullPrice = orderFullPrice;
-        this.isApproved = isApproved;
-        this.paid = paid;
-        this.shipped = shipped;
+        this.isApprove = isApprove;
+        this.isPaid = isPaid;
+        this.isShipped = isShipped;
         this.createTime = createTime;
     }
 
@@ -101,28 +102,28 @@ public class Order {
         this.orderFullPrice = orderFullPrice;
     }
 
-    public Boolean getApproved() {
-        return isApproved;
+    public Boolean getApprove() {
+        return isApprove;
     }
 
-    public void setApproved(Boolean approved) {
-        isApproved = approved;
+    public void setApprove(Boolean approve) {
+        isApprove = approve;
     }
 
     public Boolean getPaid() {
-        return paid;
+        return isPaid;
     }
 
     public void setPaid(Boolean paid) {
-        this.paid = paid;
+        isPaid = paid;
     }
 
     public Boolean getShipped() {
-        return shipped;
+        return isShipped;
     }
 
     public void setShipped(Boolean shipped) {
-        this.shipped = shipped;
+        isShipped = shipped;
     }
 
     public LocalDateTime getCreateTime() {
