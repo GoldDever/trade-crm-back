@@ -15,11 +15,9 @@ import ru.javamentor.service.ProductService;
 @RestController
 @RequestMapping("api/admin/product")
 public class AdminProductRestController {
-    ProductService productService;
 
-    public AdminProductRestController() {}
+    private final ProductService productService;
 
-    @Autowired
     public AdminProductRestController(ProductService productService) {
         this.productService = productService;
     }

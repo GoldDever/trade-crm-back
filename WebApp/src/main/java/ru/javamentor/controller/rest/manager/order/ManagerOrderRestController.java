@@ -16,8 +16,11 @@ import ru.javamentor.service.order.OrderItemService;
 @RequestMapping("api/manager/order")
 public class ManagerOrderRestController {
 
-    @Autowired
-    OrderItemService orderItemService;
+    private final OrderItemService orderItemService;
+
+    public ManagerOrderRestController(OrderItemService orderItemService) {
+        this.orderItemService = orderItemService;
+    }
 
     /**
      * POST method add item to order
@@ -26,7 +29,7 @@ public class ManagerOrderRestController {
      * @param orderId      id of order
      * @return response http status entity
      */
-    @PostMapping(value = "/{orderId}/addItem")
+    @PostMapping("/{orderId}/addItem")
     public ResponseEntity<?> addItem(@RequestBody OrderItemDto orderItemDto,
                                      @PathVariable String orderId) {
 
