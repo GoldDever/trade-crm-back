@@ -65,6 +65,45 @@ public class Product {
     public Product() {
     }
 
+    public Product(String productName, String madeCountry,
+                   Manufacturer manufacturer, Set<Supplier> suppliers,
+                   String article, BigDecimal purchasePrice,
+                   BigDecimal price, BigDecimal margin,
+                   Unit unit, Integer packagingCount,
+                   String idFromErp) {
+        this.productName = productName;
+        this.madeCountry = madeCountry;
+        this.manufacturer = manufacturer;
+        this.suppliers = suppliers;
+        this.article = article;
+        this.purchasePrice = purchasePrice;
+        this.price = price;
+        this.margin = margin;
+        this.unit = unit;
+        this.packagingCount = packagingCount;
+        this.idFromErp = idFromErp;
+    }
+
+    public Product(Long id, String productName,
+                   String madeCountry, Manufacturer manufacturer,
+                   Set<Supplier> suppliers, String article,
+                   BigDecimal purchasePrice, BigDecimal price,
+                   BigDecimal margin, Unit unit,
+                   Integer packagingCount, String idFromErp) {
+        this.id = id;
+        this.productName = productName;
+        this.madeCountry = madeCountry;
+        this.manufacturer = manufacturer;
+        this.suppliers = suppliers;
+        this.article = article;
+        this.purchasePrice = purchasePrice;
+        this.price = price;
+        this.margin = margin;
+        this.unit = unit;
+        this.packagingCount = packagingCount;
+        this.idFromErp = idFromErp;
+    }
+
     public Long getId() {
         return id;
     }
