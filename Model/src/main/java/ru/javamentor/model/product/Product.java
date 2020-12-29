@@ -58,6 +58,9 @@ public class Product {
     @Column(name = "packaging_count")
     private Integer packagingCount;
 
+    @Column(name = "id_from_erp", unique = true)
+    private String idFromErp;
+
     public Product() {
     }
 
@@ -123,6 +126,14 @@ public class Product {
 
     public void setPackagingCount(Integer packagingCount) {
         this.packagingCount = packagingCount;
+    }
+
+    public String getIdFromErp() {
+        return idFromErp;
+    }
+
+    public void setIdFromErp(String idFromErp) {
+        this.idFromErp = idFromErp;
     }
 
     public BigDecimal getPurchasePrice() {
