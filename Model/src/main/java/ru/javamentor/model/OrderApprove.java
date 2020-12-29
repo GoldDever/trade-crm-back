@@ -23,12 +23,6 @@ public class OrderApprove {
     @Column(name = "text")
     private String text;
 
-//    @ManyToMany(targetEntity = Order.class, cascade = { CascadeType.ALL }, fetch = FetchType.LAZY )
-//    @JoinTable(
-//            name = "order_approves",
-//            joinColumns = { @JoinColumn(name = "order_approve_id") },
-//            inverseJoinColumns = { @JoinColumn(name = "orders_id") }
-//    )
     @OneToOne
     @JoinColumn(name = "order_id")
     private Order order;
