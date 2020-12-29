@@ -1,11 +1,8 @@
 package ru.javamentor.service;
 
-import ru.javamentor.model.OrderItem;
+import ru.javamentor.dto.order.OrderItemDto;
 
-import java.util.Optional;
 
 public interface OrderItemService {
-    OrderItem getOrderItemById(Long id);
-
-    void saveOrderItem(OrderItem orderItem);
+    void saveOrderItem(OrderItemDto orderItemDto, String orderId);
 }
