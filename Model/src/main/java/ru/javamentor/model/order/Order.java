@@ -1,4 +1,7 @@
-package ru.javamentor.model;
+package ru.javamentor.model.order;
+
+import ru.javamentor.model.user.Client;
+import ru.javamentor.model.user.Manager;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -38,10 +41,10 @@ public class Order {
     @Column(name = "is_approve")
     private Boolean isApprove;
 
-    @Column(name = "paid")
+    @Column(name = "is_paid")
     private Boolean isPaid;
 
-    @Column(name = "shipped")
+    @Column(name = "is_shipped")
     private Boolean isShipped;
 
     @Column(name = "create_time")

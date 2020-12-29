@@ -1,4 +1,4 @@
-package ru.javamentor.model;
+package ru.javamentor.model.order;
 
 import ru.javamentor.model.product.Product;
 

@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Set;
 
 @Entity
@@ -30,7 +31,7 @@ public class Product {
     private String madeCountry;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="manufacturer_id")
+    @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -52,7 +53,7 @@ public class Product {
     private BigDecimal margin;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="unit_id")
+    @JoinColumn(name = "unit_id")
     private Unit unit;
 
     @Column(name = "packaging_count")
@@ -141,7 +142,7 @@ public class Product {
     }
 
     public void setPurchasePrice(BigDecimal purchasePrice) {
-        this.purchasePrice = purchasePrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.purchasePrice = purchasePrice.setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getPrice() {
@@ -149,7 +150,7 @@ public class Product {
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getMargin() {
@@ -157,7 +158,6 @@ public class Product {
     }
 
     public void setMargin(BigDecimal margin) {
-        this.margin = margin.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.margin = margin.setScale(2, RoundingMode.HALF_UP);
     }
-
 }
