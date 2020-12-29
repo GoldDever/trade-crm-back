@@ -5,31 +5,22 @@ import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
-import ru.javamentor.model.product.Supplier;
-import ru.javamentor.model.product.Unit;
 import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
-import ru.javamentor.repository.order.SupplierRepository;
-import ru.javamentor.repository.order.UnitRepository;
-
-import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
+import ru.javamentor.repository.order.ProductRepository;
 
 @Service
 public class OrderItemServiceImpl implements OrderItemService {
 
     private final OrderItemRepository orderItemRepository;
     private final OrderRepository orderRepository;
-    private final SupplierRepository supplierRepository;
-    private final UnitRepository unitRepository;
+    private final ProductRepository productRepository;
 
     public OrderItemServiceImpl(OrderItemRepository orderItemRepository, OrderRepository orderRepository,
-                                SupplierRepository supplierRepository, UnitRepository unitRepository) {
+                                ProductRepository productRepository) {
         this.orderItemRepository = orderItemRepository;
         this.orderRepository = orderRepository;
-        this.supplierRepository = supplierRepository;
-        this.unitRepository = unitRepository;
+        this.productRepository = productRepository;
     }
 
     /**
@@ -42,24 +33,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public void saveOrderItem(OrderItemDto orderItemDto, String orderId) {
         Order order = orderRepository.findById(Long.valueOf(orderId)).orElseThrow();
-
-        Supplier supplier = supplierRepository.findById(orderItemDto.getProduct().getSupplierId()).orElseThrow();
-        Set<Supplier> suppliers = new HashSet<>();
-        suppliers.add(supplier);
-        Unit unit = unitRepository.findById(orderItemDto.getProduct().getUnitId()).orElseThrow();
-        Product product = new Product(
-                orderItemDto.getProduct().getId(),
-                orderItemDto.getProduct().getProductName(),
-                orderItemDto.getProduct().getMadeCountry(),
-                suppliers,
-                orderItemDto.getProduct().getArticle(),
-                BigDecimal.valueOf(orderItemDto.getProduct().getPurchasePrice()),
-                BigDecimal.valueOf(orderItemDto.getProduct().getPrice()),
-                BigDecimal.valueOf(orderItemDto.getProduct().getMargin()),
-                unit,
-                orderItemDto.getProduct().getPackagingCount()
-        );
-
+        Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElseThrow();
         OrderItem orderItem = new OrderItem(
                 orderItemDto.getId(),
                 orderItemDto.getIdFromErp(),

@@ -61,21 +61,6 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String productName, String madeCountry, Set<Supplier> suppliers,
-                   String article, BigDecimal purchasePrice, BigDecimal price,
-                   BigDecimal margin, Unit unit, Integer packagingCount) {
-        this.id = id;
-        this.productName = productName;
-        this.madeCountry = madeCountry;
-        this.suppliers = suppliers;
-        this.article = article;
-        this.purchasePrice = purchasePrice;
-        this.price = price;
-        this.margin = margin;
-        this.unit = unit;
-        this.packagingCount = packagingCount;
-    }
-
     public Long getId() {
         return id;
     }
