@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.OrderApproveDto;
-import ru.javamentor.model.Order;
-import ru.javamentor.model.OrderApprove;
 import ru.javamentor.service.OrderService;
 
 @RestController

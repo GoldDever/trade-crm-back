@@ -2,8 +2,8 @@ package ru.javamentor.service;
 
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.order.OrderApproveDto;
-import ru.javamentor.model.Order;
-import ru.javamentor.model.OrderApprove;
+import ru.javamentor.model.order.Order;
+import ru.javamentor.model.order.OrderApprove;
 import ru.javamentor.repository.order.OrderApproveRepository;
 import ru.javamentor.repository.order.OrderRepository;
 
