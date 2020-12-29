@@ -1,4 +1,4 @@
-package ru.javamentor.service;
+package ru.javamentor.service.order;
 
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.order.OrderItemDto;
@@ -7,7 +7,7 @@ import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
-import ru.javamentor.repository.order.ProductRepository;
+import ru.javamentor.repository.product.ProductRepository;
 
 @Service
 public class OrderItemServiceImpl implements OrderItemService {

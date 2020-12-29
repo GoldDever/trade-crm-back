@@ -1,4 +1,4 @@
-package ru.javamentor.service;
+package ru.javamentor.service.order;
 
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.order.OrderApproveDto;
