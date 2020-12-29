@@ -1,4 +1,4 @@
-package ru.javamentor.model;
+package ru.javamentor.model.user;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
