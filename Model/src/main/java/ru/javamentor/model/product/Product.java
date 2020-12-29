@@ -30,7 +30,7 @@ public class Product {
     private String madeCountry;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="manufacturer_id")
+    @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -52,7 +52,7 @@ public class Product {
     private BigDecimal margin;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="unit_id")
+    @JoinColumn(name = "unit_id")
     private Unit unit;
 
     @Column(name = "packaging_count")
