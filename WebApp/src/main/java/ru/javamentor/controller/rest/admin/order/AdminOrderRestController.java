@@ -1,7 +1,15 @@
 package ru.javamentor.controller.rest.admin.order;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.javamentor.dto.order.OrderApproveDto;
+import ru.javamentor.model.Order;
+import ru.javamentor.model.OrderApprove;
 import ru.javamentor.service.OrderService;
 
 @RestController
@@ -12,5 +20,17 @@ public class AdminOrderRestController {
 
     public AdminOrderRestController(OrderService orderService) {
         this.orderService = orderService;
+    }
+
+
+    /**
+     * Метод получает новый флаг approve и устанавливает его в Order
+     *
+     */
+    @PostMapping(value = "/{orderId}/approve/")
+    public ResponseEntity<String> changeApproveStatus(@RequestBody OrderApproveDto orderApproveDto, @PathVariable Long orderId) {
+        orderService.updateApproveStatus(orderApproveDto, orderId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
