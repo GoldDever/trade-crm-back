@@ -21,8 +21,9 @@ public class ManagerOrderRestController {
 
     /**
      * POST method add item to order
+     *
      * @param orderItemDto DTO item and order
-     * @param orderId id of order
+     * @param orderId      id of order
      * @return response http status entity
      */
     @PostMapping(value = "/{orderId}/addItem")

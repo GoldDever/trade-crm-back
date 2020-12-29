@@ -30,7 +30,7 @@ public class Product {
     private String madeCountry;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="manufacturer_id")
+    @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
@@ -52,13 +52,28 @@ public class Product {
     private BigDecimal margin;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="unit_id")
+    @JoinColumn(name = "unit_id")
     private Unit unit;
 
     @Column(name = "packaging_count")
     private Integer packagingCount;
 
     public Product() {
+    }
+
+    public Product(Long id, String productName, String madeCountry, Set<Supplier> suppliers,
+                   String article, BigDecimal purchasePrice, BigDecimal price,
+                   BigDecimal margin, Unit unit, Integer packagingCount) {
+        this.id = id;
+        this.productName = productName;
+        this.madeCountry = madeCountry;
+        this.suppliers = suppliers;
+        this.article = article;
+        this.purchasePrice = purchasePrice;
+        this.price = price;
+        this.margin = margin;
+        this.unit = unit;
+        this.packagingCount = packagingCount;
     }
 
     public Long getId() {
