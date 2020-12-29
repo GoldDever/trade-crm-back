@@ -9,7 +9,6 @@ import ru.javamentor.model.product.Product;
 import ru.javamentor.model.product.Supplier;
 import ru.javamentor.repository.product.ManufacturerRepository;
 import ru.javamentor.repository.product.ProductRepository;
-import ru.javamentor.repository.product.SupplierRepository;
 import ru.javamentor.repository.product.UnitRepository;
 
 import java.math.BigDecimal;
@@ -26,19 +25,16 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     private ManufacturerRepository manufacturerRepository;
     private UnitRepository unitRepository;
-    private SupplierRepository supplierRepository;
 
     public ProductServiceImpl() {}
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository,
                               ManufacturerRepository manufacturerRepository,
-                              UnitRepository unitRepository,
-                              SupplierRepository supplierRepository) {
+                              UnitRepository unitRepository) {
         this.productRepository = productRepository;
         this.manufacturerRepository = manufacturerRepository;
         this.unitRepository = unitRepository;
-        this.supplierRepository = supplierRepository;
     }
 
     /**
@@ -48,25 +44,26 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public void saveProduct(ProductPostDto dto) {
-        Product product = new Product();
         List<Supplier> finalList = new ArrayList<>();
-        List<SupplierDto> tmpList = dto.getSupplierDto();
 
-        for (int i = 0; i < dto.getSupplierDto().size(); i++) {
-            finalList.add(new Supplier(tmpList.get(i).getId(), tmpList.get(i).getName()));
+        for (SupplierDto tmp : dto.getSupplierDto()) {
+            finalList.add(new Supplier(tmp.getId(), tmp.getName()));
         }
-        product.setProductName(dto.getProductName());
-        product.setMadeCountry(dto.getMadeCountry());
-        product.setManufacturer(manufacturerRepository.getOne(dto.getManufacturerDto().getId()));
-        product.setSuppliers(new HashSet<>(finalList));
-        product.setArticle(dto.getArticle());
-        product.setPurchasePrice(BigDecimal.valueOf(dto.getPurchasePrice()));
-        product.setPrice(BigDecimal.valueOf(dto.getPrice()));
-        product.setMargin(BigDecimal.valueOf(dto.getMargin()));
-        product.setUnit(unitRepository.getOne(dto.getUnitDto().getId()));
-        product.setPackagingCount(dto.getPackagingCount());
-        product.setIdFromErp(dto.getIdFromErp());
 
+        Product product = new Product(
+                dto.getProductName(),
+                dto.getMadeCountry(),
+                manufacturerRepository.findById(dto.getManufacturerDto().getId()).orElseThrow(),
+                new HashSet<>(finalList),
+                dto.getArticle(),
+                BigDecimal.valueOf(dto.getPurchasePrice()),
+                BigDecimal.valueOf(dto.getPrice()),
+                BigDecimal.valueOf(dto.getMargin()),
+                unitRepository.findById(dto.getUnitDto().getId()).orElseThrow(),
+                dto.getPackagingCount(),
+                dto.getIdFromErp()
+        );
+        
         productRepository.save(product);
     }
 
@@ -77,26 +74,26 @@ public class ProductServiceImpl implements ProductService {
      */
     @Override
     public void updateProduct(ProductDto dto) {
-        Product product = new Product();
         List<Supplier> finalList = new ArrayList<>();
-        List<SupplierDto> tmpList = dto.getSupplierDto();
 
-        for (int i = 0; i < dto.getSupplierDto().size(); i++) {
-            finalList.add(new Supplier(tmpList.get(i).getId(), tmpList.get(i).getName()));
+        for (SupplierDto tmp : dto.getSupplierDto()) {
+            finalList.add(new Supplier(tmp.getId(), tmp.getName()));
         }
 
-        product.setId(dto.getId());
-        product.setProductName(dto.getProductName());
-        product.setMadeCountry(dto.getMadeCountry());
-        product.setManufacturer(manufacturerRepository.getOne(dto.getManufacturerDto().getId()));
-        product.setSuppliers(new HashSet<>(finalList));
-        product.setArticle(dto.getArticle());
-        product.setPurchasePrice(BigDecimal.valueOf(dto.getPurchasePrice()));
-        product.setPrice(BigDecimal.valueOf(dto.getPrice()));
-        product.setMargin(BigDecimal.valueOf(dto.getMargin()));
-        product.setUnit(unitRepository.getOne(dto.getUnitDto().getId()));
-        product.setPackagingCount(dto.getPackagingCount());
-        product.setIdFromErp(dto.getIdFromErp());
+        Product product = new Product(
+                dto.getId(),
+                dto.getProductName(),
+                dto.getMadeCountry(),
+                manufacturerRepository.findById(dto.getManufacturerDto().getId()).orElseThrow(),
+                new HashSet<>(finalList),
+                dto.getArticle(),
+                BigDecimal.valueOf(dto.getPurchasePrice()),
+                BigDecimal.valueOf(dto.getPrice()),
+                BigDecimal.valueOf(dto.getMargin()),
+                unitRepository.findById(dto.getUnitDto().getId()).orElseThrow(),
+                dto.getPackagingCount(),
+                dto.getIdFromErp()
+        );
 
         productRepository.saveAndFlush(product);
     }
