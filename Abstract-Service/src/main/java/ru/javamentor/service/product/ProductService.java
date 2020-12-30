@@ -1,4 +1,4 @@
-package ru.javamentor.service;
+package ru.javamentor.service.product;
 
 import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.dto.product.ProductPostDto;

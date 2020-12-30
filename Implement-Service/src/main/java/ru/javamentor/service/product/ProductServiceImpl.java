@@ -1,4 +1,4 @@
-package ru.javamentor.service;
+package ru.javamentor.service.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
