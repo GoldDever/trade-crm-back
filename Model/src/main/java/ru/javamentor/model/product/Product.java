@@ -13,6 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Set;
 
 @Entity
@@ -22,6 +23,9 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "product_count")
+    private Integer productCount;
 
     @Column(name = "product_name")
     private String productName;
@@ -58,7 +62,49 @@ public class Product {
     @Column(name = "packaging_count")
     private Integer packagingCount;
 
+    @Column(name = "id_from_erp", unique = true)
+    private String idFromErp;
+
     public Product() {
+    }
+
+    public Product(String productName, String madeCountry,
+                   Manufacturer manufacturer, Set<Supplier> suppliers,
+                   String article, BigDecimal purchasePrice,
+                   BigDecimal price, BigDecimal margin,
+                   Unit unit, Integer packagingCount,
+                   String idFromErp) {
+        this.productName = productName;
+        this.madeCountry = madeCountry;
+        this.manufacturer = manufacturer;
+        this.suppliers = suppliers;
+        this.article = article;
+        this.purchasePrice = purchasePrice;
+        this.price = price;
+        this.margin = margin;
+        this.unit = unit;
+        this.packagingCount = packagingCount;
+        this.idFromErp = idFromErp;
+    }
+
+    public Product(Long id, String productName,
+                   String madeCountry, Manufacturer manufacturer,
+                   Set<Supplier> suppliers, String article,
+                   BigDecimal purchasePrice, BigDecimal price,
+                   BigDecimal margin, Unit unit,
+                   Integer packagingCount, String idFromErp) {
+        this.id = id;
+        this.productName = productName;
+        this.madeCountry = madeCountry;
+        this.manufacturer = manufacturer;
+        this.suppliers = suppliers;
+        this.article = article;
+        this.purchasePrice = purchasePrice;
+        this.price = price;
+        this.margin = margin;
+        this.unit = unit;
+        this.packagingCount = packagingCount;
+        this.idFromErp = idFromErp;
     }
 
     public Long getId() {
@@ -125,12 +171,20 @@ public class Product {
         this.packagingCount = packagingCount;
     }
 
+    public String getIdFromErp() {
+        return idFromErp;
+    }
+
+    public void setIdFromErp(String idFromErp) {
+        this.idFromErp = idFromErp;
+    }
+
     public BigDecimal getPurchasePrice() {
         return purchasePrice;
     }
 
     public void setPurchasePrice(BigDecimal purchasePrice) {
-        this.purchasePrice = purchasePrice.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.purchasePrice = purchasePrice.setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getPrice() {
@@ -138,7 +192,7 @@ public class Product {
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.price = price.setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getMargin() {
@@ -146,7 +200,14 @@ public class Product {
     }
 
     public void setMargin(BigDecimal margin) {
-        this.margin = margin.setScale(2, BigDecimal.ROUND_HALF_UP);
+        this.margin = margin.setScale(2, RoundingMode.HALF_UP);
     }
 
+    public Integer getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(Integer productCount) {
+        this.productCount = productCount;
+    }
 }

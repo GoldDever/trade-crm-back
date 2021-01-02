@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.OrderApproveDto;
-import ru.javamentor.service.OrderService;
+import ru.javamentor.service.order.OrderService;
 
 @RestController
 @RequestMapping("api/admin/order")

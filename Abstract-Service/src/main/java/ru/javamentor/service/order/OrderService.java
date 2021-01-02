@@ -1,4 +1,4 @@
-package ru.javamentor.service;
+package ru.javamentor.service.order;
 
 import ru.javamentor.dto.order.OrderApproveDto;
 

@@ -1,4 +1,4 @@
-package ru.javamentor.repository.order;
+package ru.javamentor.repository.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.javamentor.model.user.Manager;

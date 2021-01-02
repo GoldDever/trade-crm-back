@@ -1,6 +1,5 @@
 package ru.javamentor.controller.rest.manager.order;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,19 +8,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.OrderItemDto;
-import ru.javamentor.service.OrderItemService;
 import ru.javamentor.service.ReserveProductService;
+import ru.javamentor.service.order.OrderItemService;
 
 
 @RestController
 @RequestMapping("api/manager/order")
 public class ManagerOrderRestController {
 
-    @Autowired
-    OrderItemService orderItemService;
+    private final OrderItemService orderItemService;
+    private final ReserveProductService removeProductReserveService;
 
-    @Autowired
-    ReserveProductService removeProductReserveService;
+    public ManagerOrderRestController(OrderItemService orderItemService,
+                                      ReserveProductService removeProductReserveService) {
+        this.orderItemService = orderItemService;
+        this.removeProductReserveService = removeProductReserveService;
+    }
 
     /**
      * POST method add item to order
@@ -30,7 +32,7 @@ public class ManagerOrderRestController {
      * @param orderId      id of order
      * @return response http status entity
      */
-    @PostMapping(value = "/{orderId}/addItem")
+    @PostMapping("/{orderId}/addItem")
     public ResponseEntity<?> addItem(@RequestBody OrderItemDto orderItemDto,
                                      @PathVariable String orderId) {
 
@@ -39,7 +41,7 @@ public class ManagerOrderRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/{orderId}/product/{productId}/count/{productCount}/removeReserve")
+    @PostMapping("/{orderId}/product/{productId}/count/{productCount}/removeReserve")
     public ResponseEntity<String> removeProductReserve(@PathVariable String orderId,
                                                        @PathVariable String productId,
                                                        @PathVariable String productCount) {

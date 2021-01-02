@@ -1,4 +1,4 @@
-package ru.javamentor.repository.order;
+package ru.javamentor.repository.product;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.javamentor.model.product.Unit;
