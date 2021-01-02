@@ -1,8 +1,8 @@
-package ru.javamentor.service;
+package ru.javamentor.service.product;
 
 import org.springframework.stereotype.Service;
 import ru.javamentor.model.product.ReserveProduct;
-import ru.javamentor.repository.order.ReserveProductRepository;
+import ru.javamentor.repository.product.ReserveProductRepository;
 
 @Service
 public class ReserveProductServiceImpl implements ReserveProductService {
