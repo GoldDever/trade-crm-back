@@ -41,6 +41,15 @@ public class ManagerOrderRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Controller to remove reserve
+     * or product from reserve
+     *
+     * @param orderId      id of order
+     * @param productId    id of product
+     * @param productCount count of products
+     * @return response http status entity with body
+     */
     @PostMapping("/{orderId}/product/{productId}/count/{productCount}/removeReserve")
     public ResponseEntity<String> removeProductReserve(@PathVariable String orderId,
                                                        @PathVariable String productId,

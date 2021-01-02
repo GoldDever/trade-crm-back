@@ -13,6 +13,16 @@ public class ReserveProductServiceImpl implements ReserveProductService {
         this.reserveProductRepository = reserveProductRepository;
     }
 
+    /**
+     * Service method remove products from reserve
+     * if count and reserve product counts is equal
+     * then full remove in action.
+     *
+     * @param orderId      id of order
+     * @param productId    id of product
+     * @param productCount count of products
+     * @return response http status entity with body
+     */
     @Override
     public String removeProductReserve(String orderId, String productId, String productCount) {
         Long orderIdL = Long.valueOf(orderId);
