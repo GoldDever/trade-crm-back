@@ -24,7 +24,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     /**
-     * Method of service transform DTO objects to Entities
+     * Method of ru.javamentor.service transform DTO objects to Entities
      * and add order item to DB throw repository
      *
      * @param orderItemDto DTO item and order

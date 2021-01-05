@@ -29,6 +29,12 @@
             <version>0.1</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>ru.javamentor</groupId>
+            <artifactId>Security</artifactId>
+            <version>0.1</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <properties>
