@@ -21,53 +21,10 @@ public class UserServiceImpl implements UserService {
     public List<User> getAllUsers() {
         return userRepository.getAll();
     }
-    /*@Transactional
-    @Override
-    public void create(User user) {
-        updateAuthorityList(user);
-        userDao.create(user);
-    }
 
-
-
-    @Transactional
-    @Override
-    public void update(Long id, User user) {
-        User old = userDao.findUserById(id);
-        old.setFirstName(user.getFirstName());
-        old.setLastName(user.getLastName());
-        old.setAge(user.getAge());
-        old.setEmail(user.getEmail());
-        old.setLogin(user.getLogin());
-        old.setPassword(user.getPassword());
-        old.setAuthorityList(user.getAuthorityList());
-        updateAuthorityList(old);
-        userDao.update(old);
-    }
-
-    @Transactional
-    @Override
-    public void delete(long id) {
-        userDao.delete(id);
-    }
-
-    @Transactional//transactional javax?
-    @Override
-    public User findUserById(long id) {
-        return userDao.findUserById(id);
-    }
-*/
     @Transactional
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-
-  /*  private void updateAuthorityList(User user) {
-        List<Authority> authorityList = new ArrayList<>();
-        for (Authority authority : user.getAuthorityList()) {
-            authorityList.add(authorityDao.findByAuthority(authority.getAuthority()));
-        }
-        user.setAuthorityList(authorityList);
-    }*/
 }
