@@ -34,28 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.userDetailsService = userDetailsService;
         this.jwtProvider = jwtProvider;
     }
-    /*
 
-      @Override
-        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    //        auth.userDetailsService(userDetailsService);
-            auth.inMemoryAuthentication().withUser("ADMIN").password("ADMIN").roles("ADMIN");
-        }
-    */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-/*
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-CharacterEncodingFilter filter = new CharacterEncodingFilter();
-            filter.setEncoding("UTF-8");
-            filter.setForceEncoding(true);
-            http.addFilterBefore(filter, CsrfFilter.class);*/
-
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -66,15 +50,13 @@ CharacterEncodingFilter filter = new CharacterEncodingFilter();
                 .and()
                 .authorizeRequests()
                 .antMatchers("").permitAll()
-                .antMatchers("/admin/*").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/register", LOGIN_ENDPOINT).permitAll()
                 .and()
                 .apply(new JwtConfigurer(jwtProvider))
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
-
-    //http.userDetailsService(userDetailsService);
 
     @Override
     protected UserDetailsService userDetailsService() {
