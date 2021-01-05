@@ -3,6 +3,7 @@ package ru.javamentor.configuration.jwt;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -37,12 +38,16 @@ public class JwtProvider {
                 .compact();
     }
 
-    public String getTokenFromRequest(HttpServletRequest request) {
+    public String getTokenFromRequest(HttpServletRequest request) throws Exception {
+        try {
         String bearer = request.getHeader(authorization);
         if (hasText(bearer) && bearer.startsWith(tokenIdentifier)) {
             return bearer.substring(tokenIdentifier.length());
         }
         return null;
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new Exception("JWT token is expired or invalid");
+        }
     }
 
     public String getLoginFromToken(String token) {
