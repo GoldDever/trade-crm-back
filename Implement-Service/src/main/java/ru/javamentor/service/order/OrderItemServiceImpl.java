@@ -1,6 +1,7 @@
 package ru.javamentor.service.order;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
@@ -48,36 +49,22 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     /**
+     * Метод меняет количество товара в Item
      * Method of service transform DTO objects to Entities
      * and change the quantity of the product in Item
      *
-     * @param orderItemDto DTO item and order
      * @param count of product
      * @param orderId id of order
      * @param orderItemId id of orderItem
-     * @param productId id of product
-     * @return response http status entity
      */
     @Override
-    public void editOrderItem(OrderItemDto orderItemDto,
-                              Integer count,
-                              Long orderId,
-                              Long orderItemId,
-                              Long productId) {
+    public void editOrderItem(Long orderId, Long orderItemId, Integer count) {
         Order order = orderRepository.getOne(orderId);
-        Product product = productRepository.getOne(productId);
-        orderItemDto.setProductCount(count);
+        OrderItem orderItem = orderItemRepository.getOne(orderId);
+        orderItem.setProductCount(count);
 
-        OrderItem orderItem = new OrderItem(
-                orderItemDto.getId(),
-                orderItemDto.getIdFromErp(),
-                orderItemDto.getInvoiceIssued(),
-                orderItemDto.getProductCount(),
-                product,
-                order,
-                orderItemDto.getItemFullPrice()
-        );
         orderItemRepository.save(orderItem);
+        orderRepository.save(order);
     }
 
 }

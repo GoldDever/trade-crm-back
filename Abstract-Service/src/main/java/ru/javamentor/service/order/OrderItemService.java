@@ -1,9 +1,10 @@
 package ru.javamentor.service.order;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import ru.javamentor.dto.order.OrderItemDto;
 
 
 public interface OrderItemService {
     void saveOrderItem(OrderItemDto orderItemDto, String orderId);
-    void editOrderItem(OrderItemDto orderItemDto, Integer count, Long orderId, Long orderItemId, Long productId);
+    void editOrderItem(Long orderId, Long orderItemId, Integer count);
 }

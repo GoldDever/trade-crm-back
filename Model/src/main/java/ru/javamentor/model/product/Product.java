@@ -24,6 +24,9 @@ public class Product {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "product_count")
+    private Integer productCount;
+
     @Column(name = "product_name")
     private String productName;
 
@@ -199,4 +202,14 @@ public class Product {
     public void setMargin(BigDecimal margin) {
         this.margin = margin.setScale(2, RoundingMode.HALF_UP);
     }
+
+    public Integer getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(Integer productCount) {
+        this.productCount = productCount;
+    }
+
+
 }
