@@ -2,6 +2,7 @@ package ru.javamentor.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,6 +19,7 @@ import ru.javamentor.configuration.jwt.JwtProvider;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@ComponentScan(basePackages = "ru.javamentor.configuration")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtFilter jwtFilter;
@@ -27,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtProvider jwtProvider;
 
     private static final String LOGIN_ENDPOINT = "api/auth/login";
+
 
     @Autowired
     public SecurityConfig(JwtFilter jwtFilter, UserDetailsService userDetailsService, JwtProvider jwtProvider) {

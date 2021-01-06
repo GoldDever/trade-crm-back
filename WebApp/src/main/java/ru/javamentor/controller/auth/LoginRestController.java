@@ -47,11 +47,13 @@ public class LoginRestController {
         try {
             String username = userLoginDto.getUsername();
             User user = userService.findByUsername(username);
+
             if (user.getUsername() == null) {
                 throw new UsernameNotFoundException("User with username: " + username + " not found");
             } else {
                 Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, userLoginDto.getPassword()));
-                String token = jwtProvider.generateJwt(authentication);
+                String token = jwtProvider.generateJwt(authentication, userLoginDto.getRememberMe());
+
                 Map<Object, Object> response = new HashMap<>();
                 response.put("username", username);
                 response.put("token", token);

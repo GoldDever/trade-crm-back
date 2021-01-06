@@ -5,8 +5,6 @@ import ru.javamentor.model.user.User;
 import java.util.List;
 
 public interface UserService {
-    List<User> getAllUsers();
-
     /*
     void create(User user);
 //    List<User> readAllUsers();

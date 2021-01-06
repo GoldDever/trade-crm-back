@@ -16,7 +16,11 @@ public class UserSuccessHandler implements AuthenticationSuccessHandler {
             HttpServletResponse httpServletResponse,
             Authentication authentication
     ) throws IOException, ServletException {
-        boolean isAdmin = authentication.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"));
-        httpServletResponse.sendRedirect(isAdmin ? "/admin/all" : "/user");
+        boolean isAdmin = authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        boolean isClient = authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CLIENT"));
+
+        httpServletResponse.sendRedirect(
+                isAdmin ? "api/admin/client" :
+                (isClient ? "api/client/order":"api/manager/client"));
     }
 }

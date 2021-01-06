@@ -8,7 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
+import java.security.Principal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.springframework.util.StringUtils.hasText;
 
@@ -19,8 +23,11 @@ public class JwtProvider {
     @Value("$(jwt.secret)")
     private String jwtSecret;
 
-    @Value("${jwt.ExpirationMs)")
-    private String jwtExpirationMS;
+    @Value("${jwt.expirationHours)")
+    private String jwtExpirationHours;
+
+    @Value("${jwt.expirationIfRememberedYears)")
+    private String jwtExpirationIfRememberedYears;
 
     @Value("$(jwt.authorization")
     private String authorization;
@@ -28,31 +35,26 @@ public class JwtProvider {
     @Value("$(jwt.tokenIdentifier")
     private String tokenIdentifier;
 
-    public String generateJwt(Authentication authentication) {
+    public String generateJwt(Authentication authentication, boolean rememberMe) {
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
-
-        Date now = new Date();
-        if ()
-            Date validity = new Date(now.getTime() + validityInMilliseconds);
-
+        LocalDateTime expirationDate = LocalDateTime.now();
+        expirationDate = rememberMe ?
+                expirationDate.plusYears(Long.valueOf(jwtExpirationIfRememberedYears)) :
+                expirationDate.plusHours(Long.valueOf(jwtExpirationHours));
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + jwtExpirationMS))
+                .setIssuedAt(Date.valueOf(LocalDate.now()))
+                .setExpiration(Timestamp.valueOf(expirationDate))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
-    public String getTokenFromRequest(HttpServletRequest request) throws Exception {
-        try {
+    public String getTokenFromRequest(HttpServletRequest request) {
         String bearer = request.getHeader(authorization);
         if (hasText(bearer) && bearer.startsWith(tokenIdentifier)) {
             return bearer.substring(tokenIdentifier.length());
         }
         return null;
-        } catch (JwtException | IllegalArgumentException e) {
-            throw new Exception("JWT token is expired or invalid");
-        }
     }
 
     public String getLoginFromToken(String token) {
