@@ -17,6 +17,7 @@ public class ReserveProductServiceImpl implements ReserveProductService {
 
     /**
      * Метод поиска и удаления зарезервированных заказов
+     *
      * @param orderId - id заказа
      */
     @Transactional
