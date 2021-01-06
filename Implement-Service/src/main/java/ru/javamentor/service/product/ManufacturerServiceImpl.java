@@ -15,10 +15,10 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     }
 
     /**
-     * Method set DTO to Entity
-     * for manufacturer
+     * Метод установливает данные из DTO
+     * в сущность производителя и сохраняет объект в БД
      *
-     * @param manufacturerDto manufacturer data
+     * @param manufacturerDto - данные поставщика
      */
     @Override
     public void addManufacturer(ManufacturerDto manufacturerDto) {

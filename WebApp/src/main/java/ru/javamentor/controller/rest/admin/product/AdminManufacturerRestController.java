@@ -20,12 +20,12 @@ public class AdminManufacturerRestController {
     }
 
     /**
-     * Controller for add manufacturer
+     * Метод для добавления поставщика в контроллере
      *
-     * @param manufacturerDto manufacturer data
-     * @return http code response
+     * @param manufacturerDto - данные поставщика
+     * @return - возврат http ответа
      */
-    @PostMapping("/add")
+    @PostMapping("/")
     public ResponseEntity<?> addManufactured(@RequestBody ManufacturerDto manufacturerDto) {
         manufacturerService.addManufacturer(manufacturerDto);
 
