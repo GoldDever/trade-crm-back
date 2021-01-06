@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 @Entity
@@ -50,9 +51,6 @@ public class Order {
     @Column(name = "create_time")
     private LocalDateTime createTime;
 
-    public Order() {
-    }
-
     public Order(Long id, String idFromErp, Client client, Manager manager, BigDecimal orderFullPrice, Boolean isApprove, Boolean isPaid, Boolean isShipped, LocalDateTime createTime) {
         this.id = id;
         this.idFromErp = idFromErp;
@@ -63,6 +61,10 @@ public class Order {
         this.isPaid = isPaid;
         this.isShipped = isShipped;
         this.createTime = createTime;
+    }
+
+    public Order() {
+
     }
 
     public Long getId() {
@@ -102,7 +104,7 @@ public class Order {
     }
 
     public void setOrderFullPrice(BigDecimal orderFullPrice) {
-        this.orderFullPrice = orderFullPrice;
+        this.orderFullPrice = orderFullPrice.setScale(2, RoundingMode.HALF_UP);
     }
 
     public Boolean getApprove() {

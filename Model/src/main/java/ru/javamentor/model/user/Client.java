@@ -6,6 +6,10 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("CLIENT")
 public class Client extends User {
+    public Client(String name) {
+    }
+
     public Client() {
+
     }
 }
