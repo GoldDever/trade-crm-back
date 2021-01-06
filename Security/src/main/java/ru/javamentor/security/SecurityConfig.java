@@ -15,7 +15,7 @@ import ru.javamentor.configuration.JwtConfigurer;
 import ru.javamentor.configuration.jwt.JwtFilter;
 import ru.javamentor.configuration.jwt.JwtProvider;
 
-@Configuration //позволяет нам использовать @Bean, проксируются через CGLIB
+@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("").permitAll()
-                .antMatchers("/api/admin/**").hasRole("ADMIN")
+                .antMatchers("/api/admin/**").hasRole("ROLE_ADMIN")
                 .antMatchers("/register", LOGIN_ENDPOINT).permitAll()
                 .and()
                 .apply(new JwtConfigurer(jwtProvider))

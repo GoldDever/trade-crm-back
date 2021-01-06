@@ -1,6 +1,8 @@
 package ru.javamentor.model.user;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -38,6 +40,20 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.patronymic = patronymic;
+    }
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_has_roles",
+            joinColumns = {@JoinColumn(name = "users_id")},//referencedColumnName = "id"
+            inverseJoinColumns = {@JoinColumn(name = "roles_id")})//referencedColumnName = "id"
+    private Set<Role> roles;
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public Long getId() {

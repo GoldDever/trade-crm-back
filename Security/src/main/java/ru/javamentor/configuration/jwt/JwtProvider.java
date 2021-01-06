@@ -30,6 +30,11 @@ public class JwtProvider {
 
     public String generateJwt(Authentication authentication) {
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+
+        Date now = new Date();
+        if ()
+            Date validity = new Date(now.getTime() + validityInMilliseconds);
+
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
                 .setIssuedAt(new Date())
