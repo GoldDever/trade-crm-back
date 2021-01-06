@@ -33,7 +33,8 @@ public class ReserveProduct {
     public ReserveProduct() {
     }
 
-    public ReserveProduct(Product product, Order order, Integer productCount) {
+    public ReserveProduct(Product product, Order order,
+                          Integer productCount) {
         this.product = product;
         this.order = order;
         this.productCount = productCount;
