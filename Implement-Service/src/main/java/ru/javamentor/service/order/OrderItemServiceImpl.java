@@ -1,4 +1,3 @@
-/*
 package ru.javamentor.service.order;
 
 import org.springframework.stereotype.Service;
@@ -24,19 +23,20 @@ public class OrderItemServiceImpl implements OrderItemService {
         this.productRepository = productRepository;
     }
 
-    */
-/**
+/*
+*
      * Method of ru.javamentor.service transform DTO objects to Entities
      * and add order item to DB throw repository
      *
      * @param orderItemDto DTO item and order
      * @param orderId      id of order
-     *//*
+*/
+
 
     @Override
     public void saveOrderItem(OrderItemDto orderItemDto, String orderId) {
-        Order order = orderRepository.findById(Long.valueOf(orderId)).orElseThrow();
-        Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElseThrow();
+        Order order = orderRepository.findById(Long.valueOf(orderId)).orElse(null);
+        Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElse(null);
         OrderItem orderItem = new OrderItem(
                 orderItemDto.getId(),
                 orderItemDto.getIdFromErp(),
@@ -50,4 +50,3 @@ public class OrderItemServiceImpl implements OrderItemService {
         orderItemRepository.save(orderItem);
     }
 }
-*/
