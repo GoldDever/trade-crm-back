@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
+import ru.javamentor.model.order.OrderApprove;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.repository.order.OrderItemRepository;
@@ -59,12 +60,10 @@ public class OrderItemServiceImpl implements OrderItemService {
      */
     @Override
     public void editOrderItem(Long orderId, Long orderItemId, Integer count) {
-        Order order = orderRepository.getOne(orderId);
-        OrderItem orderItem = orderItemRepository.getOne(orderId);
+        OrderItem orderItem = orderItemRepository.findById(orderItemId).get();
         orderItem.setProductCount(count);
 
         orderItemRepository.save(orderItem);
-        orderRepository.save(order);
     }
 
 }

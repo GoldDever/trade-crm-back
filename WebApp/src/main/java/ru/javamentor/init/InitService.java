@@ -60,13 +60,10 @@ public class InitService {
         product.setProductCount(333);
         product.setProductName("productName");
         product.setMadeCountry("madeCountry");
-        //product.setManufacturer();
-        //product.setSuppliers();
         product.setArticle("article");
         product.setPurchasePrice(BigDecimal.valueOf(6.00));
         product.setPrice(BigDecimal.valueOf(4.00));
         product.setMargin(BigDecimal.valueOf(2.00));
-        //product.setUnit();
         product.setPackagingCount(3);
         productRepository.save(product);
     }
@@ -96,46 +93,3 @@ public class InitService {
     }
 
 }
-/*
-{
-  "id": 1,
-  "idFromErp": "idFromErp",
-  "invoiceIssued": "invoiceIssued",
-  "productCount": 10,
-  "product": {
-  }
-  "orderDto": {
-    "id": 1,
-    "idFromErp": "idFromErp",
-    "client": {
-      "id": 1,
-      "name": "name"
-    },
-    "manager": {
-      "id": 1,
-      "firstName": "firstName",
-      "secondName": "secondName"
-    },
-    "orderFullPrice": 70.00,
-    "approve": true,
-    "paid": true,
-    "shipped": true,
-    "createTime": "2020-12-30T11:03:12"
-  },
-  "product": {
-    "id": 1,
-    "productName": "productName",
-    "madeCountry": "madeCountry",
-    "manufacturerId": 1,
-    "supplierId": 1,
-    "article": "article",
-    "purchasePrice": 6.00,
-    "price": 4.00,
-    "margin": 2.00,
-    "unitId": 1,
-    "packagingCount": 3
-  },
-  "itemFullPrice": 60.00
-}
- */
-
