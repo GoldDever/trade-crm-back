@@ -51,19 +51,14 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     /**
      * Метод меняет количество товара в Item
-     * Method of service transform DTO objects to Entities
-     * and change the quantity of the product in Item
      *
-     * @param count of product
+     * @param countProduct of product
      * @param orderId id of order
      * @param orderItemId id of orderItem
      */
     @Override
-    public void editOrderItem(Long orderId, Long orderItemId, Integer count) {
-        OrderItem orderItem = orderItemRepository.findById(orderItemId).get();
-        orderItem.setProductCount(count);
-
-        orderItemRepository.save(orderItem);
+    public void editOrderItem(Long orderId, Long orderItemId, Integer countProduct) {
+        orderItemRepository.setProductCountByOrderItem(orderItemId, countProduct);
     }
 
 }

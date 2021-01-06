@@ -71,8 +71,8 @@ public class InitService {
     private void initOrder() {
         Order order = new Order();
         order.setIdFromErp("idFromErp");
-        order.setClient(clientRepository.getOne(1L));
-        order.setManager(managerRepository.getOne(2L));
+        //order.setClient(clientRepository.findById(1L).get());
+        //order.setManager(managerRepository.findById(2L).get());
         order.setOrderFullPrice(BigDecimal.valueOf(70.678));
         order.setApprove(true);
         order.setPaid(true);
@@ -86,8 +86,8 @@ public class InitService {
         orderItem.setIdFromErp("idFromErp");
         orderItem.setInvoiceIssued("invoiceIssued");
         orderItem.setProductCount(10);
-        orderItem.setProduct(productRepository.getOne(1L));
-        orderItem.setOrder(orderRepository.getOne(1L));
+        orderItem.setProduct(productRepository.findById(1L).get());
+        orderItem.setOrder(orderRepository.findById(1L).get());
         orderItem.setItemFullPrice(BigDecimal.valueOf(100.678));
         orderItemRepository.save(orderItem);
     }

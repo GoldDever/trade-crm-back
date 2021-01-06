@@ -38,19 +38,12 @@ public class ManagerOrderRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /**
-     * POST method change the quantity of the product in Item
-     *
-     * @param count of product
-     * @param orderId id of order
-     * @param orderItemId id of orderItem
-     * @return response http status entity
-     */
     @PostMapping("/{orderId}/orderItem/{orderItemId}/count/{countProduct}")
     public ResponseEntity<?> changeProductCountInItem(@PathVariable Long orderId,
                                                       @PathVariable Long orderItemId,
-                                                      Integer count) {
-        orderItemService.editOrderItem(orderId, orderItemId, count);
+                                                      @PathVariable Integer countProduct) {
+
+        orderItemService.editOrderItem(orderId, orderItemId, countProduct);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
