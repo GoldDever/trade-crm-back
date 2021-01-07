@@ -18,6 +18,9 @@ public class Manufacturer {
     @Column(name = "manufacturer_name")
     private String manufacturerName;
 
+    @Column(name = "id_from_erp")
+    private String idFromErp;
+
     public Manufacturer() {
     }
 
@@ -37,4 +40,11 @@ public class Manufacturer {
         this.manufacturerName = manufacturerName;
     }
 
+    public String getIdFromErp() {
+        return idFromErp;
+    }
+
+    public void setIdFromErp(String idFromErp) {
+        this.idFromErp = idFromErp;
+    }
 }
