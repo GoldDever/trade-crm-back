@@ -37,4 +37,21 @@ public class ManagerOrderRestController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    /**
+     *
+     * @param orderId
+     * @param productId
+     * @param productCount
+     * @return
+     */
+    @PostMapping("/{orderId}/product/{productId}/count/{productCount}/addReserve")
+    public ResponseEntity<?> addProductReserve(@PathVariable Long orderId,
+                                               @PathVariable Long productId,
+                                               @PathVariable Integer productCount) {
+
+        orderItemService.saveProductReserve(orderId, productId, productCount);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
