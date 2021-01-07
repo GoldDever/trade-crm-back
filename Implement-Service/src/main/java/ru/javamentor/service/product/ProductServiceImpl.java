@@ -53,13 +53,13 @@ public class ProductServiceImpl implements ProductService {
         Product product = new Product(
                 dto.getProductName(),
                 dto.getMadeCountry(),
-                manufacturerRepository.findById(dto.getManufacturerDto().getId()).orElseThrow(),
+                manufacturerRepository.findById(dto.getManufacturerDto().getId()).orElse(null),
                 new HashSet<>(finalList),
                 dto.getArticle(),
                 BigDecimal.valueOf(dto.getPurchasePrice()),
                 BigDecimal.valueOf(dto.getPrice()),
                 BigDecimal.valueOf(dto.getMargin()),
-                unitRepository.findById(dto.getUnitDto().getId()).orElseThrow(),
+                unitRepository.findById(dto.getUnitDto().getId()).orElse(null),
                 dto.getPackagingCount(),
                 dto.getIdFromErp()
         );
@@ -84,13 +84,13 @@ public class ProductServiceImpl implements ProductService {
                 dto.getId(),
                 dto.getProductName(),
                 dto.getMadeCountry(),
-                manufacturerRepository.findById(dto.getManufacturerDto().getId()).orElseThrow(),
+                manufacturerRepository.findById(dto.getManufacturerDto().getId()).orElse(null),
                 new HashSet<>(finalList),
                 dto.getArticle(),
                 BigDecimal.valueOf(dto.getPurchasePrice()),
                 BigDecimal.valueOf(dto.getPrice()),
                 BigDecimal.valueOf(dto.getMargin()),
-                unitRepository.findById(dto.getUnitDto().getId()).orElseThrow(),
+                unitRepository.findById(dto.getUnitDto().getId()).orElse(null),
                 dto.getPackagingCount(),
                 dto.getIdFromErp()
         );

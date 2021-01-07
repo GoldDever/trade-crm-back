@@ -35,8 +35,8 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     @Override
     public void saveOrderItem(OrderItemDto orderItemDto, String orderId) {
-        Order order = orderRepository.findById(Long.valueOf(orderId)).orElse(null);
-        Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElse(null);
+        Order order = orderRepository.findById(Long.valueOf(orderId)).orElseThrow();
+        Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElseThrow();
         OrderItem orderItem = new OrderItem(
                 orderItemDto.getId(),
                 orderItemDto.getIdFromErp(),

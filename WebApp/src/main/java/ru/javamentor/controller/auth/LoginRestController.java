@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@PreAuthorize("hasAuthority")
+//@PreAuthorize("hasAuthority")
 @RequestMapping("api/auth")
 public class LoginRestController {
     /**
@@ -63,7 +63,6 @@ public class LoginRestController {
 
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username or password");
-//        /*return new ResponseEntity.ok(*/);
         }
     }
 }
