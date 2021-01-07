@@ -42,9 +42,12 @@ public class ManagerOrderRestController {
     public ResponseEntity<?> changeProductCountInItem(@PathVariable Long orderId,
                                                       @PathVariable Long orderItemId,
                                                       @PathVariable Integer countProduct) {
-
-        orderItemService.editOrderItem(orderId, orderItemId, countProduct);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if(countProduct > 0) {
+            orderItemService.editOrderItem(orderId, orderItemId, countProduct);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Введите коректное количество продукта", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
