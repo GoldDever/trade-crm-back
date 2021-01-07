@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javamentor.model.user.User;
 import ru.javamentor.repository.UserRepository;
 
-@Service//не проксируются, объявление бинами @Bean
+@Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;

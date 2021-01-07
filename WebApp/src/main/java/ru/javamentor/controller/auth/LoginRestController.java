@@ -1,5 +1,6 @@
 package ru.javamentor.controller.auth;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -8,6 +9,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,13 +20,10 @@ import ru.javamentor.dto.user.UserLoginDto;
 import ru.javamentor.model.user.User;
 import ru.javamentor.service.UserService;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
-//@PreAuthorize("hasAuthority")
 @RequestMapping("api/auth")
 public class LoginRestController {
+
     /**
      * Контроллер для логина
      */
@@ -47,22 +46,19 @@ public class LoginRestController {
         try {
             String username = userLoginDto.getUsername();
             User user = userService.findByUsername(username);
-
             if (user.getUsername() == null) {
-                throw new UsernameNotFoundException("User with username: " + username + " not found");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             } else {
-                Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, userLoginDto.getPassword()));
-                String token = jwtProvider.generateJwt(authentication, userLoginDto.getRememberMe());
+                String token = jwtProvider.generateJwt(userLoginDto.getRememberMe(),userLoginDto.getUsername(),userLoginDto.getPassword());
+                HttpHeaders headers = new HttpHeaders();
 
-                Map<Object, Object> response = new HashMap<>();
-                response.put("username", username);
-                response.put("token", token);
+                headers.add("login", username);
+                headers.add("token", token);
 
-                return ResponseEntity.ok(response);
+                return new ResponseEntity<String>(headers, HttpStatus.OK);
             }
-
         } catch (AuthenticationException e) {
-            throw new BadCredentialsException("Invalid username or password");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 }

@@ -4,13 +4,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -37,14 +37,21 @@ public class JwtProvider {
     @Value("$(jwt.tokenIdentifier")
     private String tokenIdentifier;
 
-    public String generateJwt(Authentication authentication, boolean rememberMe) {
-        UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
+    private final AuthenticationManager authenticationManager;
+
+    public JwtProvider(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
+    public String generateJwt(boolean rememberMe, String username, String password) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        String userNamePrincipal = authentication.getName();
         LocalDateTime expirationDate = LocalDateTime.now();
         expirationDate = rememberMe ?
                 expirationDate.plusYears(Long.valueOf(jwtExpirationIfRememberedYears)) :
                 expirationDate.plusHours(Long.valueOf(jwtExpirationHours));
         return Jwts.builder()
-                .setSubject(userPrincipal.getUsername())
+                .setSubject(userNamePrincipal)
                 .setIssuedAt(Date.valueOf(LocalDate.now()))
                 .setExpiration(Timestamp.valueOf(expirationDate))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

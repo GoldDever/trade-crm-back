@@ -9,16 +9,12 @@ import ru.javamentor.repository.UserRepository;
 
 import javax.persistence.EntityNotFoundException;
 
-@Service("userDetailsService")//не проксируются, объявление бинами @Bean
+@Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 
     private final UserRepository userRepository;
 
-        /**
-         *
-         * @param userRepository
-         */
         public UserDetailsServiceImpl(UserRepository userRepository) {
             this.userRepository = userRepository;
         }
@@ -37,5 +33,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             }
             return user;
         }
-
 }
