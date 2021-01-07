@@ -21,22 +21,6 @@ import ru.javamentor.configuration.jwt.JwtProvider;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ComponentScan(basePackages = "ru.javamentor.configuration")
-
-public class CustomJwtConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
-
-    private final JwtProvider jwtTokenProvider;
-
-    public CustomJwtConfigurer(JwtProvider jwtTokenProvider) {
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
-
-    @Override
-    public void configure(HttpSecurity httpSecurity) throws Exception {
-        JwtFilter jwtTokenFilter = new JwtFilter(jwtTokenProvider);
-        httpSecurity.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-    }
-
-
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtFilter jwtFilter;
@@ -72,8 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/admin/**").hasRole("ADMIN")
                 .antMatchers("/register", LOGIN_ENDPOINT).permitAll()
                 .and()
-                .apply(new CustomJwtConfigurer(jwtProvider))
-                .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
@@ -81,6 +63,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected UserDetailsService userDetailsService() {
         return userDetailsService;
-    }
     }
 }
