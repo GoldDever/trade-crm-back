@@ -5,14 +5,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ru.javamentor.configuration.JwtConfigurer;
 import ru.javamentor.configuration.jwt.JwtFilter;
 import ru.javamentor.configuration.jwt.JwtProvider;
 
@@ -20,6 +21,22 @@ import ru.javamentor.configuration.jwt.JwtProvider;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ComponentScan(basePackages = "ru.javamentor.configuration")
+
+public class CustomJwtConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
+
+    private final JwtProvider jwtTokenProvider;
+
+    public CustomJwtConfigurer(JwtProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
+    @Override
+    public void configure(HttpSecurity httpSecurity) throws Exception {
+        JwtFilter jwtTokenFilter = new JwtFilter(jwtTokenProvider);
+        httpSecurity.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtFilter jwtFilter;
@@ -29,7 +46,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtProvider jwtProvider;
 
     private static final String LOGIN_ENDPOINT = "api/auth/login";
-
 
     @Autowired
     public SecurityConfig(JwtFilter jwtFilter, UserDetailsService userDetailsService, JwtProvider jwtProvider) {
@@ -56,14 +72,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/admin/**").hasRole("ADMIN")
                 .antMatchers("/register", LOGIN_ENDPOINT).permitAll()
                 .and()
-                .apply(new JwtConfigurer(jwtProvider))
+                .apply(new CustomJwtConfigurer(jwtProvider))
                 .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Override
     protected UserDetailsService userDetailsService() {
         return userDetailsService;
     }
-
+    }
 }
