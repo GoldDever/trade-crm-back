@@ -1,6 +1,5 @@
 package ru.javamentor.controller.rest.manager.order;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.service.order.OrderItemService;
+import ru.javamentor.service.product.ReserveProductService;
 
 
 @RestController
@@ -17,9 +17,12 @@ import ru.javamentor.service.order.OrderItemService;
 public class ManagerOrderRestController {
 
     private final OrderItemService orderItemService;
+    private final ReserveProductService reserveProductService;
 
-    public ManagerOrderRestController(OrderItemService orderItemService) {
+    public ManagerOrderRestController(OrderItemService orderItemService, ReserveProductService reserveProductService) {
+
         this.orderItemService = orderItemService;
+        this.reserveProductService = reserveProductService;
     }
 
     /**
@@ -50,7 +53,7 @@ public class ManagerOrderRestController {
                                                @PathVariable Long productId,
                                                @PathVariable Integer productCount) {
 
-        orderItemService.saveProductReserve(orderId, productId, productCount);
+        reserveProductService.saveProductReserve(orderId, productId, productCount);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
