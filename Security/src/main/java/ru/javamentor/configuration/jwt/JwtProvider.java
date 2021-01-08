@@ -26,7 +26,7 @@ public class JwtProvider {
     private String jwtSecret;
 
     @Value("${jwt.expirationHours)")
-    private String jwtExpirationHours;
+    private long jwtExpirationHours;
 
     @Value("${jwt.expirationIfRememberedYears)")
     private String jwtExpirationIfRememberedYears;
@@ -39,13 +39,12 @@ public class JwtProvider {
 
     public String generateJwt(Authentication authentication, boolean rememberMe) {
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
-        LocalDateTime expirationDate = LocalDateTime.now();
-        expirationDate = rememberMe ?
-                expirationDate.plusYears(Long.valueOf(jwtExpirationIfRememberedYears)) :
-                expirationDate.plusHours(Long.valueOf(jwtExpirationHours));
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
                 .setIssuedAt(Date.valueOf(LocalDate.now()))
+                .setExpiration(rememberMe 
+                            ? Date.from(ZoneDateTime.now().plusYears(jwtExpirationHours)) 
+                            : Date.from(ZoneDateTime.now().plusHours(jwtExpirationHours)))
                 .setExpiration(Timestamp.valueOf(expirationDate))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
