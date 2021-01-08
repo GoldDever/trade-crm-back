@@ -37,17 +37,4 @@ public class ManagerOrderRestController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    @PostMapping("/{orderId}/orderItem/{orderItemId}/count/{countProduct}")
-    public ResponseEntity<?> changeProductCountInItem(@PathVariable Long orderId,
-                                                      @PathVariable Long orderItemId,
-                                                      @PathVariable Integer countProduct) {
-        if(countProduct > 0) {
-            orderItemService.editOrderItem(orderId, orderItemId, countProduct);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Введите коректное количество продукта", HttpStatus.BAD_REQUEST);
-        }
-    }
-
 }
