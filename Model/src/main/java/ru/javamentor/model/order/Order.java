@@ -54,6 +54,18 @@ public class Order {
     public Order() {
     }
 
+    public Order(Client client,
+                 Manager manager) {
+        this.idFromErp = null;
+        this.client = client;
+        this.manager = manager;
+        this.orderFullPrice = BigDecimal.valueOf(0.00);
+        this.isApprove = false;
+        this.isPaid = false;
+        this.isShipped = false;
+        this.createTime = LocalDateTime.now();
+    }
+
     public Order(
             Long id,
             String idFromErp,
