@@ -48,4 +48,17 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         orderItemRepository.save(orderItem);
     }
+
+    /**
+     * Метод меняет количество товара в Item
+     *
+     * @param countProduct of product
+     * @param orderId id of order
+     * @param orderItemId id of orderItem
+     */
+    @Override
+    public void editOrderItem(Long orderId, Long orderItemId, Integer countProduct) {
+        orderItemRepository.setProductCountByOrderItem(orderItemId, countProduct);
+    }
+
 }
