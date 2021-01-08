@@ -23,11 +23,24 @@ public class AdminOrderRestController {
 
     /**
      * Метод получает новый флаг approve и устанавливает его в Order
-     *
      */
     @PostMapping(value = "/{orderId}/approve/")
     public ResponseEntity<String> changeApproveStatus(@RequestBody OrderApproveDto orderApproveDto, @PathVariable Long orderId) {
         orderService.updateApproveStatus(orderApproveDto, orderId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Метод изменяет статус заказа
+     * на Отгружено
+     *
+     * @param orderId - идентификатор заказа
+     * @return - результат выполнения
+     */
+    @PostMapping("/{orderId}/shipped")
+    public ResponseEntity<String> shippedOrder(@PathVariable Long orderId) {
+        orderService.updateShippedStatus(orderId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -6,16 +6,21 @@ import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderApprove;
 import ru.javamentor.repository.order.OrderApproveRepository;
 import ru.javamentor.repository.order.OrderRepository;
+import ru.javamentor.repository.product.ReserveProductRepository;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderApproveRepository orderApproveRepository;
+    private final ReserveProductRepository reserveProductRepository;
 
-    public OrderServiceImpl(OrderRepository orderRepository, OrderApproveRepository orderApproveRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository,
+                            OrderApproveRepository orderApproveRepository,
+                            ReserveProductRepository reserveProductRepository) {
         this.orderRepository = orderRepository;
         this.orderApproveRepository = orderApproveRepository;
+        this.reserveProductRepository = reserveProductRepository;
     }
 
     /**
@@ -33,5 +38,20 @@ public class OrderServiceImpl implements OrderService {
         order.setApprove(orderApproveDto.isApprove());
         orderRepository.save(order);
         orderApproveRepository.save(orderApprove);
+    }
+
+    /**
+     * Метод изменяет флаг на true.
+     * И удаляет все резервы связанные с этим заказом.
+     *
+     * @param orderId - идентификатор заказа
+     */
+    @Override
+    public void updateShippedStatus(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        order.setShipped(true);
+        orderRepository.save(order);
+
+        reserveProductRepository.deleteByOrderId(orderId);
     }
 }

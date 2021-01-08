@@ -4,4 +4,6 @@ import ru.javamentor.dto.order.OrderApproveDto;
 
 public interface OrderService {
     void updateApproveStatus(OrderApproveDto orderApproveDto, Long orderId);
+
+    void updateShippedStatus(Long orderId);
 }
