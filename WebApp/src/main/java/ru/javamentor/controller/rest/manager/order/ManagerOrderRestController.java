@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.service.order.OrderItemService;
+import ru.javamentor.service.product.ReserveProductService;
 
 
 @RestController
@@ -17,9 +18,12 @@ import ru.javamentor.service.order.OrderItemService;
 public class ManagerOrderRestController {
 
     private final OrderItemService orderItemService;
+    private final ReserveProductService reserveProductService;
 
-    public ManagerOrderRestController(OrderItemService orderItemService) {
+    public ManagerOrderRestController(OrderItemService orderItemService,
+                                      ReserveProductService reserveProductService) {
         this.orderItemService = orderItemService;
+        this.reserveProductService = reserveProductService;
     }
 
     /**
@@ -38,6 +42,19 @@ public class ManagerOrderRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    /**
+     * Метод удаления всех зарезервированных заказов
+     *
+     * @param orderId - id заказа
+     * @return - статус http-запроса
+     */
+    @PostMapping("{orderId}/all/removeReserve")
+    public ResponseEntity<?> removeOrderReserve(@PathVariable Long orderId) {
+        reserveProductService.removeOrderReserve(orderId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+
     @PostMapping("/{orderId}/orderItem/{orderItemId}/count/{countProduct}")
     public ResponseEntity<?> changeProductCountInItem(@PathVariable Long orderId,
                                                       @PathVariable Long orderItemId,
@@ -49,5 +66,4 @@ public class ManagerOrderRestController {
             return new ResponseEntity<>("Введите коректное количество продукта", HttpStatus.BAD_REQUEST);
         }
     }
-
 }
