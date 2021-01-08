@@ -69,7 +69,7 @@ public class ReserveProduct {
         return productCount;
     }
 
-    public void setProductCountReserve(Integer productCount) {
+    public void setProductCount(Integer productCount) {
         this.productCount = productCount;
     }
 }

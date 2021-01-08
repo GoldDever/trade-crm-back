@@ -42,19 +42,18 @@ public class ManagerOrderRestController {
     }
 
     /**
+     * POST метод для резервирования продукта
      *
-     * @param orderId
-     * @param productId
-     * @param productCount
-     * @return
+     * @param orderId - id Order
+     * @param productId - id продукта по которому сохраняется резерв
+     * @param productCount - количество продукта, которое необходимо зарезервировать
+     * @return - сообщение о состоянии HTTP-ответа
      */
     @PostMapping("/{orderId}/product/{productId}/count/{productCount}/addReserve")
     public ResponseEntity<?> addProductReserve(@PathVariable Long orderId,
                                                @PathVariable Long productId,
                                                @PathVariable Integer productCount) {
-
         reserveProductService.saveProductReserve(orderId, productId, productCount);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
