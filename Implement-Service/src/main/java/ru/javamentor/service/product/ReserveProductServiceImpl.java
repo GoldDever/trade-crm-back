@@ -14,28 +14,25 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     }
 
     /**
-     * Service method remove products from reserve
-     * if count and reserve product counts is equal
-     * then full remove in action.
+     * Метод удаляет продукт из резерва.
+     * Если количество резерва равно входному параметру.
+     * Иначе удаляет запрашиваемое количество.
      *
-     * @param orderId      id of order
-     * @param productId    id of product
-     * @param productCount count of products
-     * @return response http status entity with body
+     * @param orderId      - id заказа
+     * @param productId    - id продукта
+     * @param productCount - количество удалеямого продукта из резерва
+     * @return - HTTP ответ с BODY
      */
     @Override
-    public String removeProductReserve(String orderId, String productId, String productCount) {
-        Long orderIdL = Long.valueOf(orderId);
-        Long productIdL = Long.valueOf(productId);
-        ReserveProduct reserveProduct = reserveProductRepository.findByOrder_Id_AndProduct_Id(orderIdL, productIdL);
+    public String removeProductReserve(Long orderId, Long productId, Integer productCount) {
+        ReserveProduct reserveProduct = reserveProductRepository.findByOrder_Id_AndProduct_Id(orderId, productId);
 
         String response;
-        Integer productCountInt = Integer.valueOf(productCount);
-        if (reserveProduct.getProductCount().equals(productCountInt)) {
+        if (reserveProduct.getProductCount().equals(productCount)) {
             reserveProductRepository.delete(reserveProduct);
             response = "Резерв полностью удален.";
         } else {
-            Integer reserveProductDelta = reserveProduct.getProductCount() - productCountInt;
+            Integer reserveProductDelta = reserveProduct.getProductCount() - productCount;
             reserveProduct.setProductCount(reserveProductDelta);
             response = String.format("Товар в количестве %s снят с резерва.", reserveProductDelta);
         }

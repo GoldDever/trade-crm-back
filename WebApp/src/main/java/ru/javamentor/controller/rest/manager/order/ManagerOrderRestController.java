@@ -26,11 +26,11 @@ public class ManagerOrderRestController {
     }
 
     /**
-     * POST method add item to order
+     * POST метод для добавления товара в заказ
      *
-     * @param orderItemDto DTO item and order
-     * @param orderId      id of order
-     * @return response http status entity
+     * @param orderItemDto - DTO для OrderItem
+     * @param orderId      - id заказа
+     * @return - HTTP ответ
      */
     @PostMapping("/{orderId}/addItem")
     public ResponseEntity<?> addItem(@RequestBody OrderItemDto orderItemDto,
@@ -42,18 +42,18 @@ public class ManagerOrderRestController {
     }
 
     /**
-     * Controller to remove reserve
-     * or product from reserve
+     * Метод для удаления
+     * зарезирвированного продукта
      *
-     * @param orderId      id of order
-     * @param productId    id of product
-     * @param productCount count of products
-     * @return response http status entity with body
+     * @param orderId      - id заказа
+     * @param productId    - id продукта
+     * @param productCount - количество удалеямого продукта из резерва
+     * @return - HTTP ответ с BODY
      */
     @PostMapping("/{orderId}/product/{productId}/count/{productCount}/removeReserve")
-    public ResponseEntity<String> removeProductReserve(@PathVariable String orderId,
-                                                       @PathVariable String productId,
-                                                       @PathVariable String productCount) {
+    public ResponseEntity<String> removeProductReserve(@PathVariable Long orderId,
+                                                       @PathVariable Long productId,
+                                                       @PathVariable Integer productCount) {
 
         String responseBody = removeProductReserveService.removeProductReserve(orderId, productId, productCount);
 
