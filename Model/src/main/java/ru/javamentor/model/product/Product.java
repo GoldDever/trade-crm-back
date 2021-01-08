@@ -65,6 +65,10 @@ public class Product {
     @Column(name = "id_from_erp", unique = true)
     private String idFromErp;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_category_id")
+    ProductCategory productCategory;
+
     public Product() {
     }
 
@@ -73,7 +77,7 @@ public class Product {
                    String article, BigDecimal purchasePrice,
                    BigDecimal price, BigDecimal margin,
                    Unit unit, Integer packagingCount,
-                   String idFromErp) {
+                   String idFromErp, ProductCategory productCategory) {
         this.productCount = productCount;
         this.productName = productName;
         this.madeCountry = madeCountry;
@@ -86,6 +90,7 @@ public class Product {
         this.unit = unit;
         this.packagingCount = packagingCount;
         this.idFromErp = idFromErp;
+        this.productCategory = productCategory;
     }
 
     public Product(Long id, Integer productCount, String productName,
@@ -93,7 +98,7 @@ public class Product {
                    Set<Supplier> suppliers, String article,
                    BigDecimal purchasePrice, BigDecimal price,
                    BigDecimal margin, Unit unit,
-                   Integer packagingCount, String idFromErp) {
+                   Integer packagingCount, String idFromErp, ProductCategory productCategory) {
         this.id = id;
         this.productCount = productCount;
         this.productName = productName;
@@ -107,6 +112,7 @@ public class Product {
         this.unit = unit;
         this.packagingCount = packagingCount;
         this.idFromErp = idFromErp;
+        this.productCategory = productCategory;
     }
 
     public Long getId() {

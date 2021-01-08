@@ -18,6 +18,7 @@ public class ProductPostDto {
     private UnitDto unitDto;
     private Integer packagingCount;
     private String idFromErp;
+    private ProductCategoryDto productCategoryDto;
 
     public ProductPostDto() {
     }
@@ -27,7 +28,7 @@ public class ProductPostDto {
                           String article, Double purchasePrice,
                           Double price, Double margin,
                           UnitDto unitDto, Integer packagingCount,
-                          String idFromErp) {
+                          String idFromErp, ProductCategoryDto productCategoryDto) {
         this.productCount = productCount;
         this.productName = productName;
         this.madeCountry = madeCountry;
@@ -40,6 +41,7 @@ public class ProductPostDto {
         this.unitDto = unitDto;
         this.packagingCount = packagingCount;
         this.idFromErp = idFromErp;
+        this.productCategoryDto = productCategoryDto;
     }
 
     public Integer getProductCount() {
@@ -136,5 +138,13 @@ public class ProductPostDto {
 
     public void setIdFromErp(String idFromErp) {
         this.idFromErp = idFromErp;
+    }
+
+    public ProductCategoryDto getProductCategoryDto() {
+        return productCategoryDto;
+    }
+
+    public void setProductCategoryDto(ProductCategoryDto productCategoryDto) {
+        this.productCategoryDto = productCategoryDto;
     }
 }
