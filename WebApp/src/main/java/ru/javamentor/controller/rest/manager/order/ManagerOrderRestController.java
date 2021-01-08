@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.service.product.ReserveProductService;
 import ru.javamentor.service.order.OrderItemService;
-import ru.javamentor.service.product.ReserveProductService;
 
 
 @RestController
@@ -18,12 +17,12 @@ import ru.javamentor.service.product.ReserveProductService;
 public class ManagerOrderRestController {
 
     private final OrderItemService orderItemService;
-    private final ReserveProductService removeProductReserveService;
+    private final ReserveProductService reserveProductService;
 
     public ManagerOrderRestController(OrderItemService orderItemService,
-                                      ReserveProductService removeProductReserveService) {
+                                      ReserveProductService reserveProductService) {
         this.orderItemService = orderItemService;
-        this.removeProductReserveService = removeProductReserveService;
+        this.reserveProductService = reserveProductService;
     }
 
     /**
@@ -61,4 +60,23 @@ public class ManagerOrderRestController {
             return new ResponseEntity<>("Введите корректное количество продукта", HttpStatus.BAD_REQUEST);
         }
     }
+
+    /**
+     * Метод для удаления
+     * зарезирвированного продукта
+     *
+     * @param orderId      - id заказа
+     * @param productId    - id продукта
+     * @param productCount - количество удалеямого продукта из резерва
+     * @return - HTTP ответ с BODY
+     */
+    @PostMapping("/{orderId}/product/{productId}/count/{productCount}/removeReserve")
+    public ResponseEntity<String> removeProductReserve(@PathVariable Long orderId,
+                                                       @PathVariable Long productId,
+                                                       @PathVariable Integer productCount) {
+        String responseBody = reserveProductService.removeProductReserve(orderId, productId, productCount);
+
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
 }

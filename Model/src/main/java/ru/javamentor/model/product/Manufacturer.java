@@ -39,8 +39,6 @@ public class Manufacturer {
     public void setManufacturerName(String manufacturerName) {
         this.manufacturerName = manufacturerName;
     }
-<<<<<<< HEAD
-=======
 
     public String getIdFromErp() {
         return idFromErp;
@@ -49,5 +47,4 @@ public class Manufacturer {
     public void setIdFromErp(String idFromErp) {
         this.idFromErp = idFromErp;
     }
->>>>>>> origin/dev
 }
