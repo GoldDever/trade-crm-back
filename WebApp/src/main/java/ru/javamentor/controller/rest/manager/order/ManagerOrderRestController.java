@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.service.product.ReserveProductService;
 import ru.javamentor.service.order.OrderItemService;
+import ru.javamentor.service.product.ReserveProductService;
 
 
 @RestController
@@ -26,11 +27,11 @@ public class ManagerOrderRestController {
     }
 
     /**
-     * POST метод для добавления товара в заказ
+     * Метод добавления строки заказа
      *
-     * @param orderItemDto - DTO для OrderItem
+     * @param orderItemDto - DTO строка заказа
      * @param orderId      - id заказа
-     * @return - HTTP ответ
+     * @return - результат выполнения
      */
     @PostMapping("/{orderId}/addItem")
     public ResponseEntity<?> addItem(@RequestBody OrderItemDto orderItemDto,
@@ -42,21 +43,22 @@ public class ManagerOrderRestController {
     }
 
     /**
-     * Метод для удаления
-     * зарезирвированного продукта
+     * Метод изменения количества товаров в строке заказа
      *
      * @param orderId      - id заказа
-     * @param productId    - id продукта
-     * @param productCount - количество удалеямого продукта из резерва
-     * @return - HTTP ответ с BODY
+     * @param orderItemId  - id строки заказа
+     * @param countProduct - количество на которое необходимо изменить
+     * @return - результат выполнения
      */
-    @PostMapping("/{orderId}/product/{productId}/count/{productCount}/removeReserve")
-    public ResponseEntity<String> removeProductReserve(@PathVariable Long orderId,
-                                                       @PathVariable Long productId,
-                                                       @PathVariable Integer productCount) {
-
-        String responseBody = removeProductReserveService.removeProductReserve(orderId, productId, productCount);
-
-        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    @PostMapping("/{orderId}/orderItem/{orderItemId}/count/{countProduct}")
+    public ResponseEntity<?> changeProductCountInItem(@PathVariable Long orderId,
+                                                      @PathVariable Long orderItemId,
+                                                      @PathVariable Integer countProduct) {
+        if (countProduct > 0) {
+            orderItemService.editOrderItem(orderId, orderItemId, countProduct);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Введите корректное количество продукта", HttpStatus.BAD_REQUEST);
+        }
     }
 }

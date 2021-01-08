@@ -18,6 +18,9 @@ public class Manufacturer {
     @Column(name = "manufacturer_name")
     private String manufacturerName;
 
+    @Column(name = "id_from_erp")
+    private String idFromErp;
+
     public Manufacturer() {
     }
 
@@ -36,4 +39,15 @@ public class Manufacturer {
     public void setManufacturerName(String manufacturerName) {
         this.manufacturerName = manufacturerName;
     }
+<<<<<<< HEAD
+=======
+
+    public String getIdFromErp() {
+        return idFromErp;
+    }
+
+    public void setIdFromErp(String idFromErp) {
+        this.idFromErp = idFromErp;
+    }
+>>>>>>> origin/dev
 }
