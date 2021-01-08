@@ -89,6 +89,8 @@ create database trade_crm
 Делаем резервную копию 
 ```
 docker exec trade pg_dump -u root --password=root trade-crm | gzip > trade-crm.sql.gz
+Для винды
+docker exec -it trade pg_dump -u root trade-crm > {свой путь строчными символами}\trade-crm.sql
 ```
 - exec - выполнение команды внутри контейнера
 - pg_dump - дамп базы данных

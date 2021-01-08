@@ -69,8 +69,12 @@ public class InitService {
     }
 
     private void initOrder() {
+        Client client1 = clientRepository.findById(1L).get();
+        Manager manager1 = managerRepository.findById(2L).get();
         Order order = new Order();
         order.setIdFromErp("idFromErp");
+        order.setClient(client1);
+        order.setManager(manager1);
         order.setOrderFullPrice(BigDecimal.valueOf(70.678));
         order.setApprove(true);
         order.setPaid(true);
