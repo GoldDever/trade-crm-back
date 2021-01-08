@@ -3,14 +3,7 @@ package ru.javamentor.controller.auth;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,15 +21,12 @@ public class LoginRestController {
      * Контроллер для логина
      */
 
-    private final AuthenticationManager authenticationManager;
-
     private final UserService userService;
 
     private final JwtProvider jwtProvider;
 
 
-    public LoginRestController(AuthenticationManager authenticationManager, UserService userService, JwtProvider jwtProvider) {
-        this.authenticationManager = authenticationManager;
+    public LoginRestController(UserService userService, JwtProvider jwtProvider) {
         this.userService = userService;
         this.jwtProvider = jwtProvider;
     }
