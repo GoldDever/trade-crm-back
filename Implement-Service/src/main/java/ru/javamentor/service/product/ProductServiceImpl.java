@@ -51,6 +51,7 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Product product = new Product(
+                dto.getProductCount(),
                 dto.getProductName(),
                 dto.getMadeCountry(),
                 manufacturerRepository.findById(dto.getManufacturerDto().getId()).orElse(null),
@@ -82,6 +83,7 @@ public class ProductServiceImpl implements ProductService {
 
         Product product = new Product(
                 dto.getId(),
+                dto.getProductCount(),
                 dto.getProductName(),
                 dto.getMadeCountry(),
                 manufacturerRepository.findById(dto.getManufacturerDto().getId()).orElse(null),

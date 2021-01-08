@@ -6,6 +6,7 @@ import java.util.List;
  * DTO для создания нового продукта
  */
 public class ProductPostDto {
+    private Integer productCount;
     private String productName;
     private String madeCountry;
     private ManufacturerDto manufacturerDto;
@@ -21,12 +22,13 @@ public class ProductPostDto {
     public ProductPostDto() {
     }
 
-    public ProductPostDto(String productName, String madeCountry,
+    public ProductPostDto(Integer productCount, String productName, String madeCountry,
                           ManufacturerDto manufacturerDto, List<SupplierDto> supplierDto,
                           String article, Double purchasePrice,
                           Double price, Double margin,
                           UnitDto unitDto, Integer packagingCount,
                           String idFromErp) {
+        this.productCount = productCount;
         this.productName = productName;
         this.madeCountry = madeCountry;
         this.manufacturerDto = manufacturerDto;
@@ -38,6 +40,14 @@ public class ProductPostDto {
         this.unitDto = unitDto;
         this.packagingCount = packagingCount;
         this.idFromErp = idFromErp;
+    }
+
+    public Integer getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(Integer productCount) {
+        this.productCount = productCount;
     }
 
     public String getProductName() {

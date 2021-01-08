@@ -68,12 +68,13 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productName, String madeCountry,
+    public Product(Integer productCount, String productName, String madeCountry,
                    Manufacturer manufacturer, Set<Supplier> suppliers,
                    String article, BigDecimal purchasePrice,
                    BigDecimal price, BigDecimal margin,
                    Unit unit, Integer packagingCount,
                    String idFromErp) {
+        this.productCount = productCount;
         this.productName = productName;
         this.madeCountry = madeCountry;
         this.manufacturer = manufacturer;
@@ -87,13 +88,14 @@ public class Product {
         this.idFromErp = idFromErp;
     }
 
-    public Product(Long id, String productName,
+    public Product(Long id, Integer productCount, String productName,
                    String madeCountry, Manufacturer manufacturer,
                    Set<Supplier> suppliers, String article,
                    BigDecimal purchasePrice, BigDecimal price,
                    BigDecimal margin, Unit unit,
                    Integer packagingCount, String idFromErp) {
         this.id = id;
+        this.productCount = productCount;
         this.productName = productName;
         this.madeCountry = madeCountry;
         this.manufacturer = manufacturer;
@@ -113,6 +115,14 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(Integer productCount) {
+        this.productCount = productCount;
     }
 
     public String getProductName() {
@@ -201,13 +211,5 @@ public class Product {
 
     public void setMargin(BigDecimal margin) {
         this.margin = margin.setScale(2, RoundingMode.HALF_UP);
-    }
-
-    public Integer getProductCount() {
-        return productCount;
-    }
-
-    public void setProductCount(Integer productCount) {
-        this.productCount = productCount;
     }
 }
