@@ -21,7 +21,7 @@ public class ReserveProductServiceImpl implements ReserveProductService {
      */
     @Transactional
     @Override
-    public void removeOrderReserve(String orderId) {
+    public void removeOrderReserve(Long orderId) {
         reserveProductRepository.deleteByOrderId(Long.valueOf(orderId));
     }
 }

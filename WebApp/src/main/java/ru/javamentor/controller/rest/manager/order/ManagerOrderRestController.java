@@ -49,7 +49,7 @@ public class ManagerOrderRestController {
      * @return - статус http-запроса
      */
     @PostMapping("{orderId}/all/removeReserve")
-    public ResponseEntity<?> removeOrderReserve(@PathVariable String orderId) {
+    public ResponseEntity<?> removeOrderReserve(@PathVariable Long orderId) {
         reserveProductService.removeOrderReserve(orderId);
 
         return new ResponseEntity<>(HttpStatus.OK);
