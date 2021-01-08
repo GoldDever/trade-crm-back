@@ -47,7 +47,7 @@ public class ReserveProductServiceImpl implements ReserveProductService {
             response = "Резерв полностью удален.";
         } else {
             reserveProductRepository.updateReserveProductCount(productCount, orderId, productId);
-            response = String.format("Товар в количестве %s снят с резерва.", reserveProductCount - productCount);
+            response = String.format("Товар в количестве %s снят с резерва.", productCount);
         }
 
         return response;
