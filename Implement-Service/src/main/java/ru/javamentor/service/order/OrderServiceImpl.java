@@ -44,14 +44,14 @@ public class OrderServiceImpl implements OrderService {
      * Метод изменяет флаг на true.
      * И удаляет все резервы связанные с этим заказом.
      *
-     * @param orderId - идентификатор заказа
+     * @param orderIdFromErp - идентификатор заказа из ERP системы
      */
     @Override
-    public void updateShippedStatus(Long orderId) {
-        Order order = orderRepository.findById(orderId).orElseThrow();
+    public void updateShippedStatus(String orderIdFromErp) {
+        Order order = orderRepository.findByIdFromErp(orderIdFromErp);
         order.setShipped(true);
         orderRepository.save(order);
 
-        reserveProductRepository.deleteByOrderId(orderId);
+        reserveProductRepository.deleteByOrderId(order.getId());
     }
 }

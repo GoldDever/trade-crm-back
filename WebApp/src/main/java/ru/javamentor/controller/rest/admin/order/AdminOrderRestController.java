@@ -35,12 +35,12 @@ public class AdminOrderRestController {
      * Метод изменяет статус заказа
      * на Отгружено
      *
-     * @param orderId - идентификатор заказа
+     * @param orderIdFromErp - идентификатор заказа из ERP системы
      * @return - результат выполнения
      */
-    @PostMapping("/{orderId}/shipped")
-    public ResponseEntity<String> shippedOrder(@PathVariable Long orderId) {
-        orderService.updateShippedStatus(orderId);
+    @PostMapping("/{orderIdFromErp}/shipped")
+    public ResponseEntity<String> shippedOrder(@PathVariable String orderIdFromErp) {
+        orderService.updateShippedStatus(orderIdFromErp);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
