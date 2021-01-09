@@ -13,10 +13,10 @@ import javax.persistence.EntityNotFoundException;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-        public UserDetailsServiceImpl(UserRepository userRepository) {
-            this.userRepository = userRepository;
+        public UserDetailsServiceImpl(UserService userService) {
+            this.userService = userService;
         }
 
         /**
@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
          */
         @Override
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-            UserDetails user = (UserDetails) userRepository.findByUsername(username);
+            UserDetails user = (UserDetails) userService.findByUsername(username);
             if (user == null) {
                 throw new EntityNotFoundException("No user found with this name");
             }

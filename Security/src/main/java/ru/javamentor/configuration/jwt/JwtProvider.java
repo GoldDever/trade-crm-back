@@ -4,19 +4,16 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-import java.time.ZonedDateTime;
+
 import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import static org.springframework.util.StringUtils.hasText;
 
@@ -46,16 +43,19 @@ public class JwtProvider {
     }
 
     public String generateJwt(boolean rememberMe, String username, String password) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
         return Jwts.builder()
-                .setSubject(userPrincipal.getUsername())
+                .setSubject(authenticationJwt(username, password).getName())
                 .setIssuedAt(Date.valueOf(LocalDate.now()))
                 .setExpiration(rememberMe 
-                            ? Date.from(ZoneDateTime.now().plusYears(jwtExpirationHours)) 
-                            : Date.from(ZoneDateTime.now().plusHours(jwtExpirationHours)))
+                            ? Date.from(Instant.from(ZonedDateTime.now().plusYears(jwtExpirationHours)))
+                            : Date.from(Instant.from(ZonedDateTime.now().plusHours(jwtExpirationHours))))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
+    }
+
+    public Authentication authenticationJwt(String username, String password) {
+
+        return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 
     public String getTokenFromRequest(HttpServletRequest request) {
