@@ -1,11 +1,9 @@
 package ru.javamentor.model.product;
 
-import org.hibernate.annotations.GeneratorType;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "product_category")
+@Table(name = "product_categories")
 public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +17,7 @@ public class ProductCategory {
     Boolean isMainCategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "main_product_category_id")
     ProductCategory mainProductCategory;
 
     public ProductCategory() {

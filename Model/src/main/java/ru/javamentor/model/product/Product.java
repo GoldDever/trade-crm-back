@@ -218,4 +218,12 @@ public class Product {
     public void setMargin(BigDecimal margin) {
         this.margin = margin.setScale(2, RoundingMode.HALF_UP);
     }
+
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
+    }
 }

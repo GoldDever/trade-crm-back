@@ -4,17 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
+import ru.javamentor.model.product.ProductCategory;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
+import ru.javamentor.repository.product.ProductCategoryRepository;
 import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Optional;
+
 
 public class InitService {
 
@@ -33,9 +35,13 @@ public class InitService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ProductCategoryRepository productCategoryRepository;
+
     private void init() {
         initClient();
         initManager();
+        initProductCategory();
         initProduct();
         initOrder();
         initOrderItem();
@@ -65,6 +71,7 @@ public class InitService {
         product.setPrice(BigDecimal.valueOf(4.00));
         product.setMargin(BigDecimal.valueOf(2.00));
         product.setPackagingCount(3);
+        product.setProductCategory(productCategoryRepository.findById(1L).get());
         productRepository.save(product);
     }
 
@@ -94,4 +101,10 @@ public class InitService {
         orderItemRepository.save(orderItem);
     }
 
+    private void initProductCategory() {
+        ProductCategory productCategory = new ProductCategory();
+        productCategory.setCategoryName("categoryName");
+        productCategory.setMainCategory(false);
+        productCategoryRepository.save(productCategory);
+    }
 }
