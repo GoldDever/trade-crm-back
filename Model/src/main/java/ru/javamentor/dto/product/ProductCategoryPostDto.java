@@ -3,30 +3,20 @@ package ru.javamentor.dto.product;
 import ru.javamentor.model.product.ProductCategory;
 
 /**
- * DTO для передачи на страницу категории
+ * DTO для создания новой категории
  */
-
-public class ProductCategoryDto {
-    Long id;
+public class ProductCategoryPostDto {
     String categoryName;
     Boolean isMainCategory;
     ProductCategory mainProductCategory;
 
-    public ProductCategoryDto() {
+    public ProductCategoryPostDto() {
     }
 
-    public ProductCategoryDto(String categoryName, Boolean isMainCategory, ProductCategory mainProductCategory) {
+    public ProductCategoryPostDto(String categoryName, Boolean isMainCategory, ProductCategory mainProductCategory) {
         this.categoryName = categoryName;
         this.isMainCategory = isMainCategory;
         this.mainProductCategory = mainProductCategory;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCategoryName() {
