@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,45 +18,39 @@ import java.time.ZonedDateTime;
 
 import static org.springframework.util.StringUtils.hasText;
 
-
+//@PropertySource("classpath : application.properties")
 @Component
 public class JwtProvider {
 
-    @Value("$(jwt.secret)")
-    private String jwtSecret;
+//    @Value("$(jwt.secret)")
+    private String jwtSecret = "javaJWt";
 
-    @Value("${jwt.expirationHours)")
-    private long jwtExpirationHours;
+//    @Value("${jwt.expirationHours)")
+    private String jwtExpirationHours = "1";
 
-    @Value("${jwt.expirationIfRememberedYears)")
-    private String jwtExpirationIfRememberedYears;
+//    @Value("${jwt.expirationIfRememberedYears)")
+    private String jwtExpirationIfRememberedYears = "1";
 
-    @Value("$(jwt.authorization")
-    private String authorization;
+//    @Value("$(jwt.authorization")
+    private String authorization = "Authorization";
 
-    @Value("$(jwt.tokenIdentifier")
-    private String tokenIdentifier;
-
-    private final AuthenticationManager authenticationManager;
-
-    public JwtProvider(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
+//    @Value("$(jwt.tokenIdentifier")
+    private String tokenIdentifier = "Bearer ";
 
     public String generateJwt(boolean rememberMe, String username, String password) {
+        Authentication authentication = authenticationJwt(username, password);
         return Jwts.builder()
-                .setSubject(authenticationJwt(username, password).getName())
+                .setSubject(authentication.getName())
                 .setIssuedAt(Date.valueOf(LocalDate.now()))
                 .setExpiration(rememberMe 
-                            ? Date.from(Instant.from(ZonedDateTime.now().plusYears(jwtExpirationHours)))
-                            : Date.from(Instant.from(ZonedDateTime.now().plusHours(jwtExpirationHours))))
+                            ? Date.from(Instant.from(ZonedDateTime.now().plusYears(Long.valueOf(jwtExpirationIfRememberedYears))))
+                            : Date.from(Instant.from(ZonedDateTime.now().plusHours(Long.valueOf(jwtExpirationHours)))))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
     public Authentication authenticationJwt(String username, String password) {
-
-        return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        return new UsernamePasswordAuthenticationToken(username, password);//authenticationManager.authenticate(
     }
 
     public String getTokenFromRequest(HttpServletRequest request) {
