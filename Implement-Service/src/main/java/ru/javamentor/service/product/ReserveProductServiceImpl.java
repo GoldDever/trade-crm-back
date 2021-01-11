@@ -49,7 +49,7 @@ public class ReserveProductServiceImpl implements ReserveProductService {
         Integer countReserveProductSum = reserveProductCountList.stream().mapToInt(Integer::intValue).sum();
         if (reserveProductCountList.isEmpty()) {
             code = 0;
-        } else if (countReserveProductSum.equals(productCount)) {
+        } else if (countReserveProductSum.equals(productCount) && reserveProductCountList.size() == 1) {
             reserveProductRepository.deleteReserve(orderId, productId, productCount);
             code = 1;
         } else {
