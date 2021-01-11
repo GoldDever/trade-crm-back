@@ -4,22 +4,33 @@ import org.springframework.stereotype.Service;
 import ru.javamentor.dto.order.OrderApproveDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderApprove;
+import ru.javamentor.model.user.User;
 import ru.javamentor.repository.order.OrderApproveRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
+import ru.javamentor.repository.user.ClientRepository;
+import ru.javamentor.repository.user.ManagerRepository;
+
+import javax.transaction.Transactional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderApproveRepository orderApproveRepository;
+    private final ClientRepository clientRepository;
+    private final ManagerRepository managerRepository;
     private final ReserveProductRepository reserveProductRepository;
 
     public OrderServiceImpl(OrderRepository orderRepository,
                             OrderApproveRepository orderApproveRepository,
+                            ClientRepository clientRepository,
+                            ManagerRepository managerRepository,
                             ReserveProductRepository reserveProductRepository) {
         this.orderRepository = orderRepository;
         this.orderApproveRepository = orderApproveRepository;
+        this.clientRepository = clientRepository;
+        this.managerRepository = managerRepository;
         this.reserveProductRepository = reserveProductRepository;
     }
 
@@ -53,5 +64,21 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
 
         reserveProductRepository.deleteByOrderId(order.getId());
+    }
+
+    /**
+     * Метод сохраняет новый Order
+     *
+     * @param clientId - id клиента
+     * @param user - user из principal для получения manager
+     */
+    @Transactional
+    @Override
+    public void newOrder(Long clientId, User user) {
+        Order order = new Order(
+                clientRepository.findById(clientId).orElseThrow(),
+                managerRepository.findById(user.getId()).orElseThrow()
+        );
+        orderRepository.save(order);
     }
 }
