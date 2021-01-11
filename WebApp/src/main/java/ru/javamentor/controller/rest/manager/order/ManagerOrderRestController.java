@@ -81,7 +81,19 @@ public class ManagerOrderRestController {
     public ResponseEntity<String> removeProductReserve(@PathVariable Long orderId,
                                                        @PathVariable Long productId,
                                                        @PathVariable Integer productCount) {
-        String responseBody = reserveProductService.removeProductReserve(orderId, productId, productCount);
+        String responseBody;
+
+        Integer code = reserveProductService.removeProductReserve(orderId, productId, productCount);
+        switch (code) {
+            case 1:
+                responseBody = "Резерв полностью удален.";
+                break;
+            case 2:
+                responseBody = String.format("Товар в количестве %s снят с резерва.", productCount);
+                break;
+            default:
+                return new ResponseEntity<>("Резерв отсутсвует.", HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }

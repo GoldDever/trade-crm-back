@@ -107,5 +107,12 @@ public class InitService {
         reserveProduct.setProduct(productRepository.findById(1L).get());
         reserveProduct.setOrder(orderRepository.findById(1L).get());
         reserveProductRepository.save(reserveProduct);
+
+        ReserveProduct reserveProduct2 = new ReserveProduct();
+        reserveProduct2.setId(1L);
+        reserveProduct2.setProductCount(15);
+        reserveProduct2.setProduct(productRepository.findById(1L).get());
+        reserveProduct2.setOrder(orderRepository.findById(1L).get());
+        reserveProductRepository.save(reserveProduct2);
     }
 }

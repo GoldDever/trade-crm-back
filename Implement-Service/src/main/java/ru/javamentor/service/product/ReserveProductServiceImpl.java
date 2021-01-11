@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import ru.javamentor.repository.product.ReserveProductRepository;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -34,22 +36,33 @@ public class ReserveProductServiceImpl implements ReserveProductService {
      * @param orderId      - id заказа
      * @param productId    - id продукта
      * @param productCount - количество удалеямого продукта из резерва
-     * @return - HTTP ответ с BODY
+     * @return - код ответа для проверки на наличие в резерва в БД
      */
     @Transactional
     @Override
-    public String removeProductReserve(Long orderId, Long productId, Integer productCount) {
-        Integer reserveProductCount = reserveProductRepository.getReserveProductCount(orderId, productId);
+    public Integer removeProductReserve(Long orderId, Long productId, Integer productCount) {
+        int code;
 
-        String response;
-        if (reserveProductCount.equals(productCount)) {
-            reserveProductRepository.deleteReserve(orderId, productId);
-            response = "Резерв полностью удален.";
+        @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+        List<Integer> reserveProductCountList
+                = new ArrayList<>(reserveProductRepository.getReserveProductCount(orderId, productId));
+        Integer countReserveProductSum = reserveProductCountList.stream().mapToInt(Integer::intValue).sum();
+        if (reserveProductCountList.isEmpty()) {
+            code = 0;
+        } else if (countReserveProductSum.equals(productCount)) {
+            reserveProductRepository.deleteReserve(orderId, productId, productCount);
+            code = 1;
         } else {
-            reserveProductRepository.updateReserveProductCount(productCount, orderId, productId);
-            response = String.format("Товар в количестве %s снят с резерва.", productCount);
+            for (Integer count : reserveProductCountList) {
+                if (count < productCount) {
+                    reserveProductRepository.deleteReserve(orderId, productId, count);
+                } else {
+                    reserveProductRepository.updateReserveProductCount(orderId, productId, productCount, count);
+                }
+            }
+            code = 2;
         }
 
-        return response;
+        return code;
     }
 }
