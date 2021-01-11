@@ -96,3 +96,10 @@ docker exec -it trade pg_dump -u root trade-crm > {свой путь строч�
 - pg_dump - дамп базы данных
 - -u - пользователь
 - -password - пароль
+
+Восстановливаем базу данных в контейнере из дампа:
+```
+gunzip < trade-crm.sql.gz | docker exec -i trade psql -U root -d trade_crm
+Для винды:
+docker exec -i trade psql -U root -d trade_crm < {свой путь строчными символами}\trade-crm.sql
+```
