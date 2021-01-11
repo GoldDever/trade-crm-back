@@ -43,10 +43,11 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     public Integer removeProductReserve(Long orderId, Long productId, Integer productCount) {
         int code;
 
-        @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
         List<Integer> reserveProductCountList
-                = new ArrayList<>(reserveProductRepository.getReserveProductCount(orderId, productId));
-        Integer countReserveProductSum = reserveProductCountList.stream().mapToInt(Integer::intValue).sum();
+                = new ArrayList<>(reserveProductRepository.getReserveProductCounts(orderId, productId));
+
+        Integer countReserveProductSum = reserveProductRepository.getSumOfReserveProductCounts(orderId, productId);
+
         if (reserveProductCountList.isEmpty()) {
             code = 0;
         } else if (countReserveProductSum.equals(productCount) && reserveProductCountList.size() == 1) {
