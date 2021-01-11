@@ -1,5 +1,7 @@
 package ru.javamentor.dto.product;
 
+import ru.javamentor.model.product.ProductCategory;
+
 import java.util.List;
 
 /**
@@ -18,7 +20,7 @@ public class ProductPostDto {
     private UnitDto unitDto;
     private Integer packagingCount;
     private String idFromErp;
-    private ProductCategoryDto productCategoryDto;
+    private ProductCategory productCategory;
 
     public ProductPostDto() {
     }
@@ -28,7 +30,7 @@ public class ProductPostDto {
                           String article, Double purchasePrice,
                           Double price, Double margin,
                           UnitDto unitDto, Integer packagingCount,
-                          String idFromErp, ProductCategoryDto productCategoryDto) {
+                          String idFromErp, ProductCategory productCategory) {
         this.productCount = productCount;
         this.productName = productName;
         this.madeCountry = madeCountry;
@@ -41,7 +43,7 @@ public class ProductPostDto {
         this.unitDto = unitDto;
         this.packagingCount = packagingCount;
         this.idFromErp = idFromErp;
-        this.productCategoryDto = productCategoryDto;
+        this.productCategory = productCategory;
     }
 
     public Integer getProductCount() {
@@ -140,11 +142,11 @@ public class ProductPostDto {
         this.idFromErp = idFromErp;
     }
 
-    public ProductCategoryDto getProductCategoryDto() {
-        return productCategoryDto;
+    public ProductCategory getProductCategoryDto() {
+        return productCategory;
     }
 
-    public void setProductCategoryDto(ProductCategoryDto productCategoryDto) {
-        this.productCategoryDto = productCategoryDto;
+    public void setProductCategoryDto(ProductCategory productCategoryDto) {
+        this.productCategory = productCategoryDto;
     }
 }
