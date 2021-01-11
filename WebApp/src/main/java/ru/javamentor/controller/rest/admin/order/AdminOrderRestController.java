@@ -23,11 +23,27 @@ public class AdminOrderRestController {
 
     /**
      * Метод получает новый флаг approve и устанавливает его в Order
-     *
      */
     @PostMapping(value = "/{orderId}/approve/")
     public ResponseEntity<String> changeApproveStatus(@RequestBody OrderApproveDto orderApproveDto, @PathVariable Long orderId) {
         orderService.updateApproveStatus(orderApproveDto, orderId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**
+     * Метод изменяет статус заказа на Отгружено.
+     * Если не находит нужный заказ возвращает HTTP ошибку 400
+     *
+     * @param orderIdFromErp - идентификатор заказа из ERP системы
+     * @return - результат выполнения
+     */
+    @PostMapping("/{orderIdFromErp}/shipped")
+    public ResponseEntity<String> shippedOrder(@PathVariable String orderIdFromErp) {
+        Long orderId = orderService.updateShippedStatus(orderIdFromErp);
+        if (orderId == null) {
+            return new ResponseEntity<>("Заказ не найден.", HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
