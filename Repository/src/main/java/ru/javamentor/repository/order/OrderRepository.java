@@ -9,7 +9,7 @@ import ru.javamentor.model.order.Order;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o.id FROM Order o " +
             "WHERE o.idFromErp = :orderIdFromErp")
-    Long getOrderId(@Param("orderIdFromErp") String orderIdFromErp);
+    Long getOrderIdByIdFromErp(@Param("orderIdFromErp") String orderIdFromErp);
 
     @Modifying
     @Query("UPDATE Order o SET o.isShipped = true " +

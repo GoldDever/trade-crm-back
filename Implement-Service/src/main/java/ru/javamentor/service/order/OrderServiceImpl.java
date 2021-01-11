@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public Long updateShippedStatus(String orderIdFromErp) {
-        Long orderId = orderRepository.getOrderId(orderIdFromErp);
+        Long orderId = orderRepository.getOrderIdByIdFromErp(orderIdFromErp);
         orderRepository.updateOrderShippedStatus(orderId);
 
         reserveProductRepository.deleteByOrderId(orderId);
