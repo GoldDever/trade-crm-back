@@ -2,12 +2,16 @@ package ru.javamentor.controller.rest.manager.order;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.OrderItemDto;
+import ru.javamentor.model.user.User;
+import ru.javamentor.service.order.OrderItemService;
+import ru.javamentor.service.order.OrderService;
 import ru.javamentor.service.product.ReserveProductService;
 import ru.javamentor.service.order.OrderItemService;
 
@@ -16,11 +20,14 @@ import ru.javamentor.service.order.OrderItemService;
 @RequestMapping("api/manager/order")
 public class ManagerOrderRestController {
 
+    private final OrderService orderService;
     private final OrderItemService orderItemService;
     private final ReserveProductService reserveProductService;
 
-    public ManagerOrderRestController(OrderItemService orderItemService,
+    public ManagerOrderRestController(OrderService orderService,
+                                      OrderItemService orderItemService,
                                       ReserveProductService reserveProductService) {
+        this.orderService = orderService;
         this.orderItemService = orderItemService;
         this.reserveProductService = reserveProductService;
     }
@@ -79,4 +86,18 @@ public class ManagerOrderRestController {
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
     }
 
+    /**
+     * Метод для сохранения нового Order
+     *
+     * @param clientId - id клиента
+     * @param user     - user из principal для получения manager
+     * @return - статус http-запроса
+     */
+    @PostMapping("new/client/{clientId}")
+    public ResponseEntity<?> newOrder(@PathVariable Long clientId,
+                                      @AuthenticationPrincipal User user) {
+        orderService.newOrder(clientId, user);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }
