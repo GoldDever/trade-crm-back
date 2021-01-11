@@ -7,6 +7,7 @@ import ru.javamentor.model.order.OrderApprove;
 import ru.javamentor.model.user.User;
 import ru.javamentor.repository.order.OrderApproveRepository;
 import ru.javamentor.repository.order.OrderRepository;
+import ru.javamentor.repository.product.ReserveProductRepository;
 import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
 
@@ -19,15 +20,18 @@ public class OrderServiceImpl implements OrderService {
     private final OrderApproveRepository orderApproveRepository;
     private final ClientRepository clientRepository;
     private final ManagerRepository managerRepository;
+    private final ReserveProductRepository reserveProductRepository;
 
     public OrderServiceImpl(OrderRepository orderRepository,
                             OrderApproveRepository orderApproveRepository,
                             ClientRepository clientRepository,
-                            ManagerRepository managerRepository) {
+                            ManagerRepository managerRepository,
+                            ReserveProductRepository reserveProductRepository) {
         this.orderRepository = orderRepository;
         this.orderApproveRepository = orderApproveRepository;
         this.clientRepository = clientRepository;
         this.managerRepository = managerRepository;
+        this.reserveProductRepository = reserveProductRepository;
     }
 
     /**
@@ -45,6 +49,23 @@ public class OrderServiceImpl implements OrderService {
         order.setApprove(orderApproveDto.isApprove());
         orderRepository.save(order);
         orderApproveRepository.save(orderApprove);
+    }
+
+    /**
+     * Метод изменяет флаг на true.
+     * И удаляет все резервы связанные с этим заказом.
+     *
+     * @param orderIdFromErp - идентификатор заказа из ERP системы
+     */
+    @Transactional
+    @Override
+    public Long updateShippedStatus(String orderIdFromErp) {
+        Long orderId = orderRepository.getOrderIdByIdFromErp(orderIdFromErp);
+        orderRepository.updateOrderShippedStatus(orderId);
+
+        reserveProductRepository.deleteByOrderId(orderId);
+
+        return orderId;
     }
 
     /**
