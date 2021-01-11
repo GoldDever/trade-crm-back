@@ -23,20 +23,6 @@ public class ReserveProductServiceImpl implements ReserveProductService{
     }
 
     /**
-     * Метод вычисления количества продукта, доступного для резерва
-     *
-     * @param productId - id продукта по которому находим все резервы
-     * @return - количество продукта, доступное для резерва
-     */
-    @Override
-    public Integer countReserveProduct(Long productId) {
-        Integer sumProductReserve = reserveProductRepository.countReserveProducts(productId); // общее количество зарезервированного продукта
-        Integer totalCountProduct = productRepository.findProductById(productId).getProductCount(); // общее количество продукта
-        Integer delta = totalCountProduct - sumProductReserve; // количество продукта, доступное для резерва
-        return delta;
-    }
-
-    /**
      * Метод сохранения резерва
      *
      * @param orderId - id Order
@@ -48,16 +34,16 @@ public class ReserveProductServiceImpl implements ReserveProductService{
     @Transactional
     public synchronized String saveProductReserve(Long orderId, Long productId, Integer productCount) {
         String response;
-        if (countReserveProduct(productId) >= productCount) {
-            ReserveProduct reserveProduct = new ReserveProduct(
+        if (reserveProductRepository.countReserveProducts(productId) >= productCount) {
+            reserveProductRepository.save(new ReserveProduct(
                     orderId,
                     productRepository.findProductById(productId),
                     orderRepository.findOrderById(orderId),
-                    productCount);
-            reserveProductRepository.save(reserveProduct);
+                    productCount));
             response = "Товар зарезервирован";
         } else {
-            response = String.format("Количество товара доступного для резерва %s.", countReserveProduct(productId));
+            response = String.format("Количество товара доступного для резерва %s.",
+                    reserveProductRepository.countReserveProducts(productId));
         }
         return response;
     }
