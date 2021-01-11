@@ -32,15 +32,18 @@ public class AdminOrderRestController {
     }
 
     /**
-     * Метод изменяет статус заказа
-     * на Отгружено
+     * Метод изменяет статус заказа на Отгружено.
+     * Если не находит нужный заказ возвращает HTTP ошибку 400
      *
      * @param orderIdFromErp - идентификатор заказа из ERP системы
      * @return - результат выполнения
      */
     @PostMapping("/{orderIdFromErp}/shipped")
     public ResponseEntity<String> shippedOrder(@PathVariable String orderIdFromErp) {
-        orderService.updateShippedStatus(orderIdFromErp);
+        Long orderId = orderService.updateShippedStatus(orderIdFromErp);
+        if (orderId == null) {
+            return new ResponseEntity<>("Заказ не найден.", HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

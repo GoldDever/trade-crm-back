@@ -57,13 +57,15 @@ public class OrderServiceImpl implements OrderService {
      *
      * @param orderIdFromErp - идентификатор заказа из ERP системы
      */
+    @Transactional
     @Override
-    public void updateShippedStatus(String orderIdFromErp) {
-        Order order = orderRepository.findByIdFromErp(orderIdFromErp);
-        order.setShipped(true);
-        orderRepository.save(order);
+    public Long updateShippedStatus(String orderIdFromErp) {
+        Long orderId = orderRepository.getOrderId(orderIdFromErp);
+        orderRepository.updateOrderShippedStatus(orderId);
 
-        reserveProductRepository.deleteByOrderId(order.getId());
+        reserveProductRepository.deleteByOrderId(orderId);
+
+        return orderId;
     }
 
     /**
