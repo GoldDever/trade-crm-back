@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
+import ru.javamentor.model.product.ReserveProduct;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
+import ru.javamentor.repository.product.ReserveProductRepository;
 import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
 
@@ -33,12 +35,16 @@ public class InitService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ReserveProductRepository reserveProductRepository;
+
     private void init() {
         initClient();
         initManager();
         initProduct();
         initOrder();
         initOrderItem();
+        initReserveProduct();
     }
 
     private void initClient() {
@@ -94,4 +100,19 @@ public class InitService {
         orderItemRepository.save(orderItem);
     }
 
+    private void initReserveProduct() {
+        ReserveProduct reserveProduct = new ReserveProduct();
+        reserveProduct.setId(1L);
+        reserveProduct.setProductCount(23);
+        reserveProduct.setProduct(productRepository.findById(1L).get());
+        reserveProduct.setOrder(orderRepository.findById(1L).get());
+        reserveProductRepository.save(reserveProduct);
+
+        ReserveProduct reserveProduct2 = new ReserveProduct();
+        reserveProduct2.setId(1L);
+        reserveProduct2.setProductCount(15);
+        reserveProduct2.setProduct(productRepository.findById(1L).get());
+        reserveProduct2.setOrder(orderRepository.findById(1L).get());
+        reserveProductRepository.save(reserveProduct2);
+    }
 }
