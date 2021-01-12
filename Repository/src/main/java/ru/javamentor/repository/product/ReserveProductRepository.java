@@ -11,3 +11,4 @@ public interface ReserveProductRepository extends JpaRepository<ReserveProduct, 
             "WHERE rp.product.id = :productId and p.id = :productId GROUP BY p.productCount")
     Integer countReserveProducts(@Param("productId") Long productId);
 }
+
