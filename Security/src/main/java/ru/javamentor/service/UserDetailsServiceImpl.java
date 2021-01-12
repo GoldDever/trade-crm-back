@@ -5,6 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.javamentor.configuration.jwt.JwtUser;
+import ru.javamentor.model.user.User;
 
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -24,10 +26,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         @Override
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-            UserDetails user = (UserDetails) userService.findByUsername(username);
+            User user = userService.findByUsername(username);
+            UserDetails userDetails = null;
             if (user == null) {
-                throw new UsernameNotFoundException("No user found with this name");
+                throw new UsernameNotFoundException("No userDetails found with this name");
+            } else {
+                userDetails = new JwtUser(user);
             }
-            return user;
+            return userDetails;
         }
 }

@@ -1,14 +1,14 @@
 package ru.javamentor.configuration.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.token.Token;
 import org.springframework.stereotype.Component;
+import ru.javamentor.security.JwtAuthenticationException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
@@ -49,8 +49,17 @@ public class JwtProvider {
                 .compact();
     }
 
+    public boolean validateToken(String token) {
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
+            return  !claims.getBody().getExpiration().before(Date.valueOf(LocalDate.now()));
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new JwtAuthenticationException("JWT token is expired or invalid");
+        }
+    }
+
     public Authentication authenticationJwt(String username, String password) {
-        return new UsernamePasswordAuthenticationToken(username, password);//authenticationManager.authenticate(
+        return new UsernamePasswordAuthenticationToken(username, password);//authenticationManager.authenticate()
     }
 
     public String getTokenFromRequest(HttpServletRequest request) {

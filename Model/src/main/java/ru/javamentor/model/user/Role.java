@@ -1,6 +1,11 @@
 package ru.javamentor.model.user;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Set;
 
 @Entity
@@ -14,6 +19,9 @@ public class Role {
 
     @Column(name = "role_name")
     private String roleName;
+
+    public Role() {
+    }
 
     public Long getId() {
         return id;
