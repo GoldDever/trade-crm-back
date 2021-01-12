@@ -7,6 +7,7 @@ import ru.javamentor.model.product.ReserveProduct;
 
 public interface ReserveProductRepository extends JpaRepository<ReserveProduct, Long> {
 
-    @Query("select sum (rp.productCount) FROM ReserveProduct rp WHERE rp.product = :productId")
+    @Query("SELECT (p.productCount - SUM(rp.productCount)) FROM ReserveProduct rp, Product p " +
+            "WHERE rp.product.id = :productId and p.id = :productId GROUP BY p.productCount")
     Integer countReserveProducts(@Param("productId") Long productId);
 }

@@ -7,8 +7,6 @@ import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
 
-import java.util.List;
-
 @Service
 public class ReserveProductServiceImpl implements ReserveProductService{
 
@@ -36,13 +34,12 @@ public class ReserveProductServiceImpl implements ReserveProductService{
         String response;
         if (reserveProductRepository.countReserveProducts(productId) >= productCount) {
             reserveProductRepository.save(new ReserveProduct(
-                    orderId,
                     productRepository.findProductById(productId),
                     orderRepository.findOrderById(orderId),
                     productCount));
             response = "Товар зарезервирован";
         } else {
-            response = String.format("Количество товара доступного для резерва %s.",
+            response = String.format("Количество товара доступное для резерва %s.",
                     reserveProductRepository.countReserveProducts(productId));
         }
         return response;

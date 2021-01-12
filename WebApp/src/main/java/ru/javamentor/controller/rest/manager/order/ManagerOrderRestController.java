@@ -50,10 +50,10 @@ public class ManagerOrderRestController {
      * @return - сообщение о состоянии HTTP-ответа
      */
     @PostMapping("/{orderId}/product/{productId}/count/{productCount}/addReserve")
-    public ResponseEntity<?> addProductReserve(@PathVariable Long orderId,
+    public ResponseEntity<String> addProductReserve(@PathVariable Long orderId,
                                                @PathVariable Long productId,
                                                @PathVariable Integer productCount) {
-        reserveProductService.saveProductReserve(orderId, productId, productCount);
-        return new ResponseEntity<>(HttpStatus.OK);
+        String response = reserveProductService.saveProductReserve(orderId, productId, productCount);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
