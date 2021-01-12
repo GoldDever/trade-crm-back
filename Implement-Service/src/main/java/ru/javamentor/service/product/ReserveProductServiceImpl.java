@@ -30,18 +30,28 @@ public class ReserveProductServiceImpl implements ReserveProductService{
      */
     @Override
     @Transactional
-    public synchronized String saveProductReserve(Long orderId, Long productId, Integer productCount) {
+    public synchronized String saveProductReserve(Long orderId, Long productId, Integer productCount) throws NullPointerException{
         String response;
-        if (reserveProductRepository.countReserveProducts(productId) >= productCount) {
-            reserveProductRepository.save(new ReserveProduct(
-                    productRepository.findProductById(productId),
-                    orderRepository.findOrderById(orderId),
-                    productCount));
-            response = "Товар зарезервирован";
-        } else {
-            response = String.format("Количество товара доступное для резерва %s.",
-                    reserveProductRepository.countReserveProducts(productId));
+        try {
+            if (reserveProductRepository.countReserveProducts(productId) >= productCount) {
+                reserveProductRepository.save(new ReserveProduct(
+                        productRepository.findProductById(productId),
+                        orderRepository.findOrderById(orderId),
+                        productCount));
+                response = "Товар зарезервирован";
+            } else {
+                response = String.format("Количество товара доступное для резерва %s.",
+                        reserveProductRepository.countReserveProducts(productId));
+            }
+            return response;
+        }catch (NullPointerException e) {
+            if (productRepository.findProductById(productId).getProductCount() >= productCount) {
+                reserveProductRepository.save(new ReserveProduct(
+                        productRepository.findProductById(productId),
+                        orderRepository.findOrderById(orderId),
+                        productCount));
+            }
+            return "Товар зарезервирован";
         }
-        return response;
     }
 }
