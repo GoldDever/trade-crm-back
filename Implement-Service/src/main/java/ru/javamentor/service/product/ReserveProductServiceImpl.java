@@ -55,7 +55,7 @@ public class ReserveProductServiceImpl implements ReserveProductService {
             code = 1;
         } else {
             for (Integer count : reserveProductCountList) {
-                if (count < productCount) {
+                if (count <= productCount) {
                     reserveProductRepository.deleteReserve(orderId, productId, count);
                 } else {
                     reserveProductRepository.updateReserveProductCount(orderId, productId, productCount, count);
