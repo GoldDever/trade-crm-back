@@ -13,6 +13,7 @@ import ru.javamentor.model.user.User;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
 import ru.javamentor.service.product.ReserveProductService;
+import ru.javamentor.service.order.OrderItemService;
 
 
 @RestController
@@ -35,7 +36,7 @@ public class ManagerOrderRestController {
      * Метод добавления строки заказа
      *
      * @param orderItemDto - DTO строка заказа
-     * @param orderId - id заказа
+     * @param orderId      - id заказа
      * @return - результат выполнения
      */
     @PostMapping("/{orderId}/addItem")
@@ -48,24 +49,10 @@ public class ManagerOrderRestController {
     }
 
     /**
-     * Метод удаления всех зарезервированных заказов
-     *
-     * @param orderId - id заказа
-     * @return - результат выполнения
-     */
-    @PostMapping("{orderId}/all/removeReserve")
-    public ResponseEntity<?> removeOrderReserve(@PathVariable Long orderId) {
-        reserveProductService.removeOrderReserve(orderId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
-    /**
      * Метод изменения количества товаров в строке заказа
      *
-     * @param orderId - id заказа
-     * @param orderItemId - id строки заказа
+     * @param orderId      - id заказа
+     * @param orderItemId  - id строки заказа
      * @param countProduct - количество на которое необходимо изменить
      * @return - результат выполнения
      */
@@ -73,7 +60,7 @@ public class ManagerOrderRestController {
     public ResponseEntity<?> changeProductCountInItem(@PathVariable Long orderId,
                                                       @PathVariable Long orderItemId,
                                                       @PathVariable Integer countProduct) {
-        if(countProduct > 0) {
+        if (countProduct > 0) {
             orderItemService.editOrderItem(orderId, orderItemId, countProduct);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
@@ -82,10 +69,40 @@ public class ManagerOrderRestController {
     }
 
     /**
+     * Метод для удаления
+     * зарезирвированного продукта
+     *
+     * @param orderId      - id заказа
+     * @param productId    - id продукта
+     * @param productCount - количество удалеямого продукта из резерва
+     * @return - HTTP ответ с BODY
+     */
+    @PostMapping("/{orderId}/product/{productId}/count/{productCount}/removeReserve")
+    public ResponseEntity<String> removeProductReserve(@PathVariable Long orderId,
+                                                       @PathVariable Long productId,
+                                                       @PathVariable Integer productCount) {
+        String responseBody;
+
+        Integer code = reserveProductService.removeProductReserve(orderId, productId, productCount);
+        switch (code) {
+            case 1:
+                responseBody = "Резерв полностью удален.";
+                break;
+            case 2:
+                responseBody = String.format("Товар в количестве %s снят с резерва.", productCount);
+                break;
+            default:
+                return new ResponseEntity<>("Резерв отсутсвует.", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(responseBody, HttpStatus.OK);
+    }
+
+    /**
      * Метод для сохранения нового Order
      *
      * @param clientId - id клиента
-     * @param user - user из principal для получения manager
+     * @param user     - user из principal для получения manager
      * @return - статус http-запроса
      */
     @PostMapping("new/client/{clientId}")
