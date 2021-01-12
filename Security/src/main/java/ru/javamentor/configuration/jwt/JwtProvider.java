@@ -59,7 +59,7 @@ public class JwtProvider {
     }
 
     public Authentication authenticationJwt(String username, String password) {
-        return new UsernamePasswordAuthenticationToken(username, password);//authenticationManager.authenticate()
+        return new UsernamePasswordAuthenticationToken(username, password);
     }
 
     public String getTokenFromRequest(HttpServletRequest request) {
