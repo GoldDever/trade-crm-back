@@ -2,6 +2,8 @@ package ru.javamentor.service.product;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.javamentor.model.order.Order;
+import ru.javamentor.model.product.Product;
 import ru.javamentor.model.product.ReserveProduct;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
@@ -26,32 +28,28 @@ public class ReserveProductServiceImpl implements ReserveProductService{
      * @param orderId - id Order
      * @param productId - id продукта по которому сохраняется резерв
      * @param productCount - количество продукта, которое необходимо зарезервировать
-     * @return - сообщение о результатате резервирования продукта
+     * @return - сообщение о результате резервирования продукта
      */
     @Override
     @Transactional
-    public synchronized String saveProductReserve(Long orderId, Long productId, Integer productCount) throws NullPointerException{
-        String response;
-        try {
-            if (reserveProductRepository.countReserveProducts(productId) >= productCount) {
-                reserveProductRepository.save(new ReserveProduct(
-                        productRepository.findProductById(productId),
-                        orderRepository.findOrderById(orderId),
-                        productCount));
-                response = "Товар зарезервирован";
+    public synchronized String saveProductReserve(Long orderId, Long productId, Integer productCount) {
+        Product product = productRepository.findProductById(productId);
+        Order order = orderRepository.findOrderById(orderId);
+        if (reserveProductRepository.existsByProductId(productId)) {
+            Integer availableReserveCount = reserveProductRepository.countReserveProducts(productId);
+            if (availableReserveCount >= productCount) {
+                reserveProductRepository.save(new ReserveProduct(product, order, productCount));
+                return "Товар зарезервирован";
             } else {
-                response = String.format("Количество товара доступное для резерва %s.",
-                        reserveProductRepository.countReserveProducts(productId));
+                return String.format("Количество товара доступное для резерва %s.", availableReserveCount);
             }
-            return response;
-        }catch (NullPointerException e) {
-            if (productRepository.findProductById(productId).getProductCount() >= productCount) {
-                reserveProductRepository.save(new ReserveProduct(
-                        productRepository.findProductById(productId),
-                        orderRepository.findOrderById(orderId),
-                        productCount));
+        } else {
+            if (product.getProductCount() >= productCount) {
+                reserveProductRepository.save(new ReserveProduct(product, order, productCount));
+                return "Товар зарезервирован";
+            } else {
+                return String.format("Количество товара доступное для резерва %s.", product.getProductCount());
             }
-            return "Товар зарезервирован";
         }
     }
 }
