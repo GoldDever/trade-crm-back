@@ -35,8 +35,6 @@ public class LoginRestController {
             } else {
                 String token = jwtProvider.generateJwt(userLoginDto.getRememberMe(),userLoginDto.getUsername(),userLoginDto.getPassword());
                 HttpHeaders headers = new HttpHeaders();
-
-                headers.add("login", user.getUsername());
                 headers.add("token", token);
 
                 return new ResponseEntity<String>(headers, HttpStatus.OK);
