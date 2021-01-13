@@ -1,4 +1,5 @@
 package ru.javamentor.dto.product;
+
 /**
  * DTO для передачи на страницу производителя
  */
@@ -7,7 +8,8 @@ public class ManufacturerDto {
     private String manufacturerName;
     private String idFromErp;
 
-    public ManufacturerDto() {}
+    public ManufacturerDto() {
+    }
 
     public ManufacturerDto(Long id, String manufacturerName, String idFromErp) {
         this.id = id;
