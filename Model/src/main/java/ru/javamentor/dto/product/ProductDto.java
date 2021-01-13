@@ -7,6 +7,7 @@ import java.util.List;
  */
 public class ProductDto {
     private Long id;
+    private Integer productCount;
     private String productName;
     private String madeCountry;
     private ManufacturerDto manufacturerDto;
@@ -22,13 +23,14 @@ public class ProductDto {
     public ProductDto() {
     }
 
-    public ProductDto(Long id, String productName,
+    public ProductDto(Long id, Integer productCount, String productName,
                       String madeCountry, ManufacturerDto manufacturerDto,
                       List<SupplierDto> supplierDto, String article,
                       Double purchasePrice, Double price,
                       Double margin, UnitDto unitDto,
                       Integer packagingCount, String idFromErp) {
         this.id = id;
+        this.productCount = productCount;
         this.productName = productName;
         this.madeCountry = madeCountry;
         this.manufacturerDto = manufacturerDto;
@@ -45,6 +47,14 @@ public class ProductDto {
     public ProductDto(String productName, String madeCountry,
                       ManufacturerDto manufacturerDto) {
         this.productName = productName;
+    }
+
+    public Integer getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(Integer productCount) {
+        this.productCount = productCount;
     }
 
     public Long getId() {

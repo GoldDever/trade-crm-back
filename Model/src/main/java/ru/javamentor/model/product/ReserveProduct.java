@@ -34,14 +34,21 @@ public class ReserveProduct {
     public ReserveProduct() {
     }
 
-    public ReserveProduct(Long id, Product product, Order order, Integer productCount) {
-        this.id = id;
+    public ReserveProduct(
+            Product product,
+            Order order,
+            Integer productCount) {
         this.product = product;
         this.order = order;
         this.productCount = productCount;
     }
 
-    public ReserveProduct(Product product, Order order, Integer productCount) {
+    public ReserveProduct(
+            Long id,
+            Product product,
+            Order order,
+            Integer productCount) {
+        this.id = id;
         this.product = product;
         this.order = order;
         this.productCount = productCount;
@@ -79,9 +86,3 @@ public class ReserveProduct {
         this.productCount = productCount;
     }
 }
-
-
-
-
-
-

@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,11 +28,11 @@ public class Order {
     @Column(name = "id_from_erp")
     private String idFromErp;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manager_id")
     private Manager manager;
 
@@ -53,7 +54,28 @@ public class Order {
     public Order() {
     }
 
-    public Order(Long id, String idFromErp, Client client, Manager manager, BigDecimal orderFullPrice, Boolean isApprove, Boolean isPaid, Boolean isShipped, LocalDateTime createTime) {
+    public Order(Client client,
+                 Manager manager) {
+        this.idFromErp = null;
+        this.client = client;
+        this.manager = manager;
+        this.orderFullPrice = BigDecimal.valueOf(0.00);
+        this.isApprove = false;
+        this.isPaid = false;
+        this.isShipped = false;
+        this.createTime = LocalDateTime.now();
+    }
+
+    public Order(
+            Long id,
+            String idFromErp,
+            Client client,
+            Manager manager,
+            BigDecimal orderFullPrice,
+            Boolean isApprove,
+            Boolean isPaid,
+            Boolean isShipped,
+            LocalDateTime createTime) {
         this.id = id;
         this.idFromErp = idFromErp;
         this.client = client;
@@ -102,7 +124,7 @@ public class Order {
     }
 
     public void setOrderFullPrice(BigDecimal orderFullPrice) {
-        this.orderFullPrice = orderFullPrice;
+        this.orderFullPrice = orderFullPrice.setScale(2, RoundingMode.HALF_UP);
     }
 
     public Boolean getApprove() {
@@ -136,4 +158,6 @@ public class Order {
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
     }
+
+
 }

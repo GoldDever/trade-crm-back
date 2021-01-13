@@ -1,7 +1,9 @@
 package ru.javamentor.service.product;
 
-import ru.javamentor.model.product.ReserveProduct;
-
 public interface ReserveProductService {
+    void removeOrderReserve(Long orderId);
+
+    Integer removeProductReserve(Long orderId, Long productId, Integer productCount);
+
     String saveProductReserve(Long orderId, Long productId, Integer productCount);
 }

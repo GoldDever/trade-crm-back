@@ -3,6 +3,7 @@ package ru.javamentor.service.order;
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
+import ru.javamentor.model.order.OrderApprove;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.repository.order.OrderItemRepository;
@@ -46,4 +47,17 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         orderItemRepository.save(orderItem);
     }
+
+    /**
+     * Метод меняет количество товара в Item
+     *
+     * @param countProduct of product
+     * @param orderId id of order
+     * @param orderItemId id of orderItem
+     */
+    @Override
+    public void editOrderItem(Long orderId, Long orderItemId, Integer countProduct) {
+        orderItemRepository.setProductCountByOrderItem(orderItemId, countProduct);
+    }
+
 }
