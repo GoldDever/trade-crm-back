@@ -3,6 +3,7 @@ package ru.javamentor.controller.rest.manager.order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -76,7 +77,7 @@ public class ManagerOrderRestController {
      * @param productCount - количество удалеямого продукта из резерва
      * @return - HTTP ответ с BODY
      */
-    @PostMapping("/{orderId}/product/{productId}/count/{productCount}/removeReserve")
+    @GetMapping("/{orderId}/product/{productId}/count/{productCount}/removeReserve")
     public ResponseEntity<String> removeProductReserve(@PathVariable Long orderId,
                                                        @PathVariable Long productId,
                                                        @PathVariable Integer productCount) {
@@ -91,7 +92,7 @@ public class ManagerOrderRestController {
                 responseBody = String.format("Товар в количестве %s снят с резерва.", productCount);
                 break;
             default:
-                return new ResponseEntity<>("Резерв отсутсвует.", HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>("Резерв отсутствует.", HttpStatus.BAD_REQUEST);
         }
 
         return new ResponseEntity<>(responseBody, HttpStatus.OK);
