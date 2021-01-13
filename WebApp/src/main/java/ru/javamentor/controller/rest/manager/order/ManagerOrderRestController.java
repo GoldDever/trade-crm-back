@@ -13,7 +13,6 @@ import ru.javamentor.model.user.User;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
 import ru.javamentor.service.product.ReserveProductService;
-import ru.javamentor.service.order.OrderItemService;
 
 
 @RestController
@@ -111,5 +110,21 @@ public class ManagerOrderRestController {
         orderService.newOrder(clientId, user);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    /**
+     * POST метод для резервирования продукта
+     *
+     * @param orderId - id Order
+     * @param productId - id продукта по которому сохраняется резерв
+     * @param productCount - количество продукта, которое необходимо зарезервировать
+     * @return - сообщение о состоянии HTTP-ответа
+     */
+    @PostMapping("/{orderId}/product/{productId}/count/{productCount}/addReserve")
+    public ResponseEntity<String> addProductReserve(@PathVariable Long orderId,
+                                               @PathVariable Long productId,
+                                               @PathVariable Integer productCount) {
+        String response = reserveProductService.saveProductReserve(orderId, productId, productCount);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
