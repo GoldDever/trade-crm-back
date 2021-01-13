@@ -67,7 +67,8 @@ public class ProductServiceImpl implements ProductService {
                 unitRepository.findById(dto.getUnitDto().getId()).orElseThrow(),
                 dto.getPackagingCount(),
                 dto.getIdFromErp(),
-                productCategoryRepository.findById(dto.getProductCategoryDto().getId()).orElseThrow()
+                productCategoryRepository.findById(dto.getProductCategory().getId()).orElseThrow()
+
         );
         
         productRepository.save(product);
@@ -100,7 +101,7 @@ public class ProductServiceImpl implements ProductService {
                 unitRepository.findById(dto.getUnitDto().getId()).orElseThrow(),
                 dto.getPackagingCount(),
                 dto.getIdFromErp(),
-                productCategoryRepository.findById(dto.getProductCategoryDto().getId()).orElseThrow()
+                productCategoryRepository.findById(dto.getProductCategory().getId()).orElseThrow()
         );
 
         productRepository.saveAndFlush(product);

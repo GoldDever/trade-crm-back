@@ -158,11 +158,11 @@ public class ProductDto {
         this.idFromErp = idFromErp;
     }
 
-    public ProductCategory getProductCategoryDto() {
+    public ProductCategory getProductCategory() {
         return productCategory;
     }
 
-    public void setProductCategoryDto(ProductCategory productCategory) {
+    public void setProductCategory(ProductCategory productCategory) {
         this.productCategory = productCategory;
     }
 }
