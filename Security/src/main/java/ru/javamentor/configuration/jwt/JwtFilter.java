@@ -1,6 +1,7 @@
 package ru.javamentor.configuration.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Component
+@ComponentScan("ru.javamentor.service")
 public class JwtFilter extends GenericFilterBean {
 
     private final JwtProvider jwtProvider;

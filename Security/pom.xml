@@ -2,22 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <parent>
         <artifactId>trade-crm-back</artifactId>
         <groupId>ru.javamentor</groupId>
         <version>0.1</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
+    <modelVersion>4.0.0</modelVersion>
     <artifactId>Security</artifactId>
 
-
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-beans -->
         <dependency>
-            <groupId>ru.javamentor</groupId>
-            <artifactId>Model</artifactId>
-            <version>0.1</version>
-            <scope>compile</scope>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>5.2.9.RELEASE</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
@@ -27,11 +27,12 @@
             <version>0.9.1</version>
         </dependency>
 
-
-
-
+        <dependency>
+            <groupId>ru.javamentor</groupId>
+            <artifactId>Model</artifactId>
+            <version>0.1</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
-
-
 </project>
