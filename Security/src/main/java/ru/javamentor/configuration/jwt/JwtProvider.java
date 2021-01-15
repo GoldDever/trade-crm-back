@@ -2,14 +2,12 @@ package ru.javamentor.configuration.jwt;
 
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import ru.javamentor.security.JwtAuthenticationException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
@@ -19,7 +17,6 @@ import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Function;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import static org.springframework.util.StringUtils.hasText;
@@ -28,19 +25,19 @@ import static org.springframework.util.StringUtils.hasText;
 public class JwtProvider {
 
     @Value("${jwt.secret}")
-    private String jwtSecret;// = "javaJWt";
+    private String jwtSecret;
 
     @Value("${jwt.expirationHours}")
-    private long jwtExpirationHours;//= 1;
+    private long jwtExpirationHours;
 
     @Value("${jwt.expirationIfRememberedYears}")
-    private long jwtExpirationIfRememberedYears;//= "1";
+    private long jwtExpirationIfRememberedYears;
 
     @Value("${jwt.authorization}")
-    private String authorization;// = "Authorization";
+    private String authorization;
 
     @Value("${jwt.tokenIdentifier}")
-    private String tokenIdentifier;// = "Bearer ";
+    private String tokenIdentifier;
 
     public String generateJwt(Authentication authentication, boolean rememberMe) {
         final String authorities = authentication.getAuthorities().stream()
