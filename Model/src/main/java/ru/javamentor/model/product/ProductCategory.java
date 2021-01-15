@@ -13,19 +13,18 @@ public class ProductCategory {
     private String categoryName;
 
     @Column(name = "is_main_category")
-    private Boolean isMainCategory;
+    private Boolean mainCategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "main_product_category_id")
     private ProductCategory mainProductCategory;
 
-
     public ProductCategory() {
     }
 
-    public ProductCategory(String categoryName, Boolean isMainCategory, ProductCategory mainProductCategory) {
+    public ProductCategory(String categoryName, Boolean mainCategory, ProductCategory mainProductCategory) {
         this.categoryName = categoryName;
-        this.isMainCategory = isMainCategory;
+        this.mainCategory = mainCategory;
         this.mainProductCategory = mainProductCategory;
     }
 
@@ -45,12 +44,12 @@ public class ProductCategory {
         this.categoryName = categoryName;
     }
 
-    public Boolean getMainCategory() {
-        return isMainCategory;
+    public Boolean isMainCategory() {
+        return mainCategory;
     }
 
     public void setMainCategory(Boolean mainCategory) {
-        isMainCategory = mainCategory;
+        this.mainCategory = mainCategory;
     }
 
     public ProductCategory getMainProductCategory() {
