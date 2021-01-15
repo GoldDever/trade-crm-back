@@ -42,15 +42,14 @@ public class ReserveProductServiceImpl implements ReserveProductService {
      * Если количество резерва равно входному параметру.
      * Иначе сохраняет новое значение.
      *
-     * @param orderId      - id заказа
-     * @param productId    - id продукта
-     * @param productCount - количество удалеямого продукта из резерва
+     * @param orderId - id заказа
+     * @param productId - id продукта
+     * @param productCount - количество удаляемого продукта из резерва
      * @return - код ответа для проверки на наличие в резерва в БД
      */
     @Transactional
     @Override
-    public Integer removeProductReserve(Long orderId, Long productId, Integer productCount) {
-        int code;
+    public String removeProductReserve(Long orderId, Long productId, Integer productCount) {
 
         List<Integer> reserveProductCountList
                 = new ArrayList<>(reserveProductRepository.getReserveProductCounts(orderId, productId));
@@ -58,10 +57,10 @@ public class ReserveProductServiceImpl implements ReserveProductService {
         Integer countReserveProductSum = reserveProductRepository.getSumOfReserveProductCounts(orderId, productId);
 
         if (reserveProductCountList.isEmpty()) {
-            code = 0;
+            return "Резерв не найден!";
         } else if (countReserveProductSum.equals(productCount) && reserveProductCountList.size() == 1) {
             reserveProductRepository.deleteReserve(orderId, productId, productCount);
-            code = 1;
+            return "Резерв полностью удален!";
         } else {
             for (Integer count : reserveProductCountList) {
                 if (count <= productCount) {
@@ -70,10 +69,8 @@ public class ReserveProductServiceImpl implements ReserveProductService {
                     reserveProductRepository.updateReserveProductCount(orderId, productId, productCount, count);
                 }
             }
-            code = 2;
+            return String.format("Товар в количестве %s снят с резерва.", productCount);
         }
-
-        return code;
     }
 
     /**

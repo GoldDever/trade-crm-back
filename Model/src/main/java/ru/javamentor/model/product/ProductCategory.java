@@ -7,20 +7,26 @@ import javax.persistence.*;
 public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    Long Id;
+    private Long Id;
 
     @Column(name = "category_name")
-    String categoryName;
+    private String categoryName;
 
     @Column(name = "is_main_category")
-    Boolean isMainCategory;
+    private Boolean isMainCategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "main_product_category_id")
-    ProductCategory mainProductCategory;
+    private ProductCategory mainProductCategory;
+
 
     public ProductCategory() {
+    }
+
+    public ProductCategory(String categoryName, Boolean isMainCategory, ProductCategory mainProductCategory) {
+        this.categoryName = categoryName;
+        this.isMainCategory = isMainCategory;
+        this.mainProductCategory = mainProductCategory;
     }
 
     public Long getId() {
