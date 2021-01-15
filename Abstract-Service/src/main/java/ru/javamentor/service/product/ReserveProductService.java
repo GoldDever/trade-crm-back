@@ -6,4 +6,6 @@ public interface ReserveProductService {
     String removeProductReserve(Long orderId, Long productId, Integer productCount);
 
     String saveProductReserve(Long orderId, Long productId, Integer productCount);
+
+    String saveProductsReserve(Long orderId);
 }

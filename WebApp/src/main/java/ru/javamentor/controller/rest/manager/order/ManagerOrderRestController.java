@@ -4,11 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.user.User;
 import ru.javamentor.service.order.OrderItemService;
@@ -114,5 +110,21 @@ public class ManagerOrderRestController {
                                                @PathVariable Integer productCount) {
         String response = reserveProductService.saveProductReserve(orderId, productId, productCount);
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    /**
+     * Метод для добавления резерва
+     *
+     * @param orderId - id заказа
+     * @return        - HTTP ответ с BODY
+     */
+    @GetMapping("/{orderId}/all/addReserve")
+    public ResponseEntity<String> addOrderReserve(@PathVariable Long orderId){
+        String result = reserveProductService.saveProductsReserve(orderId);
+        if(result.isEmpty()){
+            return new ResponseEntity<>("Товар зарезирвирован", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n"+result, HttpStatus.BAD_REQUEST);
+        }
     }
 }

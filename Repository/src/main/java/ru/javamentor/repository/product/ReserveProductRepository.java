@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.ReserveProduct;
 
 import java.util.List;
@@ -39,5 +40,7 @@ public interface ReserveProductRepository extends JpaRepository<ReserveProduct, 
     Integer countReserveProducts(@Param("productId") Long productId);
 
     Boolean existsByProductId(Long productId);
-}
 
+    @Query("SELECT oi FROM OrderItem oi "+ "WHERE oi.order.id = :orderId")
+    List<OrderItem> findAllOrder(@Param("orderId") Long orderId);
+}

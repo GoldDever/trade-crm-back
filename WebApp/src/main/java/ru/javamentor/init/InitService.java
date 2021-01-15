@@ -45,6 +45,7 @@ public class InitService {
         initOrder();
         initOrderItem();
         initReserveProduct();
+        initProduct2();
     }
 
     private void initClient() {
@@ -71,6 +72,19 @@ public class InitService {
         product.setPrice(BigDecimal.valueOf(4.00));
         product.setMargin(BigDecimal.valueOf(2.00));
         product.setPackagingCount(3);
+        productRepository.save(product);
+    }
+
+    private void initProduct2() {
+        Product product = new Product();
+        product.setProductCount(100);
+        product.setProductName("productName1");
+        product.setMadeCountry("madeCountry1");
+        product.setArticle("article1");
+        product.setPurchasePrice(BigDecimal.valueOf(7.00));
+        product.setPrice(BigDecimal.valueOf(5.00));
+        product.setMargin(BigDecimal.valueOf(3.00));
+        product.setPackagingCount(4);
         productRepository.save(product);
     }
 
