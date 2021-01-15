@@ -1,13 +1,14 @@
 package ru.javamentor.configuration.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
-import ru.javamentor.service.UserDetailsServiceImpl;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -22,11 +23,11 @@ public class JwtFilter extends GenericFilterBean {
 
     private final JwtProvider jwtProvider;
 
-    @Autowired
-    private UserDetailsServiceImpl jwtUserDetailsService;
+    private final UserDetailsService jwtUserDetailsService;
 
-    public JwtFilter(JwtProvider jwtProvider) {
+    public JwtFilter(JwtProvider jwtProvider, @Qualifier("userDetailsServiceImpl") UserDetailsService jwtUserDetailsService) {
         this.jwtProvider = jwtProvider;
+        this.jwtUserDetailsService = jwtUserDetailsService;
     }
 
     @Override

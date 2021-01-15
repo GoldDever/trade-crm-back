@@ -24,10 +24,10 @@ public class JwtProvider {
     private String jwtSecret;// = "javaJWt";
 
     @Value("${jwt.expirationHours}")
-    private String jwtExpirationHours;//= 1;
+    private long jwtExpirationHours;//= 1;
 
     @Value("${jwt.expirationIfRememberedYears}")
-    private String jwtExpirationIfRememberedYears;//= "1";
+    private long jwtExpirationIfRememberedYears;//= "1";
 
     @Value("${jwt.authorization}")
     private String authorization;// = "Authorization";
@@ -41,8 +41,8 @@ public class JwtProvider {
                 .setSubject(authentication.getName())
                 .setIssuedAt(Date.valueOf(LocalDate.now()))
                 .setExpiration(rememberMe
-                        ? Date.from(Instant.from(ZonedDateTime.now().plusYears(Long.valueOf(jwtExpirationIfRememberedYears))))
-                        : Date.from(Instant.from(ZonedDateTime.now().plusHours(Long.valueOf(jwtExpirationHours)))))
+                        ? Date.from(Instant.from(ZonedDateTime.now().plusYears(jwtExpirationIfRememberedYears)))
+                        : Date.from(Instant.from(ZonedDateTime.now().plusHours(jwtExpirationHours))))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
@@ -52,7 +52,8 @@ public class JwtProvider {
             Jws<Claims> claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(Date.valueOf(LocalDate.now()));
         } catch (ExpiredJwtException e) {
-            throw new JwtAuthenticationException("JWT token is expired or invalid" + e.getMessage());
+            //TODO добавить логер и выводить об ошибке в логере
+            return false;
         } catch (UnsupportedJwtException e) {
             throw new JwtAuthenticationException("UnsupportedJwt" + e.getMessage());
         } catch (MalformedJwtException e) {

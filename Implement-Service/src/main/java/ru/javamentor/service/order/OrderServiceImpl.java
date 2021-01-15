@@ -34,15 +34,13 @@ public class OrderServiceImpl implements OrderService {
         this.reserveProductRepository = reserveProductRepository;
     }
 
-/**
+    /**
      * Метод меняет флаг в Order на тот, что пришёл в orderApproveDto
      * сохраняет новый OrderApprove
      *
      * @param orderApproveDto - ДТО из которого получаем новый флаг isApprove
      * @param orderId - id по которому находим Order и изменяем у него флаг isApprove
-
-**/
-
+     */
     @Override
     public void updateApproveStatus(OrderApproveDto orderApproveDto, Long orderId) {
         Order order = orderRepository.findById(orderId).get();
@@ -86,4 +84,3 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 }
-

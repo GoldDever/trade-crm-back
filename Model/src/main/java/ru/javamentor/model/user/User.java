@@ -45,16 +45,12 @@ public class User implements UserDetails {
     @Column(name = "patronymic")
     private String patronymic;
 
-    private Boolean isActive;
-
     public User() {
-        isActive = true;
     }
 
     public User(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        isActive = true;
     }
 
     public User(Long id, String username, String password, String firstName, String lastName, String patronymic) {
@@ -64,7 +60,6 @@ public class User implements UserDetails {
         this.firstName = firstName;
         this.lastName = lastName;
         this.patronymic = patronymic;
-        isActive = true;
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -73,11 +68,14 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "roles_id")})
     private Set<Role> roles;
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
 
-    public void setRoles(Set<Role> roles) {
+
+    public User(String username, String password, String firstName, String lastName, String patronymic, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
         this.roles = roles;
     }
 
@@ -87,6 +85,49 @@ public class User implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
@@ -113,47 +154,11 @@ public class User implements UserDetails {
         this.patronymic = patronymic;
     }
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return isActive;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return isActive;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return isActive;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isActive;
-    }
-
 }
