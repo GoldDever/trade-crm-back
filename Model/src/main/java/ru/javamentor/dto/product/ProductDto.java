@@ -1,5 +1,7 @@
 package ru.javamentor.dto.product;
 
+import ru.javamentor.model.product.ProductCategory;
+
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ public class ProductDto {
     private UnitDto unitDto;
     private Integer packagingCount;
     private String idFromErp;
+    private ProductCategory productCategory;
 
     public ProductDto() {
     }
@@ -28,7 +31,8 @@ public class ProductDto {
                       List<SupplierDto> supplierDto, String article,
                       Double purchasePrice, Double price,
                       Double margin, UnitDto unitDto,
-                      Integer packagingCount, String idFromErp) {
+                      Integer packagingCount, String idFromErp,
+                      ProductCategory productCategory) {
         this.id = id;
         this.productCount = productCount;
         this.productName = productName;
@@ -42,6 +46,7 @@ public class ProductDto {
         this.unitDto = unitDto;
         this.packagingCount = packagingCount;
         this.idFromErp = idFromErp;
+        this.productCategory = productCategory;
     }
 
     public ProductDto(String productName, String madeCountry,
@@ -151,5 +156,13 @@ public class ProductDto {
 
     public void setIdFromErp(String idFromErp) {
         this.idFromErp = idFromErp;
+    }
+
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
     }
 }

@@ -8,6 +8,7 @@ import ru.javamentor.dto.product.SupplierDto;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.model.product.Supplier;
 import ru.javamentor.repository.product.ManufacturerRepository;
+import ru.javamentor.repository.product.ProductCategoryRepository;
 import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.product.UnitRepository;
 
@@ -25,16 +26,19 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     private ManufacturerRepository manufacturerRepository;
     private UnitRepository unitRepository;
+    private ProductCategoryRepository productCategoryRepository;
 
     public ProductServiceImpl() {}
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository,
                               ManufacturerRepository manufacturerRepository,
-                              UnitRepository unitRepository) {
+                              UnitRepository unitRepository,
+                                ProductCategoryRepository productCategoryRepository) {
         this.productRepository = productRepository;
         this.manufacturerRepository = manufacturerRepository;
         this.unitRepository = unitRepository;
+        this.productCategoryRepository = productCategoryRepository;
     }
 
     /**
@@ -62,7 +66,9 @@ public class ProductServiceImpl implements ProductService {
                 BigDecimal.valueOf(dto.getMargin()),
                 unitRepository.findById(dto.getUnitDto().getId()).orElse(null),
                 dto.getPackagingCount(),
-                dto.getIdFromErp()
+                dto.getIdFromErp(),
+                productCategoryRepository.findById(dto.getProductCategory().getId()).orElseThrow()
+
         );
         
         productRepository.save(product);
@@ -94,7 +100,8 @@ public class ProductServiceImpl implements ProductService {
                 BigDecimal.valueOf(dto.getMargin()),
                 unitRepository.findById(dto.getUnitDto().getId()).orElse(null),
                 dto.getPackagingCount(),
-                dto.getIdFromErp()
+                dto.getIdFromErp(),
+                productCategoryRepository.findById(dto.getProductCategory().getId()).orElseThrow()
         );
 
         productRepository.saveAndFlush(product);
