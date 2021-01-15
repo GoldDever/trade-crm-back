@@ -1,6 +1,7 @@
 package ru.javamentor.init;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
@@ -38,6 +39,9 @@ public class InitService {
     @Autowired
     private ReserveProductRepository reserveProductRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     private void init() {
         initClient();
         initManager();
@@ -58,6 +62,8 @@ public class InitService {
         Manager manager = new Manager();
         manager.setFirstName("ManagerFirstName");
         manager.setLastName("ManagerLastName");
+        manager.setUsername("manager@mail.ru");
+        manager.setPassword(passwordEncoder.encode("password"));
         managerRepository.save(manager);
     }
 
