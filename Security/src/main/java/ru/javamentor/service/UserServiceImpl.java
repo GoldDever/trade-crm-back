@@ -14,9 +14,15 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    @Transactional
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+    @Override
+    public Boolean existUserByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+
 }

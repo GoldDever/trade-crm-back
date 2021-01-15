@@ -2,9 +2,12 @@ package ru.javamentor.configuration.jwt;
 
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import ru.javamentor.security.JwtAuthenticationException;
 
@@ -13,10 +16,14 @@ import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.function.Function;
+import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import static org.springframework.util.StringUtils.hasText;
 
-@PropertySource("classpath:values.properties")
 @Component
 public class JwtProvider {
 
@@ -35,54 +42,69 @@ public class JwtProvider {
     @Value("${jwt.tokenIdentifier}")
     private String tokenIdentifier;// = "Bearer ";
 
-    public String generateJwt(boolean rememberMe, String username, String password) {
-        Authentication authentication = authenticationJwt(username, password);
+    public String generateJwt(Authentication authentication, boolean rememberMe) {
+        final String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(","));
         return Jwts.builder()
                 .setSubject(authentication.getName())
+                .claim(authorization, authorities)
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .setIssuedAt(Date.valueOf(LocalDate.now()))
                 .setExpiration(rememberMe
                         ? Date.from(Instant.from(ZonedDateTime.now().plusYears(jwtExpirationIfRememberedYears)))
                         : Date.from(Instant.from(ZonedDateTime.now().plusHours(jwtExpirationHours))))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
 
-    public boolean validateToken(String token) {
-        try {
-            Jws<Claims> claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
-            return !claims.getBody().getExpiration().before(Date.valueOf(LocalDate.now()));
-        } catch (ExpiredJwtException e) {
-            //TODO добавить логер и выводить об ошибке в логере
-            return false;
-        } catch (UnsupportedJwtException e) {
-            throw new JwtAuthenticationException("UnsupportedJwt" + e.getMessage());
-        } catch (MalformedJwtException e) {
-            throw new JwtAuthenticationException("UncorrectJwt" + e.getMessage());
-        } catch (SignatureException e) {
-            throw new JwtAuthenticationException("Signature problem" + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            throw new JwtAuthenticationException("Illegal Argument Exception" + e.getMessage());
-        }
+    private Claims getAllClaimsFromToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(jwtSecret)
+                .parseClaimsJws(token)
+                .getBody();
     }
 
-
-        public Authentication authenticationJwt(String username, String password) {
-            return new UsernamePasswordAuthenticationToken(username, password);
-        }
-
-        public String getTokenFromRequest(HttpServletRequest request) {
-            String bearer = request.getHeader(authorization);
-            if (hasText(bearer) && bearer.startsWith(tokenIdentifier)) {
-                return bearer.substring(tokenIdentifier.length());
-            }
-            return null;
-        }
-
-        public String getLoginFromToken(String token) {
-            try {
-                return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
-            } catch (JwtException e) {
-                throw new JwtAuthenticationException("Some problem, with token" + e.getMessage());
-            }
-        }
+    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return claimsResolver.apply(claims);
     }
+
+    public java.util.Date getExpirationDateFromToken(String token) {
+        return getClaimFromToken(token, Claims::getExpiration);
+    }
+
+    private Boolean isTokenExpired(String token) {
+        final java.util.Date expiration = getExpirationDateFromToken(token);
+        return expiration.before(new java.util.Date());
+    }
+
+    UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
+        final Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+
+        final Collection<? extends GrantedAuthority> authorities =
+                Arrays.stream(claims.get(authorization).toString().split(","))
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
+        return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
+    }
+
+    public Boolean validateToken(String token, UserDetails userDetails) {
+        final String username = getUsernameFromToken(token);
+        return (
+                username.equals(userDetails.getUsername())
+                        && !isTokenExpired(token));
+    }
+
+    public String resolveToken(HttpServletRequest request) {
+        String bearer = request.getHeader(authorization);
+        if (bearer != null && bearer.startsWith(tokenIdentifier)) {
+            return bearer.substring(tokenIdentifier.length());
+        }
+        return null;
+    }
+
+    public String getUsernameFromToken(String token) {
+        return getClaimFromToken(token, Claims::getSubject);
+    }
+}

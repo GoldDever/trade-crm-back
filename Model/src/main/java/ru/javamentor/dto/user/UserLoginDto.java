@@ -1,8 +1,13 @@
 package ru.javamentor.dto.user;
 
+import javax.validation.constraints.NotEmpty;
+
 public class UserLoginDto {
+
+    @NotEmpty
     private String username;
 
+    @NotEmpty
     private String password;
 
     private Boolean rememberMe;

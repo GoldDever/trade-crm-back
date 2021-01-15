@@ -6,27 +6,23 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class JwtUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
 
-        public UserDetailsServiceImpl(UserService userService) {
+        public JwtUserDetailsService(UserService userService) {
             this.userService = userService;
         }
 
         /**
+         * Метод получения UserDetail по username
          *
-         * @param username
-         * @return
-         * @throws UsernameNotFoundException
+         * @param username - username
+         * @return - UserDetails
          */
 
         @Override
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-            UserDetails user = userService.findByUsername(username);
-            if (user == null) {
-                throw new UsernameNotFoundException("No userDetails found with this name");
-            }
-            return user;
+            return userService.findByUsername(username);
         }
 }
