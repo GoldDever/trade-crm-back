@@ -1,12 +1,7 @@
 package ru.javamentor.configuration.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,7 +17,6 @@ import java.time.ZonedDateTime;
 import static org.springframework.util.StringUtils.hasText;
 
 @PropertySource("classpath:values.properties")
-//@ConfigurationProperties("application.properties")
 @Component
 public class JwtProvider {
 
@@ -57,28 +51,37 @@ public class JwtProvider {
         try {
             Jws<Claims> claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return !claims.getBody().getExpiration().before(Date.valueOf(LocalDate.now()));
-        } catch (JwtException | IllegalArgumentException e) {
-            throw new JwtAuthenticationException("JWT token is expired or invalid");
+        } catch (ExpiredJwtException e) {
+            throw new JwtAuthenticationException("JWT token is expired or invalid" + e.getMessage());
+        } catch (UnsupportedJwtException e) {
+            throw new JwtAuthenticationException("UnsupportedJwt" + e.getMessage());
+        } catch (MalformedJwtException e) {
+            throw new JwtAuthenticationException("UncorrectJwt" + e.getMessage());
+        } catch (SignatureException e) {
+            throw new JwtAuthenticationException("Signature problem" + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            throw new JwtAuthenticationException("Illegal Argument Exception" + e.getMessage());
         }
     }
 
-    public Authentication authenticationJwt(String username, String password) {
-        return new UsernamePasswordAuthenticationToken(username, password);
-    }
 
-    public String getTokenFromRequest(HttpServletRequest request) {
-        String bearer = request.getHeader(authorization);
-        if (hasText(bearer) && bearer.startsWith(tokenIdentifier)) {
-            return bearer.substring(tokenIdentifier.length());
+        public Authentication authenticationJwt(String username, String password) {
+            return new UsernamePasswordAuthenticationToken(username, password);
         }
-        return null;
-    }
 
-    public String getLoginFromToken(String token) {
-        try {
-            return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
-        } catch (JwtException e) {
-            throw new JwtAuthenticationException("Some problem, with token" + e.getMessage());
+        public String getTokenFromRequest(HttpServletRequest request) {
+            String bearer = request.getHeader(authorization);
+            if (hasText(bearer) && bearer.startsWith(tokenIdentifier)) {
+                return bearer.substring(tokenIdentifier.length());
+            }
+            return null;
+        }
+
+        public String getLoginFromToken(String token) {
+            try {
+                return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+            } catch (JwtException e) {
+                throw new JwtAuthenticationException("Some problem, with token" + e.getMessage());
+            }
         }
     }
-}

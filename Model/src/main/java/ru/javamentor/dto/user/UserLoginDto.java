@@ -10,6 +10,11 @@ public class UserLoginDto {
     public UserLoginDto() {
     }
 
+    public UserLoginDto(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public UserLoginDto(String username, String password, Boolean rememberMe) {
         this.username = username;
         this.password = password;
