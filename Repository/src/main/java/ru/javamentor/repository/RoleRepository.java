@@ -6,5 +6,4 @@ import ru.javamentor.model.user.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
-    //Role findByRole(String roles);
 }
