@@ -38,8 +38,8 @@ public class AdminProductRestController {
      * @return статус выполнения запроса
      */
     @PutMapping("/update")
-    public ResponseEntity<?> updateProduct(@RequestBody ProductDto dto) {
-        productService.updateProduct(dto);
+    public ResponseEntity<?> updateProduct(@RequestBody ProductPostDto productDto) {
+        productService.updateProduct(productDto);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

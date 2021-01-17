@@ -37,7 +37,6 @@ public class OrderItemServiceImpl implements OrderItemService {
         Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElseThrow();
         OrderItem orderItem = new OrderItem(
                 orderItemDto.getId(),
-                orderItemDto.getIdFromErp(),
                 orderItemDto.getInvoiceIssued(),
                 orderItemDto.getProductCount(),
                 product,

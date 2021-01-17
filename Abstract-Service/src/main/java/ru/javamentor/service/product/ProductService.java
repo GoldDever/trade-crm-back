@@ -10,5 +10,5 @@ import ru.javamentor.dto.product.ProductPostDto;
 public interface ProductService {
 
     void saveProduct(ProductPostDto dto);
-    void updateProduct(ProductDto dto);
+    void updateProduct(ProductPostDto dto);
 }

@@ -21,9 +21,6 @@ public class OrderItem {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "id_from_erp")
-    private String idFromErp;
-
     @Column(name = "invoice_issued")
     private String invoiceIssued;
 
@@ -44,9 +41,15 @@ public class OrderItem {
     public OrderItem() {
     }
 
-    public OrderItem(Long id, String idFromErp, String invoiceIssued, Integer productCount, Product product, Order order, BigDecimal itemFullPrice) {
+    public OrderItem(
+            Long id,
+            String invoiceIssued,
+            Integer productCount,
+            Product product,
+            Order order,
+            BigDecimal itemFullPrice
+    ) {
         this.id = id;
-        this.idFromErp = idFromErp;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
         this.product = product;
@@ -60,14 +63,6 @@ public class OrderItem {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getIdFromErp() {
-        return idFromErp;
-    }
-
-    public void setIdFromErp(String idFromErp) {
-        this.idFromErp = idFromErp;
     }
 
     public String getInvoiceIssued() {

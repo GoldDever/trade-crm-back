@@ -3,6 +3,7 @@ package ru.javamentor.dto.product;
  * DTO для передачи на страницу поставщика
  */
 public class SupplierDto {
+
     private Long id;
     private String name;
 

@@ -55,6 +55,9 @@ public class InitService {
         Client client = new Client();
         client.setFirstName("ClientFirstName");
         client.setLastName("ClientLastName");
+        client.setPatronymic("ClientPatronymic");
+        client.setUsername("client@mail.ru");
+        client.setPassword(passwordEncoder.encode("password"));
         clientRepository.save(client);
     }
 
@@ -62,6 +65,7 @@ public class InitService {
         Manager manager = new Manager();
         manager.setFirstName("ManagerFirstName");
         manager.setLastName("ManagerLastName");
+        manager.setPatronymic("ManagerPatronymic");
         manager.setUsername("manager@mail.ru");
         manager.setPassword(passwordEncoder.encode("password"));
         managerRepository.save(manager);
@@ -97,7 +101,6 @@ public class InitService {
 
     private void initOrderItem() {
         OrderItem orderItem = new OrderItem();
-        orderItem.setIdFromErp("idFromErp");
         orderItem.setInvoiceIssued("invoiceIssued");
         orderItem.setProductCount(10);
         orderItem.setProduct(productRepository.findById(1L).get());

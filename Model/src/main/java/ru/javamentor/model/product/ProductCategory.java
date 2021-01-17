@@ -19,13 +19,22 @@ public class ProductCategory {
     @JoinColumn(name = "main_product_category_id")
     private ProductCategory mainProductCategory;
 
+    private String idFromErp;
+
     public ProductCategory() {
     }
 
-    public ProductCategory(String categoryName, Boolean mainCategory, ProductCategory mainProductCategory) {
+    public ProductCategory(
+            Long id,
+            String categoryName,
+            Boolean mainCategory,
+            ProductCategory mainProductCategory,
+            String idFromErp) {
+        Id = id;
         this.categoryName = categoryName;
         this.mainCategory = mainCategory;
         this.mainProductCategory = mainProductCategory;
+        this.idFromErp = idFromErp;
     }
 
     public Long getId() {
@@ -58,5 +67,17 @@ public class ProductCategory {
 
     public void setMainProductCategory(ProductCategory mainProductCategory) {
         this.mainProductCategory = mainProductCategory;
+    }
+
+    public Boolean getMainCategory() {
+        return mainCategory;
+    }
+
+    public String getIdFromErp() {
+        return idFromErp;
+    }
+
+    public void setIdFromErp(String idFromErp) {
+        this.idFromErp = idFromErp;
     }
 }

@@ -9,57 +9,39 @@ import java.util.List;
  */
 public class ProductDto {
     private Long id;
-    private Integer productCount;
     private String productName;
     private String madeCountry;
     private ManufacturerDto manufacturerDto;
     private List<SupplierDto> supplierDto;
     private String article;
-    private Double purchasePrice;
-    private Double price;
-    private Double margin;
     private UnitDto unitDto;
     private Integer packagingCount;
-    private String idFromErp;
-    private ProductCategory productCategory;
+    private String productCategory;
 
-    public ProductDto() {
-    }
-
-    public ProductDto(Long id, Integer productCount, String productName,
-                      String madeCountry, ManufacturerDto manufacturerDto,
-                      List<SupplierDto> supplierDto, String article,
-                      Double purchasePrice, Double price,
-                      Double margin, UnitDto unitDto,
-                      Integer packagingCount, String idFromErp,
-                      ProductCategory productCategory) {
+    public ProductDto(
+            Long id,
+            String productName,
+            String madeCountry,
+            ManufacturerDto manufacturerDto,
+            List<SupplierDto> supplierDto,
+            String article,
+            UnitDto unitDto,
+            Integer packagingCount,
+            String productCategory) {
         this.id = id;
-        this.productCount = productCount;
         this.productName = productName;
         this.madeCountry = madeCountry;
         this.manufacturerDto = manufacturerDto;
         this.supplierDto = supplierDto;
         this.article = article;
-        this.purchasePrice = purchasePrice;
-        this.price = price;
-        this.margin = margin;
         this.unitDto = unitDto;
         this.packagingCount = packagingCount;
-        this.idFromErp = idFromErp;
         this.productCategory = productCategory;
     }
 
     public ProductDto(String productName, String madeCountry,
                       ManufacturerDto manufacturerDto) {
         this.productName = productName;
-    }
-
-    public Integer getProductCount() {
-        return productCount;
-    }
-
-    public void setProductCount(Integer productCount) {
-        this.productCount = productCount;
     }
 
     public Long getId() {
@@ -110,30 +92,6 @@ public class ProductDto {
         this.article = article;
     }
 
-    public Double getPurchasePrice() {
-        return purchasePrice;
-    }
-
-    public void setPurchasePrice(Double purchasePrice) {
-        this.purchasePrice = purchasePrice;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Double getMargin() {
-        return margin;
-    }
-
-    public void setMargin(Double margin) {
-        this.margin = margin;
-    }
-
     public UnitDto getUnitDto() {
         return unitDto;
     }
@@ -150,19 +108,11 @@ public class ProductDto {
         this.packagingCount = packagingCount;
     }
 
-    public String getIdFromErp() {
-        return idFromErp;
-    }
-
-    public void setIdFromErp(String idFromErp) {
-        this.idFromErp = idFromErp;
-    }
-
-    public ProductCategory getProductCategory() {
+    public String getProductCategory() {
         return productCategory;
     }
 
-    public void setProductCategory(ProductCategory productCategory) {
+    public void setProductCategory(String productCategory) {
         this.productCategory = productCategory;
     }
 }

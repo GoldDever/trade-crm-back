@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.javamentor.dto.product.ManufacturerDto;
+import ru.javamentor.dto.product.ManufacturerPostDto;
 import ru.javamentor.service.product.ManufacturerService;
 
 @RestController
@@ -26,7 +26,7 @@ public class AdminManufacturerRestController {
      * @return - возврат http ответа
      */
     @PostMapping("/")
-    public ResponseEntity<?> addManufactured(@RequestBody ManufacturerDto manufacturerDto) {
+    public ResponseEntity<?> addManufactured(@RequestBody ManufacturerPostDto manufacturerDto) {
         manufacturerService.addManufacturer(manufacturerDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
