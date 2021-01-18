@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Implement-Service для Продукта
@@ -75,35 +76,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     /**
-     * метод изменения продукта
+     * Метод обновляет продукт
      *
-     * @param dto экземпляр изменяемого продукта
+     * @param productPostDto - продукт
      */
     @Override
-    public void updateProduct(ProductDto dto) {
-        List<Supplier> finalList = new ArrayList<>();
-
-        for (SupplierDto tmp : dto.getSupplierDto()) {
-            finalList.add(new Supplier(tmp.getId(), tmp.getName()));
-        }
-
-        Product product = new Product(
-                dto.getId(),
-                dto.getProductCount(),
-                dto.getProductName(),
-                dto.getMadeCountry(),
-                manufacturerRepository.findById(dto.getManufacturerDto().getId()).orElse(null),
-                new HashSet<>(finalList),
-                dto.getArticle(),
-                BigDecimal.valueOf(dto.getPurchasePrice()),
-                BigDecimal.valueOf(dto.getPrice()),
-                BigDecimal.valueOf(dto.getMargin()),
-                unitRepository.findById(dto.getUnitDto().getId()).orElse(null),
-                dto.getPackagingCount(),
-                dto.getIdFromErp(),
-                productCategoryRepository.findById(dto.getProductCategory().getId()).orElseThrow()
-        );
-
-        productRepository.saveAndFlush(product);
+    public void updateProduct(ProductPostDto productPostDto) {
+        //TODO написать реализацию
     }
 }

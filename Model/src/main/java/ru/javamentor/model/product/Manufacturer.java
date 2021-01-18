@@ -24,6 +24,11 @@ public class Manufacturer {
     public Manufacturer() {
     }
 
+    public Manufacturer(String manufacturerName, String idFromErp) {
+        this.manufacturerName = manufacturerName;
+        this.idFromErp = idFromErp;
+    }
+
     public Long getId() {
         return id;
     }

@@ -1,6 +1,7 @@
 package ru.javamentor.service.product;
 
 import org.springframework.stereotype.Service;
+import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.repository.product.ReserveProductRepository;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.product.Product;
@@ -102,5 +103,31 @@ public class ReserveProductServiceImpl implements ReserveProductService {
                 return String.format("Количество товара доступное для резерва %s.", product.getProductCount());
             }
         }
+    }
+
+    /**
+     * Метод сохранения резерва по orderId
+     *
+     * @param orderId - id заказа
+     * @return - сообщение о результате резервирования продукта
+     */
+    @Transactional
+    @Override
+    public synchronized String addReserveByOrder(Long orderId) {
+
+        StringBuilder result = new StringBuilder();
+
+        List<OrderItem> orderItems = new ArrayList<>(reserveProductRepository.getOrderItemListByOrderId(orderId));
+
+        for(OrderItem item: orderItems){
+            if(reserveProductRepository.countReserveProducts(item.getProduct().getId()) >= item.getProductCount()){
+                reserveProductRepository.save(new ReserveProduct(item.getProduct(), item.getOrder(), item.getProductCount()));
+            }
+            else{
+                result.append(item.getProduct().getProductName());
+                result.append("\n");
+            }
+        }
+        return String.valueOf(result);
     }
 }

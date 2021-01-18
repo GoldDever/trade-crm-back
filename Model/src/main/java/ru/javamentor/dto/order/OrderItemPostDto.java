@@ -4,41 +4,20 @@ import ru.javamentor.dto.product.ProductDto;
 
 import java.math.BigDecimal;
 
-/**
- * DTO для передачи OrderItem на страницу
- */
-public class OrderItemDto {
+public class OrderItemPostDto {
 
-    private Long id;
     private String invoiceIssued;
     private Integer productCount;
     private Long orderId;
     private ProductDto product;
     private BigDecimal itemFullPrice;
 
-    public OrderItemDto() {
-    }
-
-    public OrderItemDto(
-            Long id,
-            String invoiceIssued,
-            Integer productCount,
-            ProductDto product,
-            BigDecimal itemFullPrice
-    ) {
-        this.id = id;
+    public OrderItemPostDto(String invoiceIssued, Integer productCount, Long orderId, ProductDto product, BigDecimal itemFullPrice) {
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
+        this.orderId = orderId;
         this.product = product;
         this.itemFullPrice = itemFullPrice;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getInvoiceIssued() {
@@ -55,6 +34,14 @@ public class OrderItemDto {
 
     public void setProductCount(Integer productCount) {
         this.productCount = productCount;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
     public ProductDto getProduct() {

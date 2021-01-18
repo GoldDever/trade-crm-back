@@ -2,6 +2,7 @@ package ru.javamentor.service.product;
 
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.product.ManufacturerDto;
+import ru.javamentor.dto.product.ManufacturerPostDto;
 import ru.javamentor.model.product.Manufacturer;
 import ru.javamentor.repository.product.ManufacturerRepository;
 
@@ -15,18 +16,16 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     }
 
     /**
-     * Метод установливает данные из DTO
-     * в сущность производителя и сохраняет объект в БД
+     * Метод сохраняет нового поставщика
      *
      * @param manufacturerDto - данные поставщика
      */
     @Override
-    public void addManufacturer(ManufacturerDto manufacturerDto) {
-        Manufacturer manufacturer = new Manufacturer();
-
-        manufacturer.setManufacturerName(manufacturerDto.getManufacturerName());
-        manufacturer.setIdFromErp(manufacturerDto.getIdFromErp());
-
+    public void addManufacturer(ManufacturerPostDto manufacturerDto) {
+        Manufacturer manufacturer =
+                new Manufacturer(
+                        manufacturerDto.getManufacturerName(),
+                        manufacturerDto.getIdFromErp());
         manufacturerRepository.save(manufacturer);
     }
 }

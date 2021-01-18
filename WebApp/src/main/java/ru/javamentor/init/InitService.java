@@ -8,6 +8,10 @@ import ru.javamentor.model.product.Product;
 import ru.javamentor.model.product.ReserveProduct;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
+import ru.javamentor.model.user.Role;
+import ru.javamentor.model.user.User;
+import ru.javamentor.repository.RoleRepository;
+import ru.javamentor.repository.UserRepository;
 import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
@@ -18,6 +22,7 @@ import ru.javamentor.repository.user.ManagerRepository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Set;
 
 public class InitService {
 
@@ -40,21 +45,53 @@ public class InitService {
     private ReserveProductRepository reserveProductRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     private void init() {
+        initRole();
         initClient();
         initManager();
+        initAdmin();
         initProduct();
         initOrder();
         initOrderItem();
         initReserveProduct();
+        initProduct2();
+    }
+
+    private void initRole() {
+        roleRepository.save(new Role("ADMIN"));
+        roleRepository.save(new Role("MANAGER"));
+        roleRepository.save(new Role("CLIENT"));
+    }
+
+    private void initAdmin() {
+        User admin = new User();
+        admin.setFirstName("Admin");
+        admin.setLastName("Admin");
+        admin.setPatronymic("Admin");
+        admin.setUsername("admin@mail.ru");
+        admin.setPassword(passwordEncoder.encode("password"));
+        Set<Role> roles = Set.of(roleRepository.findByRoleName("ADMIN"));
+        admin.setRoles(roles);
+        userRepository.save(admin);
     }
 
     private void initClient() {
         Client client = new Client();
         client.setFirstName("ClientFirstName");
         client.setLastName("ClientLastName");
+        client.setPatronymic("ClientPatronymic");
+        client.setUsername("client@mail.ru");
+        client.setPassword(passwordEncoder.encode("password"));
+        Set<Role> roles = Set.of(roleRepository.findByRoleName("CLIENT"));
+        client.setRoles(roles);
         clientRepository.save(client);
     }
 
@@ -62,8 +99,11 @@ public class InitService {
         Manager manager = new Manager();
         manager.setFirstName("ManagerFirstName");
         manager.setLastName("ManagerLastName");
+        manager.setPatronymic("ManagerPatronymic");
         manager.setUsername("manager@mail.ru");
         manager.setPassword(passwordEncoder.encode("password"));
+        Set<Role> roles = Set.of(roleRepository.findByRoleName("MANAGER"));
+        manager.setRoles(roles);
         managerRepository.save(manager);
     }
 
@@ -77,6 +117,19 @@ public class InitService {
         product.setPrice(BigDecimal.valueOf(4.00));
         product.setMargin(BigDecimal.valueOf(2.00));
         product.setPackagingCount(3);
+        productRepository.save(product);
+    }
+
+    private void initProduct2() {
+        Product product = new Product();
+        product.setProductCount(100);
+        product.setProductName("productName1");
+        product.setMadeCountry("madeCountry1");
+        product.setArticle("article1");
+        product.setPurchasePrice(BigDecimal.valueOf(7.00));
+        product.setPrice(BigDecimal.valueOf(5.00));
+        product.setMargin(BigDecimal.valueOf(3.00));
+        product.setPackagingCount(4);
         productRepository.save(product);
     }
 
@@ -97,7 +150,6 @@ public class InitService {
 
     private void initOrderItem() {
         OrderItem orderItem = new OrderItem();
-        orderItem.setIdFromErp("idFromErp");
         orderItem.setInvoiceIssued("invoiceIssued");
         orderItem.setProductCount(10);
         orderItem.setProduct(productRepository.findById(1L).get());

@@ -4,6 +4,7 @@ package ru.javamentor.dto.product;
  * DTO для передачи на страницу производителя
  */
 public class ManufacturerDto {
+
     private Long id;
     private String manufacturerName;
     private String idFromErp;
