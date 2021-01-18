@@ -8,6 +8,8 @@ import ru.javamentor.model.product.Product;
 import ru.javamentor.model.product.ReserveProduct;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
+import ru.javamentor.model.user.Role;
+import ru.javamentor.repository.RoleRepository;
 import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
@@ -18,6 +20,7 @@ import ru.javamentor.repository.user.ManagerRepository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.Set;
 
 public class InitService {
 
@@ -40,9 +43,13 @@ public class InitService {
     private ReserveProductRepository reserveProductRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     private void init() {
+        initRole();
         initClient();
         initManager();
         initProduct();
@@ -50,6 +57,11 @@ public class InitService {
         initOrderItem();
         initReserveProduct();
         initProduct2();
+    }
+
+    private void initRole() {
+        roleRepository.save(new Role("ADMIN"));
+        roleRepository.save(new Role("MANAGER"));
     }
 
     private void initClient() {
@@ -69,6 +81,8 @@ public class InitService {
         manager.setPatronymic("ManagerPatronymic");
         manager.setUsername("manager@mail.ru");
         manager.setPassword(passwordEncoder.encode("password"));
+        Set<Role> roles = Set.of(roleRepository.findByRoleName("MANAGER"));
+        manager.setRoles(roles);
         managerRepository.save(manager);
     }
 
