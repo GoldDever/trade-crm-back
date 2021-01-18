@@ -115,4 +115,21 @@ public class ManagerOrderRestController {
         String response = reserveProductService.saveProductReserve(orderId, productId, productCount);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    /**
+     * Метод для добавления резерва по orderId
+     *
+     * @param orderId - id заказа
+     * @return - HTTP ответ с BODY
+     */
+    @GetMapping("/{orderId}/all/addReserve")
+    public ResponseEntity<String> addOrderReserve(@PathVariable Long orderId){
+        String result = reserveProductService.addReserveByOrder(orderId);
+        if(result.isEmpty()){
+            return new ResponseEntity<>("Товар зарезирвирован", HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n"+result, HttpStatus.BAD_REQUEST);
+        }
+    }
 }
