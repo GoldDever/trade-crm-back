@@ -23,6 +23,4 @@ public class UserServiceImpl implements UserService {
     public Boolean existUserByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
-
-
 }

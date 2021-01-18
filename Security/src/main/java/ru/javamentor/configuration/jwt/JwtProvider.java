@@ -1,6 +1,8 @@
 package ru.javamentor.configuration.jwt;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,12 +16,11 @@ import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static org.springframework.util.StringUtils.hasText;
 
 @Component
 public class JwtProvider {
@@ -40,12 +41,15 @@ public class JwtProvider {
     private String tokenIdentifier;
 
     public String generateJwt(Authentication authentication, boolean rememberMe) {
-        final String authorities = authentication.getAuthorities().stream()
+        Claims claims = Jwts.claims()
+                .setSubject(authentication.getName());
+        claims.put(authorization,authentication.getAuthorities()
+                .stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+                .collect(Collectors.toList()));
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim(authorization, authorities)
+                .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .setIssuedAt(Date.valueOf(LocalDate.now()))
                 .setExpiration(rememberMe
@@ -67,6 +71,7 @@ public class JwtProvider {
     }
 
     public java.util.Date getExpirationDateFromToken(String token) {
+
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
@@ -77,12 +82,11 @@ public class JwtProvider {
 
     UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
         final Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-
+        List<String> listAuthorizations = (ArrayList<String>)claims.get(authorization);
         final Collection<? extends GrantedAuthority> authorities =
-                Arrays.stream(claims.get(authorization).toString().split(","))
+                listAuthorizations.stream()
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
-
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
 
