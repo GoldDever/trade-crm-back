@@ -1,5 +1,6 @@
 package ru.javamentor.service.product;
 
+
 public interface ReserveProductService {
     void removeOrderReserve(Long orderId);
 
@@ -7,5 +8,5 @@ public interface ReserveProductService {
 
     String saveProductReserve(Long orderId, Long productId, Integer productCount);
 
-    String saveProductsReserve(Long orderId);
+    String addReserveByOrder(Long orderId);
 }

@@ -106,18 +106,18 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     }
 
     /**
-     * Метод сохранения резерва
+     * Метод сохранения резерва по orderId
      *
      * @param orderId - id заказа
      * @return - сообщение о результате резервирования продукта
      */
     @Transactional
     @Override
-    public synchronized String saveProductsReserve(Long orderId) {
+    public synchronized String addReserveByOrder(Long orderId) {
 
         StringBuilder result = new StringBuilder();
 
-        List<OrderItem> orderItems = new ArrayList<>(reserveProductRepository.findAllOrder(orderId));
+        List<OrderItem> orderItems = new ArrayList<>(reserveProductRepository.getOrderItemListByOrderId(orderId));
 
         for(OrderItem item: orderItems){
             if(reserveProductRepository.countReserveProducts(item.getProduct().getId()) >= item.getProductCount()){
