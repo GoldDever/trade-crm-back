@@ -9,7 +9,9 @@ import ru.javamentor.model.product.ReserveProduct;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.model.user.Role;
+import ru.javamentor.model.user.User;
 import ru.javamentor.repository.RoleRepository;
+import ru.javamentor.repository.UserRepository;
 import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
@@ -46,12 +48,16 @@ public class InitService {
     private RoleRepository roleRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     private void init() {
         initRole();
         initClient();
         initManager();
+        initAdmin();
         initProduct();
         initOrder();
         initOrderItem();
@@ -62,6 +68,19 @@ public class InitService {
     private void initRole() {
         roleRepository.save(new Role("ADMIN"));
         roleRepository.save(new Role("MANAGER"));
+        roleRepository.save(new Role("CLIENT"));
+    }
+
+    private void initAdmin() {
+        User admin = new User();
+        admin.setFirstName("Admin");
+        admin.setLastName("Admin");
+        admin.setPatronymic("Admin");
+        admin.setUsername("admin@mail.ru");
+        admin.setPassword(passwordEncoder.encode("password"));
+        Set<Role> roles = Set.of(roleRepository.findByRoleName("ADMIN"));
+        admin.setRoles(roles);
+        userRepository.save(admin);
     }
 
     private void initClient() {
@@ -71,6 +90,8 @@ public class InitService {
         client.setPatronymic("ClientPatronymic");
         client.setUsername("client@mail.ru");
         client.setPassword(passwordEncoder.encode("password"));
+        Set<Role> roles = Set.of(roleRepository.findByRoleName("CLIENT"));
+        client.setRoles(roles);
         clientRepository.save(client);
     }
 
