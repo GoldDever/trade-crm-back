@@ -12,9 +12,8 @@ import java.util.List;
 public interface ReserveProductRepository extends JpaRepository<ReserveProduct, Long> {
     void deleteByOrderId(Long id);
 
-    @Query("SELECT rp.productCount FROM ReserveProduct rp " +
-            "WHERE rp.product.id = :productId AND rp.order.id = :orderId")
-    List<Integer> getReserveProductCounts(@Param("orderId") Long orderId, @Param("productId") Long productId);
+    @Query("SELECT rp FROM ReserveProduct rp " + "WHERE rp.product.id = :productId AND rp.order.id = :orderId")
+    List<ReserveProduct> getReserveProductCountList(@Param("orderId") Long orderId, @Param("productId") Long productId);
 
     @Query("SELECT SUM(rp.productCount) FROM ReserveProduct rp " +
             "WHERE rp.product.id = :productId AND rp.order.id = :orderId")
@@ -22,15 +21,17 @@ public interface ReserveProductRepository extends JpaRepository<ReserveProduct, 
 
     @Modifying
     @Query("DELETE FROM ReserveProduct rp " +
-            "WHERE rp.product.id = :productId AND rp.order.id = :orderId AND rp.productCount = :productCount")
-    void deleteReserve(@Param("orderId") Long orderId,
+            "WHERE rp.id = :id AND rp.product.id = :productId AND rp.order.id = :orderId AND rp.productCount = :productCount")
+    void deleteReserve(@Param("id") Long id,
+                       @Param("orderId") Long orderId,
                        @Param("productId") Long productId,
                        @Param("productCount") Integer productCount);
 
     @Modifying
     @Query("UPDATE ReserveProduct rp SET rp.productCount=rp.productCount - :reserveProductCountEdit " +
-            "WHERE rp.product.id = :productId AND rp.order.id = :orderId AND rp.productCount = :count")
-    void updateReserveProductCount(@Param("orderId") Long orderId,
+            "WHERE rp.id = :id AND rp.product.id = :productId AND rp.order.id = :orderId AND rp.productCount = :count")
+    void updateReserveProductCount(@Param("id") Long id,
+                                   @Param("orderId") Long orderId,
                                    @Param("productId") Long productId,
                                    @Param("reserveProductCountEdit") Integer reserveProductCountEdit,
                                    @Param("count") Integer count);
