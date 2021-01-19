@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.user.User;
 import ru.javamentor.service.order.OrderItemService;
@@ -131,5 +132,19 @@ public class ManagerOrderRestController {
         else{
             return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n"+result, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    /**
+     * Метод для отправки orderDTO на страницу менеджера
+     * @param orderId  Принимает orderId как аргумент
+     * @return  Возвращает orderDTO
+     */
+    @GetMapping(value = "/{orderId}")
+    public ResponseEntity<?> getOrderDtoByOrderId(@PathVariable Long orderId) {
+        OrderDto orderDto = orderService.getOrderDtoByOrderId(orderId);
+        if (orderDto.getId() == null) {
+           return new ResponseEntity<String>("Нет ордера с таким ID", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(orderDto, HttpStatus.OK);
     }
 }
