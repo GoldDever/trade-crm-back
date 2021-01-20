@@ -34,6 +34,18 @@ public class OrderDto {
         this.createTime = createTime;
     }
 
+    public OrderDto(Long id, String idFromErp, BigDecimal
+            orderFullPrice, Boolean approved, Boolean paid, Boolean shipped,
+                    LocalDateTime createTime) {
+        this.id = id;
+        this.idFromErp = idFromErp;
+        this.orderFullPrice = orderFullPrice;
+        this.approved = approved;
+        this.paid = paid;
+        this.shipped = shipped;
+        this.createTime = createTime;
+    }
+
     public Long getId() {
         return id;
     }

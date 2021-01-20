@@ -17,6 +17,7 @@ import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -96,31 +97,17 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public OrderDto getOrderDtoByOrderId(Long orderId) {
-        Order order = null;
-        OrderDto orderDto = new OrderDto();
+        OrderDto orderDto = null;
         try {
-            order = orderRepository.findOrderById(orderId);
+            Order order = orderRepository.findOrderById(orderId);
+            Long clientId = order.getClient().getId();
+            Long managerId = order.getManager().getId();
 
-            Client client = order.getClient();
-            ClientDto clientDto = new ClientDto();
-            clientDto.setId(client.getId());
-            clientDto.setName(client.getFirstName());
-
-            Manager manager = order.getManager();
-            ManagerDto managerDto = new ManagerDto();
-            managerDto.setId(manager.getId());
-            managerDto.setFirstName(manager.getFirstName());
-            managerDto.setSecondName(manager.getLastName());
-
-            orderDto.setId(order.getId());
-            orderDto.setIdFromErp(order.getIdFromErp());
+            orderDto = orderRepository.getOrderDtoByOrderId(orderId);
+            ClientDto clientDto = clientRepository.getClientDtoById(clientId);
+            ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
             orderDto.setClient(clientDto);
             orderDto.setManager(managerDto);
-            orderDto.setOrderFullPrice(order.getOrderFullPrice());
-            orderDto.setApproved(order.getApprove());
-            orderDto.setPaid(order.getPaid());
-            orderDto.setShipped(order.getShipped());
-            orderDto.setCreateTime(order.getCreateTime());
         } catch (NullPointerException e) {}
         return orderDto;
     }
