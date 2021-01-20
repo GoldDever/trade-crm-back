@@ -15,7 +15,6 @@ public class ProductDto {
     private List<SupplierDto> supplierDto;
     private String article;
     private UnitDto unitDto;
-    private Integer packagingCount;
     private String productCategory;
 
     public ProductDto(
@@ -26,7 +25,6 @@ public class ProductDto {
             List<SupplierDto> supplierDto,
             String article,
             UnitDto unitDto,
-            Integer packagingCount,
             String productCategory) {
         this.id = id;
         this.productName = productName;
@@ -35,7 +33,6 @@ public class ProductDto {
         this.supplierDto = supplierDto;
         this.article = article;
         this.unitDto = unitDto;
-        this.packagingCount = packagingCount;
         this.productCategory = productCategory;
     }
 
@@ -102,14 +99,6 @@ public class ProductDto {
 
     public void setUnitDto(UnitDto unitDto) {
         this.unitDto = unitDto;
-    }
-
-    public Integer getPackagingCount() {
-        return packagingCount;
-    }
-
-    public void setPackagingCount(Integer packagingCount) {
-        this.packagingCount = packagingCount;
     }
 
     public String getProductCategory() {
