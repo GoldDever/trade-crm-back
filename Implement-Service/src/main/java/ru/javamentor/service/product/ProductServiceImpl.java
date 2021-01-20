@@ -84,4 +84,11 @@ public class ProductServiceImpl implements ProductService {
     public void updateProduct(ProductPostDto productPostDto) {
         //TODO написать реализацию
     }
+
+    @Override
+    public ProductDto getProductDto(Long productId) {
+        return productRepository.findProductDtoById(productId);
+    }
+
+
 }

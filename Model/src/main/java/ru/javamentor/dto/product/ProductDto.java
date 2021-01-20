@@ -39,6 +39,10 @@ public class ProductDto {
         this.productCategory = productCategory;
     }
 
+    public ProductDto(String productName) {
+        this.productName = productName;
+    }
+
     public ProductDto(String productName, String madeCountry,
                       ManufacturerDto manufacturerDto) {
         this.productName = productName;
