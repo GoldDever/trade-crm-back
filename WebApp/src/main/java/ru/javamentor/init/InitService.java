@@ -2,6 +2,7 @@ package ru.javamentor.init;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
@@ -19,40 +20,47 @@ import ru.javamentor.repository.product.ReserveProductRepository;
 import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
 
+import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.Set;
 
+@Component
 public class InitService {
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
+    private final ClientRepository clientRepository;
+    private final ManagerRepository managerRepository;
+    private final OrderItemRepository orderItemRepository;
+    private final ProductRepository productRepository;
+    private final ReserveProductRepository reserveProductRepository;
+    private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private ClientRepository clientRepository;
+    public InitService(
+            OrderRepository orderRepository,
+            ClientRepository clientRepository,
+            ManagerRepository managerRepository,
+            OrderItemRepository orderItemRepository,
+            ProductRepository productRepository,
+            ReserveProductRepository reserveProductRepository,
+            RoleRepository roleRepository,
+            UserRepository userRepository,
+            BCryptPasswordEncoder passwordEncoder
+    ) {
+        this.orderRepository = orderRepository;
+        this.clientRepository = clientRepository;
+        this.managerRepository = managerRepository;
+        this.orderItemRepository = orderItemRepository;
+        this.productRepository = productRepository;
+        this.reserveProductRepository = reserveProductRepository;
+        this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
-    @Autowired
-    private ManagerRepository managerRepository;
-
-    @Autowired
-    private OrderItemRepository orderItemRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private ReserveProductRepository reserveProductRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
+    @PostConstruct
     private void init() {
         initRole();
         initClient();
