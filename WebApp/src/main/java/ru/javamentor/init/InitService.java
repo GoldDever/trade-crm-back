@@ -54,8 +54,8 @@ public class InitService {
 
     private void init() {
         initRole();
-        initClient();
         initManager();
+        initClient();
         initAdmin();
         initProduct();
         initOrder();
@@ -92,7 +92,7 @@ public class InitService {
         client1.setPassword(passwordEncoder.encode("ivanov"));
         Set<Role> roles1 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client1.setRoles(roles1);
-        Manager manager = managerRepository.findById(22L).get();
+        Manager manager = managerRepository.findById(1L).get();
         client1.setManager(manager);
         clientRepository.save(client1);
 
@@ -105,7 +105,7 @@ public class InitService {
         client2.setPassword(passwordEncoder.encode("artem"));
         Set<Role> roles2 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client2.setRoles(roles2);
-        Manager manager2 = managerRepository.findById(22L).get();
+        Manager manager2 = managerRepository.findById(1L).get();
         client2.setManager(manager2);
         clientRepository.save(client2);
 
@@ -118,7 +118,7 @@ public class InitService {
         client3.setPassword(passwordEncoder.encode("andrew"));
         Set<Role> roles3 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client3.setRoles(roles3);
-        Manager manager3 = managerRepository.findById(22L).get();
+        Manager manager3 = managerRepository.findById(1L).get();
         client3.setManager(manager3);
         clientRepository.save(client3);
 
@@ -131,7 +131,7 @@ public class InitService {
         client4.setPassword(passwordEncoder.encode("password5"));
         Set<Role> roles4 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client4.setRoles(roles4);
-        Manager manager4 = managerRepository.findById(23L).get();
+        Manager manager4 = managerRepository.findById(2L).get();
         client4.setManager(manager4);
         clientRepository.save(client4);
 
@@ -144,7 +144,7 @@ public class InitService {
         client5.setPassword(passwordEncoder.encode("password6"));
         Set<Role> roles5 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client5.setRoles(roles5);
-        Manager manager5 = managerRepository.findById(23L).get();
+        Manager manager5 = managerRepository.findById(2L).get();
         client5.setManager(manager5);
         clientRepository.save(client5);
 
