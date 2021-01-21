@@ -55,7 +55,7 @@ public class ReserveProductServiceImpl implements ReserveProductService {
         Integer remainder = productCount;
 
         List<ReserveProduct> reserveProductCountList
-                = new ArrayList<>(reserveProductRepository.getReserveProductCountList(orderId, productId));
+                = new ArrayList<>(reserveProductRepository.getReserveProductList(orderId, productId));
 
         Integer countReserveProductSum = reserveProductRepository.getSumOfReserveProductCounts(orderId, productId);
 
