@@ -20,6 +20,7 @@ public class Client extends User {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "manager_id")
     private Manager manager;
 
     public Manager getManager() {
