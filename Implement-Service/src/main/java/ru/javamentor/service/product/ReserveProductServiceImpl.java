@@ -52,22 +52,25 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     @Override
     public String removeProductReserve(Long orderId, Long productId, Integer productCount) {
 
-        List<Integer> reserveProductCountList
-                = new ArrayList<>(reserveProductRepository.getReserveProductCounts(orderId, productId));
+        Integer remainder = productCount;
+
+        List<ReserveProduct> reserveProductCountList
+                = new ArrayList<>(reserveProductRepository.getReserveProductList(orderId, productId));
 
         Integer countReserveProductSum = reserveProductRepository.getSumOfReserveProductCounts(orderId, productId);
 
         if (reserveProductCountList.isEmpty()) {
             return "Резерв не найден!";
-        } else if (countReserveProductSum.equals(productCount) && reserveProductCountList.size() == 1) {
-            reserveProductRepository.deleteReserve(orderId, productId, productCount);
-            return "Резерв полностью удален!";
+        } else if (countReserveProductSum < productCount){
+            return "Нет достаточного количества резерва";
         } else {
-            for (Integer count : reserveProductCountList) {
-                if (count <= productCount) {
-                    reserveProductRepository.deleteReserve(orderId, productId, count);
+            for (ReserveProduct reserveProduct : reserveProductCountList) {
+                if (reserveProduct.getProductCount() <= remainder) {
+                    reserveProductRepository.deleteReserve(reserveProduct.getId(), orderId, productId, reserveProduct.getProductCount());
+                    remainder = remainder - reserveProduct.getProductCount();
                 } else {
-                    reserveProductRepository.updateReserveProductCount(orderId, productId, productCount, count);
+                    reserveProductRepository.updateReserveProductCount(reserveProduct.getId(), orderId, productId, remainder, reserveProduct.getProductCount());
+                    break;
                 }
             }
             return String.format("Товар в количестве %s снят с резерва.", productCount);
