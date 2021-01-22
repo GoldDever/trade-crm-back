@@ -10,10 +10,4 @@ import ru.javamentor.model.product.Supplier;
 import java.util.List;
 
 public interface SupplierRepository extends JpaRepository<Supplier, Long> {
-    @Query("SELECT new ru.javamentor.dto.product.SupplierDto(" +
-            "s.id, " +
-            "s.name) " +
-            "FROM Supplier s " +
-            "WHERE s.id = :productId")
-    List<SupplierDto> findSupplierDtoByProductId(@Param("productId") Long ProductId);
 }
