@@ -7,8 +7,6 @@ import ru.javamentor.dto.order.OrderApproveDto;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderApprove;
-import ru.javamentor.model.user.Client;
-import ru.javamentor.model.user.Manager;
 import ru.javamentor.model.user.User;
 import ru.javamentor.repository.order.OrderApproveRepository;
 import ru.javamentor.repository.order.OrderRepository;
@@ -17,7 +15,6 @@ import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -97,18 +94,23 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public OrderDto getOrderDtoByOrderId(Long orderId) {
-        OrderDto orderDto = null;
-        try {
-            Order order = orderRepository.findOrderById(orderId);
-            Long clientId = order.getClient().getId();
-            Long managerId = order.getManager().getId();
-
-            orderDto = orderRepository.getOrderDtoByOrderId(orderId);
-            ClientDto clientDto = clientRepository.getClientDtoById(clientId);
-            ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
-            orderDto.setClient(clientDto);
-            orderDto.setManager(managerDto);
-        } catch (NullPointerException e) {}
+        Long clientId = orderRepository.getOrderByIdAndClientAndId(orderId);
+        Long managerId = orderRepository.getOrderByIdAndManagerAndId(orderId);
+        OrderDto orderDto = orderRepository.getOrderDtoByOrderId(orderId);
+        ClientDto clientDto = clientRepository.getClientDtoById(clientId);
+        ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
+        orderDto.setClient(clientDto);
+        orderDto.setManager(managerDto);
         return orderDto;
+    }
+
+    /**
+     * Метод, возвращающий boolean при проверке существования ордера с данным Id.
+     * @param orderId Принимает Id ордера как аргумент.
+     * @return Возвращает boolean, соответствующий результату.
+     */
+    @Override
+    public boolean ifOrderExists(Long orderId) {
+        return orderRepository.existsById(orderId);
     }
 }

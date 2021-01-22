@@ -22,4 +22,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("select new ru.javamentor.dto.order.OrderDto(o.id, o.idFromErp, o.orderFullPrice, o.isApprove, o.isPaid," +
             "o.isShipped, o.createTime) from Order o where o.id = :orderId")
     OrderDto getOrderDtoByOrderId(@Param("orderId") Long orderId);
+
+    Long getOrderByIdAndClientAndId(@Param("orderId") Long orderId);
+
+    Long getOrderByIdAndManagerAndId(@Param("orderId") Long orderId);
 }

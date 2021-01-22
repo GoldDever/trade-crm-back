@@ -141,10 +141,10 @@ public class ManagerOrderRestController {
      */
     @GetMapping(value = "/{orderId}")
     public ResponseEntity<? > getOrderDtoByOrderId(@PathVariable Long orderId) {
-        OrderDto orderDto = orderService.getOrderDtoByOrderId(orderId);
-        if (orderDto == null) {
-           return ResponseEntity.badRequest().body("Нет ордера с таким ID");
+        if (orderService.ifOrderExists(orderId)) {
+            OrderDto orderDto = orderService.getOrderDtoByOrderId(orderId);
+            return ResponseEntity.status(HttpStatus.OK).body(orderDto);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+        return ResponseEntity.badRequest().body("Нет ордера с таким ID");
     }
 }

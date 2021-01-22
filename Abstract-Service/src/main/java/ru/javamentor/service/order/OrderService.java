@@ -12,4 +12,6 @@ public interface OrderService {
     void newOrder(Long clientId, User user);
 
     OrderDto getOrderDtoByOrderId(Long orderId);
+
+    boolean ifOrderExists(Long orderId);
 }
