@@ -19,9 +19,14 @@ public class ManagerProductRestController {
         this.productService = productService;
     }
 
-
+    /**
+     *  Метод для получения продукта
+     *
+     * @param productId - id продукта
+     * @return - продуктДТО
+     */
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDto> removeProductReserve(@PathVariable Long productId) {
-        return new ResponseEntity<>(productService.getProductDto(productId), HttpStatus.OK);
+        return ResponseEntity.ok().body(productService.getProductDto(productId));
     }
 }

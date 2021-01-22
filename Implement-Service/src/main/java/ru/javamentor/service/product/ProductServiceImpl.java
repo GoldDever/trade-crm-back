@@ -2,6 +2,7 @@ package ru.javamentor.service.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.javamentor.dto.product.ManufacturerDto;
 import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.dto.product.ProductPostDto;
 import ru.javamentor.dto.product.SupplierDto;
@@ -10,6 +11,7 @@ import ru.javamentor.model.product.Supplier;
 import ru.javamentor.repository.product.ManufacturerRepository;
 import ru.javamentor.repository.product.ProductCategoryRepository;
 import ru.javamentor.repository.product.ProductRepository;
+import ru.javamentor.repository.product.SupplierRepository;
 import ru.javamentor.repository.product.UnitRepository;
 
 import java.math.BigDecimal;
@@ -28,6 +30,7 @@ public class ProductServiceImpl implements ProductService {
     private ManufacturerRepository manufacturerRepository;
     private UnitRepository unitRepository;
     private ProductCategoryRepository productCategoryRepository;
+    private SupplierRepository supplierRepository;
 
     public ProductServiceImpl() {}
 
@@ -35,11 +38,13 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceImpl(ProductRepository productRepository,
                               ManufacturerRepository manufacturerRepository,
                               UnitRepository unitRepository,
-                                ProductCategoryRepository productCategoryRepository) {
+                              ProductCategoryRepository productCategoryRepository,
+                              SupplierRepository supplierRepository) {
         this.productRepository = productRepository;
         this.manufacturerRepository = manufacturerRepository;
         this.unitRepository = unitRepository;
         this.productCategoryRepository = productCategoryRepository;
+        this.supplierRepository = supplierRepository;
     }
 
     /**
@@ -85,9 +90,26 @@ public class ProductServiceImpl implements ProductService {
         //TODO написать реализацию
     }
 
+    /**
+     * Метод возвращаем productDto по product id
+     *
+     * @param productId - id продукта
+     * @return - productDto
+     */
     @Override
     public ProductDto getProductDto(Long productId) {
-        return productRepository.findProductDtoById(productId);
+        ProductDto dto = productRepository.findProductDtoByProductId(productId);
+        Product product = productRepository.findProductById(productId);
+        List<SupplierDto> finalList = new ArrayList<>();
+        for (Supplier tmp : product.getSuppliers()) {
+            finalList.add(new SupplierDto(tmp.getId(), tmp.getName()));
+        }
+        dto.setManufacturerDto(manufacturerRepository.findManufacturerDtoByProductId(product.getManufacturer().getId()));
+        dto.setSupplierDto(finalList);
+        dto.setUnitDto(unitRepository.findUnitDtoByProductId(product.getUnit().getId()));
+        dto.setProductCategory(productCategoryRepository.findById(product.getProductCategory().getId()).get().getCategoryName());
+
+        return dto;
     }
 
 

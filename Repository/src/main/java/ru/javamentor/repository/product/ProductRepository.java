@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.model.product.Product;
+import ru.javamentor.model.product.ProductCategory;
 
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -12,6 +13,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Product findProductById(Long ProductId);
     Product findByIdFromErp(String idFromErp);
 
-    @Query("SELECT new ru.javamentor.dto.product.ProductDto(p.productName) FROM Product p WHERE p.id = :productId")
-    ProductDto findProductDtoById(@Param("productId") Long ProductId);
+    @Query("SELECT new ru.javamentor.dto.product.ProductDto(" +
+            "p.id, " +
+            "p.productName, " +
+            "p.madeCountry, " +
+            "p.article, " +
+            "p.packagingCount) " +
+            "FROM Product p " +
+            "WHERE p.id = :productId")
+    ProductDto findProductDtoByProductId(@Param("productId") Long ProductId);
 }

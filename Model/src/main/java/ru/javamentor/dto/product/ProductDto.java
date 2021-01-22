@@ -39,8 +39,17 @@ public class ProductDto {
         this.productCategory = productCategory;
     }
 
-    public ProductDto(String productName) {
+    public ProductDto(
+            Long id,
+            String productName,
+            String madeCountry,
+            String article,
+            Integer packagingCount) {
+        this.id = id;
         this.productName = productName;
+        this.madeCountry = madeCountry;
+        this.article = article;
+        this.packagingCount = packagingCount;
     }
 
     public ProductDto(String productName, String madeCountry,
