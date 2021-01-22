@@ -40,13 +40,11 @@ public class ProductDto {
             Long id,
             String productName,
             String madeCountry,
-            String article,
-            Integer packagingCount) {
+            String article) {
         this.id = id;
         this.productName = productName;
         this.madeCountry = madeCountry;
         this.article = article;
-        this.packagingCount = packagingCount;
     }
 
     public ProductDto(String productName, String madeCountry,
