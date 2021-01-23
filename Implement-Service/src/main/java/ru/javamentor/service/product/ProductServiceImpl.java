@@ -83,12 +83,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateProduct(ProductPostDto productPostDto) {
         List<Supplier> finalList = new ArrayList<>();
+
         for (SupplierDto tmp : productPostDto.getSupplierDto()) {
             finalList.add(new Supplier(tmp.getId(), tmp.getName()));
         }
         String idFromErp=productPostDto.getIdFromErp();
-
         Product product = productRepository.findProductByIdFromErp(idFromErp);
+        System.out.println(productPostDto.getProductCount());
         product.setProductCount(productPostDto.getProductCount());
         product.setProductName(productPostDto.getProductName());
         product.setMadeCountry(productPostDto.getMadeCountry());
@@ -104,6 +105,5 @@ public class ProductServiceImpl implements ProductService {
         product.setProductCategory(productCategoryRepository.findById(productPostDto.getProductCategory().getId()).orElseThrow());
 
         productRepository.save(product);
-        //TODO написать реализацию
     }
 }
