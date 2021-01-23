@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
      * сохраняет новый OrderApprove
      *
      * @param orderApproveDto - ДТО из которого получаем новый флаг isApprove
-     * @param orderId - id по которому находим Order и изменяем у него флаг isApprove
+     * @param orderId         - id по которому находим Order и изменяем у него флаг isApprove
      */
     @Override
     public void updateApproveStatus(OrderApproveDto orderApproveDto, Long orderId) {
@@ -75,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
      * Метод сохраняет новый Order
      *
      * @param clientId - id клиента
-     * @param user - user из principal для получения manager
+     * @param user     - user из principal для получения manager
      */
     @Transactional
     @Override
@@ -89,13 +89,14 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Метод инициализирующий orderDTO ордером из Базы Данных
-     * @param orderId  ID ордера
-     * @return  Возвращает orderDTO
+     *
+     * @param orderId ID ордера
+     * @return Возвращает orderDTO
      */
     @Override
     public OrderDto getOrderDtoByOrderId(Long orderId) {
-        Long clientId = orderRepository.getOrderByIdAndClientAndId(orderId);
-        Long managerId = orderRepository.getOrderByIdAndManagerAndId(orderId);
+        Long clientId = orderRepository.getClientIdByOrderId(orderId);
+        Long managerId = orderRepository.getManagerIdByOrderId(orderId);
         OrderDto orderDto = orderRepository.getOrderDtoByOrderId(orderId);
         ClientDto clientDto = clientRepository.getClientDtoById(clientId);
         ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
@@ -106,6 +107,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * Метод, возвращающий boolean при проверке существования ордера с данным Id.
+     *
      * @param orderId Принимает Id ордера как аргумент.
      * @return Возвращает boolean, соответствующий результату.
      */
@@ -114,3 +116,4 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.existsById(orderId);
     }
 }
+

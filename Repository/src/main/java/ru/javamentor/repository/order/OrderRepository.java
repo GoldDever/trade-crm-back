@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.model.order.Order;
 
@@ -23,7 +24,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "o.isShipped, o.createTime) from Order o where o.id = :orderId")
     OrderDto getOrderDtoByOrderId(@Param("orderId") Long orderId);
 
-    Long getOrderByIdAndClientAndId(@Param("orderId") Long orderId);
+    @Query("select o.client.id from Order o where o.id = :orderId")
+    Long getClientIdByOrderId(@Param("orderId") Long orderId);
 
-    Long getOrderByIdAndManagerAndId(@Param("orderId") Long orderId);
+    @Query("select o.manager.id from Order o where o.id = :orderId")
+    Long getManagerIdByOrderId(@Param("orderId") Long orderId);
 }
