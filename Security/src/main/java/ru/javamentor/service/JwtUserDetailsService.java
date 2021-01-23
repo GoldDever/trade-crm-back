@@ -14,6 +14,7 @@ public class JwtUserDetailsService implements UserDetailsService {
             this.userService = userService;
         }
 
+
         /**
          * Метод получения UserDetail по username
          *
@@ -26,3 +27,4 @@ public class JwtUserDetailsService implements UserDetailsService {
             return userService.findByUsername(username);
         }
 }
+
