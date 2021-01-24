@@ -32,9 +32,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "WHERE o.id = :orderId")
     OrderDto getOrderDtoByOrderId(@Param("orderId") Long orderId);
 
-    @Query("SELECT o.client.id FROM Order o where o.id = :orderId")
+    @Query("SELECT o.client.id FROM Order o WHERE o.id = :orderId")
     Long getClientIdByOrderId(@Param("orderId") Long orderId);
 
-    @Query("select o.manager.id from Order o where o.id = :orderId")
+    @Query("SELECT o.manager.id FROM Order o WHERE o.id = :orderId")
     Long getManagerIdByOrderId(@Param("orderId") Long orderId);
 }
