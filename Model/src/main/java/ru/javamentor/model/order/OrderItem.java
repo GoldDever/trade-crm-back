@@ -35,7 +35,6 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @Column(name = "item_full_price")
     private BigDecimal itemFullPrice;
 
     public OrderItem() {
@@ -46,16 +45,15 @@ public class OrderItem {
             String invoiceIssued,
             Integer productCount,
             Product product,
-            Order order,
-            BigDecimal itemFullPrice
+            Order order
     ) {
         this.id = id;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
         this.product = product;
         this.order = order;
-        this.itemFullPrice = itemFullPrice;
     }
+
 
     public Long getId() {
         return id;
@@ -90,7 +88,7 @@ public class OrderItem {
     }
 
     public BigDecimal getItemFullPrice() {
-        return itemFullPrice;
+        return product.getPrice().multiply(BigDecimal.valueOf(productCount));
     }
 
     public void setItemFullPrice(BigDecimal itemFullPrice) {
