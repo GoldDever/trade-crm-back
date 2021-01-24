@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import ru.javamentor.dto.product.ManufacturerDto;
 import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.model.product.Manufacturer;
+import ru.javamentor.model.product.Product;
 
 /**
  * Repository для Производителя
@@ -14,11 +15,12 @@ import ru.javamentor.model.product.Manufacturer;
 
 @Repository
 public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long> {
+    Manufacturer findManufacturerById(Long ManufacturerId);
     @Query("SELECT new ru.javamentor.dto.product.ManufacturerDto(" +
             "m.id, " +
             "m.manufacturerName, " +
             "m.idFromErp) " +
             "FROM Manufacturer m " +
-            "WHERE m.id = :productId")
-    ManufacturerDto findManufacturerDtoByProductId(@Param("productId") Long ProductId);
+            "WHERE m.id = :manufacturerId")
+    ManufacturerDto findManufacturerDtoByManufacturerId(@Param("manufacturerId") Long ManufacturerId);
 }

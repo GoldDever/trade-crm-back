@@ -2,7 +2,6 @@ package ru.javamentor.service.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.javamentor.dto.product.ManufacturerDto;
 import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.dto.product.ProductPostDto;
 import ru.javamentor.dto.product.SupplierDto;
@@ -18,7 +17,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Implement-Service для Продукта
@@ -99,17 +97,30 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto getProductDto(Long productId) {
         ProductDto dto = productRepository.findProductDtoByProductId(productId);
-        Product product = productRepository.findProductById(productId);
-        List<SupplierDto> finalList = new ArrayList<>();
-        for (Supplier tmp : product.getSuppliers()) {
-            finalList.add(new SupplierDto(tmp.getId(), tmp.getName()));
+        Long manufacturerId = productRepository.findManufacturerIdByProductId(productId);
+        Long unitId = productRepository.findUnitIdByProductId(productId);
+        List<Supplier> suppliersList = new ArrayList<>(productRepository.findSupplierByProductId(productId));
+        List<Long> supplierIdList = new ArrayList<>();
+        for (Supplier supplier : suppliersList){
+            supplierIdList.add(supplier.getId());
         }
-        dto.setSupplierDto(finalList);
-        dto.setManufacturerDto(manufacturerRepository.findManufacturerDtoByProductId(product.getManufacturer().getId()));
-        dto.setUnitDto(unitRepository.findUnitDtoByProductId(product.getUnit().getId()));
-        dto.setProductCategory(productCategoryRepository.findById(product.getProductCategory().getId()).get().getCategoryName());
+
+        dto.setManufacturerDto(manufacturerRepository.findManufacturerDtoByManufacturerId(manufacturerId));
+        dto.setSupplierDto(supplierRepository.findSupplierDtoBySupplierId(supplierIdList));
+        dto.setUnitDto(unitRepository.findUnitDtoByUnitId(unitId));
+        dto.setProductCategory(productCategoryRepository.findProductCategoryByProductId(productId).getCategoryName());
 
         return dto;
+    }
+
+    /**
+     * Метод проверяет существования productId в базе
+     * @param productId
+     * @return есть или нет productId в базе
+     */
+    @Override
+    public boolean ifProductIdExists(Long productId) {
+        return productRepository.existsById(productId);
     }
 
 

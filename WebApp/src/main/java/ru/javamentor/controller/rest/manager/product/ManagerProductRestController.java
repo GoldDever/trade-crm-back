@@ -26,7 +26,11 @@ public class ManagerProductRestController {
      * @return - продуктДТО
      */
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductDto> removeProductReserve(@PathVariable Long productId) {
-        return ResponseEntity.ok().body(productService.getProductDto(productId));
+    public ResponseEntity<?> getProductDtoByProductId(@PathVariable Long productId) {
+        if (productService.ifProductIdExists(productId)){
+            return ResponseEntity.ok().body(productService.getProductDto(productId));
+        }
+
+        return ResponseEntity.badRequest().body("В базе нет продукта с такие Id");
     }
 }

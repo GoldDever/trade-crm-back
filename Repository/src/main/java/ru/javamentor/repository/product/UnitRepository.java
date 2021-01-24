@@ -8,11 +8,12 @@ import ru.javamentor.dto.product.UnitDto;
 import ru.javamentor.model.product.Unit;
 
 public interface UnitRepository extends JpaRepository<Unit, Long> {
+    Unit findUnitById (Long UnitId);
     @Query("SELECT new ru.javamentor.dto.product.UnitDto(" +
             "u.id, " +
             "u.unitName) " +
             "FROM Unit u " +
-            "WHERE u.id = :productId")
-    UnitDto findUnitDtoByProductId(@Param("productId") Long ProductId);
+            "WHERE u.id = :unitId")
+    UnitDto findUnitDtoByUnitId(@Param("unitId") Long UnitId);
 }
 
