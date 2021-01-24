@@ -20,11 +20,19 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Order findOrderById(Long orderId);
 
-    @Query("select new ru.javamentor.dto.order.OrderDto(o.id, o.idFromErp, o.orderFullPrice, o.isApprove, o.isPaid," +
-            "o.isShipped, o.createTime) from Order o where o.id = :orderId")
+    @Query("SELECT new ru.javamentor.dto.order.OrderDto(" +
+            "o.id, " +
+            "o.idFromErp, " +
+            "o.orderFullPrice, " +
+            "o.isApprove, " +
+            "o.isPaid, " +
+            "o.isShipped, " +
+            "o.createTime) " +
+            "FROM Order o " +
+            "WHERE o.id = :orderId")
     OrderDto getOrderDtoByOrderId(@Param("orderId") Long orderId);
 
-    @Query("select o.client.id from Order o where o.id = :orderId")
+    @Query("SELECT o.client.id FROM Order o where o.id = :orderId")
     Long getClientIdByOrderId(@Param("orderId") Long orderId);
 
     @Query("select o.manager.id from Order o where o.id = :orderId")
