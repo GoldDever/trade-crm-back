@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 
 @Entity
@@ -35,6 +36,8 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
+//    @Transient
+    @Column(insertable = false, updatable = false)
     private BigDecimal itemFullPrice;
 
     public OrderItem() {
