@@ -13,5 +13,5 @@ public interface OrderService {
 
     OrderDto getOrderDtoByOrderId(Long orderId);
 
-    boolean ifOrderExists(Long orderId);
+    boolean isExistsByOrderId(Long orderId);
 }

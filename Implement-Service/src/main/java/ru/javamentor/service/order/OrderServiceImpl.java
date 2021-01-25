@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
      * сохраняет новый OrderApprove
      *
      * @param orderApproveDto - ДТО из которого получаем новый флаг isApprove
-     * @param orderId         - id по которому находим Order и изменяем у него флаг isApprove
+     * @param orderId - id по которому находим Order и изменяем у него флаг isApprove
      */
     @Override
     public void updateApproveStatus(OrderApproveDto orderApproveDto, Long orderId) {
@@ -75,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
      * Метод сохраняет новый Order
      *
      * @param clientId - id клиента
-     * @param user     - user из principal для получения manager
+     * @param user - user из principal для получения manager
      */
     @Transactional
     @Override
@@ -90,8 +90,8 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Метод инициализирующий orderDTO ордером из Базы Данных
      *
-     * @param orderId ID ордера
-     * @return Возвращает orderDTO
+     * @param orderId - ID ордера
+     * @return - Возвращает orderDTO
      */
     @Override
     public OrderDto getOrderDtoByOrderId(Long orderId) {
@@ -108,11 +108,11 @@ public class OrderServiceImpl implements OrderService {
     /**
      * Метод, возвращающий boolean при проверке существования ордера с данным Id.
      *
-     * @param orderId Принимает Id ордера как аргумент.
-     * @return Возвращает boolean, соответствующий результату.
+     * @param orderId - Принимает Id ордера как аргумент.
+     * @return - Возвращает boolean, соответствующий результату.
      */
     @Override
-    public boolean ifOrderExists(Long orderId) {
+    public boolean isExistsByOrderId(Long orderId) {
         return orderRepository.existsById(orderId);
     }
 }
