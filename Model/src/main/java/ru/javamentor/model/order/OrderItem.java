@@ -36,8 +36,7 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-//    @Transient
-    @Column(insertable = false, updatable = false)
+    @Transient
     private BigDecimal itemFullPrice;
 
     public OrderItem() {
