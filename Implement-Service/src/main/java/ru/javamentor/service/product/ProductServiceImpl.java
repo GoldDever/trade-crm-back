@@ -16,7 +16,17 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.logging.*;
+import org.springframework.web.filter.GenericFilterBean;
+import ru.javamentor.service.JwtUserDetailsService;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Implement-Service для Продукта
@@ -28,6 +38,9 @@ public class ProductServiceImpl implements ProductService {
     private ManufacturerRepository manufacturerRepository;
     private UnitRepository unitRepository;
     private ProductCategoryRepository productCategoryRepository;
+
+    private final static Logger logger =  Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
 
     public ProductServiceImpl() {}
 
@@ -89,20 +102,25 @@ public class ProductServiceImpl implements ProductService {
         }
         String idFromErp=productPostDto.getIdFromErp();
         Product product = productRepository.findProductByIdFromErp(idFromErp);
-        System.out.println(productPostDto.getProductCount());
-        product.setProductCount(productPostDto.getProductCount());
-        product.setProductName(productPostDto.getProductName());
-        product.setMadeCountry(productPostDto.getMadeCountry());
-        product.setManufacturer(manufacturerRepository.findById(productPostDto.getManufacturerDto().getId()).orElseThrow());
-        product.setSuppliers(new HashSet<>(finalList));
-        product.setArticle(productPostDto.getArticle());
-        product.setPurchasePrice(BigDecimal.valueOf(productPostDto.getPurchasePrice()));
-        product.setPrice(BigDecimal.valueOf(productPostDto.getPrice()));
-        product.setMargin(BigDecimal.valueOf(productPostDto.getMargin()));
-        product.setUnit(unitRepository.findById(productPostDto.getUnitDto().getId()).orElseThrow());
-        product.setPackagingCount(productPostDto.getPackagingCount());
-        product.setIdFromErp(productPostDto.getIdFromErp());
-        product.setProductCategory(productCategoryRepository.findById(productPostDto.getProductCategory().getId()).orElseThrow());
+        product (productPostDto.getProductCount(),
+                productPostDto.getProductName(),
+                productPostDto.getMadeCountry(),
+                manufacturerRepository.findById(productPostDto.getManufacturerDto().getId()).orElseThrow(),
+                new HashSet<>(finalList),
+                productPostDto.getArticle(),
+                BigDecimal.valueOf(productPostDto.getPurchasePrice(),
+                BigDecimal.valueOf(productPostDto.getPrice(),
+                BigDecimal.valueOf(productPostDto.getMargin(),
+                unitRepository.findById(productPostDto.getUnitDto().getId()).orElseThrow(),
+                productPostDto.getPackagingCount(),
+                productPostDto.getIdFromErp(),
+                try {
+                productCategoryRepository.findById(productPostDto.getProductCategory().getId()).orElseThrow(()-> new Exception (idFromErp));
+        } catch (Exception e) {
+            //e.printStackTrace();
+            logger.warning("Произошла ошибка" + e);
+            return;
+        }
 
         productRepository.save(product);
     }

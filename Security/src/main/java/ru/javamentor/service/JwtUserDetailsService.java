@@ -10,21 +10,21 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     private final UserService userService;
 
-        public JwtUserDetailsService(UserService userService) {
-            this.userService = userService;
-        }
+    public JwtUserDetailsService(UserService userService) {
+        this.userService = userService;
+    }
 
 
-        /**
-         * Метод получения UserDetail по username
-         *
-         * @param username - username
-         * @return - UserDetails
-         */
+    /**
+     * Метод получения UserDetail по username
+     *
+     * @param username - username
+     * @return - UserDetails
+     */
 
-        @Override
-        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-            return userService.findByUsername(username);
-        }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userService.findByUsername(username);
+    }
 }
 

@@ -10,22 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.OrderItemDto;
-import ru.javamentor.dto.product.ManufacturerDto;
-import ru.javamentor.dto.product.ProductPostDto;
-import ru.javamentor.dto.product.SupplierDto;
-import ru.javamentor.dto.product.UnitDto;
-import ru.javamentor.model.product.ProductCategory;
 import ru.javamentor.model.user.User;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
-import ru.javamentor.service.product.ProductService;
 import ru.javamentor.service.product.ReserveProductService;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.function.Supplier;
 
 
 @RestController
@@ -35,15 +23,15 @@ public class ManagerOrderRestController {
     private final OrderService orderService;
     private final OrderItemService orderItemService;
     private final ReserveProductService reserveProductService;
-    private final ProductService productService;
+
 
     public ManagerOrderRestController(OrderService orderService,
                                       OrderItemService orderItemService,
-                                      ReserveProductService reserveProductService, ProductService productService) {
+                                      ReserveProductService reserveProductService) {
         this.orderService = orderService;
         this.orderItemService = orderItemService;
         this.reserveProductService = reserveProductService;
-        this.productService=productService;
+
     }
 
     /**
