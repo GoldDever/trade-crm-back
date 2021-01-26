@@ -38,10 +38,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT s.id " +
             "FROM Product p " +
-            "LEFT OUTER JOIN Supplier s " +
-            "ON p.id = s.id " +
-            "AND p.id = :productId")
-    List<Long> findSupplierByProductId(@Param("productId") Long ProductId);
+            "JOIN p.suppliers s " +
+            "WHERE p.id = :productId")
+    List<Long> findListSupplierIdByProductId(@Param("productId") Long ProductId);
 
 
 }

@@ -1,12 +1,10 @@
 package ru.javamentor.controller.rest.manager.product;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.service.product.ProductService;
 
 @RestController
@@ -27,10 +25,10 @@ public class ManagerProductRestController {
      */
     @GetMapping("/{productId}")
     public ResponseEntity<?> getProductDtoByProductId(@PathVariable Long productId) {
-        if (productService.ifProductIdExists(productId)){
-            return ResponseEntity.ok().body(productService.getProductDto(productId));
+        if (productService.isProductIdExists(productId)){
+            return ResponseEntity.ok().body(productService.getProductDtoByProductId(productId));
         }
 
-        return ResponseEntity.badRequest().body("В базе нет продукта с такие Id");
+        return ResponseEntity.badRequest().body("Продукт с id = " + productId + " не найден");
     }
 }

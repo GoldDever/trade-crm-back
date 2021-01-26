@@ -95,12 +95,11 @@ public class ProductServiceImpl implements ProductService {
      * @return - productDto
      */
     @Override
-    public ProductDto getProductDto(Long productId) {
+    public ProductDto getProductDtoByProductId(Long productId) {
         ProductDto dto = productRepository.findProductDtoByProductId(productId);
         Long manufacturerId = productRepository.findManufacturerIdByProductId(productId);
         Long unitId = productRepository.findUnitIdByProductId(productId);
-        List<Long> supplierIdList = productRepository.findSupplierByProductId(productId);
-        System.out.println(supplierIdList);
+        List<Long> supplierIdList = productRepository.findListSupplierIdByProductId(productId);
         dto.setManufacturerDto(manufacturerRepository.findManufacturerDtoByManufacturerId(manufacturerId));
         dto.setSupplierDto(supplierRepository.findSupplierDtoBySupplierId(supplierIdList));
         dto.setUnitDto(unitRepository.findUnitDtoByUnitId(unitId));
@@ -111,11 +110,11 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * Метод проверяет существования productId в базе
-     * @param productId
-     * @return есть или нет productId в базе
+     * @param productId - id продукта
+     * @return - есть или нет productId в базе
      */
     @Override
-    public boolean ifProductIdExists(Long productId) {
+    public boolean isProductIdExists(Long productId) {
         return productRepository.existsById(productId);
     }
 
