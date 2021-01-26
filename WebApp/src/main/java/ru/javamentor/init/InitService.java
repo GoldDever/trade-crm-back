@@ -1,12 +1,15 @@
 package ru.javamentor.init;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
+import ru.javamentor.model.product.Manufacturer;
 import ru.javamentor.model.product.Product;
+import ru.javamentor.model.product.ProductCategory;
 import ru.javamentor.model.product.ReserveProduct;
+import ru.javamentor.model.product.Supplier;
+import ru.javamentor.model.product.Unit;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.model.user.Role;
@@ -17,6 +20,10 @@ import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
+import ru.javamentor.repository.product.ManufacturerRepository;
+import ru.javamentor.repository.product.SupplierRepository;
+import ru.javamentor.repository.product.ProductCategoryRepository;
+import ru.javamentor.repository.product.UnitRepository;
 import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
 
@@ -33,6 +40,10 @@ public class InitService {
     private final ManagerRepository managerRepository;
     private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
+    private final ManufacturerRepository manufacturerRepository;
+    private final SupplierRepository supplierRepository;
+    private final ProductCategoryRepository productCategoryRepository;
+    private final UnitRepository unitRepository;
     private final ReserveProductRepository reserveProductRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
@@ -44,6 +55,10 @@ public class InitService {
             ManagerRepository managerRepository,
             OrderItemRepository orderItemRepository,
             ProductRepository productRepository,
+            ManufacturerRepository manufacturerRepository,
+            SupplierRepository supplierRepository,
+            ProductCategoryRepository productCategoryRepository,
+            UnitRepository unitRepository,
             ReserveProductRepository reserveProductRepository,
             RoleRepository roleRepository,
             UserRepository userRepository,
@@ -54,6 +69,10 @@ public class InitService {
         this.managerRepository = managerRepository;
         this.orderItemRepository = orderItemRepository;
         this.productRepository = productRepository;
+        this.manufacturerRepository = manufacturerRepository;
+        this.supplierRepository = supplierRepository;
+        this.productCategoryRepository = productCategoryRepository;
+        this.unitRepository = unitRepository;
         this.reserveProductRepository = reserveProductRepository;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
@@ -66,6 +85,10 @@ public class InitService {
         initManager();
         initClient();
         initAdmin();
+        initManufacturer();
+        initProductCategory();
+        initSupplier();
+        initUnit();
         initProduct();
         initOrder();
         initOrderItem();
@@ -422,6 +445,11 @@ public class InitService {
         product.setProductCount(333);
         product.setProductName("productName");
         product.setMadeCountry("madeCountry");
+        product.setManufacturer(manufacturerRepository.findManufacturerById(1L));
+        Set<Supplier> suppliers = Set.copyOf(supplierRepository.findAll());
+        product.setSuppliers(suppliers);
+        product.setUnit(unitRepository.findUnitById(1L));
+        product.setProductCategory(productCategoryRepository.findById(2L).get());
         product.setArticle("article");
         product.setPurchasePrice(BigDecimal.valueOf(6.00));
         product.setPrice(BigDecimal.valueOf(4.00));
@@ -435,12 +463,65 @@ public class InitService {
         product.setProductCount(100);
         product.setProductName("productName1");
         product.setMadeCountry("madeCountry1");
+        product.setManufacturer(manufacturerRepository.findManufacturerById(2L));
+        Set<Supplier> suppliers = Set.copyOf(supplierRepository.findAll());
+        product.setSuppliers(suppliers);
+        product.setUnit(unitRepository.findUnitById(2L));
+        product.setProductCategory(productCategoryRepository.findById(1L).get());
         product.setArticle("article1");
         product.setPurchasePrice(BigDecimal.valueOf(7.00));
         product.setPrice(BigDecimal.valueOf(5.00));
         product.setMargin(BigDecimal.valueOf(3.00));
         product.setPackagingCount(4);
         productRepository.save(product);
+    }
+
+    private void initManufacturer() {
+        Manufacturer manufacturer1 =  new Manufacturer();
+        manufacturer1.setManufacturerName("Карго технологии");
+        manufacturerRepository.save(manufacturer1);
+
+        Manufacturer manufacturer2 =  new Manufacturer();
+        manufacturer2.setManufacturerName("ООО Азимут");
+        manufacturerRepository.save(manufacturer2);
+    }
+
+    private void initSupplier() {
+        Supplier supplier1 = new Supplier();
+        supplier1.setName("Полигон");
+        supplierRepository.save(supplier1);
+
+        Supplier supplier2 = new Supplier();
+        supplier2.setName("Партком");
+        supplierRepository.save(supplier2);
+
+        Supplier supplier3 = new Supplier();
+        supplier3.setName("Бригадир");
+        supplierRepository.save(supplier3);
+
+    }
+
+    private void initProductCategory() {
+        ProductCategory productCategory1 = new ProductCategory();
+        productCategory1.setCategoryName("Главные");
+        productCategoryRepository.save(productCategory1);
+        
+        ProductCategory productCategory2 = new ProductCategory();
+        productCategory2.setCategoryName("Товары");
+        productCategory2.setMainProductCategory(productCategory1);
+        productCategoryRepository.save(productCategory2);
+
+    }
+
+    private void initUnit() {
+        Unit unit1 = new Unit();
+        unit1.setUnitName("кг");
+        unitRepository.save(unit1);
+
+        Unit unit2 = new Unit();
+        unit2.setUnitName("шт");
+        unitRepository.save(unit2);
+
     }
 
     private void initOrder() {

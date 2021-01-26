@@ -1,7 +1,10 @@
 package ru.javamentor.service.order;
 
 import org.springframework.stereotype.Service;
+import ru.javamentor.dto.order.ClientDto;
+import ru.javamentor.dto.order.ManagerDto;
 import ru.javamentor.dto.order.OrderApproveDto;
+import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderApprove;
 import ru.javamentor.model.user.User;
@@ -83,4 +86,34 @@ public class OrderServiceImpl implements OrderService {
         );
         orderRepository.save(order);
     }
+
+    /**
+     * Метод инициализирующий orderDTO ордером из Базы Данных
+     *
+     * @param orderId - ID ордера
+     * @return - Возвращает orderDTO
+     */
+    @Override
+    public OrderDto getOrderDtoByOrderId(Long orderId) {
+        Long clientId = orderRepository.getClientIdByOrderId(orderId);
+        Long managerId = orderRepository.getManagerIdByOrderId(orderId);
+        OrderDto orderDto = orderRepository.getOrderDtoByOrderId(orderId);
+        ClientDto clientDto = clientRepository.getClientDtoById(clientId);
+        ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
+        orderDto.setClient(clientDto);
+        orderDto.setManager(managerDto);
+        return orderDto;
+    }
+
+    /**
+     * Метод, возвращающий boolean при проверке существования ордера с данным Id.
+     *
+     * @param orderId - Принимает Id ордера как аргумент.
+     * @return - Возвращает boolean, соответствующий результату.
+     */
+    @Override
+    public boolean isExistsByOrderId(Long orderId) {
+        return orderRepository.existsById(orderId);
+    }
 }
+

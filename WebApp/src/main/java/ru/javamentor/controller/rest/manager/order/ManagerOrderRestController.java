@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.user.User;
 import ru.javamentor.service.order.OrderItemService;
@@ -36,7 +37,7 @@ public class ManagerOrderRestController {
      * Метод добавления строки заказа
      *
      * @param orderItemDto - DTO строка заказа
-     * @param orderId      - id заказа
+     * @param orderId - id заказа
      * @return - результат выполнения
      */
     @PostMapping("/{orderId}/addItem")
@@ -51,8 +52,8 @@ public class ManagerOrderRestController {
     /**
      * Метод изменения количества товаров в строке заказа
      *
-     * @param orderId      - id заказа
-     * @param orderItemId  - id строки заказа
+     * @param orderId - id заказа
+     * @param orderItemId - id строки заказа
      * @param countProduct - количество на которое необходимо изменить
      * @return - результат выполнения
      */
@@ -72,8 +73,8 @@ public class ManagerOrderRestController {
      * Метод для удаления
      * зарезирвированного продукта
      *
-     * @param orderId      - id заказа
-     * @param productId    - id продукта
+     * @param orderId - id заказа
+     * @param productId - id продукта
      * @param productCount - количество удалеямого продукта из резерва
      * @return - HTTP ответ с BODY
      */
@@ -131,5 +132,20 @@ public class ManagerOrderRestController {
         else{
             return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n"+result, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    /**
+     * GET метод для получения orderDTO на странице менеджера
+     *
+     * @param orderId - Принимает orderId как аргумент
+     * @return - Возвращает orderDTO
+     */
+    @GetMapping(value = "/{orderId}")
+    public ResponseEntity<?> getOrderDtoByOrderId(@PathVariable Long orderId) {
+        if (orderService.isExistsByOrderId(orderId)) {
+            OrderDto orderDto = orderService.getOrderDtoByOrderId(orderId);
+            return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+        }
+        return ResponseEntity.badRequest().body("Нет ордера с Id - " + orderId);
     }
 }
