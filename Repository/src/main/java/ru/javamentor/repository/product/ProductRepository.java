@@ -7,6 +7,7 @@ import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.model.product.Supplier;
 
+import java.util.List;
 import java.util.Set;
 
 
@@ -35,10 +36,12 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "WHERE p.id = :productId")
     Long findUnitIdByProductId(@Param("productId") Long ProductId);
 
-    @Query("SELECT p.suppliers " +
+    @Query("SELECT s.id " +
             "FROM Product p " +
-            "WHERE p.id = :productId")
-    Set<Supplier> findSupplierByProductId(@Param("productId") Long ProductId);
+            "LEFT OUTER JOIN Supplier s " +
+            "ON p.id = s.id " +
+            "AND p.id = :productId")
+    List<Long> findSupplierByProductId(@Param("productId") Long ProductId);
 
 
 }
