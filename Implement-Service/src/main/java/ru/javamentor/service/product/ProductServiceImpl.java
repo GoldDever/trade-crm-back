@@ -5,8 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.dto.product.ProductPostDto;
 import ru.javamentor.dto.product.SupplierDto;
-import ru.javamentor.model.product.Product;
-import ru.javamentor.model.product.Supplier;
+import ru.javamentor.model.product.*;
 import ru.javamentor.repository.product.ManufacturerRepository;
 import ru.javamentor.repository.product.ProductCategoryRepository;
 import ru.javamentor.repository.product.ProductRepository;
@@ -20,6 +19,7 @@ import java.util.logging.*;
 import org.springframework.web.filter.GenericFilterBean;
 import ru.javamentor.service.JwtUserDetailsService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -102,26 +102,51 @@ public class ProductServiceImpl implements ProductService {
         }
         String idFromErp=productPostDto.getIdFromErp();
         Product product = productRepository.findProductByIdFromErp(idFromErp);
+        try {
+            product.setManufacturer(manufacturerRepository.findById(productPostDto.getManufacturerDto().getId()).orElseThrow(()-> new Exception (idFromErp)));
+        } catch (Exception e) {
+            //e.printStackTrace();
+            logger.warning("Не заполнено поле для обновления" + e);
+            return;
+        }
+        try {
+        product.setUnit(unitRepository.findById(productPostDto.getUnitDto().getId()).orElseThrow(()-> new Exception (idFromErp)));
+    } catch (Exception e) {
+        //e.printStackTrace();
+        logger.warning("Не заполнено поле для обновления" + e);
+        return;
+    };
+        try {
+        product.setProductCategory(productCategoryRepository.findById(productPostDto.getProductCategory().getId()).orElseThrow(()-> new Exception (idFromErp)));
+    } catch (Exception e) {
+        //e.printStackTrace();
+        logger.warning("Не заполнено поле для обновления" + e);
+        return;
+    };
         product (productPostDto.getProductCount(),
                 productPostDto.getProductName(),
                 productPostDto.getMadeCountry(),
-                manufacturerRepository.findById(productPostDto.getManufacturerDto().getId()).orElseThrow(),
+                //manufacturerRepository.findById(productPostDto.getManufacturerDto().getId()).orElseThrow(),
                 new HashSet<>(finalList),
                 productPostDto.getArticle(),
-                BigDecimal.valueOf(productPostDto.getPurchasePrice(),
-                BigDecimal.valueOf(productPostDto.getPrice(),
-                BigDecimal.valueOf(productPostDto.getMargin(),
-                unitRepository.findById(productPostDto.getUnitDto().getId()).orElseThrow(),
+                BigDecimal.valueOf(productPostDto.getPurchasePrice()),
+                BigDecimal.valueOf(productPostDto.getPrice()),
+                BigDecimal.valueOf(productPostDto.getMargin()),
+                //unitRepository.findById(productPostDto.getUnitDto().getId()).orElseThrow(),
                 productPostDto.getPackagingCount(),
-                productPostDto.getIdFromErp(),
-                try {
-                productCategoryRepository.findById(productPostDto.getProductCategory().getId()).orElseThrow(()-> new Exception (idFromErp));
-        } catch (Exception e) {
-            //e.printStackTrace();
-            logger.warning("Произошла ошибка" + e);
-            return;
-        }
+                productPostDto.getIdFromErp()
+                //productCategoryRepository.findById(productPostDto.getProductCategory().getId()).orElseThrow()
+        );
+//-> new EntityNotFoundException(String.format("No record found")))
+        //-> new RuntimeException("instant can not be null"));
 
         productRepository.save(product);
     }
+
+    private void product(Integer productCount, String productName, String madeCountry,
+                         HashSet<Supplier> suppliers, String article, BigDecimal valueOf,
+                         BigDecimal valueOf1, BigDecimal valueOf2, Integer packagingCount, String idFromErp) {
+    }
+
+
 }
