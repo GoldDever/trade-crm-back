@@ -11,4 +11,6 @@ public interface ProductService {
 
     void saveProduct(ProductPostDto dto);
     void updateProduct(ProductPostDto dto);
+    ProductDto getProductDtoByProductId(Long productId);
+    boolean isProductIdExists(Long productId);
 }
