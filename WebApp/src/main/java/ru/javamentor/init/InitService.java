@@ -537,16 +537,36 @@ public class InitService {
         order.setShipped(true);
         order.setCreateTime(LocalDateTime.parse("2020-12-30T11:03:12"));
         orderRepository.save(order);
+
+        Client client2 = clientRepository.findById(20L).get();
+        Order order2 = new Order();
+        order.setIdFromErp("idFromErp");
+        order.setClient(client2);
+        order.setManager(manager1);
+        order.setOrderFullPrice(BigDecimal.valueOf(77.678));
+        order.setApprove(true);
+        order.setPaid(true);
+        order.setShipped(true);
+        order.setCreateTime(LocalDateTime.parse("2020-11-30T11:03:12"));
+        orderRepository.save(order2);
     }
 
     private void initOrderItem() {
-        OrderItem orderItem = new OrderItem();
-        orderItem.setInvoiceIssued("invoiceIssued");
-        orderItem.setProductCount(10);
-        orderItem.setProduct(productRepository.findById(1L).get());
-        orderItem.setOrder(orderRepository.findById(1L).get());
-        orderItem.setItemFullPrice(BigDecimal.valueOf(100.678));
-        orderItemRepository.save(orderItem);
+        OrderItem orderItem1 = new OrderItem();
+        orderItem1.setInvoiceIssued("invoiceIssued");
+        orderItem1.setProductCount(10);
+        orderItem1.setProduct(productRepository.findById(1L).get());
+        orderItem1.setOrder(orderRepository.findById(1L).get());
+        orderItem1.setItemFullPrice(BigDecimal.valueOf(100.678));
+        orderItemRepository.save(orderItem1);
+
+        OrderItem orderItem2 = new OrderItem();
+        orderItem2.setInvoiceIssued("invoiceIssued");
+        orderItem2.setProductCount(2);
+        orderItem2.setProduct(productRepository.findById(1L).get());
+        orderItem2.setOrder(orderRepository.findById(1L).get());
+        orderItem2.setItemFullPrice(BigDecimal.valueOf(100.678));
+        orderItemRepository.save(orderItem2);
     }
 
     private void initReserveProduct() {
