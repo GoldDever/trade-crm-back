@@ -12,7 +12,6 @@ import ru.javamentor.model.user.User;
 import ru.javamentor.repository.order.OrderApproveRepository;
 import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
-import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
 import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
@@ -31,7 +30,6 @@ public class OrderServiceImpl implements OrderService {
     private final ClientRepository clientRepository;
     private final ManagerRepository managerRepository;
     private final ReserveProductRepository reserveProductRepository;
-    private final ProductRepository productRepository;
     private final ProductService productService;
 
 
@@ -40,14 +38,14 @@ public class OrderServiceImpl implements OrderService {
                             OrderItemRepository orderItemRepository,
                             ClientRepository clientRepository,
                             ManagerRepository managerRepository,
-                            ReserveProductRepository reserveProductRepository, ProductRepository productRepository, ProductService productService) {
+                            ReserveProductRepository reserveProductRepository,
+                            ProductService productService) {
         this.orderRepository = orderRepository;
         this.orderApproveRepository = orderApproveRepository;
         this.orderItemRepository = orderItemRepository;
         this.clientRepository = clientRepository;
         this.managerRepository = managerRepository;
         this.reserveProductRepository = reserveProductRepository;
-        this.productRepository = productRepository;
         this.productService = productService;
     }
 
