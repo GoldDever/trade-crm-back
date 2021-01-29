@@ -15,6 +15,7 @@ import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -114,6 +115,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean isExistsByOrderId(Long orderId) {
         return orderRepository.existsById(orderId);
+    }
+
+    /**
+     * Метод, возвращающий список ордеров клиента с clientId.
+     *
+     * @param clientId - Принимает Id клиента как аргумент.
+     * @return - Возвращает список ордеров клиента.
+     */
+    @Override
+    public List<OrderDto> getOrderDtoListByClientId(Long clientId) {
+        return orderRepository.getOrderDtoListByClientId(clientId);
     }
 }
 
