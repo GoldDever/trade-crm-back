@@ -2,7 +2,6 @@ package ru.javamentor.service.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.dto.product.ProductPostDto;
 import ru.javamentor.dto.product.SupplierDto;
 import ru.javamentor.model.product.*;
@@ -15,18 +14,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.logging.*;
-import org.springframework.web.filter.GenericFilterBean;
-import ru.javamentor.service.JwtUserDetailsService;
+import java.util.NoSuchElementException;
 
-import javax.persistence.EntityNotFoundException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * Implement-Service для Продукта
@@ -39,16 +28,13 @@ public class ProductServiceImpl implements ProductService {
     private UnitRepository unitRepository;
     private ProductCategoryRepository productCategoryRepository;
 
-    private final static Logger logger =  Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
-
     public ProductServiceImpl() {}
 
     @Autowired
     public ProductServiceImpl(ProductRepository productRepository,
                               ManufacturerRepository manufacturerRepository,
                               UnitRepository unitRepository,
-                                ProductCategoryRepository productCategoryRepository) {
+                              ProductCategoryRepository productCategoryRepository) {
         this.productRepository = productRepository;
         this.manufacturerRepository = manufacturerRepository;
         this.unitRepository = unitRepository;
@@ -101,52 +87,27 @@ public class ProductServiceImpl implements ProductService {
             finalList.add(new Supplier(tmp.getId(), tmp.getName()));
         }
         String idFromErp=productPostDto.getIdFromErp();
-        Product product = productRepository.findProductByIdFromErp(idFromErp);
-        try {
-            product.setManufacturer(manufacturerRepository.findById(productPostDto.getManufacturerDto().getId()).orElseThrow(()-> new Exception (idFromErp)));
-        } catch (Exception e) {
-            //e.printStackTrace();
-            logger.warning("Не заполнено поле для обновления" + e);
-            return;
-        }
-        try {
-        product.setUnit(unitRepository.findById(productPostDto.getUnitDto().getId()).orElseThrow(()-> new Exception (idFromErp)));
-    } catch (Exception e) {
-        //e.printStackTrace();
-        logger.warning("Не заполнено поле для обновления" + e);
-        return;
-    };
-        try {
-        product.setProductCategory(productCategoryRepository.findById(productPostDto.getProductCategory().getId()).orElseThrow(()-> new Exception (idFromErp)));
-    } catch (Exception e) {
-        //e.printStackTrace();
-        logger.warning("Не заполнено поле для обновления" + e);
-        return;
-    };
-        product (productPostDto.getProductCount(),
+       Product product = productRepository.findProductByIdFromErp(idFromErp);
+       Long a= product.getId();
+
+       Product temporaryProductForUpdateProductInTable= new Product(
+                productPostDto.getProductCount(),
                 productPostDto.getProductName(),
                 productPostDto.getMadeCountry(),
-                //manufacturerRepository.findById(productPostDto.getManufacturerDto().getId()).orElseThrow(),
+                manufacturerRepository.findById(productPostDto.getManufacturerDto().getId()).orElseThrow(()-> new NoSuchElementException("Manufacturer c idFromErp " + idFromErp + " не найден")),
                 new HashSet<>(finalList),
                 productPostDto.getArticle(),
                 BigDecimal.valueOf(productPostDto.getPurchasePrice()),
                 BigDecimal.valueOf(productPostDto.getPrice()),
                 BigDecimal.valueOf(productPostDto.getMargin()),
-                //unitRepository.findById(productPostDto.getUnitDto().getId()).orElseThrow(),
+                unitRepository.findById(productPostDto.getUnitDto().getId()).orElseThrow(()-> new NoSuchElementException ("Unit c idFromErp " + idFromErp + " не найден")),
                 productPostDto.getPackagingCount(),
-                productPostDto.getIdFromErp()
-                //productCategoryRepository.findById(productPostDto.getProductCategory().getId()).orElseThrow()
+                idFromErp,
+                productCategoryRepository.findById(productPostDto.getProductCategory().getId()).orElseThrow(()-> new NoSuchElementException ("ProductCategory с idFromErp " + idFromErp + " не найден"))
         );
-//-> new EntityNotFoundException(String.format("No record found")))
-        //-> new RuntimeException("instant can not be null"));
+        temporaryProductForUpdateProductInTable.setId(a);
+    productRepository.save(temporaryProductForUpdateProductInTable);
 
-        productRepository.save(product);
     }
-
-    private void product(Integer productCount, String productName, String madeCountry,
-                         HashSet<Supplier> suppliers, String article, BigDecimal valueOf,
-                         BigDecimal valueOf1, BigDecimal valueOf2, Integer packagingCount, String idFromErp) {
-    }
-
 
 }

@@ -1,12 +1,10 @@
 package ru.javamentor.init;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import ru.javamentor.model.product.*;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
-import ru.javamentor.model.product.Product;
-import ru.javamentor.model.product.ReserveProduct;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.model.user.Role;
@@ -15,8 +13,7 @@ import ru.javamentor.repository.RoleRepository;
 import ru.javamentor.repository.UserRepository;
 import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
-import ru.javamentor.repository.product.ProductRepository;
-import ru.javamentor.repository.product.ReserveProductRepository;
+import ru.javamentor.repository.product.*;
 import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
 
@@ -37,6 +34,11 @@ public class InitService {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final UnitRepository unitRepository;
+
+   private final ProductCategoryRepository productCategoryRepository;
+    private final ManufacturerRepository manufacturerRepository;
+    private final SupplierRepository supplierRepository;
 
     public InitService(
             OrderRepository orderRepository,
@@ -47,8 +49,8 @@ public class InitService {
             ReserveProductRepository reserveProductRepository,
             RoleRepository roleRepository,
             UserRepository userRepository,
-            BCryptPasswordEncoder passwordEncoder
-    ) {
+            BCryptPasswordEncoder passwordEncoder,
+            ProductCategoryRepository productCategoryRepository, ManufacturerRepository manufacturerRepository, SupplierRepository supplierRepository, UnitRepository unitRepository) {
         this.orderRepository = orderRepository;
         this.clientRepository = clientRepository;
         this.managerRepository = managerRepository;
@@ -58,6 +60,10 @@ public class InitService {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.productCategoryRepository = productCategoryRepository;
+        this.manufacturerRepository = manufacturerRepository;
+        this.supplierRepository = supplierRepository;
+        this.unitRepository = unitRepository;
     }
 
     @PostConstruct
@@ -71,6 +77,8 @@ public class InitService {
         initOrderItem();
         initReserveProduct();
         initProduct2();
+       initUpdateProduct();
+
     }
 
     private void initRole() {
@@ -433,6 +441,7 @@ public class InitService {
     private void initProduct2() {
         Product product = new Product();
         product.setProductCount(100);
+        product.setIdFromErp("2");
         product.setProductName("productName1");
         product.setMadeCountry("madeCountry1");
         product.setArticle("article1");
@@ -442,6 +451,7 @@ public class InitService {
         product.setPackagingCount(4);
         productRepository.save(product);
     }
+
 
     private void initOrder() {
         Client client1 = clientRepository.findById(21L).get();
@@ -483,4 +493,22 @@ public class InitService {
         reserveProduct2.setOrder(orderRepository.findById(1L).get());
         reserveProductRepository.save(reserveProduct2);
     }
+    private void initUpdateProduct() {
+
+        Manufacturer manufacturer = new Manufacturer();
+        ProductCategory productCategory = new ProductCategory();
+        productCategory.setId(1L);
+        productCategory.setCategoryName("A");
+        productCategory.setIdFromErp("2");
+        productCategory.setMainCategory(true);
+        Supplier supplier1 = new Supplier(1L, "Anton");
+        manufacturer.setId(1L);
+        manufacturer.setManufacturerName("A");
+        manufacturer.setIdFromErp("2");
+        productCategoryRepository.save(productCategory);
+        manufacturerRepository.save(manufacturer);
+        supplierRepository.save(supplier1);
+
+
+}
 }

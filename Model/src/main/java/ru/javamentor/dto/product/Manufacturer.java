@@ -3,16 +3,16 @@ package ru.javamentor.dto.product;
 /**
  * DTO для передачи на страницу производителя
  */
-public class ManufacturerDto {
+public class Manufacturer {
 
     private Long id;
     private String manufacturerName;
     private String idFromErp;
 
-    public ManufacturerDto() {
+    public Manufacturer() {
     }
 
-    public ManufacturerDto(Long id, String manufacturerName, String idFromErp) {
+    public Manufacturer(Long id, String manufacturerName, String idFromErp) {
         this.id = id;
         this.manufacturerName = manufacturerName;
         this.idFromErp = idFromErp;

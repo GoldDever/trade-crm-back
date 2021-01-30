@@ -1,7 +1,5 @@
 package ru.javamentor.dto.product;
 
-import ru.javamentor.model.product.ProductCategory;
-
 import java.util.List;
 
 /**
@@ -11,7 +9,7 @@ public class ProductDto {
     private Long id;
     private String productName;
     private String madeCountry;
-    private ManufacturerDto manufacturerDto;
+    private Manufacturer manufacturerDto;
     private List<SupplierDto> supplierDto;
     private String article;
     private UnitDto unitDto;
@@ -22,7 +20,7 @@ public class ProductDto {
             Long id,
             String productName,
             String madeCountry,
-            ManufacturerDto manufacturerDto,
+            Manufacturer manufacturerDto,
             List<SupplierDto> supplierDto,
             String article,
             UnitDto unitDto,
@@ -40,7 +38,7 @@ public class ProductDto {
     }
 
     public ProductDto(String productName, String madeCountry,
-                      ManufacturerDto manufacturerDto) {
+                      Manufacturer manufacturerDto) {
         this.productName = productName;
     }
 
@@ -68,11 +66,11 @@ public class ProductDto {
         this.madeCountry = madeCountry;
     }
 
-    public ManufacturerDto getManufacturerDto() {
+    public Manufacturer getManufacturerDto() {
         return manufacturerDto;
     }
 
-    public void setManufacturerDto(ManufacturerDto manufacturerDto) {
+    public void setManufacturerDto(Manufacturer manufacturerDto) {
         this.manufacturerDto = manufacturerDto;
     }
 

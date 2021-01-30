@@ -1,5 +1,7 @@
 package ru.javamentor.model.product;
 
+import ru.javamentor.dto.product.ProductPostDto;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -115,6 +117,26 @@ public class Product {
         this.productCategory = productCategory;
     }
 
+
+    public Product( Integer productCount, String productName,
+                   String madeCountry, Manufacturer manufacturer,
+                   Set<Supplier> suppliers, String article,
+                   BigDecimal purchasePrice, BigDecimal price,
+                   BigDecimal margin, Unit unit,
+                   Integer packagingCount,  ProductCategory productCategory) {
+        this.productCount = productCount;
+        this.productName = productName;
+        this.madeCountry = madeCountry;
+        this.manufacturer = manufacturer;
+        this.suppliers = suppliers;
+        this.article = article;
+        this.purchasePrice = purchasePrice;
+        this.price = price;
+        this.margin = margin;
+        this.unit = unit;
+        this.packagingCount = packagingCount;
+        this.productCategory = productCategory;
+    }
     public Long getId() {
         return id;
     }
