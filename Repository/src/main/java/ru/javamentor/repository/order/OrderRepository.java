@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.parameters.P;
 import ru.javamentor.dto.order.OrderDto;
-import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
 
 import java.util.List;
@@ -41,4 +40,15 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT o.manager.id FROM Order o WHERE o.id = :orderId")
     Long getManagerIdByOrderId(@Param("orderId") Long orderId);
 
+    @Query("SELECT new ru.javamentor.dto.order.OrderDto(" +
+            "o.id, " +
+            "o.idFromErp, " +
+            "o.orderFullPrice, " +
+            "o.isApprove, " +
+            "o.isPaid, " +
+            "o.isShipped, " +
+            "o.createTime) " +
+            "FROM Order o " +
+            "WHERE o.client.id = :clientId")
+    List<OrderDto> getOrderDtoListByClientId (@Param("clientId") Long clientId);
 }
