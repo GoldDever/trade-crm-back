@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 
 @Entity
@@ -35,7 +36,7 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @Column(name = "item_full_price")
+    @Transient
     private BigDecimal itemFullPrice;
 
     public OrderItem() {
@@ -46,16 +47,15 @@ public class OrderItem {
             String invoiceIssued,
             Integer productCount,
             Product product,
-            Order order,
-            BigDecimal itemFullPrice
+            Order order
     ) {
         this.id = id;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
         this.product = product;
         this.order = order;
-        this.itemFullPrice = itemFullPrice;
     }
+
 
     public Long getId() {
         return id;
@@ -90,7 +90,7 @@ public class OrderItem {
     }
 
     public BigDecimal getItemFullPrice() {
-        return itemFullPrice;
+        return product.getPrice().multiply(BigDecimal.valueOf(productCount));
     }
 
     public void setItemFullPrice(BigDecimal itemFullPrice) {
