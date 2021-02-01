@@ -132,5 +132,16 @@ public class OrderServiceImpl implements OrderService {
     public boolean isExistsByOrderId(Long orderId) {
         return orderRepository.existsById(orderId);
     }
+
+    /**
+     * Метод, возвращающий список ордеров клиента с clientId.
+     *
+     * @param clientId - Принимает Id клиента как аргумент.
+     * @return - Возвращает список ордеров клиента.
+     */
+    @Override
+    public List<OrderDto> getOrderDtoListByClientId(Long clientId) {
+        return orderRepository.getOrderDtoListByClientId(clientId);
+    }
 }
 
