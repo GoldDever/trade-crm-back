@@ -19,12 +19,17 @@ public class Supplier {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "id_from_erp", unique = true)
+    private String idFromErp;
+
     public Supplier() {
     }
 
-    public Supplier(Long id, String name) {
+    public Supplier(Long id, String name, String idFromErp) {
         this.id = id;
         this.name = name;
+
+        this.idFromErp = idFromErp;
     }
 
     public Long getId() {

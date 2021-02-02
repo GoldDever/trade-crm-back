@@ -6,12 +6,14 @@ public class SupplierDto {
 
     private Long id;
     private String name;
+    public String idFromErp;
 
     public SupplierDto() {}
 
-    public SupplierDto(Long id, String name) {
+    public SupplierDto(Long id, String name, String idFromErp) {
         this.id = id;
         this.name = name;
+        this.idFromErp=idFromErp;
     }
 
     public Long getId() {
@@ -29,4 +31,9 @@ public class SupplierDto {
     public void setName(String name) {
         this.name = name;
     }
-}
+
+    public String getIdFromErp(){ return idFromErp;}
+
+    public void setIdFromErp(String idFromErp) { this.idFromErp=idFromErp;}
+    }
+

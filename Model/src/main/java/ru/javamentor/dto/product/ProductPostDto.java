@@ -11,7 +11,7 @@ public class ProductPostDto {
     private Integer productCount;
     private String productName;
     private String madeCountry;
-    private Manufacturer manufacturerDto;
+    private ManufacturerDto manufacturerDto;
     private List<SupplierDto> supplierDto;
     private String article;
     private Double purchasePrice;
@@ -26,7 +26,7 @@ public class ProductPostDto {
     }
 
     public ProductPostDto(Integer productCount, String productName, String madeCountry,
-                          Manufacturer manufacturerDto, List<SupplierDto> supplierDto,
+                          ManufacturerDto manufacturerDto, List<SupplierDto> supplierDto,
                           String article, Double purchasePrice,
                           Double price, Double margin,
                           UnitDto unitDto, Integer packagingCount,
@@ -70,11 +70,12 @@ public class ProductPostDto {
         this.madeCountry = madeCountry;
     }
 
-    public Manufacturer getManufacturerDto() {
+    public ManufacturerDto
+    getManufacturerDto() {
         return manufacturerDto;
     }
 
-    public void setManufacturerDto(Manufacturer manufacturerDto) {
+    public void setManufacturerDto(ManufacturerDto manufacturerDto) {
         this.manufacturerDto = manufacturerDto;
     }
 

@@ -1,5 +1,7 @@
 package ru.javamentor.dto.product;
 
+import ru.javamentor.model.product.Manufacturer;
+
 import java.util.List;
 
 /**

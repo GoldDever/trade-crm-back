@@ -1,5 +1,5 @@
 package ru.javamentor.init;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.javamentor.model.product.*;
@@ -77,7 +77,7 @@ public class InitService {
         initOrderItem();
         initReserveProduct();
         initProduct2();
-       initUpdateProduct();
+        initUpdateProduct();
 
     }
 
@@ -501,7 +501,7 @@ public class InitService {
         productCategory.setCategoryName("A");
         productCategory.setIdFromErp("2");
         productCategory.setMainCategory(true);
-        Supplier supplier1 = new Supplier(1L, "Anton");
+        Supplier supplier1 = new Supplier(1L, "Anton", "2");
         manufacturer.setId(1L);
         manufacturer.setManufacturerName("A");
         manufacturer.setIdFromErp("2");
