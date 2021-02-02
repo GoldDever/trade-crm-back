@@ -2,6 +2,7 @@ package ru.javamentor.dto.order;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * DTO для передачи Order на страницу
@@ -16,6 +17,7 @@ public class OrderDto {
     private Boolean paid;
     private Boolean shipped;
     private LocalDateTime createTime;
+    private List<OrderItemDto> orderItemDto;
 
     public OrderDto() {
     }
@@ -116,5 +118,13 @@ public class OrderDto {
 
     public void setCreateTime(LocalDateTime createTime) {
         this.createTime = createTime;
+    }
+
+    public List<OrderItemDto> getOrderItemDto() {
+        return orderItemDto;
+    }
+
+    public void setOrderItemDto(List<OrderItemDto> orderItemDto) {
+        this.orderItemDto = orderItemDto;
     }
 }

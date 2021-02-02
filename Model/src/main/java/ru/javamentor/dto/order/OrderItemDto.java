@@ -33,6 +33,19 @@ public class OrderItemDto {
         this.itemFullPrice = itemFullPrice;
     }
 
+    public OrderItemDto(
+            Long id,
+            String invoiceIssued,
+            Integer productCount,
+            BigDecimal itemFullPrice
+    ) {
+        this.id = id;
+        this.invoiceIssued = invoiceIssued;
+        this.productCount = productCount;
+        this.itemFullPrice = itemFullPrice;
+    }
+
+
     public Long getId() {
         return id;
     }
