@@ -21,8 +21,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Query("SELECT new ru.javamentor.dto.order.OrderItemDto(" +
             "oi.id, " +
             "oi.invoiceIssued," +
-            "oi.productCount, " +
-            "oi.itemFullPrice) " +
+            "oi.productCount) " +
             "FROM OrderItem oi " +
             "JOIN oi.order o " +
             "WHERE o.id = :orderId")
