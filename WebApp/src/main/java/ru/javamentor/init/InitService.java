@@ -77,7 +77,6 @@ public class InitService {
         initOrderItem();
         initReserveProduct();
         initProduct2();
-        initUpdateProduct();
 
     }
 
@@ -493,22 +492,5 @@ public class InitService {
         reserveProduct2.setOrder(orderRepository.findById(1L).get());
         reserveProductRepository.save(reserveProduct2);
     }
-    private void initUpdateProduct() {
 
-        Manufacturer manufacturer = new Manufacturer();
-        ProductCategory productCategory = new ProductCategory();
-        productCategory.setId(1L);
-        productCategory.setCategoryName("A");
-        productCategory.setIdFromErp("2");
-        productCategory.setMainCategory(true);
-        Supplier supplier1 = new Supplier(1L, "Anton", "2");
-        manufacturer.setId(1L);
-        manufacturer.setManufacturerName("A");
-        manufacturer.setIdFromErp("2");
-        productCategoryRepository.save(productCategory);
-        manufacturerRepository.save(manufacturer);
-        supplierRepository.save(supplier1);
-
-
-}
 }

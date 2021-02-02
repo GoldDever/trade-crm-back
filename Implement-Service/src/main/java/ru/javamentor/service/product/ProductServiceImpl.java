@@ -103,38 +103,6 @@ public class ProductServiceImpl implements ProductService {
         updateProduct.setProductCategory(productCategoryRepository.findById(productPostDto.getProductCategory().getId()).orElseThrow(()-> new NoSuchElementException ("ProductCategory с idFromErp " + idFromErp + " не найден")));
         productRepository.save(updateProduct);
 
-
-
-
-
-
-
-
-
-
-
-       //Long productId= product.getId();
-
-//       Product temporaryProductForUpdateProductInTable= new Product(
-//                productPostDto.getProductCount(),
-//                productPostDto.getProductName(),
-//                productPostDto.getMadeCountry(),
-//                manufacturerRepository.findById(productPostDto.getManufacturerDto().getId()).orElseThrow(()-> new NoSuchElementException("Manufacturer c idFromErp " + idFromErp + " не найден")),
-//                new HashSet<>(finalList),
-//                productPostDto.getArticle(),
-//                BigDecimal.valueOf(productPostDto.getPurchasePrice()),
-//                BigDecimal.valueOf(productPostDto.getPrice()),
-//                BigDecimal.valueOf(productPostDto.getMargin()),
-//                unitRepository.findById(productPostDto.getUnitDto().getId()).orElseThrow(()-> new NoSuchElementException ("Unit c idFromErp " + idFromErp + " не найден")),
-//                productPostDto.getPackagingCount(),
-//                idFromErp,
-//                productCategoryRepository.findById(productPostDto.getProductCategory().getId()).orElseThrow(()-> new NoSuchElementException ("ProductCategory с idFromErp " + idFromErp + " не найден"))
-//        );
-//        temporaryProductForUpdateProductInTable.setId(productId);
-    //productRepository.save(product);
-
-            //temporaryProductForUpdateProductInTable);
-
     }
 
 }
