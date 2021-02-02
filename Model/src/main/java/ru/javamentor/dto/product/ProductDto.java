@@ -2,6 +2,7 @@ package ru.javamentor.dto.product;
 
 import ru.javamentor.model.product.ProductCategory;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -16,6 +17,8 @@ public class ProductDto {
     private String article;
     private UnitDto unitDto;
     private String productCategory;
+    private BigDecimal price;
+
 
     public ProductDto(
             Long id,
@@ -25,7 +28,9 @@ public class ProductDto {
             List<SupplierDto> supplierDto,
             String article,
             UnitDto unitDto,
-            String productCategory) {
+            String productCategory,
+            BigDecimal price)
+    {
         this.id = id;
         this.productName = productName;
         this.madeCountry = madeCountry;
@@ -34,6 +39,7 @@ public class ProductDto {
         this.article = article;
         this.unitDto = unitDto;
         this.productCategory = productCategory;
+        this.price = price;
     }
 
     public ProductDto(
@@ -114,5 +120,13 @@ public class ProductDto {
 
     public void setProductCategory(String productCategory) {
         this.productCategory = productCategory;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

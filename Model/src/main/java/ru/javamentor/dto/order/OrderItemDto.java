@@ -23,14 +23,22 @@ public class OrderItemDto {
             Long id,
             String invoiceIssued,
             Integer productCount,
-            ProductDto product,
-            BigDecimal itemFullPrice
+            ProductDto product
     ) {
         this.id = id;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
         this.product = product;
-        this.itemFullPrice = itemFullPrice;
+    }
+
+    public OrderItemDto(
+            Long id,
+            String invoiceIssued,
+            Integer productCount
+    ) {
+        this.id = id;
+        this.invoiceIssued = invoiceIssued;
+        this.productCount = productCount;
     }
 
     public Long getId() {
@@ -66,7 +74,7 @@ public class OrderItemDto {
     }
 
     public BigDecimal getItemFullPrice() {
-        return itemFullPrice;
+        return product.getPrice().multiply(BigDecimal.valueOf(productCount));
     }
 
     public void setItemFullPrice(BigDecimal itemFullPrice) {
