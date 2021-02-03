@@ -43,6 +43,7 @@ public class ManagerOrderRestController {
      */
     @GetMapping("/all")
     public ResponseEntity<?> getOrderDtoListByManager() {
+        //TODO реализовать метод, добавить проверку на менеджера ордера должны возвращаться только те которые принадлежат клиентам текущего менеджера
         return ResponseEntity.ok(null);
     }
 
@@ -55,6 +56,9 @@ public class ManagerOrderRestController {
 
     @GetMapping("/{clientId}/allOrders")
     public ResponseEntity<?> getAllClientOrders(@PathVariable Long clientId) {
+        //TODO добавить проверку на менеджера ордера должны возвращаться только
+        // те которые принадлежат клиентам текущего менеджера если клиент не принадлежит менеджеру то
+        // возвращать ответ "клиент не принадлежит текущему менеджеру"
 
         if (clientService.isExistsByClientId(clientId)) {
             return new ResponseEntity<>(orderService.getOrderDtoListByClientId(clientId), HttpStatus.OK);
