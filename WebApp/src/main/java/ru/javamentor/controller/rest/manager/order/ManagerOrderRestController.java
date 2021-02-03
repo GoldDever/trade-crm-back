@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.user.User;
+import ru.javamentor.service.client.ClientService;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
 import ru.javamentor.service.product.ReserveProductService;
@@ -23,16 +24,43 @@ public class ManagerOrderRestController {
 
     private final OrderService orderService;
     private final OrderItemService orderItemService;
+    private final ClientService clientService;
     private final ReserveProductService reserveProductService;
 
     public ManagerOrderRestController(OrderService orderService,
                                       OrderItemService orderItemService,
-                                      ReserveProductService reserveProductService) {
+                                      ClientService clientService, ReserveProductService reserveProductService) {
         this.orderService = orderService;
         this.orderItemService = orderItemService;
+        this.clientService = clientService;
         this.reserveProductService = reserveProductService;
     }
 
+    /**
+     * Метод возвращает все заказы всех клиентов у менеджера
+     *
+     * @return - результат выполнения
+     */
+    @GetMapping("/all")
+    public ResponseEntity<?> getOrderDtoListByManager() {
+        return ResponseEntity.ok(null);
+    }
+
+    /**
+     * Метод для получения списка заказов клиента на странице менеджера
+     *
+     * @param clientId - id клиента
+     * @return - список заказов клиента
+     */
+
+    @GetMapping("/{clientId}/allOrders")
+    public ResponseEntity<?> getAllClientOrders(@PathVariable Long clientId) {
+
+        if (clientService.isExistsByClientId(clientId)) {
+            return new ResponseEntity<>(orderService.getOrderDtoListByClientId(clientId), HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().body("Нет клиента с Id - " + clientId);
+    }
     /**
      * Метод добавления строки заказа
      *
