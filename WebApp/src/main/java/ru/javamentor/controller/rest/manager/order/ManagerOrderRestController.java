@@ -13,8 +13,11 @@ import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.user.User;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
+import ru.javamentor.service.product.ProductService;
 import ru.javamentor.service.product.ReserveProductService;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -26,13 +29,13 @@ public class ManagerOrderRestController {
     private final ReserveProductService reserveProductService;
 
 
-
     public ManagerOrderRestController(OrderService orderService,
                                       OrderItemService orderItemService,
                                       ReserveProductService reserveProductService) {
         this.orderService = orderService;
         this.orderItemService = orderItemService;
         this.reserveProductService = reserveProductService;
+
 
 
     }

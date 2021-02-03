@@ -88,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
         }
         String idFromErp=productPostDto.getIdFromErp();
         Product updateProduct=productRepository.findProductByIdFromErp(idFromErp);
-        updateProduct.setProductCount(productPostDto.getProductCount());
+        productRepository.findProductByIdFromErp(idFromErp).setProductCount(productPostDto.getProductCount());
         updateProduct.setProductName(productPostDto.getProductName());
         updateProduct.setMadeCountry(productPostDto.getMadeCountry());
         updateProduct.setManufacturer(manufacturerRepository.findById(productPostDto.getManufacturerDto().getId()).orElseThrow(()-> new NoSuchElementException("Manufacturer c idFromErp " + idFromErp + " не найден")));
