@@ -1,10 +1,15 @@
 package ru.javamentor.init;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import ru.javamentor.model.product.*;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
+import ru.javamentor.model.product.Manufacturer;
+import ru.javamentor.model.product.Product;
+import ru.javamentor.model.product.ProductCategory;
+import ru.javamentor.model.product.ReserveProduct;
+import ru.javamentor.model.product.Supplier;
+import ru.javamentor.model.product.Unit;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.model.user.Role;
@@ -13,7 +18,12 @@ import ru.javamentor.repository.RoleRepository;
 import ru.javamentor.repository.UserRepository;
 import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
-import ru.javamentor.repository.product.*;
+import ru.javamentor.repository.product.ProductRepository;
+import ru.javamentor.repository.product.ReserveProductRepository;
+import ru.javamentor.repository.product.ManufacturerRepository;
+import ru.javamentor.repository.product.SupplierRepository;
+import ru.javamentor.repository.product.ProductCategoryRepository;
+import ru.javamentor.repository.product.UnitRepository;
 import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
 
@@ -30,15 +40,14 @@ public class InitService {
     private final ManagerRepository managerRepository;
     private final OrderItemRepository orderItemRepository;
     private final ProductRepository productRepository;
+    private final ManufacturerRepository manufacturerRepository;
+    private final SupplierRepository supplierRepository;
+    private final ProductCategoryRepository productCategoryRepository;
+    private final UnitRepository unitRepository;
     private final ReserveProductRepository reserveProductRepository;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final UnitRepository unitRepository;
-
-   private final ProductCategoryRepository productCategoryRepository;
-    private final ManufacturerRepository manufacturerRepository;
-    private final SupplierRepository supplierRepository;
 
     public InitService(
             OrderRepository orderRepository,
@@ -46,24 +55,28 @@ public class InitService {
             ManagerRepository managerRepository,
             OrderItemRepository orderItemRepository,
             ProductRepository productRepository,
+            ManufacturerRepository manufacturerRepository,
+            SupplierRepository supplierRepository,
+            ProductCategoryRepository productCategoryRepository,
+            UnitRepository unitRepository,
             ReserveProductRepository reserveProductRepository,
             RoleRepository roleRepository,
             UserRepository userRepository,
-            BCryptPasswordEncoder passwordEncoder,
-            ProductCategoryRepository productCategoryRepository, ManufacturerRepository manufacturerRepository, SupplierRepository supplierRepository, UnitRepository unitRepository) {
+            BCryptPasswordEncoder passwordEncoder
+    ) {
         this.orderRepository = orderRepository;
         this.clientRepository = clientRepository;
         this.managerRepository = managerRepository;
         this.orderItemRepository = orderItemRepository;
         this.productRepository = productRepository;
+        this.manufacturerRepository = manufacturerRepository;
+        this.supplierRepository = supplierRepository;
+        this.productCategoryRepository = productCategoryRepository;
+        this.unitRepository = unitRepository;
         this.reserveProductRepository = reserveProductRepository;
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.productCategoryRepository = productCategoryRepository;
-        this.manufacturerRepository = manufacturerRepository;
-        this.supplierRepository = supplierRepository;
-        this.unitRepository = unitRepository;
     }
 
     @PostConstruct
@@ -72,13 +85,15 @@ public class InitService {
         initManager();
         initClient();
         initAdmin();
+        initManufacturer();
+        initProductCategory();
+        initSupplier();
+        initUnit();
         initProduct();
         initOrder();
         initOrderItem();
         initReserveProduct();
         initProduct2();
-
-
     }
 
     private void initRole() {
@@ -430,6 +445,11 @@ public class InitService {
         product.setProductCount(333);
         product.setProductName("productName");
         product.setMadeCountry("madeCountry");
+        product.setManufacturer(manufacturerRepository.findManufacturerById(1L));
+        Set<Supplier> suppliers = Set.copyOf(supplierRepository.findAll());
+        product.setSuppliers(suppliers);
+        product.setUnit(unitRepository.findUnitById(1L));
+        product.setProductCategory(productCategoryRepository.findById(2L).get());
         product.setArticle("article");
         product.setPurchasePrice(BigDecimal.valueOf(6.00));
         product.setPrice(BigDecimal.valueOf(4.00));
@@ -441,9 +461,13 @@ public class InitService {
     private void initProduct2() {
         Product product = new Product();
         product.setProductCount(100);
-        product.setIdFromErp("2");
         product.setProductName("productName1");
         product.setMadeCountry("madeCountry1");
+        product.setManufacturer(manufacturerRepository.findManufacturerById(2L));
+        Set<Supplier> suppliers = Set.copyOf(supplierRepository.findAll());
+        product.setSuppliers(suppliers);
+        product.setUnit(unitRepository.findUnitById(2L));
+        product.setProductCategory(productCategoryRepository.findById(1L).get());
         product.setArticle("article1");
         product.setPurchasePrice(BigDecimal.valueOf(7.00));
         product.setPrice(BigDecimal.valueOf(5.00));
@@ -452,6 +476,53 @@ public class InitService {
         productRepository.save(product);
     }
 
+    private void initManufacturer() {
+        Manufacturer manufacturer1 =  new Manufacturer();
+        manufacturer1.setManufacturerName("Карго технологии");
+        manufacturerRepository.save(manufacturer1);
+
+        Manufacturer manufacturer2 =  new Manufacturer();
+        manufacturer2.setManufacturerName("ООО Азимут");
+        manufacturerRepository.save(manufacturer2);
+    }
+
+    private void initSupplier() {
+        Supplier supplier1 = new Supplier();
+        supplier1.setName("Полигон");
+        supplierRepository.save(supplier1);
+
+        Supplier supplier2 = new Supplier();
+        supplier2.setName("Партком");
+        supplierRepository.save(supplier2);
+
+        Supplier supplier3 = new Supplier();
+        supplier3.setName("Бригадир");
+        supplierRepository.save(supplier3);
+
+    }
+
+    private void initProductCategory() {
+        ProductCategory productCategory1 = new ProductCategory();
+        productCategory1.setCategoryName("Главные");
+        productCategoryRepository.save(productCategory1);
+        
+        ProductCategory productCategory2 = new ProductCategory();
+        productCategory2.setCategoryName("Товары");
+        productCategory2.setMainProductCategory(productCategory1);
+        productCategoryRepository.save(productCategory2);
+
+    }
+
+    private void initUnit() {
+        Unit unit1 = new Unit();
+        unit1.setUnitName("кг");
+        unitRepository.save(unit1);
+
+        Unit unit2 = new Unit();
+        unit2.setUnitName("шт");
+        unitRepository.save(unit2);
+
+    }
 
     private void initOrder() {
         Client client1 = clientRepository.findById(21L).get();
@@ -466,16 +537,36 @@ public class InitService {
         order.setShipped(true);
         order.setCreateTime(LocalDateTime.parse("2020-12-30T11:03:12"));
         orderRepository.save(order);
+
+        Client client2 = clientRepository.findById(20L).get();
+        Order order2 = new Order();
+        order.setIdFromErp("idFromErp");
+        order.setClient(client2);
+        order.setManager(manager1);
+        order.setOrderFullPrice(BigDecimal.valueOf(77.678));
+        order.setApprove(true);
+        order.setPaid(true);
+        order.setShipped(true);
+        order.setCreateTime(LocalDateTime.parse("2020-11-30T11:03:12"));
+        orderRepository.save(order2);
     }
 
     private void initOrderItem() {
-        OrderItem orderItem = new OrderItem();
-        orderItem.setInvoiceIssued("invoiceIssued");
-        orderItem.setProductCount(10);
-        orderItem.setProduct(productRepository.findById(1L).get());
-        orderItem.setOrder(orderRepository.findById(1L).get());
-        orderItem.setItemFullPrice(BigDecimal.valueOf(100.678));
-        orderItemRepository.save(orderItem);
+        OrderItem orderItem1 = new OrderItem();
+        orderItem1.setInvoiceIssued("invoiceIssued");
+        orderItem1.setProductCount(10);
+        orderItem1.setProduct(productRepository.findById(1L).get());
+        orderItem1.setOrder(orderRepository.findById(1L).get());
+        orderItem1.setItemFullPrice(BigDecimal.valueOf(100.678));
+        orderItemRepository.save(orderItem1);
+
+        OrderItem orderItem2 = new OrderItem();
+        orderItem2.setInvoiceIssued("invoiceIssued");
+        orderItem2.setProductCount(2);
+        orderItem2.setProduct(productRepository.findById(1L).get());
+        orderItem2.setOrder(orderRepository.findById(1L).get());
+        orderItem2.setItemFullPrice(BigDecimal.valueOf(100.678));
+        orderItemRepository.save(orderItem2);
     }
 
     private void initReserveProduct() {
@@ -493,5 +584,4 @@ public class InitService {
         reserveProduct2.setOrder(orderRepository.findById(1L).get());
         reserveProductRepository.save(reserveProduct2);
     }
-
 }

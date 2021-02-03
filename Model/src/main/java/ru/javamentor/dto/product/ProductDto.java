@@ -1,6 +1,8 @@
 package ru.javamentor.dto.product;
 
-import ru.javamentor.model.product.Manufacturer;
+import ru.javamentor.model.product.ProductCategory;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -10,23 +12,25 @@ public class ProductDto {
     private Long id;
     private String productName;
     private String madeCountry;
-    private Manufacturer manufacturerDto;
+    private ManufacturerDto manufacturerDto;
     private List<SupplierDto> supplierDto;
     private String article;
     private UnitDto unitDto;
-    private Integer packagingCount;
     private String productCategory;
+    private BigDecimal price;
+
 
     public ProductDto(
             Long id,
             String productName,
             String madeCountry,
-            Manufacturer manufacturerDto,
+            ManufacturerDto manufacturerDto,
             List<SupplierDto> supplierDto,
             String article,
             UnitDto unitDto,
-            Integer packagingCount,
-            String productCategory) {
+            String productCategory,
+            BigDecimal price)
+    {
         this.id = id;
         this.productName = productName;
         this.madeCountry = madeCountry;
@@ -34,12 +38,23 @@ public class ProductDto {
         this.supplierDto = supplierDto;
         this.article = article;
         this.unitDto = unitDto;
-        this.packagingCount = packagingCount;
         this.productCategory = productCategory;
+        this.price = price;
+    }
+
+    public ProductDto(
+            Long id,
+            String productName,
+            String madeCountry,
+            String article) {
+        this.id = id;
+        this.productName = productName;
+        this.madeCountry = madeCountry;
+        this.article = article;
     }
 
     public ProductDto(String productName, String madeCountry,
-                      Manufacturer manufacturerDto) {
+                      ManufacturerDto manufacturerDto) {
         this.productName = productName;
     }
 
@@ -67,11 +82,11 @@ public class ProductDto {
         this.madeCountry = madeCountry;
     }
 
-    public Manufacturer getManufacturerDto() {
+    public ManufacturerDto getManufacturerDto() {
         return manufacturerDto;
     }
 
-    public void setManufacturerDto(Manufacturer manufacturerDto) {
+    public void setManufacturerDto(ManufacturerDto manufacturerDto) {
         this.manufacturerDto = manufacturerDto;
     }
 
@@ -99,19 +114,19 @@ public class ProductDto {
         this.unitDto = unitDto;
     }
 
-    public Integer getPackagingCount() {
-        return packagingCount;
-    }
-
-    public void setPackagingCount(Integer packagingCount) {
-        this.packagingCount = packagingCount;
-    }
-
     public String getProductCategory() {
         return productCategory;
     }
 
     public void setProductCategory(String productCategory) {
         this.productCategory = productCategory;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

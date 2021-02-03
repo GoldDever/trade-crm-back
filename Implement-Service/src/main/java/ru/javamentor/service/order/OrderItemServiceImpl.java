@@ -40,8 +40,7 @@ public class OrderItemServiceImpl implements OrderItemService {
                 orderItemDto.getInvoiceIssued(),
                 orderItemDto.getProductCount(),
                 product,
-                order,
-                orderItemDto.getItemFullPrice()
+                order
         );
 
         orderItemRepository.save(orderItem);

@@ -1,37 +1,52 @@
 package ru.javamentor.service.order;
 
 import org.springframework.stereotype.Service;
+import ru.javamentor.dto.order.ClientDto;
+import ru.javamentor.dto.order.ManagerDto;
 import ru.javamentor.dto.order.OrderApproveDto;
+import ru.javamentor.dto.order.OrderDto;
+import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderApprove;
 import ru.javamentor.model.user.User;
 import ru.javamentor.repository.order.OrderApproveRepository;
+import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
 import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
+import ru.javamentor.service.product.ProductService;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderApproveRepository orderApproveRepository;
+    private final OrderItemRepository orderItemRepository;
     private final ClientRepository clientRepository;
     private final ManagerRepository managerRepository;
     private final ReserveProductRepository reserveProductRepository;
+    private final ProductService productService;
+
 
     public OrderServiceImpl(OrderRepository orderRepository,
                             OrderApproveRepository orderApproveRepository,
+                            OrderItemRepository orderItemRepository,
                             ClientRepository clientRepository,
                             ManagerRepository managerRepository,
-                            ReserveProductRepository reserveProductRepository) {
+                            ReserveProductRepository reserveProductRepository,
+                            ProductService productService) {
         this.orderRepository = orderRepository;
         this.orderApproveRepository = orderApproveRepository;
+        this.orderItemRepository = orderItemRepository;
         this.clientRepository = clientRepository;
         this.managerRepository = managerRepository;
         this.reserveProductRepository = reserveProductRepository;
+        this.productService = productService;
     }
 
     /**
@@ -83,4 +98,50 @@ public class OrderServiceImpl implements OrderService {
         );
         orderRepository.save(order);
     }
+
+    /**
+     * Метод инициализирующий orderDTO ордером из Базы Данных
+     *
+     * @param orderId - ID ордера
+     * @return - Возвращает orderDTO
+     */
+    @Override
+    public OrderDto getOrderDtoByOrderId(Long orderId) {
+        OrderDto orderDto = orderRepository.getOrderDtoByOrderId(orderId);
+        Long clientId = orderRepository.getClientIdByOrderId(orderId);
+        Long managerId = orderRepository.getManagerIdByOrderId(orderId);
+        ClientDto clientDto = clientRepository.getClientDtoById(clientId);
+        ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
+        List<OrderItemDto> orderItemDtoArrayList = new ArrayList<>(orderItemRepository.getListOrderItemDtoByOrderId(orderId));
+        for (OrderItemDto orderItemDtoArray : orderItemDtoArrayList) {
+            orderItemDtoArray.setProduct(productService.getProductDtoByProductId(orderItemRepository.findProductIdByOrderItemId(orderItemDtoArray.getId())));
+        }
+        orderDto.setOrderItemDto(orderItemDtoArrayList);
+        orderDto.setClient(clientDto);
+        orderDto.setManager(managerDto);
+        return orderDto;
+    }
+
+    /**
+     * Метод, возвращающий boolean при проверке существования ордера с данным Id.
+     *
+     * @param orderId - Принимает Id ордера как аргумент.
+     * @return - Возвращает boolean, соответствующий результату.
+     */
+    @Override
+    public boolean isExistsByOrderId(Long orderId) {
+        return orderRepository.existsById(orderId);
+    }
+
+    /**
+     * Метод, возвращающий список ордеров клиента с clientId.
+     *
+     * @param clientId - Принимает Id клиента как аргумент.
+     * @return - Возвращает список ордеров клиента.
+     */
+    @Override
+    public List<OrderDto> getOrderDtoListByClientId(Long clientId) {
+        return orderRepository.getOrderDtoListByClientId(clientId);
+    }
 }
+

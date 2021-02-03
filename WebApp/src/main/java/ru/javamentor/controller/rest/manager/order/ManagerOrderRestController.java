@@ -13,11 +13,7 @@ import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.user.User;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
-import ru.javamentor.service.product.ProductService;
 import ru.javamentor.service.product.ReserveProductService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @RestController
@@ -28,16 +24,12 @@ public class ManagerOrderRestController {
     private final OrderItemService orderItemService;
     private final ReserveProductService reserveProductService;
 
-
     public ManagerOrderRestController(OrderService orderService,
                                       OrderItemService orderItemService,
                                       ReserveProductService reserveProductService) {
         this.orderService = orderService;
         this.orderItemService = orderItemService;
         this.reserveProductService = reserveProductService;
-
-
-
     }
 
     /**
@@ -111,15 +103,15 @@ public class ManagerOrderRestController {
     /**
      * POST метод для резервирования продукта
      *
-     * @param orderId      - id Order
-     * @param productId    - id продукта по которому сохраняется резерв
+     * @param orderId - id Order
+     * @param productId - id продукта по которому сохраняется резерв
      * @param productCount - количество продукта, которое необходимо зарезервировать
      * @return - сообщение о состоянии HTTP-ответа
      */
     @PostMapping("/{orderId}/product/{productId}/count/{productCount}/addReserve")
     public ResponseEntity<String> addProductReserve(@PathVariable Long orderId,
-                                                    @PathVariable Long productId,
-                                                    @PathVariable Integer productCount) {
+                                               @PathVariable Long productId,
+                                               @PathVariable Integer productCount) {
         String response = reserveProductService.saveProductReserve(orderId, productId, productCount);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -131,14 +123,13 @@ public class ManagerOrderRestController {
      * @return - HTTP ответ с BODY
      */
     @GetMapping("/{orderId}/all/addReserve")
-    public ResponseEntity<String> addOrderReserve(@PathVariable Long orderId) {
+    public ResponseEntity<String> addOrderReserve(@PathVariable Long orderId){
         String result = reserveProductService.addReserveByOrder(orderId);
-        if (result.isEmpty()) {
+        if(result.isEmpty()){
             return new ResponseEntity<>("Товар зарезирвирован", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n" + result, HttpStatus.BAD_REQUEST);
+        }
+        else{
+            return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n"+result, HttpStatus.BAD_REQUEST);
         }
     }
-
-
 }
