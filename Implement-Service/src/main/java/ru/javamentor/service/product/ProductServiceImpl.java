@@ -2,11 +2,13 @@ package ru.javamentor.service.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.dto.product.ProductPostDto;
 import ru.javamentor.dto.product.SupplierDto;
 import ru.javamentor.repository.product.ManufacturerRepository;
 import ru.javamentor.repository.product.ProductCategoryRepository;
 import ru.javamentor.repository.product.ProductRepository;
+import ru.javamentor.repository.product.SupplierRepository;
 import ru.javamentor.repository.product.UnitRepository;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.model.product.Supplier;
@@ -27,6 +29,7 @@ public class ProductServiceImpl implements ProductService {
     private ManufacturerRepository manufacturerRepository;
     private UnitRepository unitRepository;
     private ProductCategoryRepository productCategoryRepository;
+    private SupplierRepository supplierRepository;
 
     public ProductServiceImpl() {}
 
@@ -34,11 +37,12 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceImpl(ProductRepository productRepository,
                               ManufacturerRepository manufacturerRepository,
                               UnitRepository unitRepository,
-                              ProductCategoryRepository productCategoryRepository) {
+                              ProductCategoryRepository productCategoryRepository, SupplierRepository supplierRepository) {
         this.productRepository = productRepository;
         this.manufacturerRepository = manufacturerRepository;
         this.unitRepository = unitRepository;
         this.productCategoryRepository = productCategoryRepository;
+        this.supplierRepository = supplierRepository;
     }
 
     /**
@@ -106,5 +110,33 @@ public class ProductServiceImpl implements ProductService {
 
 
     }
+    /**
+     * Метод возвращаем productDto по product id
+     *
+     * @param productId - id продукта
+     * @return - productDto
+     */
+    @Override
+    public ProductDto getProductDtoByProductId(Long productId) {
+        ProductDto dto = productRepository.findProductDtoByProductId(productId);
+        Long manufacturerId = productRepository.findManufacturerIdByProductId(productId);
+        Long unitId = productRepository.findUnitIdByProductId(productId);
+        List<Long> supplierIdList = productRepository.findListSupplierIdByProductId(productId);
+        dto.setManufacturerDto(manufacturerRepository.findManufacturerDtoByManufacturerId(manufacturerId));
+        dto.setSupplierDto(supplierRepository.findSupplierDtoBySupplierId(supplierIdList));
+        dto.setUnitDto(unitRepository.findUnitDtoByUnitId(unitId));
+        dto.setProductCategory(productCategoryRepository.findProductCategoryByProductId(productId).getCategoryName());
 
+        return dto;
+    }
+
+    /**
+     * Метод проверяет существования productId в базе
+     * @param productId - id продукта
+     * @return - есть или нет productId в базе
+     */
+    @Override
+    public boolean isProductIdExists(Long productId) {
+        return productRepository.existsById(productId);
+    }
 }
