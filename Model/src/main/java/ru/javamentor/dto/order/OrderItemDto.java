@@ -12,7 +12,6 @@ public class OrderItemDto {
     private Long id;
     private String invoiceIssued;
     private Integer productCount;
-    private Long orderId;
     private ProductDto product;
     private BigDecimal itemFullPrice;
 
