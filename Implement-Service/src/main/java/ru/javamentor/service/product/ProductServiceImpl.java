@@ -86,9 +86,10 @@ public class ProductServiceImpl implements ProductService {
         for (SupplierDto tmp : productPostDto.getSupplierDto()) {
             finalList.add(new Supplier(tmp.getId(), tmp.getName(), tmp.getIdFromErp()));
         }
+
         String idFromErp=productPostDto.getIdFromErp();
         Product updateProduct=productRepository.findProductByIdFromErp(idFromErp);
-        productRepository.findProductByIdFromErp(idFromErp).setProductCount(productPostDto.getProductCount());
+        updateProduct.setProductCount(productPostDto.getProductCount());
         updateProduct.setProductName(productPostDto.getProductName());
         updateProduct.setMadeCountry(productPostDto.getMadeCountry());
         updateProduct.setManufacturer(manufacturerRepository.findById(productPostDto.getManufacturerDto().getId()).orElseThrow(()-> new NoSuchElementException("Manufacturer c idFromErp " + idFromErp + " не найден")));
@@ -102,6 +103,7 @@ public class ProductServiceImpl implements ProductService {
         updateProduct.setIdFromErp(productPostDto.getIdFromErp());
         updateProduct.setProductCategory(productCategoryRepository.findById(productPostDto.getProductCategory().getId()).orElseThrow(()-> new NoSuchElementException ("ProductCategory с idFromErp " + idFromErp + " не найден")));
         productRepository.save(updateProduct);
+
 
     }
 
