@@ -332,7 +332,7 @@ public class InitService {
         clientRepository.save(client18);
 
         Client client19 = new Client("ООО\"Афродита\"");
-        client19.setFirstName("Стапан");
+        client19.setFirstName("Степан");
         client19.setLastName("Сутулин");
         client19.setPatronymic("stepan");
         client19.setUsername("stepan@mail.com");
@@ -543,13 +543,13 @@ public class InitService {
 
         Client client2 = clientRepository.findById(20L).get();
         Order order2 = new Order();
-        order.setIdFromErp("idFromErp");
-        order.setClient(client2);
-        order.setManager(manager1);
-        order.setApprove(true);
-        order.setPaid(true);
-        order.setShipped(true);
-        order.setCreateTime(LocalDateTime.parse("2020-11-30T11:03:12"));
+        order2.setIdFromErp("idFromErp");
+        order2.setClient(client2);
+        order2.setManager(manager1);
+        order2.setApprove(true);
+        order2.setPaid(true);
+        order2.setShipped(true);
+        order2.setCreateTime(LocalDateTime.parse("2020-11-30T11:03:12"));
         orderRepository.save(order2);
     }
 
