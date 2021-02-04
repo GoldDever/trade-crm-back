@@ -70,8 +70,7 @@ public class ProductPostDto {
         this.madeCountry = madeCountry;
     }
 
-    public ManufacturerDto
-    getManufacturerDto() {
+    public ManufacturerDto getManufacturerDto() {
         return manufacturerDto;
     }
 
