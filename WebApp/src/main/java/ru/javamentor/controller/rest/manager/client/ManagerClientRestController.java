@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("api/manager/client")
 public class ManagerClientRestController {
 
-    @GetMapping()
+    @GetMapping("/all")
     ResponseEntity<?> getClientDtoListByManagerId() {
         //TODO реализовать. Метод List<ClientDto>, возвращает список клиентов прикрепленных к текущему менеджеру. Добавляем лог.
         return null;
