@@ -14,14 +14,14 @@ import java.util.List;
 public class ManagerClientRestController {
 
     @GetMapping()
-    ResponseEntity<List<ClientDto>> getClientDtoListByManagerId() {
-        //TODO реализовать. Метод возвращает список клиентов прикрепленных к текущему менеджеру. Добавляем лог.
+    ResponseEntity<?> getClientDtoListByManagerId() {
+        //TODO реализовать. Метод List<ClientDto>, возвращает список клиентов прикрепленных к текущему менеджеру. Добавляем лог.
         return null;
     }
 
     @GetMapping("/{clientId}")
-    ResponseEntity<ClientDto> getClientDtoByClientId(@PathVariable Long clientId) {
-        //TODO реализовать. Метод возвращает  клиента по id,
+    ResponseEntity<?> getClientDtoByClientId(@PathVariable Long clientId) {
+        //TODO реализовать. Метод возвращает ClientDto, клиента по id,
         // Если клиент не привязан к менеджеру, возвращаем ответ "Вы не можете просматривать данного клиента."
         // Добавить проверку на существование клиента по id.
         // Если клиента не существует, возвращаем "Клиент с id={clientId}, не найден." Добавляем лог
