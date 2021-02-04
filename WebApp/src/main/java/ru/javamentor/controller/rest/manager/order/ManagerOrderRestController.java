@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.user.User;
+import ru.javamentor.service.client.ClientService;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
 import ru.javamentor.service.product.ReserveProductService;
@@ -22,21 +24,52 @@ public class ManagerOrderRestController {
 
     private final OrderService orderService;
     private final OrderItemService orderItemService;
+    private final ClientService clientService;
     private final ReserveProductService reserveProductService;
 
     public ManagerOrderRestController(OrderService orderService,
                                       OrderItemService orderItemService,
-                                      ReserveProductService reserveProductService) {
+                                      ClientService clientService, ReserveProductService reserveProductService) {
         this.orderService = orderService;
         this.orderItemService = orderItemService;
+        this.clientService = clientService;
         this.reserveProductService = reserveProductService;
     }
 
     /**
+     * Метод возвращает все заказы всех клиентов у менеджера
+     *
+     * @return - результат выполнения
+     */
+    @GetMapping("/all")
+    public ResponseEntity<?> getOrderDtoListByManager() {
+        //TODO реализовать метод, добавить проверку на менеджера ордера должны возвращаться только те которые принадлежат клиентам текущего менеджера
+        return ResponseEntity.ok(null);
+    }
+
+    /**
+     * Метод для получения списка заказов клиента на странице менеджера
+     *
+     * @param clientId - id клиента
+     * @return - список заказов клиента
+     */
+
+    @GetMapping("/{clientId}/allOrders")
+    public ResponseEntity<?> getAllClientOrders(@PathVariable Long clientId) {
+        //TODO добавить проверку на менеджера ордера должны возвращаться только
+        // те которые принадлежат клиентам текущего менеджера если клиент не принадлежит менеджеру то
+        // возвращать ответ "клиент не принадлежит текущему менеджеру"
+
+        if (clientService.isExistsByClientId(clientId)) {
+            return new ResponseEntity<>(orderService.getOrderDtoListByClientId(clientId), HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().body("Нет клиента с Id - " + clientId);
+    }
+    /**
      * Метод добавления строки заказа
      *
      * @param orderItemDto - DTO строка заказа
-     * @param orderId      - id заказа
+     * @param orderId - id заказа
      * @return - результат выполнения
      */
     @PostMapping("/{orderId}/addItem")
@@ -51,8 +84,8 @@ public class ManagerOrderRestController {
     /**
      * Метод изменения количества товаров в строке заказа
      *
-     * @param orderId      - id заказа
-     * @param orderItemId  - id строки заказа
+     * @param orderId - id заказа
+     * @param orderItemId - id строки заказа
      * @param countProduct - количество на которое необходимо изменить
      * @return - результат выполнения
      */
@@ -72,8 +105,8 @@ public class ManagerOrderRestController {
      * Метод для удаления
      * зарезирвированного продукта
      *
-     * @param orderId      - id заказа
-     * @param productId    - id продукта
+     * @param orderId - id заказа
+     * @param productId - id продукта
      * @param productCount - количество удалеямого продукта из резерва
      * @return - HTTP ответ с BODY
      */
@@ -110,8 +143,8 @@ public class ManagerOrderRestController {
      */
     @PostMapping("/{orderId}/product/{productId}/count/{productCount}/addReserve")
     public ResponseEntity<String> addProductReserve(@PathVariable Long orderId,
-                                               @PathVariable Long productId,
-                                               @PathVariable Integer productCount) {
+                                                    @PathVariable Long productId,
+                                                    @PathVariable Integer productCount) {
         String response = reserveProductService.saveProductReserve(orderId, productId, productCount);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -131,5 +164,20 @@ public class ManagerOrderRestController {
         else{
             return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n"+result, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    /**
+     * GET метод для получения orderDTO на странице менеджера
+     *
+     * @param orderId - Принимает orderId как аргумент
+     * @return - Возвращает orderDTO
+     */
+    @GetMapping(value = "/{orderId}")
+    public ResponseEntity<?> getOrderDtoByOrderId(@PathVariable Long orderId) {
+        if (orderService.isExistsByOrderId(orderId)) {
+            OrderDto orderDto = orderService.getOrderDtoByOrderId(orderId);
+            return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+        }
+        return ResponseEntity.badRequest().body("Нет ордера с Id - " + orderId);
     }
 }
