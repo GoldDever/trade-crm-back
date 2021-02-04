@@ -120,7 +120,7 @@ public class InitService {
         client1.setLastName("Иванов");
         client1.setPatronymic("ivanov");
         client1.setUsername("ivanov@mail.ru");
-        client1.setPassword(passwordEncoder.encode("ivanov"));
+        client1.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles1 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client1.setRoles(roles1);
         Manager manager = managerRepository.findById(1L).get();
@@ -132,7 +132,7 @@ public class InitService {
         client2.setLastName("Артемов");
         client2.setPatronymic("artem");
         client2.setUsername("artem@mail.com");
-        client2.setPassword(passwordEncoder.encode("artem"));
+        client2.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles2 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client2.setRoles(roles2);
         Manager manager2 = managerRepository.findById(1L).get();
@@ -144,7 +144,7 @@ public class InitService {
         client3.setLastName("Андреев");
         client3.setPatronymic("andrew");
         client3.setUsername("andrew@mail.com");
-        client3.setPassword(passwordEncoder.encode("andrew"));
+        client3.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles3 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client3.setRoles(roles3);
         Manager manager3 = managerRepository.findById(1L).get();
@@ -156,7 +156,7 @@ public class InitService {
         client4.setLastName("Соловьева");
         client4.setPatronymic("alena");
         client4.setUsername("alena@mail.com");
-        client4.setPassword(passwordEncoder.encode("password5"));
+        client4.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles4 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client4.setRoles(roles4);
         Manager manager4 = managerRepository.findById(2L).get();
@@ -168,7 +168,7 @@ public class InitService {
         client5.setLastName("Макашевва");
         client5.setPatronymic("lena");
         client5.setUsername("lena@mail.com");
-        client5.setPassword(passwordEncoder.encode("password6"));
+        client5.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles5 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client5.setRoles(roles5);
         Manager manager5 = managerRepository.findById(2L).get();
@@ -180,7 +180,7 @@ public class InitService {
         client6.setLastName("Евгеньева");
         client6.setPatronymic("evgeniya");
         client6.setUsername("evgeniya@mail.com");
-        client6.setPassword(passwordEncoder.encode("password7"));
+        client6.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles6 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client6.setRoles(roles6);
         Manager manager6 = managerRepository.findById(2L).get();
@@ -192,7 +192,7 @@ public class InitService {
         client7.setLastName("Борисов");
         client7.setPatronymic("yurii");
         client7.setUsername("yurii@mail.com");
-        client7.setPassword(passwordEncoder.encode("password8"));
+        client7.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles7 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client7.setRoles(roles7);
         Manager manager7 = managerRepository.findById(3L).get();
@@ -204,7 +204,7 @@ public class InitService {
         client8.setLastName("Евгеньев");
         client8.setPatronymic("boris");
         client8.setUsername("boris@mail.com");
-        client8.setPassword(passwordEncoder.encode("password9"));
+        client8.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles8 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client8.setRoles(roles8);
         Manager manager8 = managerRepository.findById(3L).get();
@@ -216,7 +216,7 @@ public class InitService {
         client9.setLastName("Дунин");
         client9.setPatronymic("pavel");
         client9.setUsername("pavel@mail.com");
-        client9.setPassword(passwordEncoder.encode("password10"));
+        client9.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles9 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client9.setRoles(roles9);
         Manager manager9 = managerRepository.findById(3L).get();
@@ -228,7 +228,7 @@ public class InitService {
         client10.setLastName("Черний");
         client10.setPatronymic("igor");
         client10.setUsername("igor@mail.com");
-        client10.setPassword(passwordEncoder.encode("password11"));
+        client10.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles10 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client10.setRoles(roles10);
         Manager manager10 = managerRepository.findById(4L).get();
@@ -240,7 +240,7 @@ public class InitService {
         client11.setLastName("Болотный");
         client11.setPatronymic("alex");
         client11.setUsername("alex@mail.com");
-        client11.setPassword(passwordEncoder.encode("password12"));
+        client11.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles11 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client11.setRoles(roles11);
         Manager manager11 = managerRepository.findById(4L).get();
@@ -252,7 +252,7 @@ public class InitService {
         client12.setLastName("Хрущев");
         client12.setPatronymic("matvey");
         client12.setUsername("matvey@mail.com");
-        client12.setPassword(passwordEncoder.encode("password13"));
+        client12.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles12 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client12.setRoles(roles12);
         Manager manager12 = managerRepository.findById(4L).get();
@@ -264,7 +264,7 @@ public class InitService {
         client13.setLastName("Чехов");
         client13.setPatronymic("anton");
         client13.setUsername("anton@mail.com");
-        client13.setPassword(passwordEncoder.encode("password14"));
+        client13.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles13 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client13.setRoles(roles13);
         Manager manager13 = managerRepository.findById(5L).get();
@@ -276,7 +276,7 @@ public class InitService {
         client14.setLastName("Еремин");
         client14.setPatronymic("dmitriy");
         client14.setUsername("dmitriy@mail.com");
-        client14.setPassword(passwordEncoder.encode("password15"));
+        client14.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles14 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client14.setRoles(roles14);
         Manager manager14 = managerRepository.findById(5L).get();
@@ -288,7 +288,7 @@ public class InitService {
         client15.setLastName("Макаров");
         client15.setPatronymic("leonid");
         client15.setUsername("leonid@mail.com");
-        client15.setPassword(passwordEncoder.encode("password16"));
+        client15.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles15 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client15.setRoles(roles15);
         Manager manager15 = managerRepository.findById(5L).get();
@@ -300,7 +300,7 @@ public class InitService {
         client16.setLastName("Печенкина");
         client16.setPatronymic("arina");
         client16.setUsername("arina@mail.com");
-        client16.setPassword(passwordEncoder.encode("password17"));
+        client16.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles16 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client16.setRoles(roles16);
         Manager manager16 = managerRepository.findById(6L).get();
@@ -312,7 +312,7 @@ public class InitService {
         client17.setLastName("Лазарев");
         client17.setPatronymic("mikh");
         client17.setUsername("mikh@mail.com");
-        client17.setPassword(passwordEncoder.encode("password18"));
+        client17.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles17 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client17.setRoles(roles17);
         Manager manager17 = managerRepository.findById(6L).get();
@@ -324,7 +324,7 @@ public class InitService {
         client18.setLastName("Абрамов");
         client18.setPatronymic("nikita");
         client18.setUsername("nikita@mail.com");
-        client18.setPassword(passwordEncoder.encode("password19"));
+        client18.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles18 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client18.setRoles(roles18);
         Manager manager18 = managerRepository.findById(6L).get();
@@ -332,11 +332,11 @@ public class InitService {
         clientRepository.save(client18);
 
         Client client19 = new Client("ООО\"Афродита\"");
-        client19.setFirstName("Стапан");
+        client19.setFirstName("Степан");
         client19.setLastName("Сутулин");
         client19.setPatronymic("stepan");
         client19.setUsername("stepan@mail.com");
-        client19.setPassword(passwordEncoder.encode("password20"));
+        client19.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles19 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client19.setRoles(roles19);
         Manager manager19 = managerRepository.findById(7L).get();
@@ -348,7 +348,7 @@ public class InitService {
         client20.setLastName("Латкина");
         client20.setPatronymic("polina");
         client20.setUsername("polina@mail.com");
-        client20.setPassword(passwordEncoder.encode("password21"));
+        client20.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles20 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client20.setRoles(roles20);
         Manager manager20 = managerRepository.findById(7L).get();
@@ -360,7 +360,7 @@ public class InitService {
         client21.setLastName("Юдина");
         client21.setPatronymic("nina");
         client21.setUsername("nina@mail.com");
-        client21.setPassword(passwordEncoder.encode("password22"));
+        client21.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles21 = Set.of(roleRepository.findByRoleName("CLIENT"));
         client21.setRoles(roles21);
         Manager manager21 = managerRepository.findById(7L).get();
@@ -374,7 +374,7 @@ public class InitService {
         manager1.setLastName("Бабин");
         manager1.setPatronymic("alexey");
         manager1.setUsername("alexey@mail.ru");
-        manager1.setPassword(passwordEncoder.encode("password24"));
+        manager1.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles1 = Set.of(roleRepository.findByRoleName("MANAGER"));
         manager1.setRoles(roles1);
         managerRepository.save(manager1);
@@ -384,7 +384,7 @@ public class InitService {
         manager2.setLastName("Шадрин");
         manager2.setPatronymic("nicolla");
         manager2.setUsername("nicolla@mail.ru");
-        manager2.setPassword(passwordEncoder.encode("password25"));
+        manager2.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles2 = Set.of(roleRepository.findByRoleName("MANAGER"));
         manager2.setRoles(roles2);
         managerRepository.save(manager2);
@@ -394,7 +394,7 @@ public class InitService {
         manager3.setLastName("Москалец");
         manager3.setPatronymic("mockal");
         manager3.setUsername("moscal@mail.ru");
-        manager3.setPassword(passwordEncoder.encode("password26"));
+        manager3.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles3 = Set.of(roleRepository.findByRoleName("MANAGER"));
         manager3.setRoles(roles3);
         managerRepository.save(manager3);
@@ -404,7 +404,7 @@ public class InitService {
         manager4.setLastName("Ефимов");
         manager4.setPatronymic("efimov");
         manager4.setUsername("efimov@mail.ru");
-        manager4.setPassword(passwordEncoder.encode("password27"));
+        manager4.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles4 = Set.of(roleRepository.findByRoleName("MANAGER"));
         manager4.setRoles(roles4);
         managerRepository.save(manager4);
@@ -414,7 +414,7 @@ public class InitService {
         manager5.setLastName("Николаев");
         manager5.setPatronymic("lev");
         manager5.setUsername("lev@mail.ru");
-        manager5.setPassword(passwordEncoder.encode("password28"));
+        manager5.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles5 = Set.of(roleRepository.findByRoleName("MANAGER"));
         manager5.setRoles(roles5);
         managerRepository.save(manager5);
@@ -424,7 +424,7 @@ public class InitService {
         manager6.setLastName("Сергеенко");
         manager6.setPatronymic("sergey");
         manager6.setUsername("sergey@mail.ru");
-        manager6.setPassword(passwordEncoder.encode("password29"));
+        manager6.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles6 = Set.of(roleRepository.findByRoleName("MANAGER"));
         manager6.setRoles(roles6);
         managerRepository.save(manager6);
@@ -434,7 +434,7 @@ public class InitService {
         manager7.setLastName("Демин");
         manager7.setPatronymic("egor");
         manager7.setUsername("egor@mail.ru");
-        manager7.setPassword(passwordEncoder.encode("password30"));
+        manager7.setPassword(passwordEncoder.encode("password"));
         Set<Role> roles7 = Set.of(roleRepository.findByRoleName("MANAGER"));
         manager7.setRoles(roles7);
         managerRepository.save(manager7);
@@ -455,6 +455,7 @@ public class InitService {
         product.setPrice(BigDecimal.valueOf(4.00));
         product.setMargin(BigDecimal.valueOf(2.00));
         product.setPackagingCount(3);
+        product.setIdFromErp("123123123123");
         productRepository.save(product);
     }
 
@@ -473,16 +474,19 @@ public class InitService {
         product.setPrice(BigDecimal.valueOf(5.00));
         product.setMargin(BigDecimal.valueOf(3.00));
         product.setPackagingCount(4);
+        product.setIdFromErp("456456456456");
         productRepository.save(product);
     }
 
     private void initManufacturer() {
         Manufacturer manufacturer1 =  new Manufacturer();
         manufacturer1.setManufacturerName("Карго технологии");
+        manufacturer1.setIdFromErp("123123123123");
         manufacturerRepository.save(manufacturer1);
 
         Manufacturer manufacturer2 =  new Manufacturer();
         manufacturer2.setManufacturerName("ООО Азимут");
+        manufacturer2.setIdFromErp("456456456456");
         manufacturerRepository.save(manufacturer2);
     }
 
@@ -531,7 +535,6 @@ public class InitService {
         order.setIdFromErp("idFromErp");
         order.setClient(client1);
         order.setManager(manager1);
-        order.setOrderFullPrice(BigDecimal.valueOf(70.678));
         order.setApprove(true);
         order.setPaid(true);
         order.setShipped(true);
@@ -540,14 +543,13 @@ public class InitService {
 
         Client client2 = clientRepository.findById(20L).get();
         Order order2 = new Order();
-        order.setIdFromErp("idFromErp");
-        order.setClient(client2);
-        order.setManager(manager1);
-        order.setOrderFullPrice(BigDecimal.valueOf(77.678));
-        order.setApprove(true);
-        order.setPaid(true);
-        order.setShipped(true);
-        order.setCreateTime(LocalDateTime.parse("2020-11-30T11:03:12"));
+        order2.setIdFromErp("idFromErp");
+        order2.setClient(client2);
+        order2.setManager(manager1);
+        order2.setApprove(true);
+        order2.setPaid(true);
+        order2.setShipped(true);
+        order2.setCreateTime(LocalDateTime.parse("2020-11-30T11:03:12"));
         orderRepository.save(order2);
     }
 
@@ -557,7 +559,6 @@ public class InitService {
         orderItem1.setProductCount(10);
         orderItem1.setProduct(productRepository.findById(1L).get());
         orderItem1.setOrder(orderRepository.findById(1L).get());
-        orderItem1.setItemFullPrice(BigDecimal.valueOf(100.678));
         orderItemRepository.save(orderItem1);
 
         OrderItem orderItem2 = new OrderItem();
@@ -565,7 +566,6 @@ public class InitService {
         orderItem2.setProductCount(2);
         orderItem2.setProduct(productRepository.findById(1L).get());
         orderItem2.setOrder(orderRepository.findById(1L).get());
-        orderItem2.setItemFullPrice(BigDecimal.valueOf(100.678));
         orderItemRepository.save(orderItem2);
     }
 
