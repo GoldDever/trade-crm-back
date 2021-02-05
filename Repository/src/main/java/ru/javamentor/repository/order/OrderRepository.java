@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.security.core.parameters.P;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.model.order.Order;
 
@@ -25,14 +24,13 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT new ru.javamentor.dto.order.OrderDto(" +
             "o.id, " +
             "o.idFromErp, " +
-            "o.orderFullPrice, " +
             "o.isApprove, " +
             "o.isPaid, " +
             "o.isShipped, " +
             "o.createTime) " +
             "FROM Order o " +
             "WHERE o.id = :orderId")
-    OrderDto getOrderDtoByOrderId(@Param("orderId") Long orderId);
+    OrderDto getOrderDtoWithOrderId(@Param("orderId") Long orderId);
 
     @Query("SELECT o.client.id FROM Order o WHERE o.id = :orderId")
     Long getClientIdByOrderId(@Param("orderId") Long orderId);
@@ -43,12 +41,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("SELECT new ru.javamentor.dto.order.OrderDto(" +
             "o.id, " +
             "o.idFromErp, " +
-            "o.orderFullPrice, " +
             "o.isApprove, " +
             "o.isPaid, " +
             "o.isShipped, " +
             "o.createTime) " +
             "FROM Order o " +
             "WHERE o.client.id = :clientId")
-    List<OrderDto> getOrderDtoListByClientId (@Param("clientId") Long clientId);
+    List<OrderDto> getOrderDtoListWithClientId(Long clientId);
 }
