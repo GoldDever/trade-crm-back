@@ -6,14 +6,17 @@ package ru.javamentor.dto.order;
 public class ClientDto {
     private Long id;
     private String name;
+    private String clientName;
 
     public ClientDto() {
     }
 
-    public ClientDto(Long id, String name) {
+    public ClientDto(Long id, String name, String clientName) {
         this.id = id;
         this.name = name;
+        this.clientName = clientName;
     }
+
 
     public Long getId() {
         return id;
@@ -29,6 +32,14 @@ public class ClientDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 }
 

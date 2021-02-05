@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
-    @Query("select new ru.javamentor.dto.order.ClientDto(c.id, c.firstName) from " +
+    @Query("select new ru.javamentor.dto.order.ClientDto(c.id, c.firstName, c.clientName) from " +
             "Client c where c.id = :clientId")
     ClientDto getClientDtoById(@Param("clientId") Long clientId);
 

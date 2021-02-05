@@ -117,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
                         orderItemRepository.findProductIdByOrderItemId(orderItemDto.getId()))));
         orderDto.setClient(clientDto);
         orderDto.setManager(managerDto);
-        orderDto.setOrderItemDto(orderItemDtoList);
+        orderDto.setOrderItemList(orderItemDtoList);
         return orderDto;
     }
 
