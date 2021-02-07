@@ -18,7 +18,6 @@ import ru.javamentor.repository.user.ManagerRepository;
 import ru.javamentor.service.product.ProductService;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -107,18 +106,18 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public OrderDto getOrderDtoByOrderId(Long orderId) {
-        OrderDto orderDto = orderRepository.getOrderDtoByOrderId(orderId);
+        OrderDto orderDto = orderRepository.getOrderDtoWithOrderId(orderId);
         Long clientId = orderRepository.getClientIdByOrderId(orderId);
         Long managerId = orderRepository.getManagerIdByOrderId(orderId);
         ClientDto clientDto = clientRepository.getClientDtoById(clientId);
         ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
-        List<OrderItemDto> orderItemDtoArrayList = new ArrayList<>(orderItemRepository.getListOrderItemDtoByOrderId(orderId));
-        for (OrderItemDto orderItemDtoArray : orderItemDtoArrayList) {
-            orderItemDtoArray.setProduct(productService.getProductDtoByProductId(orderItemRepository.findProductIdByOrderItemId(orderItemDtoArray.getId())));
-        }
-        orderDto.setOrderItemDto(orderItemDtoArrayList);
+        List<OrderItemDto> orderItemDtoList = orderItemRepository.getListOrderItemDtoByOrderId(orderId);
+        orderItemDtoList.forEach(orderItemDto -> orderItemDto.setProduct(
+                productService.getProductDtoByProductId(
+                        orderItemRepository.findProductIdByOrderItemId(orderItemDto.getId()))));
         orderDto.setClient(clientDto);
         orderDto.setManager(managerDto);
+        orderDto.setOrderItemDto(orderItemDtoList);
         return orderDto;
     }
 
@@ -141,7 +140,7 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<OrderDto> getOrderDtoListByClientId(Long clientId) {
-        return orderRepository.getOrderDtoListByClientId(clientId);
+        return orderRepository.getOrderDtoListWithClientId(clientId);
     }
 }
 
