@@ -1,0 +1,403 @@
+GET http://localhost:8484/api/manager/order/20/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MTM3MX0.ZSuSoPa-9p8FTcc8ttXjL4g2Dg8uunsvPxLxx43RxeldgG3hHQJuxYK6GSknq_y4LXHKHSiJJFwHNR2allEvbw
+
+<> 2021-02-07T072701.200.json
+
+###
+
+GET http://localhost:8484/api/manager/client/21/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZXZAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0Nzk2Mn0.j6HAd_dQ6jdmBnQGzlCcRD-FcHv2yyZWQfiuG_y4x84w5jHqrchq_bex6OzF0Ea8T2tArD1YYn0Nj0ng0kNqbw
+
+<> 2021-02-07T072227.200.json
+
+###
+
+POST http://localhost:8484/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "lev@mail.ru",
+  "password" : "password",
+  "rememberMe" : true
+}
+
+<> 2021-02-07T072223.200.txt
+
+###
+
+GET http://localhost:8484/api/manager/order/20/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MTM3MX0.ZSuSoPa-9p8FTcc8ttXjL4g2Dg8uunsvPxLxx43RxeldgG3hHQJuxYK6GSknq_y4LXHKHSiJJFwHNR2allEvbw
+
+<> 2021-02-07T072214.200.json
+
+###
+
+GET http://localhost:8484/api/manager/client/21/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZXZAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0Nzk2Mn0.j6HAd_dQ6jdmBnQGzlCcRD-FcHv2yyZWQfiuG_y4x84w5jHqrchq_bex6OzF0Ea8T2tArD1YYn0Nj0ng0kNqbw
+
+<> 2021-02-07T065935.500.json
+
+###
+
+GET http://localhost:8484/api/manager/client/20/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZXZAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0Nzk2Mn0.j6HAd_dQ6jdmBnQGzlCcRD-FcHv2yyZWQfiuG_y4x84w5jHqrchq_bex6OzF0Ea8T2tArD1YYn0Nj0ng0kNqbw
+
+<> 2021-02-07T065915.500.json
+
+###
+
+GET http://localhost:8484/api/manager/client/20/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZXZAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0Nzk2Mn0.j6HAd_dQ6jdmBnQGzlCcRD-FcHv2yyZWQfiuG_y4x84w5jHqrchq_bex6OzF0Ea8T2tArD1YYn0Nj0ng0kNqbw
+
+<> 2021-02-07T065554.404.json
+
+###
+
+GET http://localhost:8484/api/manager/order/20/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZXZAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0Nzk2Mn0.j6HAd_dQ6jdmBnQGzlCcRD-FcHv2yyZWQfiuG_y4x84w5jHqrchq_bex6OzF0Ea8T2tArD1YYn0Nj0ng0kNqbw
+
+<> 2021-02-07T063309.500.json
+
+###
+
+GET http://localhost:8484/api/manager/order/2/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZXZAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0Nzk2Mn0.j6HAd_dQ6jdmBnQGzlCcRD-FcHv2yyZWQfiuG_y4x84w5jHqrchq_bex6OzF0Ea8T2tArD1YYn0Nj0ng0kNqbw
+
+<> 2021-02-07T063250.400.txt
+
+###
+
+POST http://localhost:8484/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "lev@mail.ru",
+  "password" : "password",
+  "rememberMe" : true
+}
+
+<> 2021-02-07T063242.200.txt
+
+###
+
+GET http://localhost:8484/api/manager/order/20/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MTM3MX0.ZSuSoPa-9p8FTcc8ttXjL4g2Dg8uunsvPxLxx43RxeldgG3hHQJuxYK6GSknq_y4LXHKHSiJJFwHNR2allEvbw
+
+<> 2021-02-07T063120.500.json
+
+###
+
+POST http://localhost:8484/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "anton@mail.com",
+  "password" : "password",
+  "rememberMe" : true
+}
+
+<> 2021-02-07T063117.200.txt
+
+###
+
+GET http://localhost:8484/api/manager/order/2/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbnRvbkBtYWlsLmNvbSIsIkF1dGhvcml6YXRpb24iOlsiQ0xJRU5UIl0sImlhdCI6MTYxMjY0NTIwMCwiZXhwIjoxNjQ0MjQ3ODI0fQ.n6IKxVIbMWpc6ryBjXRhUY-QRxTxMjux-E61Ebf2KVHJmV8YlyaYD29UWT-Kk_wn8zCEQOmJKGAu9P0z7EMkgg
+
+<> 2021-02-07T063112.403.json
+
+###
+
+GET http://localhost:8484/api/manager/order/2/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbnRvbkBtYWlsLmNvbSIsIkF1dGhvcml6YXRpb24iOlsiQ0xJRU5UIl0sImlhdCI6MTYxMjY0NTIwMCwiZXhwIjoxNjQ0MjQ3ODI0fQ.n6IKxVIbMWpc6ryBjXRhUY-QRxTxMjux-E61Ebf2KVHJmV8YlyaYD29UWT-Kk_wn8zCEQOmJKGAu9P0z7EMkgg
+
+<> 2021-02-07T063054.403.json
+
+###
+
+GET http://localhost:8484/api/manager/order/20/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbnRvbkBtYWlsLmNvbSIsIkF1dGhvcml6YXRpb24iOlsiQ0xJRU5UIl0sImlhdCI6MTYxMjY0NTIwMCwiZXhwIjoxNjQ0MjQ3ODI0fQ.n6IKxVIbMWpc6ryBjXRhUY-QRxTxMjux-E61Ebf2KVHJmV8YlyaYD29UWT-Kk_wn8zCEQOmJKGAu9P0z7EMkgg
+
+<> 2021-02-07T063040.403.json
+
+###
+
+POST http://localhost:8484/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "anton@mail.com",
+  "password" : "password",
+  "rememberMe" : true
+}
+
+<> 2021-02-07T063024.200.txt
+
+###
+
+GET http://localhost:8484/api/manager/order/20/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MTM3MX0.ZSuSoPa-9p8FTcc8ttXjL4g2Dg8uunsvPxLxx43RxeldgG3hHQJuxYK6GSknq_y4LXHKHSiJJFwHNR2allEvbw
+
+<> 2021-02-07T062719.500.json
+
+###
+
+GET http://localhost:8484/api/manager/order/2/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MTM3MX0.ZSuSoPa-9p8FTcc8ttXjL4g2Dg8uunsvPxLxx43RxeldgG3hHQJuxYK6GSknq_y4LXHKHSiJJFwHNR2allEvbw
+
+<> 2021-02-07T062712.400.txt
+
+###
+
+GET http://localhost:8484/api/manager/order/20/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MTM3MX0.ZSuSoPa-9p8FTcc8ttXjL4g2Dg8uunsvPxLxx43RxeldgG3hHQJuxYK6GSknq_y4LXHKHSiJJFwHNR2allEvbw
+
+<> 2021-02-07T060920.500.json
+
+###
+
+GET http://localhost:8484/api/manager/order/21/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MTM3MX0.ZSuSoPa-9p8FTcc8ttXjL4g2Dg8uunsvPxLxx43RxeldgG3hHQJuxYK6GSknq_y4LXHKHSiJJFwHNR2allEvbw
+
+<> 2021-02-07T060727.500.json
+
+###
+
+GET http://localhost:8484/api/manager/order/2
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MTM3MX0.ZSuSoPa-9p8FTcc8ttXjL4g2Dg8uunsvPxLxx43RxeldgG3hHQJuxYK6GSknq_y4LXHKHSiJJFwHNR2allEvbw
+
+<> 2021-02-07T060050.200.json
+
+###
+
+GET http://localhost:8484/api/manager/order/2
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MTM3MX0.ZSuSoPa-9p8FTcc8ttXjL4g2Dg8uunsvPxLxx43RxeldgG3hHQJuxYK6GSknq_y4LXHKHSiJJFwHNR2allEvbw
+
+<> 2021-02-07T055040.403.json
+
+###
+
+GET http://localhost:8484/api/manager/order/2
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MTM3MX0.ZSuSoPa-9p8FTcc8ttXjL4g2Dg8uunsvPxLxx43RxeldgG3hHQJuxYK6GSknq_y4LXHKHSiJJFwHNR2allEvbw
+
+<> 2021-02-07T044315.403.json
+
+###
+
+GET http://localhost:8484/api/manager/order/2
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MTM3MX0.ZSuSoPa-9p8FTcc8ttXjL4g2Dg8uunsvPxLxx43RxeldgG3hHQJuxYK6GSknq_y4LXHKHSiJJFwHNR2allEvbw
+
+<> 2021-02-07T044308.403.json
+
+###
+
+POST http://localhost:8484/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "alexey@mail.ru",
+  "password" : "password",
+  "rememberMe" : true
+}
+
+<> 2021-02-07T044251.200.txt
+
+###
+
+POST http://localhost:8484/api/auth/login
+Content-Type: application/json
+{:
+  "username": "alexey@mail.ru",
+  "password" : "password",
+  "rememberMe" : true
+}:
+
+<> 2021-02-07T044241.400.html
+
+###
+
+GET http://localhost:8484/api/manager/order/2
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MDY2MX0.kZYXTyADHZB-FlhUOnnj8dMjlOoJ4hXVRMMd5pxUZ3pYMK4QAvWieOqVBP-rOZ69K7fmgTpLootGhijL9oQzGg
+
+<> 2021-02-07T044153.403.json
+
+###
+
+GET http://localhost:8484/api/
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MDY2MX0.kZYXTyADHZB-FlhUOnnj8dMjlOoJ4hXVRMMd5pxUZ3pYMK4QAvWieOqVBP-rOZ69K7fmgTpLootGhijL9oQzGg
+
+<> 2021-02-07T043626.403.json
+
+###
+
+GET http://localhost:8484/api/
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MDY2MX0.kZYXTyADHZB-FlhUOnnj8dMjlOoJ4hXVRMMd5pxUZ3pYMK4QAvWieOqVBP-rOZ69K7fmgTpLootGhijL9oQzGg
+
+<> 2021-02-07T043618.403.json
+
+###
+
+GET http://localhost:8484/api/
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MDY2MX0.kZYXTyADHZB-FlhUOnnj8dMjlOoJ4hXVRMMd5pxUZ3pYMK4QAvWieOqVBP-rOZ69K7fmgTpLootGhijL9oQzGg
+
+<> 2021-02-07T043614.403.json
+
+###
+
+GET http://localhost:8484/api/
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MDY2MX0.kZYXTyADHZB-FlhUOnnj8dMjlOoJ4hXVRMMd5pxUZ3pYMK4QAvWieOqVBP-rOZ69K7fmgTpLootGhijL9oQzGg
+
+<> 2021-02-07T043603.403.json
+
+###
+
+GET http://localhost:8484/api/manager/order/1
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MDY2MX0.kZYXTyADHZB-FlhUOnnj8dMjlOoJ4hXVRMMd5pxUZ3pYMK4QAvWieOqVBP-rOZ69K7fmgTpLootGhijL9oQzGg
+
+<> 2021-02-07T043541.403.json
+
+###
+
+GET http://localhost:8484/api/manager/order/20/allOrders2
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MDY2MX0.kZYXTyADHZB-FlhUOnnj8dMjlOoJ4hXVRMMd5pxUZ3pYMK4QAvWieOqVBP-rOZ69K7fmgTpLootGhijL9oQzGg
+
+<> 2021-02-07T043121.403.json
+
+###
+
+GET http://localhost:8484/api/manager/order/20/allOrders
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDI0MDY2MX0.kZYXTyADHZB-FlhUOnnj8dMjlOoJ4hXVRMMd5pxUZ3pYMK4QAvWieOqVBP-rOZ69K7fmgTpLootGhijL9oQzGg
+
+<> 2021-02-07T043112.403.json
+
+###
+
+POST http://localhost:8484/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "alexey@mail.ru",
+  "password" : "password",
+  "rememberMe" : true
+}
+
+<> 2021-02-07T043102.200.txt
+
+###
+
+GET http://localhost:8484/api/manager/order/20/allOrders
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDIzNTQzNX0.50P7Zm1AOhadzgYHqeEvQgVr8IPJLwVCoW4FD2vW6lF_ls3K428mmAxSmar9P0sn2HZYPB1isimMPhOSrUjokA
+
+<> 2021-02-07T042401.403.json
+
+###
+
+GET http://localhost:8484/api/manager/order/20/allOrders
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDIzNTQzNX0.50P7Zm1AOhadzgYHqeEvQgVr8IPJLwVCoW4FD2vW6lF_ls3K428mmAxSmar9P0sn2HZYPB1isimMPhOSrUjokA
+
+<> 2021-02-07T030525.403.json
+
+###
+
+GET http://localhost:8484/api/manager/order/29/allOrders
+Authorization: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOlsiTUFOQUdFUiJdLCJpYXQiOjE2MTI2NDUyMDAsImV4cCI6MTY0NDIzNTQzNX0.50P7Zm1AOhadzgYHqeEvQgVr8IPJLwVCoW4FD2vW6lF_ls3K428mmAxSmar9P0sn2HZYPB1isimMPhOSrUjokA
+
+<> 2021-02-07T030426.403.json
+
+###
+
+POST http://localhost:8484/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "alexey@mail.ru",
+  "password" : "password",
+  "rememberMe" : true
+}
+
+<> 2021-02-07T030355.200.txt
+
+###
+
+POST http://localhost:8484/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "manager@mail.ru",
+  "password" : "password",
+  "rememberMe" : true
+}
+
+<> 2021-02-07T030220.400.txt
+
+###
+
+GET http://localhost:8484/api/manager/order/29/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOiJNQU5BR0VSIiwiaWF0IjoxNjExMjYyODAwLCJleHAiOjE2NDI4NjI4NTJ9.MWR9e8eMedCZOIH5YsSYaUAxmfGd-BGwyh6VCDpLjJsNHH7-Z2wc6Ya2nG2IP1y4TsfYVKvRWRJlePaXbAZmPA
+
+<> 2021-02-07T030055.500.html
+
+###
+
+GET http://localhost:8484/api/manager/client/29/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOiJNQU5BR0VSIiwiaWF0IjoxNjExMjYyODAwLCJleHAiOjE2NDI4NjI4NTJ9.MWR9e8eMedCZOIH5YsSYaUAxmfGd-BGwyh6VCDpLjJsNHH7-Z2wc6Ya2nG2IP1y4TsfYVKvRWRJlePaXbAZmPA
+
+<> 2021-01-29T013349.200.json
+
+###
+
+GET http://localhost:8484/api/manager/client/28/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOiJNQU5BR0VSIiwiaWF0IjoxNjExMjYyODAwLCJleHAiOjE2NDI4NjI4NTJ9.MWR9e8eMedCZOIH5YsSYaUAxmfGd-BGwyh6VCDpLjJsNHH7-Z2wc6Ya2nG2IP1y4TsfYVKvRWRJlePaXbAZmPA
+
+<> 2021-01-29T013334.200.json
+
+###
+
+GET http://localhost:8484/api/manager/client/8/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOiJNQU5BR0VSIiwiaWF0IjoxNjExMjYyODAwLCJleHAiOjE2NDI4NjI4NTJ9.MWR9e8eMedCZOIH5YsSYaUAxmfGd-BGwyh6VCDpLjJsNHH7-Z2wc6Ya2nG2IP1y4TsfYVKvRWRJlePaXbAZmPA
+
+<> 2021-01-29T013326.200.json
+
+###
+
+GET http://localhost:8484/api/manager/client/7/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOiJNQU5BR0VSIiwiaWF0IjoxNjExMjYyODAwLCJleHAiOjE2NDI4NjI4NTJ9.MWR9e8eMedCZOIH5YsSYaUAxmfGd-BGwyh6VCDpLjJsNHH7-Z2wc6Ya2nG2IP1y4TsfYVKvRWRJlePaXbAZmPA
+
+<> 2021-01-29T013319.200.json
+
+###
+
+GET http://localhost:8484/api/manager/client/2/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOiJNQU5BR0VSIiwiaWF0IjoxNjExMjYyODAwLCJleHAiOjE2NDI4NjI4NTJ9.MWR9e8eMedCZOIH5YsSYaUAxmfGd-BGwyh6VCDpLjJsNHH7-Z2wc6Ya2nG2IP1y4TsfYVKvRWRJlePaXbAZmPA
+
+<> 2021-01-29T013312.200.json
+
+###
+
+GET http://localhost:8484/api/manager/client/24/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOiJNQU5BR0VSIiwiaWF0IjoxNjExMjYyODAwLCJleHAiOjE2NDI4NjI4NTJ9.MWR9e8eMedCZOIH5YsSYaUAxmfGd-BGwyh6VCDpLjJsNHH7-Z2wc6Ya2nG2IP1y4TsfYVKvRWRJlePaXbAZmPA
+
+<> 2021-01-29T013304.200.json
+
+###
+
+GET http://localhost:8484/api/manager/client/24/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOiJNQU5BR0VSIiwiaWF0IjoxNjExMjYyODAwLCJleHAiOjE2NDI4NjI4NTJ9.MWR9e8eMedCZOIH5YsSYaUAxmfGd-BGwyh6VCDpLjJsNHH7-Z2wc6Ya2nG2IP1y4TsfYVKvRWRJlePaXbAZmPA
+
+<> 2021-01-29T013058.200.json
+
+###
+
+GET http://localhost:8484/api/manager/client/2/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOiJNQU5BR0VSIiwiaWF0IjoxNjExMjYyODAwLCJleHAiOjE2NDI4NjI4NTJ9.MWR9e8eMedCZOIH5YsSYaUAxmfGd-BGwyh6VCDpLjJsNHH7-Z2wc6Ya2nG2IP1y4TsfYVKvRWRJlePaXbAZmPA
+
+<> 2021-01-29T013052.200.json
+
+###
+
+GET http://localhost:8484/api/manager/client/2/allOrders
+Authorization: Bearer_eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbGV4ZXlAbWFpbC5ydSIsIkF1dGhvcml6YXRpb24iOiJNQU5BR0VSIiwiaWF0IjoxNjExMjYyODAwLCJleHAiOjE2NDI4NjI4NTJ9.MWR9e8eMedCZOIH5YsSYaUAxmfGd-BGwyh6VCDpLjJsNHH7-Z2wc6Ya2nG2IP1y4TsfYVKvRWRJlePaXbAZmPA
+
+<> 2021-01-29T012746.200.json
+
+###
+
