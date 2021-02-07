@@ -13,7 +13,7 @@ public class OrderItemDto {
     private String invoiceIssued;
     private Integer productCount;
     private ProductDto product;
-    private BigDecimal itemFullPrice = BigDecimal.ZERO;
+    private BigDecimal itemFullPrice;
 
     public OrderItemDto() {
     }
@@ -75,9 +75,7 @@ public class OrderItemDto {
     }
 
     public BigDecimal getItemFullPrice() {
-        itemFullPrice = product.getPrice()
-                .multiply(BigDecimal.valueOf(productCount));
-        return itemFullPrice;
+        return product.getPrice().multiply(BigDecimal.valueOf(productCount));
     }
 
     public void setItemFullPrice(BigDecimal itemFullPrice) {

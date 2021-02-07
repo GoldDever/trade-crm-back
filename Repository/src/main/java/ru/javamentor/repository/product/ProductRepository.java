@@ -21,7 +21,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "p.id, " +
             "p.productName, " +
             "p.madeCountry, " +
-            "p.article, p.price) " +
+            "p.article) " +
             "FROM Product p " +
             "WHERE p.id = :productId")
     ProductDto findProductDtoByProductId(@Param("productId") Long ProductId);
