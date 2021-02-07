@@ -18,7 +18,8 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
     Manufacturer findManufacturerById(Long ManufacturerId);
     @Query("SELECT new ru.javamentor.dto.product.ManufacturerDto(" +
             "m.id, " +
-            "m.manufacturerName) " +
+            "m.manufacturerName, " +
+            "m.idFromErp) " +
             "FROM Manufacturer m " +
             "WHERE m.id = :manufacturerId")
     ManufacturerDto findManufacturerDtoByManufacturerId(@Param("manufacturerId") Long ManufacturerId);

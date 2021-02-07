@@ -90,8 +90,11 @@ public class OrderItem {
     }
 
     public BigDecimal getItemFullPrice() {
-        return product.getPrice()
-                .multiply(BigDecimal.valueOf(productCount));
+        return product.getPrice().multiply(BigDecimal.valueOf(productCount));
+    }
+
+    public void setItemFullPrice(BigDecimal itemFullPrice) {
+        this.itemFullPrice = itemFullPrice;
     }
 
     public Order getOrder() {

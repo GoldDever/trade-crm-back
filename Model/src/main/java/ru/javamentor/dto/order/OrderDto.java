@@ -12,7 +12,7 @@ public class OrderDto {
     private String idFromErp;
     private ClientDto client;
     private ManagerDto manager;
-    private BigDecimal orderFullPrice = BigDecimal.ZERO;
+    private BigDecimal orderFullPrice;
     private Boolean approved;
     private Boolean paid;
     private Boolean shipped;
@@ -22,36 +22,26 @@ public class OrderDto {
     public OrderDto() {
     }
 
-    public OrderDto(
-            Long id,
-            String idFromErp,
-            ClientDto client,
-            ManagerDto manager,
-            Boolean approved,
-            Boolean paid,
-            Boolean shipped,
-            LocalDateTime createTime
-    ) {
+    public OrderDto(Long id, String idFromErp, ClientDto client, ManagerDto manager,
+                    BigDecimal orderFullPrice, Boolean approved, Boolean paid,
+                    Boolean shipped, LocalDateTime createTime) {
         this.id = id;
         this.idFromErp = idFromErp;
         this.client = client;
         this.manager = manager;
+        this.orderFullPrice = orderFullPrice;
         this.approved = approved;
         this.paid = paid;
         this.shipped = shipped;
         this.createTime = createTime;
     }
 
-    public OrderDto(
-            Long id,
-            String idFromErp,
-            Boolean approved,
-            Boolean paid,
-            Boolean shipped,
-            LocalDateTime createTime
-    ) {
+    public OrderDto(Long id, String idFromErp, BigDecimal
+            orderFullPrice, Boolean approved, Boolean paid, Boolean shipped,
+                    LocalDateTime createTime) {
         this.id = id;
         this.idFromErp = idFromErp;
+        this.orderFullPrice = orderFullPrice;
         this.approved = approved;
         this.paid = paid;
         this.shipped = shipped;
@@ -91,9 +81,6 @@ public class OrderDto {
     }
 
     public BigDecimal getOrderFullPrice() {
-        orderItemDto.forEach(orderItemDto ->
-                orderFullPrice = orderFullPrice
-                        .add(orderItemDto.getItemFullPrice()));
         return orderFullPrice;
     }
 

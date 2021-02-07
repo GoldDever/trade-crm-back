@@ -46,14 +46,11 @@ public class ProductDto {
             Long id,
             String productName,
             String madeCountry,
-            String article,
-            BigDecimal price
-    ) {
+            String article) {
         this.id = id;
         this.productName = productName;
         this.madeCountry = madeCountry;
         this.article = article;
-        this.price = price;
     }
 
     public ProductDto(String productName, String madeCountry,
