@@ -17,7 +17,7 @@ public class OrderDto {
     private Boolean paid;
     private Boolean shipped;
     private LocalDateTime createTime;
-    private List<OrderItemDto> orderItemDto;
+    private List<OrderItemDto> orderItemList;
 
     public OrderDto() {
     }
@@ -30,7 +30,9 @@ public class OrderDto {
             Boolean approved,
             Boolean paid,
             Boolean shipped,
-            LocalDateTime createTime
+            LocalDateTime createTime,
+            BigDecimal orderFullPrice,
+            List<OrderItemDto> orderItemList
     ) {
         this.id = id;
         this.idFromErp = idFromErp;
@@ -40,6 +42,8 @@ public class OrderDto {
         this.paid = paid;
         this.shipped = shipped;
         this.createTime = createTime;
+        this.orderFullPrice = orderFullPrice;
+        this.orderItemList = orderItemList;
     }
 
     public OrderDto(
@@ -91,7 +95,7 @@ public class OrderDto {
     }
 
     public BigDecimal getOrderFullPrice() {
-        orderItemDto.forEach(orderItemDto ->
+        orderItemList.forEach(orderItemDto ->
                 orderFullPrice = orderFullPrice
                         .add(orderItemDto.getItemFullPrice()));
         return orderFullPrice;
@@ -133,11 +137,12 @@ public class OrderDto {
         this.createTime = createTime;
     }
 
-    public List<OrderItemDto> getOrderItemDto() {
-        return orderItemDto;
+
+    public List<OrderItemDto> getOrderItemList() {
+        return orderItemList;
     }
 
-    public void setOrderItemDto(List<OrderItemDto> orderItemDto) {
-        this.orderItemDto = orderItemDto;
+    public void setOrderItemList(List<OrderItemDto> orderItemList) {
+        this.orderItemList = orderItemList;
     }
 }
