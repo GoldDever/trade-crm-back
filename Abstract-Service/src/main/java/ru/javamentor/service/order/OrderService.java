@@ -18,4 +18,6 @@ public interface OrderService {
     boolean isExistsByOrderId(Long orderId);
 
     List<OrderDto> getOrderDtoListByClientId(Long clientId);
+
+    List<OrderDto> getAllOrderDtoList(Long managerId);
 }

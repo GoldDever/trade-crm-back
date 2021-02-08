@@ -6,7 +6,7 @@ import ru.javamentor.repository.user.ClientRepository;
 import javax.transaction.Transactional;
 
 @Service
-public class ClientServiceImpl implements ClientService{
+public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
 
@@ -24,6 +24,18 @@ public class ClientServiceImpl implements ClientService{
     @Override
     public boolean isExistsByClientId(Long clientId) {
         return clientRepository.existsById(clientId);
+    }
+
+    /**
+     * Метод возвращает boolean при проверке принадлежности клиента с данным Id к текущему менеджеру.
+     *
+     * @param clientId - айди клиента
+     * @return - Возвращает boolean, соответствующий результату.
+     */
+    @Transactional
+    @Override
+    public boolean clientBelongsToManager(Long clientId, Long managerId) {
+        return managerId.equals(clientRepository.getManagerIdByClientId(clientId));
     }
 }
 

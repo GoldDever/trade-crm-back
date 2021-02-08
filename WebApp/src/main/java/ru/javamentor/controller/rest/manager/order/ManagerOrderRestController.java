@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.user.User;
+import ru.javamentor.service.UserService;
 import ru.javamentor.service.client.ClientService;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
 import ru.javamentor.service.product.ReserveProductService;
+
+import java.security.Principal;
 
 
 @RestController
@@ -26,42 +29,45 @@ public class ManagerOrderRestController {
     private final OrderItemService orderItemService;
     private final ClientService clientService;
     private final ReserveProductService reserveProductService;
+    private final UserService userService;
 
     public ManagerOrderRestController(OrderService orderService,
                                       OrderItemService orderItemService,
-                                      ClientService clientService, ReserveProductService reserveProductService) {
+                                      ClientService clientService, ReserveProductService reserveProductService, UserService userService) {
         this.orderService = orderService;
         this.orderItemService = orderItemService;
         this.clientService = clientService;
         this.reserveProductService = reserveProductService;
+        this.userService = userService;
     }
 
     /**
      * Метод возвращает все заказы всех клиентов у менеджера
      *
+     * @param user - текущий пользователь
      * @return - результат выполнения
      */
     @GetMapping("/all")
-    public ResponseEntity<?> getOrderDtoListByManager() {
-        //TODO реализовать метод, добавить проверку на менеджера ордера должны возвращаться только те которые принадлежат клиентам текущего менеджера
-        return ResponseEntity.ok(null);
+    public ResponseEntity<?> getOrderDtoListByManager(Principal user) {
+        return new ResponseEntity<>(orderService.getAllOrderDtoList(userService.findByUsername(user.getName()).getId()), HttpStatus.OK);
     }
 
     /**
      * Метод для получения списка заказов клиента на странице менеджера
      *
      * @param clientId - id клиента
+     * @param user - текущий пользователь
      * @return - список заказов клиента
      */
 
     @GetMapping("/{clientId}/allOrders")
-    public ResponseEntity<?> getAllClientOrders(@PathVariable Long clientId) {
-        //TODO добавить проверку на менеджера ордера должны возвращаться только
-        // те которые принадлежат клиентам текущего менеджера если клиент не принадлежит менеджеру то
-        // возвращать ответ "клиент не принадлежит текущему менеджеру"
-
+    public ResponseEntity<?> getAllClientOrders(@PathVariable Long clientId, Principal user) {
         if (clientService.isExistsByClientId(clientId)) {
-            return new ResponseEntity<>(orderService.getOrderDtoListByClientId(clientId), HttpStatus.OK);
+            if(clientService.clientBelongsToManager(clientId, userService.findByUsername(user.getName()).getId())) {
+                return new ResponseEntity<>(orderService.getOrderDtoListByClientId(clientId), HttpStatus.OK);
+            } else {
+                return ResponseEntity.badRequest().body("Клиент с Id - " + clientId +" не принадлежит текущему менеджеру");
+            }
         }
         return ResponseEntity.badRequest().body("Нет клиента с Id - " + clientId);
     }

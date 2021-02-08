@@ -18,6 +18,7 @@ import ru.javamentor.repository.user.ManagerRepository;
 import ru.javamentor.service.product.ProductService;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -140,7 +141,27 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<OrderDto> getOrderDtoListByClientId(Long clientId) {
-        return orderRepository.getOrderDtoListWithClientId(clientId);
+        List<Long> orderDtoIdList = orderRepository.getOrderDtoIdListByClientId(clientId);
+        List<OrderDto> orderDtoList = new ArrayList<>();
+
+        orderDtoIdList.forEach(orderDtoId -> orderDtoList.add(this.getOrderDtoByOrderId(orderDtoId)));
+        return orderDtoList;
+    }
+
+
+    /**
+     * Метод, возвращающий список ордеров менеджера с managerId.
+     *
+     * @param managerId - Принимает Id менеджера как аргумент.
+     * @return - Возвращает список ордеров менеджера.
+     */
+    @Override
+    public List<OrderDto> getAllOrderDtoList(Long managerId) {
+        List<Long> allOrderDtoIdList = orderRepository.getAllOrderDtoIdList(managerId);
+        List<OrderDto> allOrderDtoList = new ArrayList<>();
+
+        allOrderDtoIdList.forEach(orderDtoId -> allOrderDtoList.add(this.getOrderDtoByOrderId(orderDtoId)));
+        return allOrderDtoList;
     }
 }
 

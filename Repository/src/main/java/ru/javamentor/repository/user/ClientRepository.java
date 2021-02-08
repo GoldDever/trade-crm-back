@@ -15,4 +15,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     ClientDto getClientDtoById(@Param("clientId") Long clientId);
 
     boolean existsById(@Param("clientId") Long clientId);
+
+    @Query("SELECT c.manager.id FROM Client c WHERE c.id = :clientId")
+    Long getManagerIdByClientId(@Param("clientId") Long clientId);
 }

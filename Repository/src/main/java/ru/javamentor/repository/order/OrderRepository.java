@@ -48,4 +48,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "FROM Order o " +
             "WHERE o.client.id = :clientId")
     List<OrderDto> getOrderDtoListWithClientId(Long clientId);
+
+    @Query("SELECT o.id FROM Order o WHERE o.client.id = :clientId")
+    List<Long> getOrderDtoIdListByClientId(Long clientId);
+
+    @Query("SELECT o.id FROM Order o WHERE o.manager.id = :managerId")
+    List<Long> getAllOrderDtoIdList(Long managerId);
 }
