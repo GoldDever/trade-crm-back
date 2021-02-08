@@ -22,12 +22,14 @@ public class OrderItemDto {
             Long id,
             String invoiceIssued,
             Integer productCount,
-            ProductDto product
+            ProductDto product,
+            BigDecimal itemFullPrice
     ) {
         this.id = id;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
         this.product = product;
+        this.itemFullPrice = itemFullPrice;
     }
 
     public OrderItemDto(

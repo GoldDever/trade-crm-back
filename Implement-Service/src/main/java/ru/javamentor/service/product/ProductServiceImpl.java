@@ -102,7 +102,7 @@ public class ProductServiceImpl implements ProductService {
         List<Long> supplierIdList = productRepository.findListSupplierIdByProductId(productId);
         dto.setManufacturerDto(manufacturerRepository.findManufacturerDtoByManufacturerId(manufacturerId));
         dto.setSupplierDto(supplierRepository.findSupplierDtoBySupplierId(supplierIdList));
-        dto.setUnitDto(unitRepository.findUnitDtoByUnitId(unitId));
+        dto.setUnit(unitRepository.findUnitDtoByUnitId(unitId));
         dto.setProductCategory(productCategoryRepository.findProductCategoryByProductId(productId).getCategoryName());
 
         return dto;

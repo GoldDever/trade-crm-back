@@ -15,7 +15,7 @@ public class ProductDto {
     private ManufacturerDto manufacturerDto;
     private List<SupplierDto> supplierDto;
     private String article;
-    private UnitDto unitDto;
+    private UnitDto unit;
     private String productCategory;
     private BigDecimal price;
 
@@ -27,7 +27,7 @@ public class ProductDto {
             ManufacturerDto manufacturerDto,
             List<SupplierDto> supplierDto,
             String article,
-            UnitDto unitDto,
+            UnitDto unit,
             String productCategory,
             BigDecimal price)
     {
@@ -37,7 +37,7 @@ public class ProductDto {
         this.manufacturerDto = manufacturerDto;
         this.supplierDto = supplierDto;
         this.article = article;
-        this.unitDto = unitDto;
+        this.unit = unit;
         this.productCategory = productCategory;
         this.price = price;
     }
@@ -59,6 +59,9 @@ public class ProductDto {
     public ProductDto(String productName, String madeCountry,
                       ManufacturerDto manufacturerDto) {
         this.productName = productName;
+    }
+
+    public ProductDto() {
     }
 
     public Long getId() {
@@ -109,13 +112,7 @@ public class ProductDto {
         this.article = article;
     }
 
-    public UnitDto getUnitDto() {
-        return unitDto;
-    }
 
-    public void setUnitDto(UnitDto unitDto) {
-        this.unitDto = unitDto;
-    }
 
     public String getProductCategory() {
         return productCategory;
@@ -131,5 +128,11 @@ public class ProductDto {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public UnitDto getUnit() { return unit; }
+
+    public void setUnit(UnitDto unit) {
+        this.unit = unit;
     }
 }
