@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.javamentor.configuration.jwt.JwtProvider;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -28,16 +29,17 @@ public class TokenController {
 
     private final HttpServletRequest httpServletRequest;
 
+private final JwtProvider jwtProvider;
+
+
     @Autowired
-    public TokenController(HttpServletRequest httpServletRequest) {
+    public TokenController(HttpServletRequest httpServletRequest, JwtProvider jwtProvider) {
         this.httpServletRequest = httpServletRequest;
+        this.jwtProvider = jwtProvider;
     }
     @GetMapping("roleByToken")
     public ResponseEntity<?> getRoleByToken() {
         String token = httpServletRequest.getHeader(authorization);
-        token = token.substring(tokenIdentifier.length());
-        final Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-        List<String> listAuthorizations = (ArrayList<String>)claims.get(authorization);
-        return ResponseEntity.ok(listAuthorizations);
+        return ResponseEntity.ok(jwtProvider.getRoleByToken(token));
     }
 }

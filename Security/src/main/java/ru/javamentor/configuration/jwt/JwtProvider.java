@@ -10,6 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import ru.javamentor.service.JwtUserDetailsService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
@@ -40,6 +41,13 @@ public class JwtProvider {
     @Value("${jwt.tokenIdentifier}")
     private String tokenIdentifier;
 
+    private final JwtUserDetailsService jwtUserDetailsService;
+
+    public JwtProvider(JwtUserDetailsService jwtUserDetailsService) {
+        this.jwtUserDetailsService = jwtUserDetailsService;
+    }
+
+
     public String generateJwt(Authentication authentication, boolean rememberMe) {
         Claims claims = Jwts.claims()
                 .setSubject(authentication.getName());
@@ -47,7 +55,7 @@ public class JwtProvider {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));
-        return Jwts.builder()
+        return tokenIdentifier + Jwts.builder()
                 .setSubject(authentication.getName())
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -103,6 +111,11 @@ public class JwtProvider {
             return bearer.substring(tokenIdentifier.length());
         }
         return null;
+    }
+
+    public Collection<GrantedAuthority> getRoleByToken(String token) {
+        UserDetails userDetailsService = jwtUserDetailsService.loadUserByUsername(getUsernameFromToken(token));
+        return getAuthentication(token,userDetailsService).getAuthorities();
     }
 
     public String getUsernameFromToken(String token) {
