@@ -18,19 +18,8 @@ import java.util.List;
 @RequestMapping("api/token/")
 public class TokenController {
 
-    @Value("${jwt.authorization}")
-    private String authorization;
-
-    @Value("${jwt.secret}")
-    private String jwtSecret;
-
-    @Value("${jwt.tokenIdentifier}")
-    private String tokenIdentifier;
-
     private final HttpServletRequest httpServletRequest;
-
-private final JwtProvider jwtProvider;
-
+    private final JwtProvider jwtProvider;
 
     @Autowired
     public TokenController(HttpServletRequest httpServletRequest, JwtProvider jwtProvider) {
@@ -39,7 +28,6 @@ private final JwtProvider jwtProvider;
     }
     @GetMapping("roleByToken")
     public ResponseEntity<?> getRoleByToken() {
-        String token = httpServletRequest.getHeader(authorization);
-        return ResponseEntity.ok(jwtProvider.getRoleByToken(token));
+        return ResponseEntity.ok(jwtProvider.getRoleByToken(httpServletRequest));
     }
 }

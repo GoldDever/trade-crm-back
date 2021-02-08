@@ -113,7 +113,8 @@ public class JwtProvider {
         return null;
     }
 
-    public Collection<GrantedAuthority> getRoleByToken(String token) {
+    public Collection<GrantedAuthority> getRoleByToken(HttpServletRequest httpServletRequest) {
+        String token = resolveToken(httpServletRequest);
         UserDetails userDetailsService = jwtUserDetailsService.loadUserByUsername(getUsernameFromToken(token));
         return getAuthentication(token,userDetailsService).getAuthorities();
     }
