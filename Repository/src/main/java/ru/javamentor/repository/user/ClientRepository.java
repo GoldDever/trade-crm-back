@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.javamentor.dto.order.ClientDto;
 import ru.javamentor.model.user.Client;
+import ru.javamentor.model.user.Manager;
 
 import java.util.List;
 
@@ -15,4 +16,8 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     ClientDto getClientDtoById(@Param("clientId") Long clientId);
 
     boolean existsById(@Param("clientId") Long clientId);
+
+    @Query("select new ru.javamentor.dto.order.ClientDto(" + "c.id," + "c.firstName," + "c.clientName)"
+            + "from Client c where c.manager = :manager")
+    List<ClientDto> getClientsByManager(@Param("manager") Manager manager);
 }
