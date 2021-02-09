@@ -55,7 +55,7 @@ public class JwtProvider {
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList()));
-        return tokenIdentifier + Jwts.builder()
+        return Jwts.builder()
                 .setSubject(authentication.getName())
                 .setClaims(claims)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
