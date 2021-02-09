@@ -2,6 +2,7 @@ package ru.javamentor.controller.rest.manager.client;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class ManagerClientRestController {
      * @return список клиентов
      */
     @GetMapping("/all")
-    public ResponseEntity<?> getClientDtoListByManagerId(@PathVariable Manager manager) {
+    public ResponseEntity<?> getClientDtoListByManagerId(@AuthenticationPrincipal Manager manager) {
         List<ClientDto> clientDtoList = clientService.getClientListByManger(manager);
         return clientDtoList != null
                 ? new ResponseEntity<>(clientDtoList, HttpStatus.OK)
