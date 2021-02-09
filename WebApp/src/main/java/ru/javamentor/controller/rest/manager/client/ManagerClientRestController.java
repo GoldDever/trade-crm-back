@@ -32,10 +32,10 @@ public class ManagerClientRestController {
      */
     @GetMapping("/all")
     public ResponseEntity<?> getClientDtoListByManagerId(@AuthenticationPrincipal Manager manager) {
-        List<ClientDto> clientDtoList = clientService.getClientListByManger(manager);
+        List<ClientDto> clientDtoList = clientService.getClientDtoListFromClientsWithManager(manager);
         return clientDtoList != null
                 ? new ResponseEntity<>(clientDtoList, HttpStatus.OK)
-                : new ResponseEntity<>("Нет клиентов", HttpStatus.BAD_REQUEST);
+                : new ResponseEntity<>("У текущего менеджера нет клиентов", HttpStatus.BAD_REQUEST);
 
     }
 

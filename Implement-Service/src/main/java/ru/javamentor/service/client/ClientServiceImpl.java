@@ -37,9 +37,10 @@ public class ClientServiceImpl implements ClientService {
      */
     @Transactional
     @Override
-    public List<ClientDto> getClientListByManger(Manager manager) {
-        return clientRepository.getClientsByManager(manager);
+    public List<ClientDto> getClientDtoListFromClientsWithManager(Manager manager) {
+        return clientRepository.getClientDtoListFromClientsWithManager(manager);
     }
+
 
 }
 

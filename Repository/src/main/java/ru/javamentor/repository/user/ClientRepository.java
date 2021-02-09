@@ -13,11 +13,9 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     @Query("select new ru.javamentor.dto.order.ClientDto(c.id, c.firstName, c.clientName) from " +
             "Client c where c.id = :clientId")
-    ClientDto getClientDtoById(@Param("clientId") Long clientId);
+    ClientDto getClientDtoFromClientWithId(@Param("clientId") Long clientId);
 
-    boolean existsById(@Param("clientId") Long clientId);
-
-    @Query("select new ru.javamentor.dto.order.ClientDto(" + "c.id," + "c.firstName," + "c.clientName)"
+    @Query("select new ru.javamentor.dto.order.ClientDto(c.id, c.firstName, c.clientName)"
             + "from Client c where c.manager = :manager")
-    List<ClientDto> getClientsByManager(@Param("manager") Manager manager);
+    List<ClientDto> getClientDtoListFromClientsWithManager(@Param("manager") Manager manager);
 }
