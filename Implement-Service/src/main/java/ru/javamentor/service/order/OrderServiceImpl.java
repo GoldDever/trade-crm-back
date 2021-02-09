@@ -109,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
         OrderDto orderDto = orderRepository.getOrderDtoWithOrderId(orderId);
         Long clientId = orderRepository.getClientIdByOrderId(orderId);
         Long managerId = orderRepository.getManagerIdByOrderId(orderId);
-        ClientDto clientDto = clientRepository.getClientDtoById(clientId);
+        ClientDto clientDto = clientRepository.getClientDtoFromClientWithId(clientId);
         ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
         List<OrderItemDto> orderItemDtoList = orderItemRepository.getListOrderItemDtoByOrderId(orderId);
         orderItemDtoList.forEach(orderItemDto -> orderItemDto.setProduct(

@@ -1,11 +1,15 @@
 package ru.javamentor.controller.rest.manager.client;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.ClientDto;
+import ru.javamentor.model.user.Manager;
+import ru.javamentor.service.client.ClientService;
 
 import java.util.List;
 
@@ -13,10 +17,26 @@ import java.util.List;
 @RequestMapping("api/manager/client")
 public class ManagerClientRestController {
 
+    public final ClientService clientService;
+
+    public ManagerClientRestController(ClientService clientService) {
+        this.clientService = clientService;
+    }
+
+
+    /**
+     * Метод  возвращает список клиентов прикрепленных к текущему менеджеру
+     *
+     * @param manager - Менеджер
+     * @return список клиентов
+     */
     @GetMapping("/all")
-    ResponseEntity<?> getClientDtoListByManagerId() {
-        //TODO реализовать. Метод List<ClientDto>, возвращает список клиентов прикрепленных к текущему менеджеру. Добавляем лог.
-        return null;
+    public ResponseEntity<?> getClientDtoListByManagerId(@AuthenticationPrincipal Manager manager) {
+        List<ClientDto> clientDtoList = clientService.getClientDtoListFromClientsWithManager(manager);
+        return clientDtoList != null
+                ? new ResponseEntity<>(clientDtoList, HttpStatus.OK)
+                : new ResponseEntity<>("У текущего менеджера нет клиентов", HttpStatus.BAD_REQUEST);
+
     }
 
     @GetMapping("/{clientId}")

@@ -17,9 +17,8 @@ import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -49,15 +48,12 @@ public class JwtProvider {
 
 
     public String generateJwt(Authentication authentication, boolean rememberMe) {
-        Claims claims = Jwts.claims()
-                .setSubject(authentication.getName());
-        claims.put(authorization,authentication.getAuthorities()
-                .stream()
+        final String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList()));
+                .collect(Collectors.joining(","));
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .setClaims(claims)
+                .claim(authorization, authorities)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .setIssuedAt(Date.valueOf(LocalDate.now()))
                 .setExpiration(rememberMe
@@ -79,7 +75,6 @@ public class JwtProvider {
     }
 
     public java.util.Date getExpirationDateFromToken(String token) {
-
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
@@ -90,11 +85,12 @@ public class JwtProvider {
 
     UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
         final Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-        List<String> listAuthorizations = (ArrayList<String>)claims.get(authorization);
+
         final Collection<? extends GrantedAuthority> authorities =
-                listAuthorizations.stream()
+                Arrays.stream(claims.get(authorization).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
+
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
 
