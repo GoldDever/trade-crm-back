@@ -43,12 +43,6 @@ public class JwtProvider {
     @Value("${jwt.tokenIdentifier}")
     private String tokenIdentifier;
 
-    private final JwtUserDetailsService jwtUserDetailsService;
-
-    public JwtProvider(JwtUserDetailsService jwtUserDetailsService) {
-        this.jwtUserDetailsService = jwtUserDetailsService;
-    }
-
 
     public String generateJwt(Authentication authentication, boolean rememberMe) {
         final String authorities = authentication.getAuthorities().stream()
