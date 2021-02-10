@@ -5,11 +5,13 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import ru.javamentor.service.JwtUserDetailsService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Date;
@@ -17,6 +19,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
@@ -40,16 +43,14 @@ public class JwtProvider {
     @Value("${jwt.tokenIdentifier}")
     private String tokenIdentifier;
 
+
     public String generateJwt(Authentication authentication, boolean rememberMe) {
-        Claims claims = Jwts.claims()
-                .setSubject(authentication.getName());
-        claims.put(authorization,authentication.getAuthorities()
-                .stream()
+        final String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList()));
+                .collect(Collectors.joining(","));
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .setClaims(claims)
+                .claim(authorization, authorities)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .setIssuedAt(Date.valueOf(LocalDate.now()))
                 .setExpiration(rememberMe
@@ -71,7 +72,6 @@ public class JwtProvider {
     }
 
     public java.util.Date getExpirationDateFromToken(String token) {
-
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
@@ -82,11 +82,12 @@ public class JwtProvider {
 
     UsernamePasswordAuthenticationToken getAuthentication(final String token, final UserDetails userDetails) {
         final Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
-        List<String> listAuthorizations = (ArrayList<String>)claims.get(authorization);
+
         final Collection<? extends GrantedAuthority> authorities =
-                listAuthorizations.stream()
+                Arrays.stream(claims.get(authorization).toString().split(","))
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
+
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
 
@@ -103,6 +104,15 @@ public class JwtProvider {
             return bearer.substring(tokenIdentifier.length());
         }
         return null;
+    }
+
+    public String getRoleByToken(HttpServletRequest httpServletRequest) {
+        String token = resolveToken(httpServletRequest);
+        final Claims claims = getAllClaimsFromToken(token);
+        return Arrays.stream(claims.get(authorization).toString().split(","))
+                .map(el -> el.replaceAll("[\\[\\]]", ""))
+                .map(String::valueOf).collect(Collectors.joining(", "));
+
     }
 
     public String getUsernameFromToken(String token) {
