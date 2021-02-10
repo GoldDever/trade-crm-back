@@ -26,6 +26,12 @@ public class TokenController {
         this.httpServletRequest = httpServletRequest;
         this.jwtProvider = jwtProvider;
     }
+
+    /**
+     * Метод читает токен их хедера и возвращает роль, которая в нем прописана, в виде строки
+     * @return - роли авторизованного юзера
+     */
+
     @GetMapping("roleByToken")
     public ResponseEntity<?> getRoleByToken() {
         return ResponseEntity.ok(jwtProvider.getRoleByToken(httpServletRequest));

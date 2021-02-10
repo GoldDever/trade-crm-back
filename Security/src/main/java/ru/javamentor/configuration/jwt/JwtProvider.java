@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,8 +18,10 @@ import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -109,10 +112,11 @@ public class JwtProvider {
         return null;
     }
 
-    public Collection<GrantedAuthority> getRoleByToken(HttpServletRequest httpServletRequest) {
+    public String getRoleByToken(HttpServletRequest httpServletRequest) {
         String token = resolveToken(httpServletRequest);
-        UserDetails userDetailsService = jwtUserDetailsService.loadUserByUsername(getUsernameFromToken(token));
-        return getAuthentication(token,userDetailsService).getAuthorities();
+        final Claims claims = getAllClaimsFromToken(token);
+        List<String> listAuthorizations = (ArrayList<String>) claims.get(authorization);
+        return listAuthorizations.stream().collect(Collectors.joining(", "));
     }
 
     public String getUsernameFromToken(String token) {
