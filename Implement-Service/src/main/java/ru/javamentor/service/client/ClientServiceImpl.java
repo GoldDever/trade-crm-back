@@ -49,7 +49,7 @@ public class ClientServiceImpl implements ClientService{
 
     @Override
     public ClientDto getClientDtoByClientId(Long clientId) {
-        return clientRepository.getClientDtoById(clientId);
+        return clientRepository.getClientDtoFromClientWithId(clientId);
     }
 }
 
