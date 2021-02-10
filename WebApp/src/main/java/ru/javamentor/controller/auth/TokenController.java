@@ -26,6 +26,12 @@ public class TokenController {
         this.httpServletRequest = httpServletRequest;
         this.jwtProvider = jwtProvider;
     }
+
+    /**
+     *Метод возвращает роли по токену
+     * @return
+     */
+
     @GetMapping("roleByToken")
     public ResponseEntity<?> getRoleByToken() {
         return ResponseEntity.ok(jwtProvider.getRoleByToken(httpServletRequest));
