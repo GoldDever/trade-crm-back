@@ -115,8 +115,10 @@ public class JwtProvider {
     public String getRoleByToken(HttpServletRequest httpServletRequest) {
         String token = resolveToken(httpServletRequest);
         final Claims claims = getAllClaimsFromToken(token);
-        List<String> listAuthorizations = (ArrayList<String>) claims.get(authorization);
-        return listAuthorizations.stream().collect(Collectors.joining(", "));
+        return Arrays.stream(claims.get(authorization).toString().split(","))
+                .map(el -> el.replaceAll("[\\[\\]]", ""))
+                .map(String::valueOf).collect(Collectors.joining(", "));
+
     }
 
     public String getUsernameFromToken(String token) {
