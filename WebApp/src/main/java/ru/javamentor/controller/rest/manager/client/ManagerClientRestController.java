@@ -40,6 +40,12 @@ public class ManagerClientRestController {
 
     }
 
+    /**
+     * Метод возвращает ClientDto, клиента по id
+     *
+     * @param clientId - id клиента
+     * @return ClientDto клиента
+     */
     @GetMapping("/{clientId}")
     ResponseEntity<?> getClientDtoByClientId(@PathVariable Long clientId, @AuthenticationPrincipal Manager manager) {
         //TODO реализовать. Метод возвращает ClientDto, клиента по id,
@@ -47,14 +53,11 @@ public class ManagerClientRestController {
         // Добавить проверку на существование клиента по id.
         // Если клиента не существует, возвращаем "Клиент с id={clientId}, не найден." Добавляем лог
 
-        if(!clientService.isExistsByClientId(clientId)) {
+        if (!clientService.isExistsByManagerAndClientId(manager, clientId)) {
             return ResponseEntity.badRequest().body("Клиент с id=" + clientId + ", не найден.");
-        }
-        Client client = clientService.getClientById(clientId);
-        if (!client.getManager().equals(manager)) {
-            return ResponseEntity.badRequest().body("Вы не можете просматривать данного клиента.");
         } else {
             return ResponseEntity.ok().body(clientService.getClientDtoByClientId(clientId));
         }
     }
 }
+

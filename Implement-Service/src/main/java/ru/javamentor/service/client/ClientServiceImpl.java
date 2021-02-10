@@ -3,14 +3,13 @@ package ru.javamentor.service.client;
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.order.ClientDto;
 import ru.javamentor.model.user.Manager;
-import ru.javamentor.model.user.Client;
 import ru.javamentor.repository.user.ClientRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
-public class ClientServiceImpl implements ClientService{
+public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
 
@@ -31,6 +30,18 @@ public class ClientServiceImpl implements ClientService{
     }
 
     /**
+     * Метод возвращает boolean при проверке наличия, прикрепленного к менеджеру клиента, с данным Id.
+     *
+     * @param manager - Менеджер
+     * @param clientId - id клиента
+     * @return - Возвращает boolean, соответствующий результату.
+     */
+    @Override
+    public boolean isExistsByManagerAndClientId(Manager manager, Long clientId) {
+        return clientRepository.existsByManagerAndId(manager, clientId);
+    }
+
+    /**
      * Метод возвращает список клиентов прикрепленных к менеджеру
      *
      * @param manager - Менеджер
@@ -42,11 +53,12 @@ public class ClientServiceImpl implements ClientService{
         return clientRepository.getClientDtoListFromClientsWithManager(manager);
     }
 
-    @Override
-    public Client getClientById(Long clientId) {
-        return null;
-    }
-
+    /**
+     * Метод возвращает ClientDto, клиента по id
+     *
+     * @param clientId - id клиента
+     * @return ClientDto клиента
+     */
     @Override
     public ClientDto getClientDtoByClientId(Long clientId) {
         return clientRepository.getClientDtoFromClientWithId(clientId);

@@ -18,4 +18,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query("select new ru.javamentor.dto.order.ClientDto(c.id, c.firstName, c.clientName)"
             + "from Client c where c.manager = :manager")
     List<ClientDto> getClientDtoListFromClientsWithManager(@Param("manager") Manager manager);
+
+    boolean existsByManagerAndId(Manager manager, Long cliLong);
 }
