@@ -147,6 +147,12 @@ public class OrderServiceImpl implements OrderService {
                     productService.getProductDtoByProductId(
                             orderItemRepository.findProductIdByOrderItemId(orderItemDto.getId()))));
             orderDto.setOrderItemList(orderItemDtoList);
+
+            Long managerId = orderRepository.getManagerIdByOrderId(orderDto.getId());
+            ClientDto clientDto = clientRepository.getClientDtoFromClientWithId(clientId);
+            ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
+            orderDto.setClient(clientDto);
+            orderDto.setManager(managerDto);
         });
         return orderDtoList;
     }
@@ -166,6 +172,12 @@ public class OrderServiceImpl implements OrderService {
                     productService.getProductDtoByProductId(
                             orderItemRepository.findProductIdByOrderItemId(orderItemDto.getId()))));
             orderDto.setOrderItemList(orderItemDtoList);
+
+            Long clientId = orderRepository.getClientIdByOrderId(orderDto.getId());
+            ClientDto clientDto = clientRepository.getClientDtoFromClientWithId(clientId);
+            ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
+            orderDto.setClient(clientDto);
+            orderDto.setManager(managerDto);
         });
         return allOrderDtoList;
     }
