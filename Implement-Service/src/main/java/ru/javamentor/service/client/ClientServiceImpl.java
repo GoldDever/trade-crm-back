@@ -41,6 +41,16 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.getClientDtoListFromClientsWithManager(manager);
     }
 
-
+    /**
+     * Метод возвращает айди менеджера клиента по clientId
+     *
+     * @param clientId - айди клиента
+     * @return айди менедера
+     */
+    @Transactional
+    @Override
+    public boolean relationClientWithManager(Long clientId, Long managerId){
+        return clientRepository.relationClientWithManager(clientId, managerId);
+    }
 }
 
