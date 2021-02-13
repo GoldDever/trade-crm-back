@@ -30,18 +30,6 @@ public class ClientServiceImpl implements ClientService {
     }
 
     /**
-     * Метод возвращает boolean при проверке наличия, прикрепленного к менеджеру клиента, с данным Id.
-     *
-     * @param manager - Менеджер
-     * @param clientId - id клиента
-     * @return - Возвращает boolean, соответствующий результату.
-     */
-    @Override
-    public boolean isExistsByManagerAndClientId(Manager manager, Long clientId) {
-        return clientRepository.existsByManagerAndId(manager, clientId);
-    }
-
-    /**
      * Метод возвращает список клиентов прикрепленных к менеджеру
      *
      * @param manager - Менеджер
@@ -62,6 +50,17 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDto getClientDtoByClientId(Long clientId) {
         return clientRepository.getClientDtoFromClientWithId(clientId);
+    }
+    /**
+     * Метод возвращает айди менеджера клиента по clientId
+     *
+     * @param clientId - айди клиента
+     * @return айди менедера
+     */
+    @Transactional
+    @Override
+    public boolean relationClientWithManager(Long clientId, Long managerId){
+        return clientRepository.relationClientWithManager(clientId, managerId);
     }
 }
 

@@ -19,5 +19,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
             + "from Client c where c.manager = :manager")
     List<ClientDto> getClientDtoListFromClientsWithManager(@Param("manager") Manager manager);
 
-    boolean existsByManagerAndId(Manager manager, Long cliLong);
+    @Query("select count(c.id) > 0  from Client c where c.id = :clientId and c.manager.id = :managerId ")
+    Boolean relationClientWithManager(@Param("clientId") Long clientId, @Param("managerId") Long managerId);
 }

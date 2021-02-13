@@ -529,7 +529,7 @@ public class InitService {
     }
 
     private void initOrder() {
-        Client client1 = clientRepository.findById(21L).get();
+        Client client1 = clientRepository.findById(9L).get();
         Manager manager1 = managerRepository.findById(1L).get();
         Order order = new Order();
         order.setIdFromErp("idFromErp");
@@ -541,7 +541,7 @@ public class InitService {
         order.setCreateTime(LocalDateTime.parse("2020-12-30T11:03:12"));
         orderRepository.save(order);
 
-        Client client2 = clientRepository.findById(20L).get();
+        Client client2 = clientRepository.findById(8L).get();
         Order order2 = new Order();
         order2.setIdFromErp("idFromErp");
         order2.setClient(client2);
