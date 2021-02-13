@@ -53,8 +53,10 @@ public class ManagerClientRestController {
         // Добавить проверку на существование клиента по id.
         // Если клиента не существует, возвращаем "Клиент с id={clientId}, не найден." Добавляем лог
 
-        if (!clientService.isExistsByManagerAndClientId(manager, clientId)) {
+        if (!clientService.isExistsByClientId(clientId)) {
             return ResponseEntity.badRequest().body("Клиент с id=" + clientId + ", не найден.");
+        } else if (!clientService.relationClientWithManager(clientId, manager.getId())) {
+            return ResponseEntity.badRequest().body("Вы не можете просматривать данного клиента.");
         } else {
             return ResponseEntity.ok().body(clientService.getClientDtoByClientId(clientId));
         }
