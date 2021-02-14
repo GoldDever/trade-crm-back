@@ -109,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
         OrderDto orderDto = orderRepository.getOrderDtoWithOrderId(orderId);
         Long clientId = orderRepository.getClientIdByOrderId(orderId);
         Long managerId = orderRepository.getManagerIdByOrderId(orderId);
-        ClientDto clientDto = clientRepository.getClientDtoById(clientId);
+        ClientDto clientDto = clientRepository.getClientDtoFromClientWithId(clientId);
         ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
         List<OrderItemDto> orderItemDtoList = orderItemRepository.getListOrderItemDtoByOrderId(orderId);
         orderItemDtoList.forEach(orderItemDto -> orderItemDto.setProduct(
@@ -117,7 +117,7 @@ public class OrderServiceImpl implements OrderService {
                         orderItemRepository.findProductIdByOrderItemId(orderItemDto.getId()))));
         orderDto.setClient(clientDto);
         orderDto.setManager(managerDto);
-        orderDto.setOrderItemDto(orderItemDtoList);
+        orderDto.setOrderItemList(orderItemDtoList);
         return orderDto;
     }
 
@@ -140,7 +140,46 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public List<OrderDto> getOrderDtoListByClientId(Long clientId) {
-        return orderRepository.getOrderDtoListWithClientId(clientId);
+        List<OrderDto> orderDtoList = orderRepository.getOrderDtoListWithClientId(clientId);
+        orderDtoList.forEach(orderDto -> {
+            List<OrderItemDto> orderItemDtoList = orderItemRepository.getListOrderItemDtoByOrderId(orderDto.getId());
+            orderItemDtoList.forEach(orderItemDto -> orderItemDto.setProduct(
+                    productService.getProductDtoByProductId(
+                            orderItemRepository.findProductIdByOrderItemId(orderItemDto.getId()))));
+            orderDto.setOrderItemList(orderItemDtoList);
+
+            Long managerId = orderRepository.getManagerIdByOrderId(orderDto.getId());
+            ClientDto clientDto = clientRepository.getClientDtoFromClientWithId(clientId);
+            ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
+            orderDto.setClient(clientDto);
+            orderDto.setManager(managerDto);
+        });
+        return orderDtoList;
+    }
+
+    /**
+     * Метод, возвращающий список ордеров менеджера с managerId.
+     *
+     * @param managerId - Принимает Id менеджера как аргумент.
+     * @return - Возвращает список ордеров менеджера.
+     */
+    @Override
+    public List<OrderDto> getAllOrderDtoListByManagerId(Long managerId) {
+        List<OrderDto> allOrderDtoList = orderRepository.getAllOrderDtoListByManagerId(managerId);
+        allOrderDtoList.forEach(orderDto -> {
+            List<OrderItemDto> orderItemDtoList = orderItemRepository.getListOrderItemDtoByOrderId(orderDto.getId());
+            orderItemDtoList.forEach(orderItemDto -> orderItemDto.setProduct(
+                    productService.getProductDtoByProductId(
+                            orderItemRepository.findProductIdByOrderItemId(orderItemDto.getId()))));
+            orderDto.setOrderItemList(orderItemDtoList);
+
+            Long clientId = orderRepository.getClientIdByOrderId(orderDto.getId());
+            ClientDto clientDto = clientRepository.getClientDtoFromClientWithId(clientId);
+            ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
+            orderDto.setClient(clientDto);
+            orderDto.setManager(managerDto);
+        });
+        return allOrderDtoList;
     }
 }
 
