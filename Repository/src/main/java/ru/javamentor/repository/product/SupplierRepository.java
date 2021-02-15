@@ -14,7 +14,8 @@ public interface SupplierRepository extends JpaRepository<Supplier, Long> {
 
     @Query("SELECT new ru.javamentor.dto.product.SupplierDto(" +
             "s.id, " +
-            "s.name) " +
+            "s.name, " +
+            "s.idFromErp)" +
             "FROM Supplier s " +
             "WHERE s.id IN :supplierId")
     List<SupplierDto> findSupplierDtoBySupplierId(@Param("supplierId") List<Long> SupplierId);
