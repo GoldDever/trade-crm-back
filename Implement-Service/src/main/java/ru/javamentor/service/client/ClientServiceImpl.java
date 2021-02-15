@@ -42,6 +42,16 @@ public class ClientServiceImpl implements ClientService {
     }
 
     /**
+     * Метод возвращает ClientDto, клиента по id
+     *
+     * @param clientId - id клиента
+     * @return ClientDto клиента
+     */
+    @Override
+    public ClientDto getClientDtoByClientId(Long clientId) {
+        return clientRepository.getClientDtoFromClientWithId(clientId);
+    }
+    /**
      * Метод возвращает айди менеджера клиента по clientId
      *
      * @param clientId - айди клиента

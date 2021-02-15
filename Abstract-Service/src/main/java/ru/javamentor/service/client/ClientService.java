@@ -9,6 +9,6 @@ public interface ClientService {
 
     boolean isExistsByClientId(Long orderId);
     List<ClientDto> getClientDtoListFromClientsWithManager(Manager manager);
-
+    ClientDto getClientDtoByClientId(Long clientId);
     boolean relationClientWithManager(Long clientId, Long managerId);
 }
