@@ -1,7 +1,6 @@
 package ru.javamentor.service.product;
 
 import org.springframework.stereotype.Service;
-import ru.javamentor.dto.product.ManufacturerDto;
 import ru.javamentor.dto.product.ManufacturerPostDto;
 import ru.javamentor.model.product.Manufacturer;
 import ru.javamentor.repository.product.ManufacturerRepository;
