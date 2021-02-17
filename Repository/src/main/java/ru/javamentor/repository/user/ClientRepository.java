@@ -11,13 +11,13 @@ import java.util.List;
 
 public interface ClientRepository extends JpaRepository<Client, Long> {
 
-    @Query("select new ru.javamentor.dto.order.ClientDto(c.id, c.firstName, c.clientName) from " +
+    @Query("select new ru.javamentor.dto.user.ClientDto(c.id, c.firstName, c.lastName, c.patronymic, c.username, c.clientName) from " +
             "Client c where c.id = :clientId")
     ClientDto getClientDtoFromClientWithId(@Param("clientId") Long clientId);
 
-    @Query("select new ru.javamentor.dto.order.ClientDto(c.id, c.firstName, c.clientName)"
-            + "from Client c where c.manager = :manager")
-    List<ClientDto> getClientDtoListFromClientsWithManager(@Param("manager") Manager manager);
+    @Query("select new ru.javamentor.dto.user.ClientDto(c.id, c.firstName, c.lastName, c.patronymic, c.username, c.clientName)"
+            + "from Client c where c.manager.id = :managerId")
+    List<ClientDto> getClientDtoListFromClientsWithManager(Long managerId);
 
     @Query("select count(c.id) > 0  from Client c where c.id = :clientId and c.manager.id = :managerId ")
     Boolean relationClientWithManager(@Param("clientId") Long clientId, @Param("managerId") Long managerId);
