@@ -1,6 +1,6 @@
 package ru.javamentor.service.client;
 
-import ru.javamentor.dto.order.ClientDto;
+import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.model.user.Manager;
 
 import java.util.List;

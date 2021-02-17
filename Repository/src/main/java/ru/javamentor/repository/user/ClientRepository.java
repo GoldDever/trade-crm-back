@@ -3,7 +3,7 @@ package ru.javamentor.repository.user;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import ru.javamentor.dto.order.ClientDto;
+import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
 

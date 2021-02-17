@@ -1,5 +1,8 @@
 package ru.javamentor.dto.order;
 
+import ru.javamentor.dto.user.ClientDto;
+import ru.javamentor.dto.user.ManagerDto;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
