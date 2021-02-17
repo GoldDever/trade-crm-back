@@ -8,10 +8,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ru.javamentor.dto.order.ClientDto;
+import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.service.client.ClientService;
-import ru.javamentor.model.user.Client;
 
 import java.util.List;
 
