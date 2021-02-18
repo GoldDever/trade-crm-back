@@ -14,7 +14,6 @@ public class ProductPostDto {
     private ManufacturerDto manufacturerDto;
     private List<SupplierDto> supplierDto;
     private String article;
-    private Double purchasePrice;
     private Double price;
     private Double standardMargin;
     private UnitDto unitDto;
@@ -28,23 +27,24 @@ public class ProductPostDto {
 
     public ProductPostDto(Integer productCount, String productName, String madeCountry,
                           ManufacturerDto manufacturerDto, List<SupplierDto> supplierDto,
-                          String article, Double purchasePrice,
+                          String article,
                           Double price, Double standardMargin,
                           UnitDto unitDto, Integer packagingCount,
-                          String idFromErp, ProductCategory productCategory) {
+                          String idFromErp, ProductCategory productCategory,
+                          Double minMargin) {
         this.productCount = productCount;
         this.productName = productName;
         this.madeCountry = madeCountry;
         this.manufacturerDto = manufacturerDto;
         this.supplierDto = supplierDto;
         this.article = article;
-        this.purchasePrice = purchasePrice;
         this.price = price;
         this.standardMargin = standardMargin;
         this.unitDto = unitDto;
         this.packagingCount = packagingCount;
         this.idFromErp = idFromErp;
         this.productCategory = productCategory;
+        this.minMargin = minMargin;
     }
 
     public Integer getProductCount() {
@@ -93,14 +93,6 @@ public class ProductPostDto {
 
     public void setArticle(String article) {
         this.article = article;
-    }
-
-    public Double getPurchasePrice() {
-        return purchasePrice;
-    }
-
-    public void setPurchasePrice(Double purchasePrice) {
-        this.purchasePrice = purchasePrice;
     }
 
     public Double getPrice() {
