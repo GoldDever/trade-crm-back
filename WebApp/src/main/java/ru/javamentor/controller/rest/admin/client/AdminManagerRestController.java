@@ -1,6 +1,8 @@
 package ru.javamentor.controller.rest.admin.client;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.user.ManagerDto;
@@ -9,6 +11,7 @@ import ru.javamentor.dto.user.ManagerDto;
 @RequestMapping("api/admin/manager")
 public class AdminManagerRestController {
 
+    @PostMapping()
     public ResponseEntity<?> addNewManager(ManagerDto managerDto) {
         //TODO метод добавляет нового менеджера.
         // Добавить проверку на существование менеджера или клиента с таким e-mail.
@@ -17,6 +20,7 @@ public class AdminManagerRestController {
         return ResponseEntity.ok("Менеджер c email " + managerDto.getEmail() + ", успешно добавлен");
     }
 
+    @PutMapping()
     public ResponseEntity<?> updateManager(ManagerDto managerDto) {
         //TODO метод обновляет существующего менеджера.
         // Добавить проверку на существование менеджера или клиента с таким id.
