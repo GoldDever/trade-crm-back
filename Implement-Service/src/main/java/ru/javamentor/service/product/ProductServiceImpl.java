@@ -2,6 +2,7 @@ package ru.javamentor.service.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.dto.product.ProductPostDto;
 import ru.javamentor.dto.product.SupplierDto;
@@ -12,7 +13,11 @@ import ru.javamentor.repository.product.SupplierRepository;
 import ru.javamentor.repository.product.UnitRepository;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.model.product.Supplier;
+import ru.javamentor.service.file.FileService;
+
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +35,7 @@ public class ProductServiceImpl implements ProductService {
     private UnitRepository unitRepository;
     private ProductCategoryRepository productCategoryRepository;
     private SupplierRepository supplierRepository;
+    private FileService fileService;
 
     public ProductServiceImpl() {}
 
@@ -37,12 +43,15 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceImpl(ProductRepository productRepository,
                               ManufacturerRepository manufacturerRepository,
                               UnitRepository unitRepository,
-                              ProductCategoryRepository productCategoryRepository, SupplierRepository supplierRepository) {
+                              ProductCategoryRepository productCategoryRepository,
+                              SupplierRepository supplierRepository,
+                              FileService fileService) {
         this.productRepository = productRepository;
         this.manufacturerRepository = manufacturerRepository;
         this.unitRepository = unitRepository;
         this.productCategoryRepository = productCategoryRepository;
         this.supplierRepository = supplierRepository;
+        this.fileService = fileService;
     }
 
     /**
@@ -138,5 +147,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public boolean isProductIdExists(Long productId) {
         return productRepository.existsById(productId);
+    }
+
+    @Override
+    public Product getProductByIdFromErp(String idFromErp) {
+        return productRepository.findByIdFromErp(idFromErp);
+    }
+
+    @Override
+    public void imageUpdateProduct(Product product, MultipartFile image) throws IOException {
+        product.setImageUrl(fileService.upload(image));
+        productRepository.save(product);
     }
 }

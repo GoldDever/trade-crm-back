@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.dto.product.ProductPostDto;
+import ru.javamentor.model.product.Product;
+import ru.javamentor.service.file.FileService;
 import ru.javamentor.service.product.ProductService;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("api/admin/product")
@@ -50,7 +53,15 @@ public class AdminProductRestController {
     public ResponseEntity<?> imageUpdateProduct(
             @PathVariable String idFromErp,
             @RequestParam MultipartFile image) {
-        //TODO реализовать добавление изображения в продукт
-        return null;
+        Product product = productService.getProductByIdFromErp(idFromErp);
+        if (product == null) {
+            return ResponseEntity.badRequest().body("Продукт не найден.");
+        }
+        try {
+            productService.imageUpdateProduct(product, image);
+            return ResponseEntity.ok("Файл загружен.");
+        } catch (IOException e) {
+            return ResponseEntity.badRequest().body("Не удалось сохранить файл.");
+        }
     }
 }
