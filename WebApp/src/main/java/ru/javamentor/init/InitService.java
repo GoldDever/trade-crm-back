@@ -451,9 +451,9 @@ public class InitService {
         product.setUnit(unitRepository.findUnitById(1L));
         product.setProductCategory(productCategoryRepository.findById(2L).get());
         product.setArticle("article");
-        product.setPurchasePrice(BigDecimal.valueOf(6.00));
+        product.setMinMargin(BigDecimal.valueOf(6.00));
         product.setPrice(BigDecimal.valueOf(4.00));
-        product.setMargin(BigDecimal.valueOf(2.00));
+        product.setStandardMargin(BigDecimal.valueOf(2.00));
         product.setPackagingCount(3);
         product.setIdFromErp("123123123123");
         productRepository.save(product);
@@ -470,9 +470,9 @@ public class InitService {
         product.setUnit(unitRepository.findUnitById(2L));
         product.setProductCategory(productCategoryRepository.findById(1L).get());
         product.setArticle("article1");
-        product.setPurchasePrice(BigDecimal.valueOf(7.00));
+        product.setMinMargin(BigDecimal.valueOf(7.00));
         product.setPrice(BigDecimal.valueOf(5.00));
-        product.setMargin(BigDecimal.valueOf(3.00));
+        product.setStandardMargin(BigDecimal.valueOf(3.00));
         product.setPackagingCount(4);
         product.setIdFromErp("456456456456");
         productRepository.save(product);

@@ -16,11 +16,12 @@ public class ProductPostDto {
     private String article;
     private Double purchasePrice;
     private Double price;
-    private Double margin;
+    private Double standardMargin;
     private UnitDto unitDto;
     private Integer packagingCount;
     private String idFromErp;
     private ProductCategory productCategory;
+    private Double minMargin;
 
     public ProductPostDto() {
     }
@@ -28,7 +29,7 @@ public class ProductPostDto {
     public ProductPostDto(Integer productCount, String productName, String madeCountry,
                           ManufacturerDto manufacturerDto, List<SupplierDto> supplierDto,
                           String article, Double purchasePrice,
-                          Double price, Double margin,
+                          Double price, Double standardMargin,
                           UnitDto unitDto, Integer packagingCount,
                           String idFromErp, ProductCategory productCategory) {
         this.productCount = productCount;
@@ -39,7 +40,7 @@ public class ProductPostDto {
         this.article = article;
         this.purchasePrice = purchasePrice;
         this.price = price;
-        this.margin = margin;
+        this.standardMargin = standardMargin;
         this.unitDto = unitDto;
         this.packagingCount = packagingCount;
         this.idFromErp = idFromErp;
@@ -110,12 +111,12 @@ public class ProductPostDto {
         this.price = price;
     }
 
-    public Double getMargin() {
-        return margin;
+    public Double getStandardMargin() {
+        return standardMargin;
     }
 
-    public void setMargin(Double margin) {
-        this.margin = margin;
+    public void setStandardMargin(Double standardMargin) {
+        this.standardMargin = standardMargin;
     }
 
     public UnitDto getUnitDto() {
@@ -148,5 +149,13 @@ public class ProductPostDto {
 
     public void setProductCategory(ProductCategory productCategoryDto) {
         this.productCategory = productCategoryDto;
+    }
+
+    public Double getMinMargin() {
+        return minMargin;
+    }
+
+    public void setMinMargin(Double minMargin) {
+        this.minMargin = minMargin;
     }
 }

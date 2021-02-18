@@ -18,6 +18,8 @@ public class ProductDto {
     private UnitDto unit;
     private String productCategory;
     private BigDecimal price;
+    private BigDecimal minMargin;
+    private BigDecimal standardMargin;
 
 
     public ProductDto(
@@ -29,7 +31,9 @@ public class ProductDto {
             String article,
             UnitDto unit,
             String productCategory,
-            BigDecimal price)
+            BigDecimal price,
+            BigDecimal minMargin,
+            BigDecimal standardMargin)
     {
         this.id = id;
         this.productName = productName;
@@ -40,6 +44,8 @@ public class ProductDto {
         this.unit = unit;
         this.productCategory = productCategory;
         this.price = price;
+        this.minMargin = minMargin;
+        this.standardMargin = standardMargin;
     }
 
     public ProductDto(
@@ -55,6 +61,25 @@ public class ProductDto {
         this.article = article;
         this.price = price;
     }
+
+    public ProductDto(
+            Long id,
+            String productName,
+            String madeCountry,
+            String article,
+            BigDecimal price,
+            BigDecimal minMargin,
+            BigDecimal standardMargin
+    ) {
+        this.id = id;
+        this.productName = productName;
+        this.madeCountry = madeCountry;
+        this.article = article;
+        this.price = price;
+        this.minMargin = minMargin;
+        this.minMargin = standardMargin;
+    }
+
 
     public ProductDto(String productName, String madeCountry,
                       ManufacturerDto manufacturerDto) {
@@ -134,5 +159,21 @@ public class ProductDto {
 
     public void setUnit(UnitDto unit) {
         this.unit = unit;
+    }
+
+    public BigDecimal getMinMargin() {
+        return minMargin;
+    }
+
+    public void setMinMargin(BigDecimal minMargin) {
+        this.minMargin = minMargin;
+    }
+
+    public BigDecimal getStandardMargin() {
+        return standardMargin;
+    }
+
+    public void setStandardMargin(BigDecimal standardMargin) {
+        this.standardMargin = standardMargin;
     }
 }
