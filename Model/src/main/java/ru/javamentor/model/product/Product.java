@@ -1,7 +1,5 @@
 package ru.javamentor.model.product;
 
-import ru.javamentor.dto.product.ProductPostDto;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,14 +46,14 @@ public class Product {
     @Column(name = "article")
     private String article;
 
-    @Column(name = "purchase_price")
-    private BigDecimal purchasePrice;
+    @Column(name = "min_margin")
+    private BigDecimal minMargin;
 
     @Column(name = "price")
     private BigDecimal price;
 
-    @Column(name = "margin")
-    private BigDecimal margin;
+    @Column(name = "standard_margin")
+    private BigDecimal standardMargin;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id")
@@ -76,8 +74,8 @@ public class Product {
 
     public Product(Integer productCount, String productName, String madeCountry,
                    Manufacturer manufacturer, Set<Supplier> suppliers,
-                   String article, BigDecimal purchasePrice,
-                   BigDecimal price, BigDecimal margin,
+                   String article, BigDecimal minMargin,
+                   BigDecimal price, BigDecimal standardMargin,
                    Unit unit, Integer packagingCount,
                    String idFromErp, ProductCategory productCategory) {
         this.productCount = productCount;
@@ -86,9 +84,9 @@ public class Product {
         this.manufacturer = manufacturer;
         this.suppliers = suppliers;
         this.article = article;
-        this.purchasePrice = purchasePrice;
+        this.minMargin = minMargin;
         this.price = price;
-        this.margin = margin;
+        this.standardMargin = standardMargin;
         this.unit = unit;
         this.packagingCount = packagingCount;
         this.idFromErp = idFromErp;
@@ -98,8 +96,8 @@ public class Product {
     public Product(Long id, Integer productCount, String productName,
                    String madeCountry, Manufacturer manufacturer,
                    Set<Supplier> suppliers, String article,
-                   BigDecimal purchasePrice, BigDecimal price,
-                   BigDecimal margin, Unit unit,
+                   BigDecimal minMargin, BigDecimal price,
+                   BigDecimal standardMargin, Unit unit,
                    Integer packagingCount, String idFromErp, ProductCategory productCategory) {
         this.id = id;
         this.productCount = productCount;
@@ -108,9 +106,9 @@ public class Product {
         this.manufacturer = manufacturer;
         this.suppliers = suppliers;
         this.article = article;
-        this.purchasePrice = purchasePrice;
+        this.minMargin = minMargin;
         this.price = price;
-        this.margin = margin;
+        this.standardMargin = standardMargin;
         this.unit = unit;
         this.packagingCount = packagingCount;
         this.idFromErp = idFromErp;
@@ -118,25 +116,26 @@ public class Product {
     }
 
 
-    public Product( Integer productCount, String productName,
+    public Product(Integer productCount, String productName,
                    String madeCountry, Manufacturer manufacturer,
                    Set<Supplier> suppliers, String article,
-                   BigDecimal purchasePrice, BigDecimal price,
-                   BigDecimal margin, Unit unit,
-                   Integer packagingCount,  ProductCategory productCategory) {
+                   BigDecimal minMargin, BigDecimal price,
+                   BigDecimal standardMargin, Unit unit,
+                   Integer packagingCount, ProductCategory productCategory) {
         this.productCount = productCount;
         this.productName = productName;
         this.madeCountry = madeCountry;
         this.manufacturer = manufacturer;
         this.suppliers = suppliers;
         this.article = article;
-        this.purchasePrice = purchasePrice;
+        this.minMargin = minMargin;
         this.price = price;
-        this.margin = margin;
+        this.standardMargin = standardMargin;
         this.unit = unit;
         this.packagingCount = packagingCount;
         this.productCategory = productCategory;
     }
+
     public Long getId() {
         return id;
     }
@@ -217,13 +216,14 @@ public class Product {
         this.idFromErp = idFromErp;
     }
 
-    public BigDecimal getPurchasePrice() {
-        return purchasePrice;
+    public BigDecimal getMinMargin() {
+        return minMargin;
     }
 
-    public void setPurchasePrice(BigDecimal purchasePrice) {
-        this.purchasePrice = purchasePrice.setScale(2, RoundingMode.HALF_UP);
+    public void setMinMargin(BigDecimal minMargin) {
+        this.minMargin = minMargin.setScale(2, RoundingMode.HALF_UP);
     }
+
 
     public BigDecimal getPrice() {
         return price;
@@ -233,12 +233,12 @@ public class Product {
         this.price = price.setScale(2, RoundingMode.HALF_UP);
     }
 
-    public BigDecimal getMargin() {
-        return margin;
+    public BigDecimal getStandardMargin() {
+        return standardMargin;
     }
 
-    public void setMargin(BigDecimal margin) {
-        this.margin = margin.setScale(2, RoundingMode.HALF_UP);
+    public void setStandardMargin(BigDecimal margin) {
+        this.standardMargin = margin.setScale(2, RoundingMode.HALF_UP);
     }
 
     public ProductCategory getProductCategory() {
