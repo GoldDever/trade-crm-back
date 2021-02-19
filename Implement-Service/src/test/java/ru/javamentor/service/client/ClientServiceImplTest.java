@@ -1,5 +1,4 @@
 package ru.javamentor.service.client;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -9,15 +8,13 @@ import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.repository.user.ClientRepository;
-
 import java.util.Collections;
-
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings("deprecation")
 public class ClientServiceImplTest {
 
 @Mock
@@ -28,51 +25,48 @@ private ClientServiceImpl clientServiceImpl;
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
-
-
+    Client testClient1=new Client();
+    Client testClient2=new Client();
+    Client testClient3=new Client();
+    ClientDto testClientDto1=new ClientDto();
+    Manager testManager1=new Manager();
+    Manager testManager2=new Manager();
 
     @Test
     public void isExistsByClientId() {
-        Client client=new Client();
-        client.setId(2L);
-        when(clientRepository.existsById(client.getId())).thenReturn(true);
-        assertTrue(clientServiceImpl.isExistsByClientId(client.getId()));
-        verify(clientRepository,times(1)).existsById(client.getId());
+        testClient1.setId(2L);
+        testClient2.setId(-1L);
+        when(clientRepository.existsById(testClient1.getId())).thenReturn(true);
+        assertTrue(clientServiceImpl.isExistsByClientId(testClient1.getId()));
+        when(clientRepository.existsById(testClient2.getId())).thenReturn(false);
+        assertFalse("false", clientServiceImpl.isExistsByClientId(testClient2.getId()));
+        verify(clientRepository,times(2)).existsById(any());
     }
 
     @Test
     public void getClientDtoListFromClientsWithManager() {
-
-        Manager manager=new Manager();
-        manager.setId(2L);
-
-        when(clientRepository.getClientDtoListFromClientsWithManager(manager.getId())).thenReturn(Collections.emptyList());
-        assertEquals(Collections.emptyList(), clientServiceImpl.getClientDtoListFromClientsWithManager(manager));
-        verify(clientRepository,times(1)).getClientDtoListFromClientsWithManager(manager.getId());
+        testManager1.setId(2L);
+        when(clientRepository.getClientDtoListFromClientsWithManager(testManager1.getId())).thenReturn(Collections.emptyList());
+        assertEquals(Collections.emptyList(), clientServiceImpl.getClientDtoListFromClientsWithManager(testManager1));
+        verify(clientRepository,times(1)).getClientDtoListFromClientsWithManager(testManager1.getId());
     }
 
     @Test
     public void getClientDtoByClientId() {
-        ClientDto clientDto=new ClientDto();
-        clientDto.setId(2L);
-
-        when(clientRepository.getClientDtoFromClientWithId(clientDto.getId())).thenReturn(clientDto);
-        assertEquals(clientDto, clientServiceImpl.getClientDtoByClientId(clientDto.getId()));
-        verify(clientRepository,times(1)).getClientDtoFromClientWithId(clientDto.getId());
-
+        testClientDto1.setId(2L);
+        when(clientRepository.getClientDtoFromClientWithId(testClientDto1.getId())).thenReturn(testClientDto1);
+        assertEquals(testClientDto1, clientServiceImpl.getClientDtoByClientId(testClientDto1.getId()));
+        verify(clientRepository,times(1)).getClientDtoFromClientWithId(testClientDto1.getId());
     }
 
     @Test
     public void relationClientWithManager() {
-Client client2=new Client();
-client2.setId(2l);
-Manager manager2=new Manager();
-manager2.setId(2l);
-when(clientRepository.relationClientWithManager(client2.getId(),manager2.getId())).thenReturn(true);
-assertTrue(clientServiceImpl.relationClientWithManager(client2.getId(),manager2.getId()));
-verify(clientRepository,times(1)).relationClientWithManager(client2.getId(),manager2.getId());
-
+        testClient3.setId(2L);
+        testManager2.setId(2L);
+        when(clientRepository.relationClientWithManager(testClient3.getId(),testManager2.getId())).thenReturn(true);
+        assertTrue(clientServiceImpl.relationClientWithManager(testClient3.getId(),testManager2.getId()));
+        verify(clientRepository,times(1)).relationClientWithManager(testClient3.getId(),testManager2.getId());
     }
 }
