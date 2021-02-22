@@ -18,5 +18,5 @@ public interface ProductService {
     ProductDto getProductDtoByProductId(Long productId);
     boolean isProductIdExists(Long productId);
     Product getProductByIdFromErp(String idFromErp);
-    void imageUpdateProduct(Product product, MultipartFile image) throws IOException;
+    void imageUpdateProduct(Product product, MultipartFile image);
 }

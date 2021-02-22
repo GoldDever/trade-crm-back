@@ -13,11 +13,9 @@ import ru.javamentor.repository.product.SupplierRepository;
 import ru.javamentor.repository.product.UnitRepository;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.model.product.Supplier;
-import ru.javamentor.service.file.FileService;
+import ru.javamentor.service.storage.FileStorageService;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -35,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
     private UnitRepository unitRepository;
     private ProductCategoryRepository productCategoryRepository;
     private SupplierRepository supplierRepository;
-    private FileService fileService;
+    private FileStorageService fileStorageService;
 
     public ProductServiceImpl() {}
 
@@ -45,13 +43,13 @@ public class ProductServiceImpl implements ProductService {
                               UnitRepository unitRepository,
                               ProductCategoryRepository productCategoryRepository,
                               SupplierRepository supplierRepository,
-                              FileService fileService) {
+                              FileStorageService fileStorageService) {
         this.productRepository = productRepository;
         this.manufacturerRepository = manufacturerRepository;
         this.unitRepository = unitRepository;
         this.productCategoryRepository = productCategoryRepository;
         this.supplierRepository = supplierRepository;
-        this.fileService = fileService;
+        this.fileStorageService = fileStorageService;
     }
 
     /**
@@ -155,8 +153,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void imageUpdateProduct(Product product, MultipartFile image) throws IOException {
-        product.setImageUrl(fileService.upload(image));
+    public void imageUpdateProduct(Product product, MultipartFile image) {
+        product.setImageUrl(fileStorageService.storeImage(image, product.getId()));
         productRepository.save(product);
     }
 }
