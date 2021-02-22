@@ -147,11 +147,21 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.existsById(productId);
     }
 
+    /**
+     * Метод проверяет существования idFromErp в базе
+     * @param idFromErp - idFromErp продукта
+     * @return - есть или нет idFromErp в базе
+     */
     @Override
     public Product getProductByIdFromErp(String idFromErp) {
         return productRepository.findByIdFromErp(idFromErp);
     }
 
+    /**
+     * Метод обновляет изображение продукта
+     * @param product - продукт
+     * @param image - файл изображения
+     */
     @Override
     public void imageUpdateProduct(Product product, MultipartFile image) {
         product.setImageUrl(fileStorageService.storeImage(image, product.getId()));

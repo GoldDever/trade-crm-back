@@ -1,10 +1,7 @@
 package ru.javamentor.controller.rest.admin.product;
 
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ru.javamentor.dto.product.ProductPostDto;
 import ru.javamentor.model.product.Product;
-import ru.javamentor.service.storage.FileStorageException;
 import ru.javamentor.service.product.ProductService;
+import ru.javamentor.service.storage.FileStorageException;
 import ru.javamentor.service.storage.FileStorageService;
 
 @RestController
@@ -24,15 +21,14 @@ import ru.javamentor.service.storage.FileStorageService;
 public class AdminProductRestController {
 
     private final ProductService productService;
-    private final FileStorageService fileStorageService; //test
 
     public AdminProductRestController(ProductService productService, FileStorageService fileStorageService) {
         this.productService = productService;
-        this.fileStorageService = fileStorageService; //delete
     }
 
     /**
      * метод сохранения нового продукта
+     *
      * @param dto экземпляр нового продукта
      * @return статус выполнения запроса
      */
@@ -44,6 +40,7 @@ public class AdminProductRestController {
 
     /**
      * метод изменения существующего продукта
+     *
      * @param productDto экземпляр изменённого продукта
      * @return статус выполнения запроса
      */
@@ -53,6 +50,11 @@ public class AdminProductRestController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Метод обновляет изображение продукта
+     * @param idFromErp - idFromErp продукта
+     * @param image - файл изображения
+     */
     @PostMapping("/image/{idFromErp}")
     public ResponseEntity<?> imageUpdateProduct(
             @PathVariable String idFromErp,
@@ -64,21 +66,6 @@ public class AdminProductRestController {
         try {
             productService.imageUpdateProduct(product, image);
             return ResponseEntity.ok("Файл загружен.");
-        } catch (FileStorageException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @GetMapping("/image/{idFromErp}")
-    public ResponseEntity<?> getProductImage(@PathVariable String idFromErp) {
-        Product product = productService.getProductByIdFromErp(idFromErp);
-        if (product == null) {
-            return ResponseEntity.badRequest().body("Продукт не найден.");
-        }
-        try {
-            Resource resource = fileStorageService.loadImageAsResource(product.getImageUrl());
-            return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                    .body(resource);
         } catch (FileStorageException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

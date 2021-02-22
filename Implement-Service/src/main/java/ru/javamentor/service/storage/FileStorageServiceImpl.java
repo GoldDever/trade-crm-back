@@ -4,7 +4,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +20,12 @@ public class FileStorageServiceImpl implements FileStorageService {
     private final String uploadPath = "images/";
     Logger logger = Logger.getLogger(FileStorageService.class.getName());
 
+    /**
+     * Метод загружает изображение продукта в файловое хранилище
+     * @param image - файл изображения продукта
+     * @param id - id продукта
+     * @return - путь к файлу в хранилище
+     */
     @Override
     public String storeImage(MultipartFile image, Long id) {
         if (image == null || image.isEmpty()) {
@@ -48,6 +53,11 @@ public class FileStorageServiceImpl implements FileStorageService {
         return filePath;
     }
 
+    /**
+     * Метод получает изображение продукта из файлового хранилища
+     * @param ImageUrl - путь к файлу изображения
+     * @return - resource
+     */
     @Override
     public Resource loadImageAsResource(String ImageUrl) {
         try {
@@ -65,6 +75,11 @@ public class FileStorageServiceImpl implements FileStorageService {
         }
     }
 
+    /**
+     * Метод получает формат файла из его имени
+     * @param filename - имя файла
+     * @return - формат файла
+     */
     @Override
     public String fileFormat(String filename) {
         return filename.substring(filename.lastIndexOf("."));
