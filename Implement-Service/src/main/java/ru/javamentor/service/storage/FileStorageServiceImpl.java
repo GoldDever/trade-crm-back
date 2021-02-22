@@ -22,7 +22,7 @@ public class FileStorageServiceImpl implements FileStorageService {
     Logger logger = Logger.getLogger(FileStorageService.class.getName());
 
     @Override
-    public String storeImage(MultipartFile image, Long id) throws FileStorageException {
+    public String storeImage(MultipartFile image, Long id) {
         if (image == null || image.isEmpty()) {
             throw new FileStorageException("Загружаемый файл не существует.");
         }
@@ -61,7 +61,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             }
         } catch (MalformedURLException e) {
             logger.log(Level.WARNING, e.getMessage());
-            throw new RuntimeException("Не удалось получить файл.");
+            throw new FileStorageException("Не удалось получить файл.");
         }
     }
 
