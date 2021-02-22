@@ -74,9 +74,9 @@ public class ProductServiceImpl implements ProductService {
                 manufacturerRepository.findById(dto.getManufacturerDto().getId()).orElseThrow(),
                 new HashSet<>(finalList),
                 dto.getArticle(),
-                BigDecimal.valueOf(dto.getPurchasePrice()),
+                BigDecimal.valueOf(dto.getMinMargin()),
                 BigDecimal.valueOf(dto.getPrice()),
-                BigDecimal.valueOf(dto.getMargin()),
+                BigDecimal.valueOf(dto.getStandardMargin()),
                 unitRepository.findById(dto.getUnitDto().getId()).orElseThrow(),
                 dto.getPackagingCount(),
                 dto.getIdFromErp(),
@@ -108,9 +108,9 @@ public class ProductServiceImpl implements ProductService {
         updateProduct.setManufacturer(manufacturerRepository.findById(productPostDto.getManufacturerDto().getId()).orElseThrow(()-> new NoSuchElementException("Manufacturer c idFromErp " + idFromErp + " не найден")));
         updateProduct.setSuppliers(new HashSet<>(finalList));
         updateProduct.setArticle(productPostDto.getArticle());
-        updateProduct.setPurchasePrice(BigDecimal.valueOf(productPostDto.getPurchasePrice()));
+        updateProduct.setMinMargin(BigDecimal.valueOf(productPostDto.getMinMargin()));
         updateProduct.setPrice(BigDecimal.valueOf(productPostDto.getPrice()));
-        updateProduct.setMargin(BigDecimal.valueOf(productPostDto.getMargin()));
+        updateProduct.setStandardMargin(BigDecimal.valueOf(productPostDto.getStandardMargin()));
         updateProduct.setUnit(unitRepository.findById(productPostDto.getUnitDto().getId()).orElseThrow(()-> new NoSuchElementException("Unit c idFromErp " + idFromErp + " не найден")));
         updateProduct.setPackagingCount(productPostDto.getPackagingCount());
         updateProduct.setIdFromErp(productPostDto.getIdFromErp());
