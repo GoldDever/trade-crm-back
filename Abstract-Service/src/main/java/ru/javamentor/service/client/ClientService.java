@@ -1,6 +1,5 @@
 package ru.javamentor.service.client;
 
-import org.springframework.http.ResponseEntity;
 import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.model.user.Manager;
 
@@ -12,5 +11,5 @@ public interface ClientService {
     List<ClientDto> getClientDtoListFromClientsWithManager(Manager manager);
     ClientDto getClientDtoByClientId(Long clientId);
     boolean relationClientWithManager(Long clientId, Long managerId);
-    ResponseEntity<String> updateClient(ClientDto clientDto);
+    void updateClient(ClientDto clientDto);
 }

@@ -2,6 +2,7 @@ package ru.javamentor.init;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Manufacturer;
@@ -26,6 +27,7 @@ import ru.javamentor.repository.product.ProductCategoryRepository;
 import ru.javamentor.repository.product.UnitRepository;
 import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
+import ru.javamentor.service.client.ClientService;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -48,6 +50,7 @@ public class InitService {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final ClientService clientService;
 
     public InitService(
             OrderRepository orderRepository,
@@ -62,7 +65,8 @@ public class InitService {
             ReserveProductRepository reserveProductRepository,
             RoleRepository roleRepository,
             UserRepository userRepository,
-            BCryptPasswordEncoder passwordEncoder
+            BCryptPasswordEncoder passwordEncoder,
+            ClientService clientService
     ) {
         this.orderRepository = orderRepository;
         this.clientRepository = clientRepository;
@@ -77,6 +81,7 @@ public class InitService {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.clientService=clientService;
     }
 
     @PostConstruct
@@ -94,6 +99,7 @@ public class InitService {
         initOrderItem();
         initReserveProduct();
         initProduct2();
+        updateClient();
     }
 
     private void initRole() {
@@ -583,5 +589,17 @@ public class InitService {
         reserveProduct2.setProduct(productRepository.findById(1L).get());
         reserveProduct2.setOrder(orderRepository.findById(1L).get());
         reserveProductRepository.save(reserveProduct2);
+    }
+    private void updateClient() {
+        ClientDto clientDto=new ClientDto();
+        clientDto.setClientName("A");
+        clientDto.setFirstName("AD");
+        clientDto.setPatronymic("B");
+        clientDto.setId(8L);
+        clientDto.setEmail("a@mail.ru");
+        clientDto.setLastName("B");
+        clientService.updateClient(clientDto);
+
+
     }
 }

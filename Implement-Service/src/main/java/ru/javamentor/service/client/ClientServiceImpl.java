@@ -67,16 +67,16 @@ public class ClientServiceImpl implements ClientService {
     }
 @Transactional
 @Override
-public ResponseEntity<String> updateClient (ClientDto clientDto) {
+public void updateClient (ClientDto clientDto) {
     Long idFromClientDtoForСheck = clientDto.getId();
     if (!clientRepository.existsById(idFromClientDtoForСheck)) {
-        return new ResponseEntity<>("Клиент с таким id, не существует", HttpStatus.BAD_REQUEST);
+       // return new ResponseEntity<>("Клиент с таким id, не существует", HttpStatus.BAD_REQUEST);
     }
     Client updateClient = clientRepository.findById(idFromClientDtoForСheck).orElse(new Client());
     Manager manager = updateClient.getManager();
     if (manager != null) {
-        return new ResponseEntity<>("На данный id, зарегистрирован менеджер" + manager.getLastName() +
-                manager.getFirstName(), HttpStatus.BAD_REQUEST);
+        //return new ResponseEntity<>("На данный id, зарегистрирован менеджер" + manager.getLastName() +
+              //  manager.getFirstName(), HttpStatus.BAD_REQUEST);
     } else
         updateClient.setId(clientDto.getId());
         updateClient.setFirstName(clientDto.getFirstName());
@@ -86,7 +86,8 @@ public ResponseEntity<String> updateClient (ClientDto clientDto) {
         updateClient.setUsername(clientDto.getEmail());
         clientRepository.save(updateClient);
 
-    return null;
+
+   // return null;
 }
     }
 
