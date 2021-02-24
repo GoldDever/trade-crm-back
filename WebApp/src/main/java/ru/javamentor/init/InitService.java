@@ -595,7 +595,7 @@ public class InitService {
         clientDto.setClientName("A");
         clientDto.setFirstName("AD");
         clientDto.setPatronymic("B");
-        clientDto.setId(8L);
+        clientDto.setId(11L);
         clientDto.setEmail("a@mail.ru");
         clientDto.setLastName("B");
         clientService.updateClient(clientDto);

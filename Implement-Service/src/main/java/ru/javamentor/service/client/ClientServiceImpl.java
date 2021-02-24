@@ -2,6 +2,7 @@ package ru.javamentor.service.client;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.model.user.Client;
@@ -10,6 +11,8 @@ import ru.javamentor.repository.user.ClientRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -68,26 +71,24 @@ public class ClientServiceImpl implements ClientService {
 @Transactional
 @Override
 public void updateClient (ClientDto clientDto) {
-    Long idFromClientDtoForСheck = clientDto.getId();
-    if (!clientRepository.existsById(idFromClientDtoForСheck)) {
-       // return new ResponseEntity<>("Клиент с таким id, не существует", HttpStatus.BAD_REQUEST);
-    }
-    Client updateClient = clientRepository.findById(idFromClientDtoForСheck).orElse(new Client());
-    Manager manager = updateClient.getManager();
-    if (manager != null) {
-        //return new ResponseEntity<>("На данный id, зарегистрирован менеджер" + manager.getLastName() +
-              //  manager.getFirstName(), HttpStatus.BAD_REQUEST);
-    } else
+     Client updateClient = clientRepository.findById(clientDto.getId()).orElseThrow();
+        updateClient.setClientName(clientDto.getClientName());
         updateClient.setId(clientDto.getId());
         updateClient.setFirstName(clientDto.getFirstName());
         updateClient.setLastName(clientDto.getLastName());
         updateClient.setPatronymic(clientDto.getPatronymic());
-        updateClient.setClientName (clientDto.getClientName());
         updateClient.setUsername(clientDto.getEmail());
         clientRepository.save(updateClient);
-
-
-   // return null;
 }
+
+    @Override
+    public boolean existsById(Long idFromClientDtoForСheck) {
+        return true;
     }
+
+    @Override
+    public Optional<Client> findById(Long idFromClientDtoForСheck) {
+        return Optional.empty();
+    }
+}
 

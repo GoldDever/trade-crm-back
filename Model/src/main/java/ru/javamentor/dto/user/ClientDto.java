@@ -1,8 +1,11 @@
 package ru.javamentor.dto.user;
 
+
+
 /**
  *  * DTO для передачи Client на страницу
  */
+
 public class ClientDto extends UserDto {
 
     private String clientName;
