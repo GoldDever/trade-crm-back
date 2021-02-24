@@ -14,7 +14,5 @@ public interface ClientService {
     ClientDto getClientDtoByClientId(Long clientId);
     boolean relationClientWithManager(Long clientId, Long managerId);
     void updateClient(ClientDto clientDto);
-    boolean existsById(Long idFromClientDtoForСheck);
 
-    Optional<Client> findById(Long idFromClientDtoForСheck);
 }

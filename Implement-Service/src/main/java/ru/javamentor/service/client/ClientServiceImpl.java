@@ -71,7 +71,7 @@ public class ClientServiceImpl implements ClientService {
 @Transactional
 @Override
 public void updateClient (ClientDto clientDto) {
-     Client updateClient = clientRepository.findById(clientDto.getId()).orElseThrow();
+     Client updateClient = clientRepository.findById(clientDto.getId()).get();
         updateClient.setClientName(clientDto.getClientName());
         updateClient.setId(clientDto.getId());
         updateClient.setFirstName(clientDto.getFirstName());
@@ -82,13 +82,10 @@ public void updateClient (ClientDto clientDto) {
 }
 
     @Override
-    public boolean existsById(Long idFromClientDtoForСheck) {
-        return true;
+    public boolean existsById(Long id) {
+        return false;
     }
 
-    @Override
-    public Optional<Client> findById(Long idFromClientDtoForСheck) {
-        return Optional.empty();
-    }
+
 }
 
