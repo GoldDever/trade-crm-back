@@ -46,7 +46,7 @@ public class AdminClientRestController {
 
         if (!clientService.isExistsByClientId(clientDto.getId()) && managerService.isExistsByManagerId(clientDto.getId())) {
             Manager manager = managerRepository.findById(clientDto.getId()).get();
-            return new ResponseEntity<>("На данный id, зарегистрирован менеджер " + manager.getLastName() +" "+
+            return new ResponseEntity<>("На данный id, зарегистрирован менеджер " + manager.getLastName() + " " +
                     manager.getFirstName(), HttpStatus.BAD_REQUEST);
         } else if (clientService.isExistsByClientId(clientDto.getId())) {
             clientService.updateClient(clientDto);
@@ -54,12 +54,5 @@ public class AdminClientRestController {
         } else {
             return new ResponseEntity<>("Клиент с таким id, не существует", HttpStatus.BAD_REQUEST);
         }
-
-        //TODO метод обновляет существующего клиента.
-        // Добавить проверку на существование менеджера или клиента с таким id.
-        // Если клиент с таким e-mail существует, то обновить.
-        // Если нет, то вывести сообщение "Клиент с таким id, не существует.
-        // Если менеджер с таким id существует, то вернуть сообщение "На данный id, зарегистрирован менеджер Фамилия Имя."
-
     }
 }
