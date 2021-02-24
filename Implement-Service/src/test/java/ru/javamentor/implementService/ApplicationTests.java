@@ -1,4 +1,4 @@
 package ru.javamentor.implementService;
 
-public class ApplicationTests {
-}
+public class ApplicationTests  {
+    }
