@@ -81,11 +81,5 @@ public void updateClient (ClientDto clientDto) {
         clientRepository.save(updateClient);
 }
 
-    @Override
-    public boolean existsById(Long id) {
-        return false;
     }
-
-
-}
 
