@@ -1,12 +1,18 @@
 package ru.javamentor.service.client;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.user.ClientDto;
+import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.repository.user.ClientRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -62,5 +68,18 @@ public class ClientServiceImpl implements ClientService {
     public boolean relationClientWithManager(Long clientId, Long managerId){
         return clientRepository.relationClientWithManager(clientId, managerId);
     }
+@Transactional
+@Override
+public void updateClient (ClientDto clientDto) {
+     Client updateClient = clientRepository.findById(clientDto.getId()).get();
+        updateClient.setClientName(clientDto.getClientName());
+        updateClient.setId(clientDto.getId());
+        updateClient.setFirstName(clientDto.getFirstName());
+        updateClient.setLastName(clientDto.getLastName());
+        updateClient.setPatronymic(clientDto.getPatronymic());
+        updateClient.setUsername(clientDto.getEmail());
+        clientRepository.save(updateClient);
 }
+
+    }
 
