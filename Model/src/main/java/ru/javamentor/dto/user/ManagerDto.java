@@ -1,7 +1,7 @@
 package ru.javamentor.dto.user;
 
 /**
- *  * DTO для передачи Manager на страницу
+ * * DTO для передачи Manager на страницу
  */
 public class ManagerDto extends UserDto {
 

@@ -7,10 +7,16 @@ import javax.persistence.Entity;
 @DiscriminatorValue("MANAGER")
 public class Manager extends User {
 
+    private String clientName;
+
     public Manager() {
     }
 
     public Manager(String firstName, String lastName) {
         super(firstName, lastName);
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 }

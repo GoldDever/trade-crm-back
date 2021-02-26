@@ -10,4 +10,12 @@ public interface ManagerRepository extends JpaRepository<Manager, Long> {
 
     @Query("select new ru.javamentor.dto.user.ManagerDto(m.id, m.firstName, m.lastName, m.patronymic, m.username) from Manager m where m.id =:managerId")
     ManagerDto getManagerDtoById(@Param("managerId") Long managerId);
+
+    boolean existsByUsername(String email);
+
+    public Manager findByUsername(String email);
 }
+
+
+
+

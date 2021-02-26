@@ -8,14 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.user.ClientDto;
-import ru.javamentor.dto.user.ManagerDto;
-import ru.javamentor.model.user.Client;
+import ru.javamentor.dto.user.ClientPostDto;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.repository.user.ManagerRepository;
 import ru.javamentor.service.client.ClientService;
 import ru.javamentor.service.manager.ManagerService;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/admin/client")
@@ -32,14 +29,24 @@ public class AdminClientRestController {
     }
 
 
-    @PostMapping()
-    public ResponseEntity<?> addNewClient(ClientDto clientDto) {
+    @PostMapping("/save")
+    public ResponseEntity<?> addNewClient(@RequestBody ClientPostDto clientDto) throws Exception {
         //TODO метод добавляет нового клиента.
         // Добавить проверку на существование менеджера или клиента с таким e-mail.
         // Если клиент с таким e-mail существует, то вернуть сообщение "Клиента с таким e-mail, уже существует.
         // Если менеджер с таким e-mail существует, то вернуть сообщение "На данный id, зарегистрирован менеджер Фамилия Имя."
-        return ResponseEntity.ok("Клиент c email " + clientDto.getEmail() + ", успешно добавлен");
+        if (clientService.isExistsByClientEmail(clientDto.getUsername())) {
+            return new ResponseEntity<>("Клиент с таким e-mail уже существует", HttpStatus.BAD_REQUEST);
+        }
+        Manager manager = managerRepository.findByUsername(clientDto.getUsername());
+        if (managerRepository.existsByUsername(clientDto.getUsername()))
+            return new ResponseEntity<>("На данный id зарегистрирован менеджер " + manager.getLastName() + " " +
+                    manager.getFirstName(), HttpStatus.BAD_REQUEST);
+        clientService.saveClient(clientDto);
+        return ResponseEntity.ok("Клиент c email " + clientDto.getUsername() + ", успешно добавлен");
+
     }
+
 
     @PutMapping("/update")
     public ResponseEntity<?> updateClient(@RequestBody ClientDto clientDto) {
