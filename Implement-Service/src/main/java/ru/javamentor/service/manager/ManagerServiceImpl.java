@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.repository.user.ManagerRepository;
-import ru.javamentor.service.client.ManagerService;
 
 import javax.transaction.Transactional;
 

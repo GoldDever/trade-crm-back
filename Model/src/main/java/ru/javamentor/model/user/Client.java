@@ -59,12 +59,4 @@ public class Client extends User {
     public void setManager(Manager manager) {
         this.manager = manager;
     }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
-    }
 }

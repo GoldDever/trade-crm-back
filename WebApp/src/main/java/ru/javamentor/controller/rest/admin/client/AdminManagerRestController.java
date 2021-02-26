@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.service.client.ClientService;
-import ru.javamentor.service.client.ManagerService;
+import ru.javamentor.service.manager.ManagerService;
 
 
 @RestController
