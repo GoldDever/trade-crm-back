@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ru.javamentor.dto.product.ProductPostDto;
-import ru.javamentor.model.product.Product;
 import ru.javamentor.service.product.ProductService;
 import ru.javamentor.service.storage.FileStorageException;
 import ru.javamentor.service.storage.FileStorageService;
@@ -21,9 +20,11 @@ import ru.javamentor.service.storage.FileStorageService;
 public class AdminProductRestController {
 
     private final ProductService productService;
+    private final FileStorageService fileStorageService;
 
     public AdminProductRestController(ProductService productService, FileStorageService fileStorageService) {
         this.productService = productService;
+        this.fileStorageService = fileStorageService;
     }
 
     /**
@@ -52,19 +53,17 @@ public class AdminProductRestController {
 
     /**
      * Метод обновляет изображение продукта
+     *
      * @param idFromErp - idFromErp продукта
-     * @param image - файл изображения
+     * @param image     - файл изображения
+     * @return статус выполнения запроса
      */
     @PostMapping("/image/{idFromErp}")
     public ResponseEntity<?> imageUpdateProduct(
             @PathVariable String idFromErp,
             @RequestParam MultipartFile image) {
-        Product product = productService.getProductByIdFromErp(idFromErp);
-        if (product == null) {
-            return ResponseEntity.badRequest().body("Продукт не найден.");
-        }
         try {
-            productService.imageUpdateProduct(product, image);
+            fileStorageService.storeProductImage(image, idFromErp);
             return ResponseEntity.ok("Файл загружен.");
         } catch (FileStorageException e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -4,6 +4,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.javamentor.model.product.Product;
+import ru.javamentor.service.product.ProductService;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,17 +19,27 @@ import java.util.logging.Logger;
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
+    private final ProductService productService;
     private final String uploadPath = "images/";
     Logger logger = Logger.getLogger(FileStorageService.class.getName());
 
+    public FileStorageServiceImpl(ProductService productService) {
+        this.productService = productService;
+    }
+
     /**
-     * Метод загружает изображение продукта в файловое хранилище
-     * @param image - файл изображения продукта
-     * @param id - id продукта
-     * @return - путь к файлу в хранилище
+     * Метод загружает изображение продукта в файловое хранилище и
+     * записывает путь к файлу в поле ImageUrl продукта
+     *
+     * @param image     - файл изображения продукта
+     * @param idFromErp - idFromErp продукта
      */
     @Override
-    public String storeImage(MultipartFile image, Long id) {
+    public void storeProductImage(MultipartFile image, String idFromErp) {
+        Product product = productService.getProductByIdFromErp(idFromErp);
+        if (product == null) {
+            throw new FileStorageException("Продукт не найден.");
+        }
         if (image == null || image.isEmpty()) {
             throw new FileStorageException("Загружаемый файл не существует.");
         }
@@ -43,18 +55,19 @@ public class FileStorageServiceImpl implements FileStorageService {
                 throw new FileStorageException("Не удалось создать директорию для файла.");
             }
         }
-        String filePath = uploadPath + id + fileFormat;
+        String filePath = uploadPath + product.getId() + fileFormat;
         try {
             image.transferTo(Path.of(filePath));
         } catch (IOException e) {
             logger.log(Level.WARNING, e.getMessage());
             throw new FileStorageException("Не удалось загрузить файл.");
         }
-        return filePath;
+        productService.setProductImageUrl(product, filePath);
     }
 
     /**
      * Метод получает изображение продукта из файлового хранилища
+     *
      * @param ImageUrl - путь к файлу изображения
      * @return - resource
      */
@@ -77,6 +90,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     /**
      * Метод получает формат файла из его имени
+     *
      * @param filename - имя файла
      * @return - формат файла
      */
