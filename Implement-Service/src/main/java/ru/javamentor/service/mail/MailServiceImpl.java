@@ -25,12 +25,25 @@ public class MailServiceImpl implements MailService {
      */
     @Override
     public void send(String to, String subject, String message) {
-            SimpleMailMessage mailMessage = new SimpleMailMessage();
-            mailMessage.setFrom(from);
-            mailMessage.setTo(to);
-            mailMessage.setSubject(subject);
-            mailMessage.setText(message);
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setFrom(from);
+        mailMessage.setTo(to);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message);
 
-            mailSender.send(mailMessage);
+        mailSender.send(mailMessage);
+    }
+
+    /**
+     * Метод отправляет сообщение по указанному шаблону
+     * @param template - шаблон сообщения
+     */
+    @Override
+    public void sendByTemplate(SimpleMailMessage template) {
+        if (template.getFrom() == null || template.getFrom().isEmpty()) {
+            template.setFrom(from);
+        }
+
+        mailSender.send(template);
     }
 }
