@@ -8,7 +8,7 @@ public class ManagerDto extends UserDto {
     public ManagerDto() {
     }
 
-    public ManagerDto(Long id, String firstName, String lastName, String patronymic, String email) {
-        super(id, firstName, lastName, patronymic, email);
+    public ManagerDto(Long id, String firstName, String lastName, String patronymic, String username) {
+        super(id, firstName, lastName, patronymic, username);
     }
 }
