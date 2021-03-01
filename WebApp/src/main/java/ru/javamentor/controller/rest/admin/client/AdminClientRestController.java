@@ -17,9 +17,9 @@ import ru.javamentor.service.manager.ManagerService;
 @RequestMapping("api/admin/client")
 public class AdminClientRestController {
 
-    ClientService clientService;
-    ManagerService managerService;
-    ManagerRepository managerRepository;
+    private final ClientService clientService;
+    private final ManagerService managerService;
+    private final ManagerRepository managerRepository;
 
     public AdminClientRestController(ClientService clientService, ManagerService managerService, ManagerRepository managerRepository) {
         this.clientService = clientService;
