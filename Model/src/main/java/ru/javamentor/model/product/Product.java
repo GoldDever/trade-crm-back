@@ -43,7 +43,7 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "supplier_id"))
     private Set<Supplier> suppliers;
 
-    @Column(name = "article")
+    @Column(name = "article", unique = true)
     private String article;
 
     @Column(name = "min_margin")
