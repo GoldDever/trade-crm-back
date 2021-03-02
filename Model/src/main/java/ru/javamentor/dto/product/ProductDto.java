@@ -75,7 +75,7 @@ public class ProductDto {
         this.article = article;
         this.price = price;
         this.minMargin = minMargin;
-        this.minMargin = standardMargin;
+        this.standardMargin = standardMargin;
     }
 
 

@@ -47,7 +47,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "p.productName, " +
             "p.madeCountry, " +
             "p.article, " +
-            "p.price) " +
+            "p.price," +
+            "p.minMargin," +
+            "p.standardMargin) " +
             "FROM Product p " +
             "WHERE lower(p.productName) like concat('%', lower( :search), '%')")
     List<ProductDto> findByProductNameIgnoreCaseContaining(String search);
@@ -57,7 +59,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "p.productName, " +
             "p.madeCountry, " +
             "p.article, " +
-            "p.price) " +
+            "p.price," +
+            "p.minMargin," +
+            "p.standardMargin) " +
             "FROM Product p")
     List<ProductDto> findAllProductDto();
 

@@ -178,9 +178,21 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> getProductListBySearch(String search) {
         List<ProductDto> dtoList = productRepository.findByProductNameIgnoreCaseContaining(search);
+
         if (dtoList.isEmpty()) {
             dtoList = productRepository.findAllProductDto();
         }
+
+        dtoList.forEach(productDto -> {
+            Long manufacturerId = productRepository.findManufacturerIdByProductId(productDto.getId());
+            Long unitId = productRepository.findUnitIdByProductId(productDto.getId());
+            List<Long> supplierIdList = productRepository.findListSupplierIdByProductId(productDto.getId());
+            productDto.setManufacturerDto(manufacturerRepository.findManufacturerDtoByManufacturerId(manufacturerId));
+            productDto.setSupplierDto(supplierRepository.findSupplierDtoBySupplierId(supplierIdList));
+            productDto.setUnit(unitRepository.findUnitDtoByUnitId(unitId));
+            productDto.setProductCategory(productCategoryRepository.findProductCategoryByProductId(productDto.getId()).getCategoryName());
+        });
+
         return dtoList;
     }
 }
