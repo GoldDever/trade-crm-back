@@ -1,7 +1,5 @@
 package ru.javamentor.dto.product;
 
-import ru.javamentor.model.product.ProductCategory;
-
 import java.math.BigDecimal;
 import java.util.List;
 

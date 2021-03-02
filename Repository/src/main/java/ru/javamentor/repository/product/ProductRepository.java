@@ -42,5 +42,23 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "WHERE p.id = :productId")
     List<Long> findListSupplierIdByProductId(@Param("productId") Long ProductId);
 
+    @Query("SELECT new ru.javamentor.dto.product.ProductDto(" +
+            "p.id, " +
+            "p.productName, " +
+            "p.madeCountry, " +
+            "p.article, " +
+            "p.price) " +
+            "FROM Product p " +
+            "WHERE lower(p.productName) like concat('%', lower( :search), '%')")
+    List<ProductDto> findByProductNameIgnoreCaseContaining(String search);
+
+    @Query("SELECT new ru.javamentor.dto.product.ProductDto(" +
+            "p.id, " +
+            "p.productName, " +
+            "p.madeCountry, " +
+            "p.article, " +
+            "p.price) " +
+            "FROM Product p")
+    List<ProductDto> findAllProductDto();
 
 }
