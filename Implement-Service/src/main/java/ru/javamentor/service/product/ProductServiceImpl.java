@@ -178,7 +178,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> getProductListBySearch(String search) {
 
-        List<ProductDto> dtoList = productRepository.findByProductNameIgnoreCaseContaining(search == null ? "" : search);
+        List<ProductDto> dtoList;
+
+        if (search == null || search.isEmpty()) {
+            dtoList = productRepository.findAllProductDto();
+        } else {
+            dtoList = productRepository.findByProductNameIgnoreCaseContaining(search);
+        }
 
         dtoList.forEach(productDto -> {
             Long manufacturerId = productRepository.findManufacturerIdByProductId(productDto.getId());
