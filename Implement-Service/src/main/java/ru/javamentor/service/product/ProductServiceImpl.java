@@ -170,18 +170,15 @@ public class ProductServiceImpl implements ProductService {
 
     /**
      * Метод возвращает результат поиска по вхождени в наименование товара.
-     * Если такого товара нет, то вернется список всех товаров.
+     * Для пустой или отсутствующей строки поиска вернется список всех товаров.
      *
      * @param search - строка поиска
      * @return - список найденного товара
      */
     @Override
     public List<ProductDto> getProductListBySearch(String search) {
-        List<ProductDto> dtoList = productRepository.findByProductNameIgnoreCaseContaining(search);
 
-        if (dtoList.isEmpty()) {
-            dtoList = productRepository.findAllProductDto();
-        }
+        List<ProductDto> dtoList = productRepository.findByProductNameIgnoreCaseContaining(search == null ? "" : search);
 
         dtoList.forEach(productDto -> {
             Long manufacturerId = productRepository.findManufacturerIdByProductId(productDto.getId());

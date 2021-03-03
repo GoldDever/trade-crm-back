@@ -43,7 +43,7 @@ public class ManagerProductRestController {
      * @return - Список товаров
      */
     @GetMapping()
-    public ResponseEntity<?> getProductListBySearch(@RequestParam String search) {
+    public ResponseEntity<?> getProductListBySearch(@RequestParam(required = false) String search) {
         return ResponseEntity.ok(productService.getProductListBySearch(search));
     }
 }
