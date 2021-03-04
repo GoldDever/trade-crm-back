@@ -199,7 +199,7 @@ public class ManagerOrderRestController {
     }
 
     /**
-     * Метод удаления orderItem
+     *  Метод удаления orderItem
      * @param orderId
      * @param orderItemDto
      */
