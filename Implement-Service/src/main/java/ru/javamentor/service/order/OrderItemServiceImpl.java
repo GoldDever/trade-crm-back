@@ -51,23 +51,31 @@ public class OrderItemServiceImpl implements OrderItemService {
      * Метод меняет количество товара в Item
      *
      * @param countProduct of product
-     * @param orderId id of order
      * @param orderItemId id of orderItem
      */
     @Override
     @Transactional
-    public void editOrderItem(Long orderId, Long orderItemId, Integer countProduct) {
+    public void editOrderItem( Long orderItemId, Integer countProduct) {
         orderItemRepository.setProductCountByOrderItem(orderItemId, countProduct);
     }
 
     /**
      * Метод удаляет orderItem
-     * @param orderId
      * @param orderItemId
      */
     @Override
     @Transactional
-    public void deleteOrderItem(Long orderId, Long orderItemId) {
+    public void deleteOrderItem( Long orderItemId) {
         orderItemRepository.deleteOrderItemById(orderItemId);
+    }
+
+    /**
+     * Метод получает OrderItem из базы по id OrderItemDTO
+     * @param orderItemDto
+     * @return
+     */
+    @Override
+    public OrderItem getOrderItemByDTO(OrderItemDto orderItemDto) {
+        return orderItemRepository.getOrderItemByDtoID(orderItemDto.getId());
     }
 }

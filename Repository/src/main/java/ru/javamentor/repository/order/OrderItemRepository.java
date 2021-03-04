@@ -26,11 +26,15 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
             "oi.productCount) " +
             "FROM OrderItem oi " +
             "JOIN oi.order o " +
-            "WHERE o.id = :orderId")
+            "WHERE o.id = :orderId " +
+            "ORDER BY oi.id")
     List<OrderItemDto> getListOrderItemDtoByOrderId(@Param("orderId")Long orderId);
 
     @Modifying
     @Query("DELETE FROM OrderItem oi WHERE oi.id = :orderItemId")
     void deleteOrderItemById(@Param("orderItemId")Long orderItemId);
+
+    @Query("SELECT oi FROM OrderItem oi WHERE oi.id = :orderItemId")
+    OrderItem getOrderItemByDtoID(@Param("orderItemId")Long orderItemId);
 
 }
