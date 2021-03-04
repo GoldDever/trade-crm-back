@@ -167,4 +167,35 @@ public class ProductServiceImpl implements ProductService {
         product.setImageUrl(imageUrl);
         productRepository.save(product);
     }
+
+    /**
+     * Метод возвращает результат поиска по вхождени в наименование товара.
+     * Для пустой или отсутствующей строки поиска вернется список всех товаров.
+     *
+     * @param search - строка поиска
+     * @return - список найденного товара
+     */
+    @Override
+    public List<ProductDto> getProductListBySearch(String search) {
+
+        List<ProductDto> dtoList;
+
+        if (search == null || search.isEmpty()) {
+            dtoList = productRepository.findAllProductDto();
+        } else {
+            dtoList = productRepository.findByProductNameIgnoreCaseContaining(search);
+        }
+
+        dtoList.forEach(productDto -> {
+            Long manufacturerId = productRepository.findManufacturerIdByProductId(productDto.getId());
+            Long unitId = productRepository.findUnitIdByProductId(productDto.getId());
+            List<Long> supplierIdList = productRepository.findListSupplierIdByProductId(productDto.getId());
+            productDto.setManufacturerDto(manufacturerRepository.findManufacturerDtoByManufacturerId(manufacturerId));
+            productDto.setSupplierDto(supplierRepository.findSupplierDtoBySupplierId(supplierIdList));
+            productDto.setUnit(unitRepository.findUnitDtoByUnitId(unitId));
+            productDto.setProductCategory(productCategoryRepository.findProductCategoryByProductId(productDto.getId()).getCategoryName());
+        });
+
+        return dtoList;
+    }
 }
