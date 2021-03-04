@@ -185,21 +185,26 @@ public class ManagerOrderRestController {
         return ResponseEntity.badRequest().body("Нет ордера с Id - " + orderId);
     }
 
-    /** Метод изменения количества товара в orderItem
+    /**
+     * Метод изменения количества товара в orderItem
+     * @param orderId
+     * @param orderItemDto
      */
     @PostMapping(value = "/{orderId}")
-    public ResponseEntity<?> editCountInOrderItem(@PathVariable Long orderId, @RequestBody OrderItemDto orderItemDto){
+    public ResponseEntity<String> editCountInOrderItem(@PathVariable Long orderId, @RequestBody OrderItemDto orderItemDto){
         if (orderService.isExistsByOrderId(orderId)) {
             orderItemService.editOrderItem(orderId, orderItemDto.getId(), orderItemDto.getProductCount());
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    /**Метод удаления orderItem
-     *
+    /**
+     * Метод удаления orderItem
+     * @param orderId
+     * @param orderItemDto
      */
     @DeleteMapping(value = "/{orderId}")
-    public ResponseEntity<?> deleteOrderItem(@PathVariable Long orderId, @RequestBody OrderItemDto orderItemDto){
+    public ResponseEntity<String> deleteOrderItem(@PathVariable Long orderId, @RequestBody OrderItemDto orderItemDto){
         if (orderService.isExistsByOrderId(orderId)) {
             orderItemService.deleteOrderItem(orderId, orderItemDto.getId());
         }

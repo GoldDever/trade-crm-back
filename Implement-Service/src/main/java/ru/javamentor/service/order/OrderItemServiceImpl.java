@@ -60,8 +60,10 @@ public class OrderItemServiceImpl implements OrderItemService {
         orderItemRepository.setProductCountByOrderItem(orderItemId, countProduct);
     }
 
-    /** Метод удаляет orderItem
-     *
+    /**
+     * Метод удаляет orderItem
+     * @param orderId
+     * @param orderItemId
      */
     @Override
     @Transactional
