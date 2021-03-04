@@ -3,7 +3,9 @@ package ru.javamentor.controller.rest.manager.order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,7 +57,6 @@ public class ManagerOrderRestController {
      * @param clientId - id клиента
      * @return - список заказов клиента
      */
-
     @GetMapping("/{clientId}/allOrders")
     public ResponseEntity<?> getAllClientOrders(@AuthenticationPrincipal Manager manager, @PathVariable Long clientId) {
         if (clientService.isExistsByClientId(clientId)) {
@@ -67,6 +68,7 @@ public class ManagerOrderRestController {
         }
         return ResponseEntity.badRequest().body("Нет клиента с Id - " + clientId);
     }
+
     /**
      * Метод добавления строки заказа
      *
@@ -181,5 +183,26 @@ public class ManagerOrderRestController {
             return ResponseEntity.status(HttpStatus.OK).body(orderDto);
         }
         return ResponseEntity.badRequest().body("Нет ордера с Id - " + orderId);
+    }
+
+    /** Метод изменения количества товара в orderItem
+     */
+    @PostMapping(value = "/{orderId}")
+    public ResponseEntity<?> editCountInOrderItem(@PathVariable Long orderId, @RequestBody OrderItemDto orderItemDto){
+        if (orderService.isExistsByOrderId(orderId)) {
+            orderItemService.editOrderItem(orderId, orderItemDto.getId(), orderItemDto.getProductCount());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    /**Метод удаления orderItem
+     *
+     */
+    @DeleteMapping(value = "/{orderId}")
+    public ResponseEntity<?> deleteOrderItem(@PathVariable Long orderId, @RequestBody OrderItemDto orderItemDto){
+        if (orderService.isExistsByOrderId(orderId)) {
+            orderItemService.deleteOrderItem(orderId, orderItemDto.getId());
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

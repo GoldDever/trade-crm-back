@@ -1,6 +1,7 @@
 package ru.javamentor.service.order;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderApprove;
@@ -54,8 +55,17 @@ public class OrderItemServiceImpl implements OrderItemService {
      * @param orderItemId id of orderItem
      */
     @Override
+    @Transactional
     public void editOrderItem(Long orderId, Long orderItemId, Integer countProduct) {
         orderItemRepository.setProductCountByOrderItem(orderItemId, countProduct);
     }
 
+    /** Метод удаляет orderItem
+     *
+     */
+    @Override
+    @Transactional
+    public void deleteOrderItem(Long orderId, Long orderItemId) {
+        orderItemRepository.deleteOrderItemById(orderItemId);
+    }
 }

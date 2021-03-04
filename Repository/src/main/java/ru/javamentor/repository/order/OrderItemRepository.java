@@ -1,6 +1,7 @@
 package ru.javamentor.repository.order;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.javamentor.dto.order.OrderItemDto;
@@ -10,6 +11,7 @@ import java.util.List;
 
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
+    @Modifying
     @Query("UPDATE OrderItem oi SET oi.productCount = :productCount WHERE oi.id = :orderItemId")
     void setProductCountByOrderItem(@Param("orderItemId") Long orderItemId, @Param("productCount") Integer productCount);
 
@@ -27,5 +29,8 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
             "WHERE o.id = :orderId")
     List<OrderItemDto> getListOrderItemDtoByOrderId(@Param("orderId")Long orderId);
 
+    @Modifying
+    @Query("DELETE FROM OrderItem oi WHERE oi.id = :orderItemId")
+    void deleteOrderItemById(@Param("orderItemId")Long orderItemId);
 
 }
