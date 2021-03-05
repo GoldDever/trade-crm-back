@@ -1,49 +1,32 @@
 package ru.javamentor.dto.user;
 
-import ru.javamentor.model.user.Role;
-
-import java.util.Set;
-
 /**
- * DTO для создания нового Client
+ * DTO для создания нового клиента
  */
-public class ClientPostDto extends UserDto{
-    private String clientName;
-    private Long manager_id;
-    private String password;
-    private String username;
+public class ClientPostDto {
+
     private String firstName;
     private String lastName;
     private String patronymic;
-    private Set<Role> roles;
-
+    private String email;
+    private String clientName;
+    private String password;
 
 
     public ClientPostDto() {
-    }
-
-    public ClientPostDto(String clientName, String password, String username, String firstName, String lastName, String patronymic) {
-        this.clientName = clientName;
-        this.password = password;
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.patronymic = patronymic;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-
+    public String getLastName() {
+        return lastName;
+    }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -58,12 +41,13 @@ public class ClientPostDto extends UserDto{
         this.patronymic = patronymic;
     }
 
-    public ClientPostDto(String clientName, Long manager_id) {
-        this.clientName = clientName;
-        this.manager_id = manager_id;
+    public String getEmail() {
+        return email;
     }
 
-
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getClientName() {
         return clientName;
@@ -73,15 +57,6 @@ public class ClientPostDto extends UserDto{
         this.clientName = clientName;
     }
 
-    public Long getManager_id() {
-        return manager_id;
-    }
-
-    public void setManager_id(Long manager_id) {
-        this.manager_id = manager_id;
-    }
-
-
     public String getPassword() {
         return password;
     }
@@ -89,26 +64,4 @@ public class ClientPostDto extends UserDto{
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public CharSequence setPassword() {
-        return password;
-    }
-
-
-    public Integer setPassword(String encode, String firstName, String lastName, String patronymic, Set<Role> roles, String clientName) {
-        return null;
-    }
-
-
 }

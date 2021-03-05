@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.dto.user.ManagerDto;
+import ru.javamentor.dto.user.ManagerPostDto;
 import ru.javamentor.service.client.ClientService;
 import ru.javamentor.service.manager.ManagerService;
 
@@ -26,13 +27,22 @@ public class AdminManagerRestController {
         this.clientService = clientService;
     }
 
-    @PostMapping()
-    public ResponseEntity<?> addNewManager(ManagerDto managerDto) {
-        //TODO метод добавляет нового менеджера.
-        // Добавить проверку на существование менеджера или клиента с таким e-mail.
-        // Если менеджер с таким e-mail существует, то вернуть сообщение "Менеджер с таким e-mail, уже существует.
-        // Если клиент с таким e-mail существует, то вернуть сообщение "На данный e-mail, зарегистрирован клиент ООО "Название клиента".
-        return ResponseEntity.ok("Менеджер c email " + managerDto.getEmail() + ", успешно добавлен");
+    @PostMapping("/")
+    public ResponseEntity<?> addNewManager(@RequestBody ManagerPostDto managerDto) {
+
+        if (!managerService.isExistsManagerByEmail(managerDto.getEmail())
+                && clientService.isExistsClientByEmail(managerDto.getEmail())) {
+            ClientDto clientDto = clientService.getClientDtoByClientEmail(managerDto.getEmail());
+            return new ResponseEntity<>("На данный id, зарегистрирован клиент " + clientDto.getLastName() + " " +
+                    clientDto.getFirstName(), HttpStatus.BAD_REQUEST);
+        } else if (managerService.isExistsManagerByEmail(managerDto.getEmail())) {
+            return new ResponseEntity<>("Менеджер с таким email уже существует", HttpStatus.BAD_REQUEST);
+
+        } else {
+            managerService.saveNewManager(managerDto);
+            return ResponseEntity.ok("Менеджер c email " + managerDto.getEmail() + ", успешно добавлен");
+        }
+
     }
 
     @PutMapping()

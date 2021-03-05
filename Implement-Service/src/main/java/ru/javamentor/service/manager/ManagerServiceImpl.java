@@ -1,8 +1,10 @@
 package ru.javamentor.service.manager;
 
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.user.ManagerDto;
+import ru.javamentor.dto.user.ManagerPostDto;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.repository.user.ManagerRepository;
 
@@ -12,9 +14,11 @@ import javax.transaction.Transactional;
 public class ManagerServiceImpl implements ManagerService {
 
     private final ManagerRepository managerRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public ManagerServiceImpl(ManagerRepository managerRepository) {
+    public ManagerServiceImpl(ManagerRepository managerRepository, PasswordEncoder passwordEncoder) {
         this.managerRepository = managerRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -42,5 +46,47 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public boolean isExistsByManagerId(Long managerId) {
         return managerRepository.existsById(managerId);
+    }
+
+
+    /**
+     * Метод сохраняет нового менеджера
+     *
+     * @param managerPostDto - данные менеджера
+     */
+    @Transactional
+    @Override
+    public void saveNewManager(ManagerPostDto managerPostDto) {
+        Manager managerDto = new Manager();
+        managerDto.setFirstName(managerPostDto.getFirstName());
+        managerDto.setLastName(managerPostDto.getLastName());
+        managerDto.setPassword(passwordEncoder.encode(managerPostDto.getPassword()));
+        managerDto.setPatronymic(managerPostDto.getPatronymic());
+        managerDto.setUsername(managerPostDto.getEmail());
+        managerRepository.save(managerDto);
+
+    }
+
+    /**
+     * Метод проверяет, сущестует ли менеджер с таким Email
+     *
+     * @param email - email предпологаемого менеджера
+     * @return email менеджера
+     */
+    @Override
+    public boolean isExistsManagerByEmail(String email) {
+        return managerRepository.existsManagerByUsername(email);
+    }
+
+    /**
+     * Метод возвращает ManagerDto, менеджера по email
+     *
+     * @param email - email менеджера
+     * @return ManagerDto менеджера
+     */
+    @Transactional
+    @Override
+    public ManagerDto getManagerDtoByManagerEmail(String email) {
+        return managerRepository.getManagerDtoByEmail(email);
     }
 }

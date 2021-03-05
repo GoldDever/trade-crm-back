@@ -8,6 +8,8 @@ public class UserDto {
     private String patronymic;
     private String email;
 
+
+
     public UserDto() {
     }
 
@@ -17,6 +19,15 @@ public class UserDto {
         this.lastName = lastName;
         this.patronymic = patronymic;
         this.email = email;
+
+
+    }
+
+    public UserDto(String firstName, String lastName, String patronymic, String username) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymic = patronymic;
+        this.email = username;
     }
 
     public Long getId() {

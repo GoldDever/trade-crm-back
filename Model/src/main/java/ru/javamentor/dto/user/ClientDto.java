@@ -17,6 +17,11 @@ public class ClientDto extends UserDto {
         this.clientName = clientName;
     }
 
+    public ClientDto(String firstName, String lastName, String patronymic, String email, String clientName) {
+        super(firstName, lastName, patronymic, email);
+        this.clientName = clientName;
+    }
+
     public String getClientName() {
         return clientName;
     }

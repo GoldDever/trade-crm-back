@@ -13,12 +13,15 @@ import java.util.List;
 
 @Service
 public class ClientServiceImpl implements ClientService {
-    private final PasswordEncoder passwordEncoder;
-    private final ClientRepository clientRepository;
 
-    public ClientServiceImpl(PasswordEncoder passwordEncoder, ClientRepository clientRepository) {
-        this.passwordEncoder = passwordEncoder;
+    private final ClientRepository clientRepository;
+    private final PasswordEncoder passwordEncoder;
+
+
+    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
         this.clientRepository = clientRepository;
+
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -55,7 +58,6 @@ public class ClientServiceImpl implements ClientService {
     public ClientDto getClientDtoByClientId(Long clientId) {
         return clientRepository.getClientDtoFromClientWithId(clientId);
     }
-
     /**
      * Метод возвращает айди менеджера клиента по clientId
      *
@@ -64,10 +66,15 @@ public class ClientServiceImpl implements ClientService {
      */
     @Transactional
     @Override
-    public boolean relationClientWithManager(Long clientId, Long managerId) {
+    public boolean relationClientWithManager(Long clientId, Long managerId){
         return clientRepository.relationClientWithManager(clientId, managerId);
     }
 
+    /**
+     * Метод обновляет существующего клиента
+     *
+     * @param clientDto - данные клиента
+     */
     @Transactional
     @Override
     public void updateClient(ClientDto clientDto) {
@@ -82,35 +89,47 @@ public class ClientServiceImpl implements ClientService {
     }
 
     /**
-     * Метод возвращает boolean при проверке существования клиента с данным Id.
+     * Метод сохраняет нового клиента
+     *
+     * @param clientPostDto - данные клиента
+     */
+    @Transactional
+    @Override
+    public void saveNewClient(ClientPostDto clientPostDto) {
+        Client clientDto = new Client();
+        clientDto.setFirstName(clientPostDto.getFirstName());
+        clientDto.setLastName(clientPostDto.getLastName());
+        clientDto.setPassword(passwordEncoder.encode(clientPostDto.getPassword()));
+        clientDto.setClientName(clientPostDto.getClientName());
+        clientDto.setPatronymic(clientPostDto.getPatronymic());
+        clientDto.setUsername(clientPostDto.getEmail());
+        clientRepository.save(clientDto);
+
+    }
+
+    /**
+     * Метод возвращает ClientDto, клиента по email
+     *
+     * @param email - email клиента
+     * @return ClientDto клиента
+     */
+    @Transactional
+    @Override
+    public ClientDto getClientDtoByClientEmail(String email) {
+        return clientRepository.getClientDtoByEmail(email);
+    }
+
+    /**
+     * Метод возвращает boolean при проверке существования клиента с данным email.
      *
      * @param email - почта клиента
      * @return - Возвращает boolean, соответствующий результату.
      */
     @Transactional
     @Override
-    public Boolean isExistsByClientEmail(String email) {
-        return clientRepository.existsByUsername(email);
+    public boolean isExistsClientByEmail(String email) {
+        return clientRepository.existsClientByUsername(email);
     }
 
-    /**
-     * Метод сохраняет нового клиента
-     *
-     * @param clientDto - данные клиента
-     */
-    @Transactional
-    @Override
-    public Client saveClient(ClientPostDto clientDto) {
-
-        Client client = new Client();
-        client.setFirstName(clientDto.getFirstName());
-        client.setLastName(clientDto.getLastName());
-        client.setPassword(passwordEncoder.encode(clientDto.getPassword()));
-        client.setPatronymic(clientDto.getPatronymic());
-        client.setUsername(clientDto.getUsername());
-        client.setClientName(clientDto.getClientName());
-        client.setRoles(clientDto.getRoles());
-        return clientRepository.save(client);
-    }
 }
 
