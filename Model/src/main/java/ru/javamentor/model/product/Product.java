@@ -43,7 +43,7 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "supplier_id"))
     private Set<Supplier> suppliers;
 
-    @Column(name = "article")
+    @Column(name = "article", unique = true)
     private String article;
 
     @Column(name = "min_margin")
@@ -68,6 +68,9 @@ public class Product {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_category_id")
     ProductCategory productCategory;
+
+    @Column(name = "image_url")
+    private String ImageUrl;
 
     public Product() {
     }
@@ -247,5 +250,13 @@ public class Product {
 
     public void setProductCategory(ProductCategory productCategory) {
         this.productCategory = productCategory;
+    }
+
+    public String getImageUrl() {
+        return ImageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        ImageUrl = imageUrl;
     }
 }

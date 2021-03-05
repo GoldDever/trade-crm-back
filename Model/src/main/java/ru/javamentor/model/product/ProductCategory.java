@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column(name = "category_name")
     private String categoryName;
@@ -30,7 +30,7 @@ public class ProductCategory {
             Boolean mainCategory,
             ProductCategory mainProductCategory,
             String idFromErp) {
-        Id = id;
+        this.id = id;
         this.categoryName = categoryName;
         this.mainCategory = mainCategory;
         this.mainProductCategory = mainProductCategory;
@@ -38,11 +38,11 @@ public class ProductCategory {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getCategoryName() {

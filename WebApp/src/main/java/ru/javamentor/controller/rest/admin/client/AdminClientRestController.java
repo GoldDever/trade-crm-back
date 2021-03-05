@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.user.ClientDto;
-import ru.javamentor.dto.user.ClientPostDto;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.repository.user.ManagerRepository;
 import ru.javamentor.service.client.ClientService;
@@ -18,9 +17,9 @@ import ru.javamentor.service.manager.ManagerService;
 @RequestMapping("api/admin/client")
 public class AdminClientRestController {
 
-    ClientService clientService;
-    ManagerService managerService;
-    ManagerRepository managerRepository;
+    private final ClientService clientService;
+    private final ManagerService managerService;
+    private final ManagerRepository managerRepository;
 
     public AdminClientRestController(ClientService clientService, ManagerService managerService, ManagerRepository managerRepository) {
         this.clientService = clientService;
@@ -29,24 +28,14 @@ public class AdminClientRestController {
     }
 
 
-    @PostMapping("/save")
-    public ResponseEntity<?> addNewClient(@RequestBody ClientPostDto clientDto) throws Exception {
+    @PostMapping()
+    public ResponseEntity<?> addNewClient(ClientDto clientDto) {
         //TODO метод добавляет нового клиента.
         // Добавить проверку на существование менеджера или клиента с таким e-mail.
         // Если клиент с таким e-mail существует, то вернуть сообщение "Клиента с таким e-mail, уже существует.
         // Если менеджер с таким e-mail существует, то вернуть сообщение "На данный id, зарегистрирован менеджер Фамилия Имя."
-        if (clientService.isExistsByClientEmail(clientDto.getUsername())) {
-            return new ResponseEntity<>("Клиент с таким e-mail уже существует", HttpStatus.BAD_REQUEST);
-        }
-        Manager manager = managerRepository.findByUsername(clientDto.getUsername());
-        if (managerRepository.existsByUsername(clientDto.getUsername()))
-            return new ResponseEntity<>("На данный id зарегистрирован менеджер " + manager.getLastName() + " " +
-                    manager.getFirstName(), HttpStatus.BAD_REQUEST);
-        clientService.saveClient(clientDto);
-        return ResponseEntity.ok("Клиент c email " + clientDto.getUsername() + ", успешно добавлен");
-
+        return ResponseEntity.ok("Клиент c email " + clientDto.getEmail() + ", успешно добавлен");
     }
-
 
     @PutMapping("/update")
     public ResponseEntity<?> updateClient(@RequestBody ClientDto clientDto) {

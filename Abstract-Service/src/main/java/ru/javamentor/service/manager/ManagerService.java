@@ -1,13 +1,11 @@
 package ru.javamentor.service.manager;
 
-import ru.javamentor.dto.user.ManagerPostDto;
-import ru.javamentor.model.user.Manager;
+import ru.javamentor.dto.user.ManagerDto;
 
 public interface ManagerService {
 
     boolean isExistsByManagerId(Long orderId);
 
-    boolean isExistsByManagerEmail(String email);
+    void update(ManagerDto managerDto);
 
-    Manager saveManager(ManagerPostDto managerDto);
 }

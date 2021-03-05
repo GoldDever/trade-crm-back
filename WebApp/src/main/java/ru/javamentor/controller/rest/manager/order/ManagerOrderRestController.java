@@ -3,7 +3,9 @@ package ru.javamentor.controller.rest.manager.order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,27 +53,27 @@ public class ManagerOrderRestController {
     /**
      * Метод для получения списка заказов клиента на странице менеджера
      *
-     * @param manager - текущий пользователь
+     * @param manager  - текущий пользователь
      * @param clientId - id клиента
      * @return - список заказов клиента
      */
-
     @GetMapping("/{clientId}/allOrders")
     public ResponseEntity<?> getAllClientOrders(@AuthenticationPrincipal Manager manager, @PathVariable Long clientId) {
         if (clientService.isExistsByClientId(clientId)) {
-            if(clientService.relationClientWithManager(clientId, manager.getId())) {
+            if (clientService.relationClientWithManager(clientId, manager.getId())) {
                 return new ResponseEntity<>(orderService.getOrderDtoListByClientId(clientId), HttpStatus.OK);
             } else {
-                return ResponseEntity.badRequest().body("Клиент с Id - " + clientId +" не принадлежит текущему менеджеру");
+                return ResponseEntity.badRequest().body("Клиент с Id - " + clientId + " не принадлежит текущему менеджеру");
             }
         }
         return ResponseEntity.badRequest().body("Нет клиента с Id - " + clientId);
     }
+
     /**
      * Метод добавления строки заказа
      *
      * @param orderItemDto - DTO строка заказа
-     * @param orderId - id заказа
+     * @param orderId      - id заказа
      * @return - результат выполнения
      */
     @PostMapping("/{orderId}/addItem")
@@ -86,8 +88,8 @@ public class ManagerOrderRestController {
     /**
      * Метод изменения количества товаров в строке заказа
      *
-     * @param orderId - id заказа
-     * @param orderItemId - id строки заказа
+     * @param orderId      - id заказа
+     * @param orderItemId  - id строки заказа
      * @param countProduct - количество на которое необходимо изменить
      * @return - результат выполнения
      */
@@ -96,7 +98,7 @@ public class ManagerOrderRestController {
                                                       @PathVariable Long orderItemId,
                                                       @PathVariable Integer countProduct) {
         if (countProduct > 0) {
-            orderItemService.editOrderItem(orderId, orderItemId, countProduct);
+            orderItemService.editOrderItem( orderItemId, countProduct);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Введите корректное количество продукта", HttpStatus.BAD_REQUEST);
@@ -107,8 +109,8 @@ public class ManagerOrderRestController {
      * Метод для удаления
      * зарезирвированного продукта
      *
-     * @param orderId - id заказа
-     * @param productId - id продукта
+     * @param orderId      - id заказа
+     * @param productId    - id продукта
      * @param productCount - количество удалеямого продукта из резерва
      * @return - HTTP ответ с BODY
      */
@@ -138,8 +140,8 @@ public class ManagerOrderRestController {
     /**
      * POST метод для резервирования продукта
      *
-     * @param orderId - id Order
-     * @param productId - id продукта по которому сохраняется резерв
+     * @param orderId      - id Order
+     * @param productId    - id продукта по которому сохраняется резерв
      * @param productCount - количество продукта, которое необходимо зарезервировать
      * @return - сообщение о состоянии HTTP-ответа
      */
@@ -158,13 +160,12 @@ public class ManagerOrderRestController {
      * @return - HTTP ответ с BODY
      */
     @GetMapping("/{orderId}/all/addReserve")
-    public ResponseEntity<String> addOrderReserve(@PathVariable Long orderId){
+    public ResponseEntity<String> addOrderReserve(@PathVariable Long orderId) {
         String result = reserveProductService.addReserveByOrder(orderId);
-        if(result.isEmpty()){
+        if (result.isEmpty()) {
             return new ResponseEntity<>("Товар зарезирвирован", HttpStatus.OK);
-        }
-        else{
-            return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n"+result, HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n" + result, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -182,4 +183,5 @@ public class ManagerOrderRestController {
         }
         return ResponseEntity.badRequest().body("Нет ордера с Id - " + orderId);
     }
+
 }

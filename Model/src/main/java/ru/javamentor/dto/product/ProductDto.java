@@ -1,7 +1,5 @@
 package ru.javamentor.dto.product;
 
-import ru.javamentor.model.product.ProductCategory;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -77,7 +75,7 @@ public class ProductDto {
         this.article = article;
         this.price = price;
         this.minMargin = minMargin;
-        this.minMargin = standardMargin;
+        this.standardMargin = standardMargin;
     }
 
 
