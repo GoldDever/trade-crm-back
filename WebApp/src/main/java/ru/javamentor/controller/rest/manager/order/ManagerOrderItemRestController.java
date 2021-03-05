@@ -33,9 +33,11 @@ public class ManagerOrderItemRestController {
      */
     @PostMapping
     public ResponseEntity<OrderDto> editCountInOrderItem(@RequestBody OrderItemDto orderItemDto){
-        orderItemService.editOrderItem( orderItemDto.getId(), orderItemDto.getProductCount());
         OrderItem orderItem= orderItemService.getOrderItemByDTO(orderItemDto);
-        Long orderId = orderItem.getOrder().getId();;
+        Long orderId = orderItem.getOrder().getId();
+
+        orderItemService.editOrderItem( orderItemDto.getId(), orderItemDto.getProductCount());
+
         OrderDto orderDto = orderService.getOrderDtoByOrderId(orderId);
         return ResponseEntity.status(HttpStatus.OK).body(orderDto);
     }
@@ -46,9 +48,11 @@ public class ManagerOrderItemRestController {
      */
     @DeleteMapping
     public ResponseEntity<OrderDto> deleteOrderItem( @RequestBody OrderItemDto orderItemDto){
-        orderItemService.deleteOrderItem(orderItemDto.getId());
         OrderItem orderItem= orderItemService.getOrderItemByDTO(orderItemDto);
-        Long orderId = orderItem.getOrder().getId();;
+        Long orderId = orderItem.getOrder().getId();
+
+        orderItemService.deleteOrderItem(orderItemDto.getId());
+
         OrderDto orderDto = orderService.getOrderDtoByOrderId(orderId);
         return ResponseEntity.status(HttpStatus.OK).body(orderDto);
     }
