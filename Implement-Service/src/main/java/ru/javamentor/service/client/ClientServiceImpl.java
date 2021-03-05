@@ -1,6 +1,6 @@
 package ru.javamentor.service.client;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.dto.user.ClientPostDto;
@@ -15,13 +15,12 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
-    private final PasswordEncoder passwordEncoder;
 
 
-    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
+
+    public ClientServiceImpl(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
 
-        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -99,7 +98,6 @@ public class ClientServiceImpl implements ClientService {
         Client clientDto = new Client();
         clientDto.setFirstName(clientPostDto.getFirstName());
         clientDto.setLastName(clientPostDto.getLastName());
-        clientDto.setPassword(passwordEncoder.encode(clientPostDto.getPassword()));
         clientDto.setClientName(clientPostDto.getClientName());
         clientDto.setPatronymic(clientPostDto.getPatronymic());
         clientDto.setUsername(clientPostDto.getEmail());

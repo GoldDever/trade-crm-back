@@ -9,7 +9,7 @@ public class ManagerPostDto {
     private String lastName;
     private String patronymic;
     private String email;
-    private String password;
+
 
 
     public ManagerPostDto() {
@@ -48,11 +48,4 @@ public class ManagerPostDto {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

@@ -1,7 +1,7 @@
 package ru.javamentor.service.manager;
 
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.dto.user.ManagerPostDto;
@@ -14,11 +14,10 @@ import javax.transaction.Transactional;
 public class ManagerServiceImpl implements ManagerService {
 
     private final ManagerRepository managerRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public ManagerServiceImpl(ManagerRepository managerRepository, PasswordEncoder passwordEncoder) {
+
+    public ManagerServiceImpl(ManagerRepository managerRepository) {
         this.managerRepository = managerRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -60,7 +59,6 @@ public class ManagerServiceImpl implements ManagerService {
         Manager managerDto = new Manager();
         managerDto.setFirstName(managerPostDto.getFirstName());
         managerDto.setLastName(managerPostDto.getLastName());
-        managerDto.setPassword(passwordEncoder.encode(managerPostDto.getPassword()));
         managerDto.setPatronymic(managerPostDto.getPatronymic());
         managerDto.setUsername(managerPostDto.getEmail());
         managerRepository.save(managerDto);

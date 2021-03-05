@@ -10,7 +10,6 @@ public class ClientPostDto {
     private String patronymic;
     private String email;
     private String clientName;
-    private String password;
 
 
     public ClientPostDto() {
@@ -56,12 +55,5 @@ public class ClientPostDto {
     public void setClientName(String clientName) {
         this.clientName = clientName;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
+

@@ -25,5 +25,5 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
             "Client c where c.username =:clientEmail")
     ClientDto getClientDtoByEmail(@Param("clientEmail") String email);
 
-    boolean existsClientByUsername(String email);
+    boolean existsClientByUsername(String username);
 }
