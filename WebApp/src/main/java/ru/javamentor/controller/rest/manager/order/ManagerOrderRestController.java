@@ -70,22 +70,6 @@ public class ManagerOrderRestController {
     }
 
     /**
-     * Метод добавления строки заказа
-     *
-     * @param orderItemDto - DTO строка заказа
-     * @param orderId      - id заказа
-     * @return - результат выполнения
-     */
-    @PostMapping("/{orderId}/addItem")
-    public ResponseEntity<?> addItem(@RequestBody OrderItemDto orderItemDto,
-                                     @PathVariable String orderId) {
-
-        orderItemService.saveOrderItem(orderItemDto, orderId);
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    /**
      * Метод изменения количества товаров в строке заказа
      *
      * @param orderId      - id заказа

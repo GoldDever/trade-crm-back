@@ -21,6 +21,22 @@ public class OrderItemDto {
     public OrderItemDto() {
     }
 
+    public OrderItemDto( //конструктор для новых записей
+                         String invoiceIssued,
+                         Integer productCount,
+                         ProductDto product,
+                         BigDecimal itemFullPrice,
+                         Integer position,
+                         Long orderId
+    ) {
+        this.invoiceIssued = invoiceIssued;
+        this.productCount = productCount;
+        this.product = product;
+        this.itemFullPrice = itemFullPrice;
+        this.position = position;
+        this.orderId = orderId;
+    }
+
     public OrderItemDto(
             Long id,
             String invoiceIssued,

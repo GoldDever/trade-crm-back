@@ -32,19 +32,19 @@ public class OrderItemServiceImpl implements OrderItemService {
      * and add order item to DB throw repository
      *
      * @param orderItemDto DTO item and order
-     * @param orderId      id of order
      */
     @Override
-    public void saveOrderItem(OrderItemDto orderItemDto, String orderId) {
-        Order order = orderRepository.findById(Long.valueOf(orderId)).orElseThrow();
+    public void saveOrderItem(OrderItemDto orderItemDto) {
+        Order order = orderRepository.findById(Long.valueOf(orderItemDto.getOrderId())).orElseThrow();
         Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElseThrow();
+        Integer lastPosition = orderItemRepository.getNumberOfPositionInOrder(order.getId());
         OrderItem orderItem = new OrderItem(
                 orderItemDto.getId(),
                 orderItemDto.getInvoiceIssued(),
                 orderItemDto.getProductCount(),
                 product,
                 order,
-                orderItemDto.getPosition()
+                lastPosition + 1
         );
 
         orderItemRepository.save(orderItem);
@@ -87,7 +87,7 @@ public class OrderItemServiceImpl implements OrderItemService {
      * @param orderId
      * @param deletedPosition
      */
-    private void updatePositions(Long orderId, Integer deletedPosition){
+    public void updatePositions(Long orderId, Integer deletedPosition){
         List<OrderItem> orderItemList = orderItemRepository.getListOrderItemByOrderId(orderId);
         for (OrderItem orderItem : orderItemList) {
             Integer currentPosition = orderItem.getPosition();
@@ -95,6 +95,6 @@ public class OrderItemServiceImpl implements OrderItemService {
                 orderItemRepository.updateOrderItemPosition(orderItem.getId(), --currentPosition);
             }
         }
-        //orderItemRepository.updateOrderItemPosition();
     }
+
 }

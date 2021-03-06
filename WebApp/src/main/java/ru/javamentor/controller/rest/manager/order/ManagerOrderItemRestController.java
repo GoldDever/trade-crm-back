@@ -3,6 +3,7 @@ package ru.javamentor.controller.rest.manager.order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,8 @@ import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/manager/orderitem")
@@ -46,9 +49,7 @@ public class ManagerOrderItemRestController {
      */
     @DeleteMapping
     public ResponseEntity<OrderDto> deleteOrderItem( @RequestBody OrderItemDto orderItemDto){
-
-        orderItemService.deleteOrderItem(orderItemDto);//**********************
-
+        orderItemService.deleteOrderItem(orderItemDto);
         OrderDto orderDto = orderService.getOrderDtoByOrderId(orderItemDto.getOrderId());
         return ResponseEntity.status(HttpStatus.OK).body(orderDto);
     }
@@ -57,16 +58,10 @@ public class ManagerOrderItemRestController {
      * Метод добавления нового orderItem в order
      * @param orderItemDto
      */
-    /*@PostMapping(value = "/addOrderItem")
+    @PostMapping(value = "/addOrderItem")
     public ResponseEntity<OrderDto> newOrderItem(@RequestBody OrderItemDto orderItemDto){
-        OrderItem orderItem= orderItemService.getOrderItemByDTO(orderItemDto);
-        Long orderId = orderItem.getOrder().getId();
-
-        orderItemService.editOrderItem( orderItemDto.getId(), orderItemDto.getProductCount());
-
-        OrderDto orderDto = orderService.getOrderDtoByOrderId(orderId);
+        orderItemService.saveOrderItem(orderItemDto);
+        OrderDto orderDto = orderService.getOrderDtoByOrderId(orderItemDto.getOrderId());
         return ResponseEntity.status(HttpStatus.OK).body(orderDto);
-        return null;//*************************************************************************************
-    }*/
-
+    }
 }
