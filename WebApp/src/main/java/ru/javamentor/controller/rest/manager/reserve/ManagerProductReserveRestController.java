@@ -14,7 +14,13 @@ public class ManagerProductReserveRestController {
 
     @GetMapping("/all/{productId}")
     public ResponseEntity<?> getAllReserveProductByProductId(@PathVariable String productId) {
-        //TODO Метод принимает productId и возвращает список ReserveProductDto которые относятся к данному продукту
+        //TODO Метод принимает productId и возвращает List<ReserveProductDto> которые относятся к данному продукту
+        return null;
+    }
+
+    @GetMapping("/count/order/{orderId}/product/{productId}")
+    public ResponseEntity<?> getCountReservedProductByOrderIdAndProductId(@PathVariable String orderId, @PathVariable String productId) {
+        //TODO Метод принимает orderId, productId и возвращает количество товара которое зарезервировано в этом ордере
         return null;
     }
 
