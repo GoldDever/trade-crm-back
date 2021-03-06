@@ -22,12 +22,13 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
     @Query("SELECT new ru.javamentor.dto.order.OrderItemDto(" +
             "oi.id, " +
-            "oi.invoiceIssued," +
-            "oi.productCount) " +
+            "oi.invoiceIssued, " +
+            "oi.productCount, " +
+            "oi.position) " +
             "FROM OrderItem oi " +
             "JOIN oi.order o " +
             "WHERE o.id = :orderId " +
-            "ORDER BY oi.id")
+            "ORDER BY oi.position")
     List<OrderItemDto> getListOrderItemDtoByOrderId(@Param("orderId")Long orderId);
 
     @Modifying
@@ -36,5 +37,17 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
 
     @Query("SELECT oi FROM OrderItem oi WHERE oi.id = :orderItemId")
     OrderItem getOrderItemByDtoID(@Param("orderItemId")Long orderItemId);
+
+//************************************************************************************
+    @Query("SELECT oi " +
+            "FROM OrderItem oi " +
+            "JOIN oi.order o " +
+            "WHERE o.id = :orderId " +
+            "ORDER BY oi.position")
+    List<OrderItem> getListOrderItemByOrderId(@Param("orderId")Long orderId);
+
+    @Modifying
+    @Query("UPDATE OrderItem oi SET oi.position = :position WHERE oi.id = :orderItemId")
+    void updateOrderItemPosition(@Param("orderItemId") Long orderItemId, @Param("position") Integer position);
 
 }

@@ -11,6 +11,8 @@ import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
 
+import java.util.List;
+
 @Service
 public class OrderItemServiceImpl implements OrderItemService {
 
@@ -41,7 +43,8 @@ public class OrderItemServiceImpl implements OrderItemService {
                 orderItemDto.getInvoiceIssued(),
                 orderItemDto.getProductCount(),
                 product,
-                order
+                order,
+                orderItemDto.getPosition()
         );
 
         orderItemRepository.save(orderItem);
@@ -55,18 +58,19 @@ public class OrderItemServiceImpl implements OrderItemService {
      */
     @Override
     @Transactional
-    public void editOrderItem( Long orderItemId, Integer countProduct) {
+    public void editOrderItemCount( Long orderItemId, Integer countProduct) {
         orderItemRepository.setProductCountByOrderItem(orderItemId, countProduct);
     }
 
     /**
      * Метод удаляет orderItem
-     * @param orderItemId
+     * @param orderItemDto
      */
     @Override
     @Transactional
-    public void deleteOrderItem( Long orderItemId) {
-        orderItemRepository.deleteOrderItemById(orderItemId);
+    public void deleteOrderItem(OrderItemDto orderItemDto) {
+        orderItemRepository.deleteOrderItemById(orderItemDto.getId());
+        updatePositions(orderItemDto.getOrderId(), orderItemDto.getPosition());
     }
 
     /**
@@ -77,5 +81,20 @@ public class OrderItemServiceImpl implements OrderItemService {
     @Override
     public OrderItem getOrderItemByDTO(OrderItemDto orderItemDto) {
         return orderItemRepository.getOrderItemByDtoID(orderItemDto.getId());
+    }
+
+    /** Метод обновляет orderItem.position после удаления
+     * @param orderId
+     * @param deletedPosition
+     */
+    private void updatePositions(Long orderId, Integer deletedPosition){
+        List<OrderItem> orderItemList = orderItemRepository.getListOrderItemByOrderId(orderId);
+        for (OrderItem orderItem : orderItemList) {
+            Integer currentPosition = orderItem.getPosition();
+            if (currentPosition > deletedPosition){
+                orderItemRepository.updateOrderItemPosition(orderItem.getId(), --currentPosition);
+            }
+        }
+        //orderItemRepository.updateOrderItemPosition();
     }
 }

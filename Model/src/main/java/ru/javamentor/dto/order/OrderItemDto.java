@@ -2,6 +2,7 @@ package ru.javamentor.dto.order;
 
 import ru.javamentor.dto.product.ProductDto;
 
+import javax.persistence.Column;
 import java.math.BigDecimal;
 
 /**
@@ -14,6 +15,8 @@ public class OrderItemDto {
     private Integer productCount;
     private ProductDto product;
     private BigDecimal itemFullPrice = BigDecimal.ZERO;
+    private Integer position;
+    private Long orderId;
 
     public OrderItemDto() {
     }
@@ -23,23 +26,29 @@ public class OrderItemDto {
             String invoiceIssued,
             Integer productCount,
             ProductDto product,
-            BigDecimal itemFullPrice
+            BigDecimal itemFullPrice,
+            Integer position,
+            Long orderId
     ) {
         this.id = id;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
         this.product = product;
         this.itemFullPrice = itemFullPrice;
+        this.position = position;
+        this.orderId = orderId;
     }
 
     public OrderItemDto(
             Long id,
             String invoiceIssued,
-            Integer productCount
+            Integer productCount,
+            Integer position
     ) {
         this.id = id;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
+        this.position = position;
     }
 
     public Long getId() {
@@ -82,5 +91,21 @@ public class OrderItemDto {
 
     public void setItemFullPrice(BigDecimal itemFullPrice) {
         this.itemFullPrice = itemFullPrice;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 }

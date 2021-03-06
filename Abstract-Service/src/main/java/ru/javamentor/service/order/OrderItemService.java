@@ -6,7 +6,7 @@ import ru.javamentor.model.order.OrderItem;
 
 public interface OrderItemService {
     void saveOrderItem(OrderItemDto orderItemDto, String orderId);
-    void editOrderItem(Long orderItemId, Integer count);
-    void deleteOrderItem(Long orderItemId);
+    void editOrderItemCount(Long orderItemId, Integer count);
+    void deleteOrderItem(OrderItemDto orderItemDto);
     OrderItem getOrderItemByDTO(OrderItemDto orderItemDto);
 }

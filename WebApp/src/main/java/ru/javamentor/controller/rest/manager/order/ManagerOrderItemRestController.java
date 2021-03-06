@@ -33,12 +33,10 @@ public class ManagerOrderItemRestController {
      */
     @PostMapping
     public ResponseEntity<OrderDto> editCountInOrderItem(@RequestBody OrderItemDto orderItemDto){
-        OrderItem orderItem= orderItemService.getOrderItemByDTO(orderItemDto);
-        Long orderId = orderItem.getOrder().getId();
 
-        orderItemService.editOrderItem( orderItemDto.getId(), orderItemDto.getProductCount());
+        orderItemService.editOrderItemCount( orderItemDto.getId(), orderItemDto.getProductCount());
 
-        OrderDto orderDto = orderService.getOrderDtoByOrderId(orderId);
+        OrderDto orderDto = orderService.getOrderDtoByOrderId(orderItemDto.getOrderId());
         return ResponseEntity.status(HttpStatus.OK).body(orderDto);
     }
 
@@ -48,13 +46,27 @@ public class ManagerOrderItemRestController {
      */
     @DeleteMapping
     public ResponseEntity<OrderDto> deleteOrderItem( @RequestBody OrderItemDto orderItemDto){
+
+        orderItemService.deleteOrderItem(orderItemDto);//**********************
+
+        OrderDto orderDto = orderService.getOrderDtoByOrderId(orderItemDto.getOrderId());
+        return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+    }
+
+    /**
+     * Метод добавления нового orderItem в order
+     * @param orderItemDto
+     */
+    /*@PostMapping(value = "/addOrderItem")
+    public ResponseEntity<OrderDto> newOrderItem(@RequestBody OrderItemDto orderItemDto){
         OrderItem orderItem= orderItemService.getOrderItemByDTO(orderItemDto);
         Long orderId = orderItem.getOrder().getId();
 
-        orderItemService.deleteOrderItem(orderItemDto.getId());
+        orderItemService.editOrderItem( orderItemDto.getId(), orderItemDto.getProductCount());
 
         OrderDto orderDto = orderService.getOrderDtoByOrderId(orderId);
         return ResponseEntity.status(HttpStatus.OK).body(orderDto);
-    }
+        return null;//*************************************************************************************
+    }*/
 
 }

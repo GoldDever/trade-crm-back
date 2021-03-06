@@ -98,7 +98,7 @@ public class ManagerOrderRestController {
                                                       @PathVariable Long orderItemId,
                                                       @PathVariable Integer countProduct) {
         if (countProduct > 0) {
-            orderItemService.editOrderItem( orderItemId, countProduct);
+            orderItemService.editOrderItemCount( orderItemId, countProduct);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Введите корректное количество продукта", HttpStatus.BAD_REQUEST);

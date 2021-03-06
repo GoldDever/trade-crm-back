@@ -39,6 +39,9 @@ public class OrderItem {
     @Transient
     private BigDecimal itemFullPrice;
 
+    @Column(name = "position")
+    private Integer position;
+
     public OrderItem() {
     }
 
@@ -47,13 +50,15 @@ public class OrderItem {
             String invoiceIssued,
             Integer productCount,
             Product product,
-            Order order
+            Order order,
+            Integer position
     ) {
         this.id = id;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
         this.product = product;
         this.order = order;
+        this.position = position;
     }
 
 
@@ -100,5 +105,13 @@ public class OrderItem {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
     }
 }
