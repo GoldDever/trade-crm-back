@@ -129,7 +129,7 @@ public class ProductServiceImpl implements ProductService {
         dto.setManufacturerDto(manufacturerRepository.findManufacturerDtoByManufacturerId(manufacturerId));
         dto.setSupplierDto(supplierRepository.findSupplierDtoBySupplierId(supplierIdList));
         dto.setUnit(unitRepository.findUnitDtoByUnitId(unitId));
-        dto.setProductCategory(productCategoryRepository.findProductCategoryByProductId(productId).getCategoryName());
+        dto.setProductCategory(productCategoryRepository.findProductCategoryByProductId(productId));
 
         return dto;
     }
@@ -193,7 +193,7 @@ public class ProductServiceImpl implements ProductService {
             productDto.setManufacturerDto(manufacturerRepository.findManufacturerDtoByManufacturerId(manufacturerId));
             productDto.setSupplierDto(supplierRepository.findSupplierDtoBySupplierId(supplierIdList));
             productDto.setUnit(unitRepository.findUnitDtoByUnitId(unitId));
-            productDto.setProductCategory(productCategoryRepository.findProductCategoryByProductId(productDto.getId()).getCategoryName());
+            productDto.setProductCategory(productCategoryRepository.findProductCategoryByProductId(productDto.getId()));
         });
 
         return dtoList;

@@ -14,7 +14,7 @@ public class ProductDto {
     private List<SupplierDto> supplierDto;
     private String article;
     private UnitDto unit;
-    private String productCategory;
+    private ProductCategoryDto productCategoryDto;
     private BigDecimal price;
     private BigDecimal minMargin;
     private BigDecimal standardMargin;
@@ -28,7 +28,7 @@ public class ProductDto {
             List<SupplierDto> supplierDto,
             String article,
             UnitDto unit,
-            String productCategory,
+            ProductCategoryDto productCategoryDto,
             BigDecimal price,
             BigDecimal minMargin,
             BigDecimal standardMargin)
@@ -40,7 +40,7 @@ public class ProductDto {
         this.supplierDto = supplierDto;
         this.article = article;
         this.unit = unit;
-        this.productCategory = productCategory;
+        this.productCategoryDto = productCategoryDto;
         this.price = price;
         this.minMargin = minMargin;
         this.standardMargin = standardMargin;
@@ -135,14 +135,12 @@ public class ProductDto {
         this.article = article;
     }
 
-
-
-    public String getProductCategory() {
-        return productCategory;
+    public ProductCategoryDto getProductCategory() {
+        return productCategoryDto;
     }
 
-    public void setProductCategory(String productCategory) {
-        this.productCategory = productCategory;
+    public void setProductCategory(ProductCategoryDto productCategoryDto) {
+        this.productCategoryDto = productCategoryDto;
     }
 
     public BigDecimal getPrice() {
