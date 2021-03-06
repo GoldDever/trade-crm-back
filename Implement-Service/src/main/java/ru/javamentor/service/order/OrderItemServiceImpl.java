@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
-import ru.javamentor.model.order.OrderApprove;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.repository.order.OrderItemRepository;
@@ -54,16 +53,17 @@ public class OrderItemServiceImpl implements OrderItemService {
      * Метод меняет количество товара в Item
      *
      * @param countProduct of product
-     * @param orderItemId id of orderItem
+     * @param orderItemId  id of orderItem
      */
     @Override
     @Transactional
-    public void editOrderItemCount( Long orderItemId, Integer countProduct) {
+    public void editOrderItemCount(Long orderItemId, Integer countProduct) {
         orderItemRepository.setProductCountByOrderItem(orderItemId, countProduct);
     }
 
     /**
      * Метод удаляет orderItem
+     *
      * @param orderItemDto
      */
     @Override
@@ -75,6 +75,7 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     /**
      * Метод получает OrderItem из базы по id OrderItemDTO
+     *
      * @param orderItemDto
      * @return
      */
@@ -83,15 +84,17 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemRepository.getOrderItemByDtoID(orderItemDto.getId());
     }
 
-    /** Метод обновляет orderItem.position после удаления
+    /**
+     * Метод обновляет orderItem.position после удаления
+     *
      * @param orderId
      * @param deletedPosition
      */
-    public void updatePositions(Long orderId, Integer deletedPosition){
+    public void updatePositions(Long orderId, Integer deletedPosition) {
         List<OrderItem> orderItemList = orderItemRepository.getListOrderItemByOrderId(orderId);
         for (OrderItem orderItem : orderItemList) {
             Integer currentPosition = orderItem.getPosition();
-            if (currentPosition > deletedPosition){
+            if (currentPosition > deletedPosition) {
                 orderItemRepository.updateOrderItemPosition(orderItem.getId(), --currentPosition);
             }
         }

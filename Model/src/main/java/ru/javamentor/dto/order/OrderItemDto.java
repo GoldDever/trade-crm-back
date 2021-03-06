@@ -2,7 +2,6 @@ package ru.javamentor.dto.order;
 
 import ru.javamentor.dto.product.ProductDto;
 
-import javax.persistence.Column;
 import java.math.BigDecimal;
 
 /**

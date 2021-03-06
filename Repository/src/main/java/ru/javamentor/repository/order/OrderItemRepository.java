@@ -29,14 +29,14 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
             "JOIN oi.order o " +
             "WHERE o.id = :orderId " +
             "ORDER BY oi.position")
-    List<OrderItemDto> getListOrderItemDtoByOrderId(@Param("orderId")Long orderId);
+    List<OrderItemDto> getListOrderItemDtoByOrderId(@Param("orderId") Long orderId);
 
     @Modifying
     @Query("DELETE FROM OrderItem oi WHERE oi.id = :orderItemId")
-    void deleteOrderItemById(@Param("orderItemId")Long orderItemId);
+    void deleteOrderItemById(@Param("orderItemId") Long orderItemId);
 
     @Query("SELECT oi FROM OrderItem oi WHERE oi.id = :orderItemId")
-    OrderItem getOrderItemByDtoID(@Param("orderItemId")Long orderItemId);
+    OrderItem getOrderItemByDtoID(@Param("orderItemId") Long orderItemId);
 
 
     @Query("SELECT oi " +
@@ -44,7 +44,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
             "JOIN oi.order o " +
             "WHERE o.id = :orderId " +
             "ORDER BY oi.position")
-    List<OrderItem> getListOrderItemByOrderId(@Param("orderId")Long orderId);
+    List<OrderItem> getListOrderItemByOrderId(@Param("orderId") Long orderId);
 
     @Modifying
     @Query("UPDATE OrderItem oi SET oi.position = :position WHERE oi.id = :orderItemId")
@@ -54,5 +54,5 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
             "FROM OrderItem oi " +
             "JOIN oi.order o " +
             "WHERE o.id = :orderId ")
-    Integer getNumberOfPositionInOrder(@Param("orderId")Long orderId);
+    Integer getNumberOfPositionInOrder(@Param("orderId") Long orderId);
 }
