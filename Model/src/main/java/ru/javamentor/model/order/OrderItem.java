@@ -39,6 +39,9 @@ public class OrderItem {
     @Transient
     private BigDecimal itemFullPrice;
 
+    @Column(name = "current_marge_percent")
+    private BigDecimal currentMargePercent;
+
     public OrderItem() {
     }
 
@@ -47,13 +50,15 @@ public class OrderItem {
             String invoiceIssued,
             Integer productCount,
             Product product,
-            Order order
+            Order order,
+            BigDecimal currentMargePercent
     ) {
         this.id = id;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
         this.product = product;
         this.order = order;
+        this.currentMargePercent = currentMargePercent;
     }
 
 
@@ -100,5 +105,13 @@ public class OrderItem {
 
     public void setOrder(Order order) {
         this.order = order;
+    }
+
+    public BigDecimal getCurrentMargePercent() {
+        return currentMargePercent;
+    }
+
+    public void setCurrentMargePercent(BigDecimal currentMargePercent) {
+        this.currentMargePercent = currentMargePercent;
     }
 }
