@@ -9,4 +9,6 @@ public interface ReserveProductService {
     String saveProductReserve(Long orderId, Long productId, Integer productCount);
 
     String addReserveByOrder(Long orderId);
+
+    Integer getCountReservedProductByOrderIdAndProductId(Long orderId, Long productId);
 }
