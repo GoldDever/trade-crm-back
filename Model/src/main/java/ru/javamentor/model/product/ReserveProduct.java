@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reserve_products")
@@ -31,6 +32,9 @@ public class ReserveProduct {
     @Column(name = "product_count")
     private Integer productCount;
 
+    @Column(name = "create_date_time")
+    private LocalDateTime createDateTime = LocalDateTime.now();
+
     public ReserveProduct() {
     }
 
@@ -41,6 +45,7 @@ public class ReserveProduct {
         this.product = product;
         this.order = order;
         this.productCount = productCount;
+        this.createDateTime = LocalDateTime.now();
     }
 
     public ReserveProduct(
@@ -80,6 +85,14 @@ public class ReserveProduct {
 
     public Integer getProductCount() {
         return productCount;
+    }
+
+    public LocalDateTime getCreateDateTime() {
+        return createDateTime;
+    }
+
+    public void setCreateDateTime(LocalDateTime createDateTime) {
+        this.createDateTime = createDateTime;
     }
 
     public void setProductCount(Integer productCount) {
