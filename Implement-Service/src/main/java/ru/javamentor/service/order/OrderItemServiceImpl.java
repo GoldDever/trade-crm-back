@@ -41,7 +41,8 @@ public class OrderItemServiceImpl implements OrderItemService {
                 orderItemDto.getInvoiceIssued(),
                 orderItemDto.getProductCount(),
                 product,
-                order
+                order,
+                orderItemDto.getCurrentMargePercent()
         );
 
         orderItemRepository.save(orderItem);

@@ -14,6 +14,7 @@ public class OrderItemDto {
     private Integer productCount;
     private ProductDto product;
     private BigDecimal itemFullPrice = BigDecimal.ZERO;
+    private BigDecimal currentMargePercent;
 
     public OrderItemDto() {
     }
@@ -35,11 +36,13 @@ public class OrderItemDto {
     public OrderItemDto(
             Long id,
             String invoiceIssued,
-            Integer productCount
+            Integer productCount,
+            BigDecimal currentMargePercent
     ) {
         this.id = id;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
+        this.currentMargePercent = currentMargePercent;
     }
 
     public Long getId() {
@@ -75,12 +78,23 @@ public class OrderItemDto {
     }
 
     public BigDecimal getItemFullPrice() {
+        BigDecimal margin = (currentMargePercent == null) ? product.getStandardMargin() : currentMargePercent;
+
         itemFullPrice = product.getPrice()
-                .multiply(BigDecimal.valueOf(productCount));
+                .add(product.getPrice().multiply(margin).divide(BigDecimal.valueOf(100)))
+                .multiply(BigDecimal.valueOf(productCount)).setScale(2);
         return itemFullPrice;
     }
 
     public void setItemFullPrice(BigDecimal itemFullPrice) {
         this.itemFullPrice = itemFullPrice;
+    }
+
+    public BigDecimal getCurrentMargePercent() {
+        return currentMargePercent;
+    }
+
+    public void setCurrentMargePercent(BigDecimal currentMargePercent) {
+        this.currentMargePercent = currentMargePercent;
     }
 }
