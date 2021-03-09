@@ -33,8 +33,8 @@ public class OrderItemServiceImpl implements OrderItemService {
      * @param orderItemDto DTO item and order
      */
     @Override
-    public void saveOrderItem(OrderItemDto orderItemDto) {
-        Order order = orderRepository.findById(Long.valueOf(orderItemDto.getOrderId())).orElseThrow();
+    public void saveOrderItem(Long orderId, OrderItemDto orderItemDto) {
+        Order order = orderRepository.findById(orderId).orElseThrow();
         Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElseThrow();
         Integer lastPosition = orderItemRepository.getNumberOfPositionInOrder(order.getId());
         OrderItem orderItem = new OrderItem(
@@ -64,13 +64,16 @@ public class OrderItemServiceImpl implements OrderItemService {
     /**
      * Метод удаляет orderItem
      *
-     * @param orderItemDto
+     * @param orderItemId
      */
     @Override
     @Transactional
-    public void deleteOrderItem(OrderItemDto orderItemDto) {
-        orderItemRepository.deleteOrderItemById(orderItemDto.getId());
-        updatePositions(orderItemDto.getOrderId(), orderItemDto.getPosition());
+    public void deleteOrderItem(Long orderItemId) {
+        OrderItem orderItem = orderItemRepository.getOne(orderItemId);
+        Integer deletedPosition = orderItem.getPosition();
+        Long orderId = orderItem.getOrder().getId();
+        orderItemRepository.deleteOrderItemById(orderItemId);
+        updatePositions(orderId, deletedPosition);
     }
 
     /**

@@ -3,6 +3,7 @@ package ru.javamentor.controller.rest.manager.order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,35 +33,51 @@ public class ManagerOrderItemRestController {
      * @param orderItemDto
      */
     @PostMapping
-    public ResponseEntity<OrderDto> editCountInOrderItem(@RequestBody OrderItemDto orderItemDto) {
-
-        orderItemService.editOrderItemCount(orderItemDto.getId(), orderItemDto.getProductCount());
-
-        OrderDto orderDto = orderService.getOrderDtoByOrderId(orderItemDto.getOrderId());
-        return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+    public ResponseEntity<String> editCountInOrderItem(@RequestBody OrderItemDto orderItemDto) {
+        System.out.println("edit controller start");
+        try{
+            orderItemService.editOrderItemCount(orderItemDto.getId(), orderItemDto.getProductCount());
+            return ResponseEntity.status(HttpStatus.OK).body("Строка id=" + orderItemDto.getId()
+                    + " успешно изменена.");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось обновить строку id="
+                    + orderItemDto.getId());
+        }
     }
 
     /**
      * Метод удаления orderItem
      *
-     * @param orderItemDto
+     * @param orderItemId
      */
-    @DeleteMapping
-    public ResponseEntity<OrderDto> deleteOrderItem(@RequestBody OrderItemDto orderItemDto) {
-        orderItemService.deleteOrderItem(orderItemDto);
-        OrderDto orderDto = orderService.getOrderDtoByOrderId(orderItemDto.getOrderId());
-        return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+    @DeleteMapping("/delete/{orderItemId}")
+    public ResponseEntity<String> deleteOrderItem(@PathVariable Long orderItemId) {
+        System.out.println("delete controller start");
+        try {
+            orderItemService.deleteOrderItem(orderItemId);
+            return ResponseEntity.status(HttpStatus.OK).body("Строка id=" + orderItemId
+                    + " успешно удалена.");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось удалить строку id="
+                    + orderItemId);
+        }
     }
 
     /**
      * Метод добавления нового orderItem в order
      *
+     * @param orderId
      * @param orderItemDto
      */
-    @PostMapping(value = "/addOrderItem")
-    public ResponseEntity<OrderDto> newOrderItem(@RequestBody OrderItemDto orderItemDto) {
-        orderItemService.saveOrderItem(orderItemDto);
-        OrderDto orderDto = orderService.getOrderDtoByOrderId(orderItemDto.getOrderId());
-        return ResponseEntity.status(HttpStatus.OK).body(orderDto);
+    @PostMapping(value = "/addOrderItem/{orderId}")
+    public ResponseEntity<String> newOrderItem(@PathVariable Long orderId, @RequestBody OrderItemDto orderItemDto) {
+        System.out.println("new controller start");
+        try {
+            orderItemService.saveOrderItem(orderId, orderItemDto);
+            return ResponseEntity.status(HttpStatus.OK).body("Новая строка успешно добавлена");
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось добавить строку в заказ id="
+                    + orderId);
+        }
     }
 }

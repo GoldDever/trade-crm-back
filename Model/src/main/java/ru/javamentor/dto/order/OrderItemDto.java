@@ -15,7 +15,7 @@ public class OrderItemDto {
     private ProductDto product;
     private BigDecimal itemFullPrice = BigDecimal.ZERO;
     private Integer position;
-    private Long orderId;
+
 
     public OrderItemDto() {
     }
@@ -25,15 +25,13 @@ public class OrderItemDto {
                          Integer productCount,
                          ProductDto product,
                          BigDecimal itemFullPrice,
-                         Integer position,
-                         Long orderId
+                         Integer position
     ) {
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
         this.product = product;
         this.itemFullPrice = itemFullPrice;
         this.position = position;
-        this.orderId = orderId;
     }
 
     public OrderItemDto(
@@ -51,7 +49,6 @@ public class OrderItemDto {
         this.product = product;
         this.itemFullPrice = itemFullPrice;
         this.position = position;
-        this.orderId = orderId;
     }
 
     public OrderItemDto(
@@ -115,12 +112,5 @@ public class OrderItemDto {
     public void setPosition(Integer position) {
         this.position = position;
     }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
+    
 }
