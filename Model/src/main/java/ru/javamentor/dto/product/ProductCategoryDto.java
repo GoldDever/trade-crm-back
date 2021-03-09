@@ -12,12 +12,11 @@ public class ProductCategoryDto {
     public ProductCategoryDto(
             Long id,
             String categoryName,
-            Boolean mainCategory,
             Long mainProductCategory) {
         this.id = id;
         this.categoryName = categoryName;
-        this.mainCategory = mainCategory;
         this.mainProductCategory = mainProductCategory;
+        this.mainCategory = this.mainProductCategory == null;
     }
 
     public Long getId() {
