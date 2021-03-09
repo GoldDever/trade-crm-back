@@ -34,12 +34,11 @@ public class ManagerOrderItemRestController {
      */
     @PostMapping
     public ResponseEntity<String> editCountInOrderItem(@RequestBody OrderItemDto orderItemDto) {
-        System.out.println("edit controller start");
-        try{
+        try {
             orderItemService.editOrderItemCount(orderItemDto.getId(), orderItemDto.getProductCount());
             return ResponseEntity.status(HttpStatus.OK).body("Строка id=" + orderItemDto.getId()
                     + " успешно изменена.");
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось обновить строку id="
                     + orderItemDto.getId());
         }
@@ -52,12 +51,11 @@ public class ManagerOrderItemRestController {
      */
     @DeleteMapping("/delete/{orderItemId}")
     public ResponseEntity<String> deleteOrderItem(@PathVariable Long orderItemId) {
-        System.out.println("delete controller start");
         try {
             orderItemService.deleteOrderItem(orderItemId);
             return ResponseEntity.status(HttpStatus.OK).body("Строка id=" + orderItemId
                     + " успешно удалена.");
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось удалить строку id="
                     + orderItemId);
         }
@@ -71,11 +69,10 @@ public class ManagerOrderItemRestController {
      */
     @PostMapping(value = "/addOrderItem/{orderId}")
     public ResponseEntity<String> newOrderItem(@PathVariable Long orderId, @RequestBody OrderItemDto orderItemDto) {
-        System.out.println("new controller start");
         try {
             orderItemService.saveOrderItem(orderId, orderItemDto);
             return ResponseEntity.status(HttpStatus.OK).body("Новая строка успешно добавлена");
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось добавить строку в заказ id="
                     + orderId);
         }
