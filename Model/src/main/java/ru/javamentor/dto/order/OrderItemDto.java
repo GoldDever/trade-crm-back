@@ -78,14 +78,11 @@ public class OrderItemDto {
     }
 
     public BigDecimal getItemFullPrice() {
-        BigDecimal margin = (currentMargePercent == null) ?
-                (product.getStandardMargin() == null) ? BigDecimal.ZERO : product.getStandardMargin()
-                : currentMargePercent;
+        BigDecimal margin = (currentMargePercent == null) ? product.getStandardMargin() : currentMargePercent;
 
         itemFullPrice = product.getPrice()
                 .add(product.getPrice().multiply(margin).divide(BigDecimal.valueOf(100)))
                 .multiply(BigDecimal.valueOf(productCount)).setScale(2);
-
         return itemFullPrice;
     }
 
