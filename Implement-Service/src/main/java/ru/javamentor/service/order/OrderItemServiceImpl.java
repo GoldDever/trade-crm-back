@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
+import ru.javamentor.model.order.OrderApprove;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.repository.order.OrderItemRepository;
@@ -31,10 +32,11 @@ public class OrderItemServiceImpl implements OrderItemService {
      * and add order item to DB throw repository
      *
      * @param orderItemDto DTO item and order
+     * @param orderId      id of order
      */
     @Override
-    public void saveOrderItem(Long orderId, OrderItemDto orderItemDto) {
-        Order order = orderRepository.findById(orderId).orElseThrow();
+    public void saveOrderItem(OrderItemDto orderItemDto, String orderId) {
+        Order order = orderRepository.findById(Long.valueOf(orderId)).orElseThrow();
         Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElseThrow();
         Integer lastPosition = orderItemRepository.getNumberOfPositionInOrder(order.getId());
         OrderItem orderItem = new OrderItem(
@@ -44,6 +46,8 @@ public class OrderItemServiceImpl implements OrderItemService {
                 product,
                 order,
                 lastPosition + 1
+                order,
+                orderItemDto.getCurrentMargePercent()
         );
 
         orderItemRepository.save(orderItem);
@@ -63,7 +67,6 @@ public class OrderItemServiceImpl implements OrderItemService {
 
     /**
      * Метод удаляет orderItem
-     *
      * @param orderItemId
      */
     @Override

@@ -42,6 +42,9 @@ public class OrderItem {
     @Column(name = "position")
     private Integer position;
 
+    @Column(name = "current_marge_percent")
+    private BigDecimal currentMargePercent;
+
     public OrderItem() {
     }
 
@@ -52,6 +55,8 @@ public class OrderItem {
             Product product,
             Order order,
             Integer position
+            Order order,
+            BigDecimal currentMargePercent
     ) {
         this.id = id;
         this.invoiceIssued = invoiceIssued;
@@ -59,6 +64,7 @@ public class OrderItem {
         this.product = product;
         this.order = order;
         this.position = position;
+        this.currentMargePercent = currentMargePercent;
     }
 
 
@@ -113,5 +119,13 @@ public class OrderItem {
 
     public void setPosition(Integer position) {
         this.position = position;
+    }
+
+    public BigDecimal getCurrentMargePercent() {
+        return currentMargePercent;
+    }
+
+    public void setCurrentMargePercent(BigDecimal currentMargePercent) {
+        this.currentMargePercent = currentMargePercent;
     }
 }
