@@ -32,29 +32,23 @@ public class ManagerProductReserveRestController {
     }
 
     /**
-     *
-     * @param orderId - id заказа
+     * @param orderId   - id заказа
      * @param productId - id продукта
      * @return - количество зарезервированных продуктов в заказе
      */
     @GetMapping("/count/order/{orderId}/product/{productId}")
-    public ResponseEntity<?> getCountReservedProductByOrderIdAndProductId(@PathVariable Long orderId, @PathVariable Long productId) {
-        {
-            if (orderService.isExistsByOrderId(orderId)) {
-                if (productService.isProductIdExists(productId)) {
-                    Integer reserveProductCount = reserveProductService.getCountReservedProductByOrderIdAndProductId(orderId, productId);
-                    if (reserveProductCount == null) {
-                        return ResponseEntity.badRequest().body("Отсутствует резерв продукта с id = " + productId + " в заказе с id = " + orderId);
-                    } else {
-                        return ResponseEntity.ok().body(reserveProductCount);
-                    }
-                } else {
-                    return ResponseEntity.badRequest().body("Отсутствует продукт с id = " + productId);
-                }
-            } else {
-                return ResponseEntity.badRequest().body("Отсутствует заказ с id = " + orderId);
+    public ResponseEntity<?> getCountReservedProductByOrderIdAndProductId(@PathVariable Long orderId,
+                                                                          @PathVariable Long productId) {
+        if (orderService.isExistsByOrderId(orderId) && productService.isProductIdExists(productId)) {
+            Integer reserveProductCount = reserveProductService.getCountReservedProductByOrderIdAndProductId(orderId, productId);
+            if (reserveProductCount == null) {
+                return ResponseEntity.badRequest().body("Отсутствует резерв продукта с id = " + productId
+                        + " в заказе с id = " + orderId);
             }
+            return ResponseEntity.ok().body(reserveProductCount);
         }
+        return ResponseEntity.badRequest().body("Отсутствует продукт с id = " + productId
+                + " или заказ с id = " + orderId);
     }
 
     /**
@@ -72,7 +66,7 @@ public class ManagerProductReserveRestController {
             return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n" + result, HttpStatus.BAD_REQUEST);
         }
     }
-    
+
     /**
      * POST метод для резервирования продукта
      *
