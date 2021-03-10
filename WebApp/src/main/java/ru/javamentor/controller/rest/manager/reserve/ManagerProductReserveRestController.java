@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.service.order.OrderService;
 import ru.javamentor.service.product.ProductService;
 import ru.javamentor.service.product.ReserveProductService;
-import ru.javamentor.model.product.ReserveProduct;
-import ru.javamentor.service.product.ReserveProductService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/manager/productReserve")
@@ -35,6 +31,12 @@ public class ManagerProductReserveRestController {
         return null;
     }
 
+    /**
+     *
+     * @param orderId - id заказа
+     * @param productId - id продукта
+     * @return - количество зарезервированных продуктов в заказе
+     */
     @GetMapping("/count/order/{orderId}/product/{productId}")
     public ResponseEntity<?> getCountReservedProductByOrderIdAndProductId(@PathVariable Long orderId, @PathVariable Long productId) {
         {
@@ -70,9 +72,7 @@ public class ManagerProductReserveRestController {
             return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n" + result, HttpStatus.BAD_REQUEST);
         }
     }
-}
-
-
+    
     /**
      * POST метод для резервирования продукта
      *
