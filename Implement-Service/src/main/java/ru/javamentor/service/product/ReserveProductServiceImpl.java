@@ -1,13 +1,13 @@
 package ru.javamentor.service.product;
 
 import org.springframework.stereotype.Service;
-import ru.javamentor.model.order.OrderItem;
-import ru.javamentor.repository.product.ReserveProductRepository;
 import ru.javamentor.model.order.Order;
+import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.model.product.ReserveProduct;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
+import ru.javamentor.repository.product.ReserveProductRepository;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -132,5 +132,17 @@ public class ReserveProductServiceImpl implements ReserveProductService {
             }
         }
         return String.valueOf(result);
+    }
+
+    /**
+     *
+     * @param orderId - id заказа
+     * @param productId - id продукта
+     * @return - количество зарезервированных продуктов
+     */
+    @Transactional
+    @Override
+    public Integer getCountReservedProductByOrderIdAndProductId(Long orderId, Long productId) {
+        return reserveProductRepository.getCountReservedProduct(orderId, productId);
     }
 }
