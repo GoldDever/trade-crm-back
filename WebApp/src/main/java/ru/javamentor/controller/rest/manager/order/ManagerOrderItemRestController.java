@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
@@ -35,7 +34,7 @@ public class ManagerOrderItemRestController {
     @PostMapping
     public ResponseEntity<String> editCountInOrderItem(@RequestBody OrderItemDto orderItemDto) {
         try {
-            orderItemService.editOrderItemCount(orderItemDto.getId(), orderItemDto.getProductCount());
+            orderItemService.editOrderItem(orderItemDto.getId(), orderItemDto.getProductCount());
             return ResponseEntity.status(HttpStatus.OK).body("Строка id=" + orderItemDto.getId()
                     + " успешно изменена.");
         } catch (Exception e) {

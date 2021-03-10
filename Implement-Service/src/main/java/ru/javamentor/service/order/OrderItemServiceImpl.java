@@ -61,7 +61,7 @@ public class OrderItemServiceImpl implements OrderItemService {
      */
     @Override
     @Transactional
-    public void editOrderItemCount(Long orderItemId, Integer countProduct) {
+    public void editOrderItem(Long orderItemId, Integer countProduct) {
         orderItemRepository.setProductCountByOrderItem(orderItemId, countProduct);
     }
 
