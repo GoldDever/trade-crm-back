@@ -154,9 +154,9 @@ public class OrderServiceImplTest {
         managerDto.setId(3L);
 
         List<OrderItemDto> orderItemDtoList = new ArrayList<>();
-        orderItemDtoList.add(new OrderItemDto(11L, "test1", 2, 1, BigDecimal.ZERO));
-        orderItemDtoList.add(new OrderItemDto(12L, "test2", 9, 2,BigDecimal.ZERO));
-        orderItemDtoList.add(new OrderItemDto(13L, "test3", 5, 3,BigDecimal.ZERO));
+        orderItemDtoList.add(new OrderItemDto(11L, "test1", 2, 1, BigDecimal.ONE));
+        orderItemDtoList.add(new OrderItemDto(12L, "test2", 9, 2, BigDecimal.ONE));
+        orderItemDtoList.add(new OrderItemDto(13L, "test3", 5, 3, BigDecimal.ONE));
 
         when(orderRepository.getOrderDtoWithOrderId(order.getId())).thenReturn(orderDto);
         when(orderRepository.getClientIdByOrderId(order.getId())).thenReturn(clientDto.getId());
