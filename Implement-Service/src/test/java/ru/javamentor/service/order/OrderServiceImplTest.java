@@ -23,6 +23,7 @@ import ru.javamentor.repository.user.ClientRepository;
 import ru.javamentor.repository.user.ManagerRepository;
 import ru.javamentor.service.product.ProductServiceImpl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -153,9 +154,9 @@ public class OrderServiceImplTest {
         managerDto.setId(3L);
 
         List<OrderItemDto> orderItemDtoList = new ArrayList<>();
-        orderItemDtoList.add(new OrderItemDto(11L, "test1", 2));
-        orderItemDtoList.add(new OrderItemDto(12L, "test2", 9));
-        orderItemDtoList.add(new OrderItemDto(13L, "test3", 5));
+        orderItemDtoList.add(new OrderItemDto(11L, "test1", 2, BigDecimal.ZERO));
+        orderItemDtoList.add(new OrderItemDto(12L, "test2", 9, BigDecimal.ZERO));
+        orderItemDtoList.add(new OrderItemDto(13L, "test3", 5, BigDecimal.ZERO));
 
         when(orderRepository.getOrderDtoWithOrderId(order.getId())).thenReturn(orderDto);
         when(orderRepository.getClientIdByOrderId(order.getId())).thenReturn(clientDto.getId());
