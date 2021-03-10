@@ -7,19 +7,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.javamentor.model.product.ReserveProduct;
+import ru.javamentor.service.order.OrderService;
+import ru.javamentor.service.product.ProductService;
 import ru.javamentor.service.product.ReserveProductService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/manager/productReserve")
 public class ManagerProductReserveRestController {
 
-    private ReserveProductService reserveProductService;
+    private final ReserveProductService reserveProductService;
+    private final ProductService productService;
+    private final OrderService orderService;
 
-    public ManagerProductReserveRestController(ReserveProductService reserveProductService) {
+    public ManagerProductReserveRestController(ReserveProductService reserveProductService, ProductService productService, OrderService orderService) {
         this.reserveProductService = reserveProductService;
+        this.productService = productService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/all/{productId}")
@@ -28,10 +31,24 @@ public class ManagerProductReserveRestController {
         return null;
     }
 
+    /**
+     * @param orderId   - id заказа
+     * @param productId - id продукта
+     * @return - количество зарезервированных продуктов в заказе
+     */
     @GetMapping("/count/order/{orderId}/product/{productId}")
-    public ResponseEntity<?> getCountReservedProductByOrderIdAndProductId(@PathVariable String orderId, @PathVariable String productId) {
-        //TODO Метод принимает orderId, productId и возвращает количество товара которое зарезервировано в этом ордере
-        return null;
+    public ResponseEntity<?> getCountReservedProductByOrderIdAndProductId(@PathVariable Long orderId,
+                                                                          @PathVariable Long productId) {
+        if (orderService.isExistsByOrderId(orderId) && productService.isProductIdExists(productId)) {
+            Integer reserveProductCount = reserveProductService.getCountReservedProductByOrderIdAndProductId(orderId, productId);
+            if (reserveProductCount == null) {
+                return ResponseEntity.badRequest().body("Отсутствует резерв продукта с id = " + productId
+                        + " в заказе с id = " + orderId);
+            }
+            return ResponseEntity.ok().body(reserveProductCount);
+        }
+        return ResponseEntity.badRequest().body("Отсутствует продукт с id = " + productId
+                + " или заказ с id = " + orderId);
     }
 
     /**
@@ -49,7 +66,6 @@ public class ManagerProductReserveRestController {
             return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n" + result, HttpStatus.BAD_REQUEST);
         }
     }
-
 
     /**
      * POST метод для резервирования продукта
