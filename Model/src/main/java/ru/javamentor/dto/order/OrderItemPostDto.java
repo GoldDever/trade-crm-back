@@ -11,13 +11,15 @@ public class OrderItemPostDto {
     private Long orderId;
     private ProductDto product;
     private BigDecimal itemFullPrice;
+    private BigDecimal currentMargePercent;
 
-    public OrderItemPostDto(String invoiceIssued, Integer productCount, Long orderId, ProductDto product, BigDecimal itemFullPrice) {
+    public OrderItemPostDto(String invoiceIssued, Integer productCount, Long orderId, ProductDto product, BigDecimal itemFullPrice, BigDecimal currentMargePercent) {
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
         this.orderId = orderId;
         this.product = product;
         this.itemFullPrice = itemFullPrice;
+        this.currentMargePercent = currentMargePercent;
     }
 
     public String getInvoiceIssued() {
@@ -58,5 +60,13 @@ public class OrderItemPostDto {
 
     public void setItemFullPrice(BigDecimal itemFullPrice) {
         this.itemFullPrice = itemFullPrice;
+    }
+
+    public BigDecimal getCurrentMargePercent() {
+        return currentMargePercent;
+    }
+
+    public void setCurrentMargePercent(BigDecimal currentMargePercent) {
+        this.currentMargePercent = currentMargePercent;
     }
 }
