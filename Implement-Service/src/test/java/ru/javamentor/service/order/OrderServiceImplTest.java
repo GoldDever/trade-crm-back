@@ -158,6 +158,7 @@ public class OrderServiceImplTest {
         orderItemDtoList.add(new OrderItemDto(12L, "test2", 9, BigDecimal.ONE));
         orderItemDtoList.add(new OrderItemDto(13L, "test3", 5, BigDecimal.ONE));
 
+
         when(orderRepository.getOrderDtoWithOrderId(order.getId())).thenReturn(orderDto);
         when(orderRepository.getClientIdByOrderId(order.getId())).thenReturn(clientDto.getId());
         when(orderRepository.getManagerIdByOrderId(order.getId())).thenReturn(managerDto.getId());
