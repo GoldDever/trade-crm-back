@@ -54,8 +54,7 @@ public class OrderItem {
             Integer productCount,
             Product product,
             Order order,
-            Integer position
-            Order order,
+            Integer position,
             BigDecimal currentMargePercent
     ) {
         this.id = id;

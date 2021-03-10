@@ -35,8 +35,8 @@ public class OrderItemServiceImpl implements OrderItemService {
      * @param orderId      id of order
      */
     @Override
-    public void saveOrderItem(OrderItemDto orderItemDto, String orderId) {
-        Order order = orderRepository.findById(Long.valueOf(orderId)).orElseThrow();
+    public void saveOrderItem(Long orderId, OrderItemDto orderItemDto) {
+        Order order = orderRepository.findById(orderId).orElseThrow();
         Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElseThrow();
         Integer lastPosition = orderItemRepository.getNumberOfPositionInOrder(order.getId());
         OrderItem orderItem = new OrderItem(
@@ -45,13 +45,13 @@ public class OrderItemServiceImpl implements OrderItemService {
                 orderItemDto.getProductCount(),
                 product,
                 order,
-                lastPosition + 1
-                order,
+                lastPosition + 1,
                 orderItemDto.getCurrentMargePercent()
         );
 
         orderItemRepository.save(orderItem);
     }
+
 
     /**
      * Метод меняет количество товара в Item
@@ -83,7 +83,7 @@ public class OrderItemServiceImpl implements OrderItemService {
      * Метод получает OrderItem из базы по id OrderItemDTO
      *
      * @param orderItemDto
-     * @return
+     * @return orderItem
      */
     @Override
     public OrderItem getOrderItemByDTO(OrderItemDto orderItemDto) {

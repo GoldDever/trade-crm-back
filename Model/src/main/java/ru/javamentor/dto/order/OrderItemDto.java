@@ -21,43 +21,27 @@ public class OrderItemDto {
     public OrderItemDto() {
     }
 
-    public OrderItemDto( //конструктор для новых записей
-                         String invoiceIssued,
-                         Integer productCount,
-                         ProductDto product,
-                         BigDecimal itemFullPrice,
-                         Integer position
-    ) {
-        this.invoiceIssued = invoiceIssued;
-        this.productCount = productCount;
-        this.product = product;
-        this.itemFullPrice = itemFullPrice;
-        this.position = position;
-    }
-
     public OrderItemDto(
             Long id,
             String invoiceIssued,
             Integer productCount,
             ProductDto product,
-            BigDecimal itemFullPrice,
             Integer position,
-            Long orderId
+            BigDecimal itemFullPrice
     ) {
         this.id = id;
         this.invoiceIssued = invoiceIssued;
         this.productCount = productCount;
         this.product = product;
-        this.itemFullPrice = itemFullPrice;
         this.position = position;
+        this.itemFullPrice = itemFullPrice;
     }
 
     public OrderItemDto(
             Long id,
             String invoiceIssued,
             Integer productCount,
-            Integer position
-            Integer productCount,
+            Integer position,
             BigDecimal currentMargePercent
     ) {
         this.id = id;
@@ -66,6 +50,7 @@ public class OrderItemDto {
         this.position = position;
         this.currentMargePercent = currentMargePercent;
     }
+
 
     public Long getId() {
         return id;

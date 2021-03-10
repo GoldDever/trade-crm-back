@@ -24,9 +24,7 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
             "oi.id, " +
             "oi.invoiceIssued, " +
             "oi.productCount, " +
-            "oi.position) " +
-            "oi.invoiceIssued," +
-            "oi.productCount," +
+            "oi.position, " +
             "oi.currentMargePercent) " +
             "FROM OrderItem oi " +
             "JOIN oi.order o " +
