@@ -45,9 +45,7 @@ public class InitService {
     @PostConstruct
     private void init() {
         initRoleService.initRole();
-        initUserService.initManager();
-        initUserService.initClient();
-        initUserService.initAdmin();
+        initUserService.initUser();
         initManufacturerService.initManufacturer();
         initProductCategoryService.initProductCategory();
         initSupplierService.initSupplier();

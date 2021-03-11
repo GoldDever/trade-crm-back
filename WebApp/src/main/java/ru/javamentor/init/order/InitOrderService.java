@@ -25,7 +25,7 @@ public class InitOrderService {
 
     public void initOrder() {
         Client client1 = clientRepository.findById(9L).get();
-        Manager manager1 = managerRepository.findById(1L).get();
+        Manager manager1 = managerRepository.findByUsername("alexey@mail.ru");
         Order order = new Order();
         order.setIdFromErp("idFromErp");
         order.setClient(client1);
