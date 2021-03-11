@@ -24,7 +24,7 @@ public class InitOrderService {
     }
 
     public void initOrder() {
-        Client client1 = clientRepository.findById(9L).get();
+        Client client1 = clientRepository.findByUsername("artem@mail.ru");
         Manager manager1 = managerRepository.findByUsername("alexey@mail.ru");
         Order order = new Order();
         order.setIdFromErp("idFromErp");
@@ -36,7 +36,7 @@ public class InitOrderService {
         order.setCreateTime(LocalDateTime.parse("2020-12-30T11:03:12"));
         orderRepository.save(order);
 
-        Client client2 = clientRepository.findById(8L).get();
+        Client client2 = clientRepository.findByUsername("ivanov@mail.ru");
         Order order2 = new Order();
         order2.setIdFromErp("idFromErp");
         order2.setClient(client2);

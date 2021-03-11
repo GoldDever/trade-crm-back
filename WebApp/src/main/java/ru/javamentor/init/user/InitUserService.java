@@ -31,49 +31,43 @@ public class InitUserService {
 
 
     public void initUser() {
-        saveAdmin("admin@mail.ru", "password", "Admin", "Admin", "Admin");
-
         saveManager("alexey@mail.ru", "password", "Алексей", "Бабин", "alexey");
+        saveManager("nicolla@mail.ru", "password", "Николай", "Шадрин", "nicolla");
+        saveManager("moscal@mail.ru", "password", "Иван", "Москалец", "mockal");
+        saveManager("efimov@mail.ru", "password", "Антон", "Ефимов", "efimov");
+        saveManager("lev@mail.ru", "password", "Лев", "Николаев", "lev");
+        saveManager("sergey@mail.ru", "password", "Сергей", "Сергеенко", "sergey");
+        saveManager("egor@mail.ru", "password", "Егор", "Демин", "egor");
 
         saveClient("ООО\"Форма\"", "ivanov@mail.ru", "password", "Иван", "Иванов", "ivanov", managerRepository.findByUsername("alexey@mail.ru"));
         saveClient("ООО\"Капитал\"", "artem@mail.com", "password", "Артем", "Артемов", "artem", managerRepository.findByUsername("alexey@mail.ru"));
         saveClient("ООО\"Действие\"", "mail@mail.com", "password", "Андрей", "Андреев", "andrew", managerRepository.findByUsername("alexey@mail.ru"));
 
-        saveManager("nicolla@mail.ru", "password", "Николай", "Шадрин", "nicolla");
-
         saveClient("ООО\"Период\"", "alena@mail.com", "password", "Алена", "Соловьева", "alena", managerRepository.findByUsername("nicolla@mail.ru"));
         saveClient("ООО\"Цель\"", "lena@mail.com", "password", "Лена", "Макашевва", "lena", managerRepository.findByUsername("nicolla@mail.ru"));
         saveClient("ООО\"Развитие\"", "evgeniya@mail.com", "password", "Евгения", "Евгеньева", "evgeniya", managerRepository.findByUsername("nicolla@mail.ru"));
-
-        saveManager("moscal@mail.ru", "password", "Иван", "Москалец", "mockal");
 
         saveClient("ООО\"Интернационал\"", "yurii@mail.com", "password", "Юрий", "Борисов", "yurii", managerRepository.findByUsername("moscal@mail.ru"));
         saveClient("ООО\"Купидон\"", "boris@mail.com", "password", "Борис", "Евгеньев", "boris", managerRepository.findByUsername("moscal@mail.ru"));
         saveClient("ООО\"Берсерк\"", "pavel@mail.com", "password", "Павел", "Дунин", "pavel", managerRepository.findByUsername("moscal@mail.ru"));
 
-        saveManager("efimov@mail.ru", "password", "Антон", "Ефимов", "efimov");
-
         saveClient("ООО\"Платон\"", "igor@mail.com", "password", "Игорь", "Черний", "igor", managerRepository.findByUsername("efimov@mail.ru"));
         saveClient("ООО\"Юпитер\"", "alex@mail.com", "password", "Александр", "Болотный", "alex", managerRepository.findByUsername("efimov@mail.ru"));
         saveClient("ООО\"Авто Моторс\"", "matvey@mail.com", "password", "Матвей", "Хрущев", "matvey", managerRepository.findByUsername("efimov@mail.ru"));
-
-        saveManager("lev@mail.ru", "password", "Лев", "Николаев", "lev");
 
         saveClient("ООО\"Индекс\"", "anton@mail.com", "password", "Антон", "Чехов", "anton", managerRepository.findByUsername("lev@mail.ru"));
         saveClient("ООО\"Линия Жизни\"", "dmitriy@mail.com", "password", "Дмитрий", "Еремин", "dmitriy", managerRepository.findByUsername("lev@mail.ru"));
         saveClient("ООО\"Инфраструктура\"", "leonid@mail.com", "password", "Леонид", "Макаров", "leonid", managerRepository.findByUsername("lev@mail.ru"));
 
-        saveManager("sergey@mail.ru", "password", "Сергей", "Сергеенко", "sergey");
-
         saveClient("ООО\"Завтрашний День\"", "arina@mail.com", "password", "Арина", "Печенкина", "arina", managerRepository.findByUsername("sergey@mail.ru"));
         saveClient("ООО\"Форма\"", "mikh@mail.com", "password", "Михаил", "Лазарев", "mikh", managerRepository.findByUsername("sergey@mail.ru"));
         saveClient("ООО\"Донской\"", "nikita@mail.com", "password", "Никита", "Абрамов", "nikita", managerRepository.findByUsername("sergey@mail.ru"));
 
-        saveManager("egor@mail.ru", "password", "Егор", "Демин", "egor");
-
         saveClient("ООО\"Афродита\"", "stepan@mail.com", "password", "Степан", "Сутулин", "stepan", managerRepository.findByUsername("egor@mail.ru"));
         saveClient("ООО\"Россия\"", "polina@mail.com", "password", "Полина", "Латкина", "polina", managerRepository.findByUsername("egor@mail.ru"));
         saveClient("ООО\"Азия\"", "nina@mail.com", "password", "Нина", "Юдина", "nina", managerRepository.findByUsername("egor@mail.ru"));
+
+        saveAdmin("admin@mail.ru", "password", "Admin", "Admin", "Admin");
     }
 
     private void saveAdmin(String username, String password, String firstName, String lastName, String patronymic) {
