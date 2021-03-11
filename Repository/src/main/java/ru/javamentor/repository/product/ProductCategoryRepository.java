@@ -10,8 +10,11 @@ public interface ProductCategoryRepository extends JpaRepository<ProductCategory
     @Query("SELECT new ru.javamentor.dto.product.ProductCategoryDto(" +
             "p.productCategory.id," +
             "p.productCategory.categoryName," +
+            "p.productCategory.mainCategory," +
             "p.productCategory.mainProductCategory.id)" +
             "FROM Product p " +
             "WHERE p.id = :productId")
     ProductCategoryDto findProductCategoryByProductId(@Param("productId") Long ProductId);
+
+    ProductCategory findProductCategoryByCategoryName(String categoryName);
 }
