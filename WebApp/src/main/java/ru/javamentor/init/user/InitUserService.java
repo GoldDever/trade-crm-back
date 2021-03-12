@@ -41,7 +41,7 @@ public class InitUserService {
 
         saveClient("ООО\"Форма\"", "ivanov@mail.ru", "password", "Иван", "Иванов", "ivanov", managerRepository.findByUsername("alexey@mail.ru"));
         saveClient("ООО\"Капитал\"", "artem@mail.com", "password", "Артем", "Артемов", "artem", managerRepository.findByUsername("alexey@mail.ru"));
-        saveClient("ООО\"Действие\"", "mail@mail.com", "password", "Андрей", "Андреев", "andrew", managerRepository.findByUsername("alexey@mail.ru"));
+        saveClient("ООО\"Действие\"", "andrew@mail.com", "password", "Андрей", "Андреев", "andrew", managerRepository.findByUsername("alexey@mail.ru"));
 
         saveClient("ООО\"Период\"", "alena@mail.com", "password", "Алена", "Соловьева", "alena", managerRepository.findByUsername("nicolla@mail.ru"));
         saveClient("ООО\"Цель\"", "lena@mail.com", "password", "Лена", "Макашевва", "lena", managerRepository.findByUsername("nicolla@mail.ru"));
