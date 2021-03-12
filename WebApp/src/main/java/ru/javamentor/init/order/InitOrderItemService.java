@@ -29,13 +29,14 @@ public class InitOrderItemService {
         createOrderItem("invoiceIssued", 2, 1L, 1L, BigDecimal.valueOf(18.0));
     }
 
-    private void createOrderItem(String invoiceIssued, int productCount, long productId, long orderId, BigDecimal currentMargePercent) {
+    private void createOrderItem(String invoiceIssued, int productCount, long productId, long orderId, BigDecimal currentMargePercent, int position) {
         OrderItem orderItem = new OrderItem();
         orderItem.setInvoiceIssued(invoiceIssued);
         orderItem.setProductCount(productCount);
         orderItem.setProduct(productRepository.findById(productId).get());
         orderItem.setOrder(orderRepository.findById(orderId).get());
         orderItem.setCurrentMargePercent(currentMargePercent);
+        orderItem1.setPosition(position);
         orderItemRepository.save(orderItem);
     }
 }

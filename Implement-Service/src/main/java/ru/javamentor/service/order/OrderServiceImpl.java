@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
      * сохраняет новый OrderApprove
      *
      * @param orderApproveDto - ДТО из которого получаем новый флаг isApprove
-     * @param orderId - id по которому находим Order и изменяем у него флаг isApprove
+     * @param orderId         - id по которому находим Order и изменяем у него флаг isApprove
      */
     @Override
     public void updateApproveStatus(OrderApproveDto orderApproveDto, Long orderId) {
@@ -87,7 +87,7 @@ public class OrderServiceImpl implements OrderService {
      * Метод сохраняет новый Order
      *
      * @param clientId - id клиента
-     * @param user - user из principal для получения manager
+     * @param user     - user из principal для получения manager
      */
     @Transactional
     @Override
