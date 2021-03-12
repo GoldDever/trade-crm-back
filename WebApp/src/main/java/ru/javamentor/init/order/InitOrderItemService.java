@@ -36,7 +36,7 @@ public class InitOrderItemService {
         orderItem.setProduct(productRepository.findById(productId).get());
         orderItem.setOrder(orderRepository.findById(orderId).get());
         orderItem.setCurrentMargePercent(currentMargePercent);
-        orderItem1.setPosition(position);
+        orderItem.setPosition(position);
         orderItemRepository.save(orderItem);
     }
 }
