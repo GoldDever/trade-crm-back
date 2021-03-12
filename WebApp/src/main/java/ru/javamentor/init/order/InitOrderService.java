@@ -26,7 +26,7 @@ public class InitOrderService {
     public void initOrder() {
 
         Manager manager = managerRepository.findByUsername("alexey@mail.ru");
-        Client client1 = clientRepository.findByUsername("artem@mail.ru");
+        Client client1 = clientRepository.findByUsername("artem@mail.com");
         createOrder(manager, client1, "2020-12-30T11:03:12");
 
         Client client2 = clientRepository.findByUsername("ivanov@mail.ru");
