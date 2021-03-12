@@ -34,10 +34,13 @@ public class OrderItemServiceImplTest {
     @Test
     public void saveOrderItem() {
         OrderItem orderItem2 = new OrderItem(
-                10L, "InvoiceIssued",
+                10L,
+                "InvoiceIssued",
                 12,
                 product,
-                order, BigDecimal.ONE
+                order,
+                1,
+                BigDecimal.ONE
         );
         when(orderItemRepository.save(orderItem2)).thenReturn(orderItem2);
         assertEquals(orderItem2, orderItemRepository.save(orderItem2));

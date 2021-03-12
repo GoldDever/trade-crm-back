@@ -27,6 +27,7 @@ public class InitOrderItemService {
         orderItem1.setProductCount(10);
         orderItem1.setProduct(productRepository.findById(1L).get());
         orderItem1.setOrder(orderRepository.findById(1L).get());
+        orderItem1.setPosition(1);
         orderItemRepository.save(orderItem1);
 
         OrderItem orderItem2 = new OrderItem();
@@ -34,6 +35,7 @@ public class InitOrderItemService {
         orderItem2.setProductCount(2);
         orderItem2.setProduct(productRepository.findById(1L).get());
         orderItem2.setOrder(orderRepository.findById(1L).get());
+        orderItem2.setPosition(2);
         orderItemRepository.save(orderItem2);
     }
 }
