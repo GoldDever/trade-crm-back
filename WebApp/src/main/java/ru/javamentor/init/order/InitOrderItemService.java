@@ -24,9 +24,9 @@ public class InitOrderItemService {
     }
 
     public void initOrderItem() {
-        createOrderItem("invoiceIssued", 10, 1L, 1L, BigDecimal.valueOf(18.0));
+        createOrderItem("invoiceIssued", 10, 1L, 1L, BigDecimal.valueOf(18.0), 1);
 
-        createOrderItem("invoiceIssued", 2, 1L, 1L, BigDecimal.valueOf(18.0));
+        createOrderItem("invoiceIssued", 2, 1L, 1L, BigDecimal.valueOf(18.0) , 2);
     }
 
     private void createOrderItem(String invoiceIssued, int productCount, long productId, long orderId, BigDecimal currentMargePercent, int position) {
