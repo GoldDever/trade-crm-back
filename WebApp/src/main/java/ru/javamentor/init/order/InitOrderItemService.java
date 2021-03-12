@@ -22,18 +22,17 @@ public class InitOrderItemService {
     }
 
      public void initOrderItem() {
-        OrderItem orderItem1 = new OrderItem();
-        orderItem1.setInvoiceIssued("invoiceIssued");
-        orderItem1.setProductCount(10);
-        orderItem1.setProduct(productRepository.findById(1L).get());
-        orderItem1.setOrder(orderRepository.findById(1L).get());
-        orderItemRepository.save(orderItem1);
+         createOrderItem("invoiceIssued", 10, 1L, 1L);
 
-        OrderItem orderItem2 = new OrderItem();
-        orderItem2.setInvoiceIssued("invoiceIssued");
-        orderItem2.setProductCount(2);
-        orderItem2.setProduct(productRepository.findById(1L).get());
-        orderItem2.setOrder(orderRepository.findById(1L).get());
-        orderItemRepository.save(orderItem2);
+         createOrderItem("invoiceIssued", 2, 1L, 1L);
+     }
+
+    private void createOrderItem(String invoiceIssued, int productCount, long productId, long orderId) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setInvoiceIssued(invoiceIssued);
+        orderItem.setProductCount(productCount);
+        orderItem.setProduct(productRepository.findById(productId).get());
+        orderItem.setOrder(orderRepository.findById(orderId).get());
+        orderItemRepository.save(orderItem);
     }
 }

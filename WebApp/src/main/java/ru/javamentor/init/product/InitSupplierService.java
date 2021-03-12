@@ -14,17 +14,14 @@ public class InitSupplierService {
     }
 
     public void initSupplier() {
-        Supplier supplier1 = new Supplier();
-        supplier1.setName("Полигон");
-        supplierRepository.save(supplier1);
+        createSupplier("Полигон");
+        createSupplier("Партком");
+        createSupplier("Бригадир");
+    }
 
-        Supplier supplier2 = new Supplier();
-        supplier2.setName("Партком");
-        supplierRepository.save(supplier2);
-
-        Supplier supplier3 = new Supplier();
-        supplier3.setName("Бригадир");
-        supplierRepository.save(supplier3);
-
+    private void createSupplier(String name) {
+        Supplier supplier = new Supplier();
+        supplier.setName(name);
+        supplierRepository.save(supplier);
     }
 }

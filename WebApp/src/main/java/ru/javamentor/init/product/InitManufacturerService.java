@@ -14,14 +14,14 @@ public class InitManufacturerService {
     }
 
     public void initManufacturer() {
-        Manufacturer manufacturer1 = new Manufacturer();
-        manufacturer1.setManufacturerName("Карго технологии");
-        manufacturer1.setIdFromErp("123123123123");
-        manufacturerRepository.save(manufacturer1);
+        createManufacturer("Карго технологии");
 
-        Manufacturer manufacturer2 = new Manufacturer();
-        manufacturer2.setManufacturerName("ООО Азимут");
-        manufacturer2.setIdFromErp("456456456456");
-        manufacturerRepository.save(manufacturer2);
+        createManufacturer("ООО Азимут");
+    }
+
+    private void createManufacturer(String manufacturerName) {
+        Manufacturer manufacturer = new Manufacturer();
+        manufacturer.setManufacturerName(manufacturerName);
+        manufacturerRepository.save(manufacturer);
     }
 }
