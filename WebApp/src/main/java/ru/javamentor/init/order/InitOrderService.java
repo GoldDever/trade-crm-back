@@ -24,27 +24,23 @@ public class InitOrderService {
     }
 
     public void initOrder() {
-        Client client1 = clientRepository.findById(9L).get();
-        Manager manager1 = managerRepository.findById(1L).get();
+
+        Manager manager = managerRepository.findByUsername("alexey@mail.ru");
+        Client client1 = clientRepository.findByUsername("artem@mail.com");
+        createOrder(manager, client1, "2020-12-30T11:03:12");
+
+        Client client2 = clientRepository.findByUsername("ivanov@mail.ru");
+        createOrder(manager, client2, "2020-11-30T11:03:12");
+    }
+
+    private void createOrder(Manager manager, Client client, String dateTime) {
         Order order = new Order();
-        order.setIdFromErp("idFromErp");
-        order.setClient(client1);
-        order.setManager(manager1);
+        order.setClient(client);
+        order.setManager(manager);
         order.setApprove(true);
         order.setPaid(true);
         order.setShipped(true);
-        order.setCreateTime(LocalDateTime.parse("2020-12-30T11:03:12"));
+        order.setCreateTime(LocalDateTime.parse(dateTime));
         orderRepository.save(order);
-
-        Client client2 = clientRepository.findById(8L).get();
-        Order order2 = new Order();
-        order2.setIdFromErp("idFromErp");
-        order2.setClient(client2);
-        order2.setManager(manager1);
-        order2.setApprove(true);
-        order2.setPaid(true);
-        order2.setShipped(true);
-        order2.setCreateTime(LocalDateTime.parse("2020-11-30T11:03:12"));
-        orderRepository.save(order2);
     }
 }

@@ -30,341 +30,80 @@ public class InitUserService {
     }
 
 
-    public void initAdmin() {
-        User admin = new User();
-        admin.setFirstName("Admin");
-        admin.setLastName("Admin");
-        admin.setPatronymic("Admin");
-        admin.setUsername("admin@mail.ru");
-        admin.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles = Set.of(roleRepository.findByRoleName("ADMIN"));
-        admin.setRoles(roles);
-        userRepository.save(admin);
+    public void initUser() {
+        saveManager("alexey@mail.ru", "password", "Алексей", "Бабин", "alexey");
+        saveManager("nicolla@mail.ru", "password", "Николай", "Шадрин", "nicolla");
+        saveManager("moscal@mail.ru", "password", "Иван", "Москалец", "mockal");
+        saveManager("efimov@mail.ru", "password", "Антон", "Ефимов", "efimov");
+        saveManager("lev@mail.ru", "password", "Лев", "Николаев", "lev");
+        saveManager("sergey@mail.ru", "password", "Сергей", "Сергеенко", "sergey");
+        saveManager("egor@mail.ru", "password", "Егор", "Демин", "egor");
+
+        saveClient("ООО\"Форма\"", "ivanov@mail.ru", "password", "Иван", "Иванов", "ivanov", managerRepository.findByUsername("alexey@mail.ru"));
+        saveClient("ООО\"Капитал\"", "artem@mail.com", "password", "Артем", "Артемов", "artem", managerRepository.findByUsername("alexey@mail.ru"));
+        saveClient("ООО\"Действие\"", "andrew@mail.com", "password", "Андрей", "Андреев", "andrew", managerRepository.findByUsername("alexey@mail.ru"));
+
+        saveClient("ООО\"Период\"", "alena@mail.com", "password", "Алена", "Соловьева", "alena", managerRepository.findByUsername("nicolla@mail.ru"));
+        saveClient("ООО\"Цель\"", "lena@mail.com", "password", "Лена", "Макашевва", "lena", managerRepository.findByUsername("nicolla@mail.ru"));
+        saveClient("ООО\"Развитие\"", "evgeniya@mail.com", "password", "Евгения", "Евгеньева", "evgeniya", managerRepository.findByUsername("nicolla@mail.ru"));
+
+        saveClient("ООО\"Интернационал\"", "yurii@mail.com", "password", "Юрий", "Борисов", "yurii", managerRepository.findByUsername("moscal@mail.ru"));
+        saveClient("ООО\"Купидон\"", "boris@mail.com", "password", "Борис", "Евгеньев", "boris", managerRepository.findByUsername("moscal@mail.ru"));
+        saveClient("ООО\"Берсерк\"", "pavel@mail.com", "password", "Павел", "Дунин", "pavel", managerRepository.findByUsername("moscal@mail.ru"));
+
+        saveClient("ООО\"Платон\"", "igor@mail.com", "password", "Игорь", "Черний", "igor", managerRepository.findByUsername("efimov@mail.ru"));
+        saveClient("ООО\"Юпитер\"", "alex@mail.com", "password", "Александр", "Болотный", "alex", managerRepository.findByUsername("efimov@mail.ru"));
+        saveClient("ООО\"Авто Моторс\"", "matvey@mail.com", "password", "Матвей", "Хрущев", "matvey", managerRepository.findByUsername("efimov@mail.ru"));
+
+        saveClient("ООО\"Индекс\"", "anton@mail.com", "password", "Антон", "Чехов", "anton", managerRepository.findByUsername("lev@mail.ru"));
+        saveClient("ООО\"Линия Жизни\"", "dmitriy@mail.com", "password", "Дмитрий", "Еремин", "dmitriy", managerRepository.findByUsername("lev@mail.ru"));
+        saveClient("ООО\"Инфраструктура\"", "leonid@mail.com", "password", "Леонид", "Макаров", "leonid", managerRepository.findByUsername("lev@mail.ru"));
+
+        saveClient("ООО\"Завтрашний День\"", "arina@mail.com", "password", "Арина", "Печенкина", "arina", managerRepository.findByUsername("sergey@mail.ru"));
+        saveClient("ООО\"Форма\"", "mikh@mail.com", "password", "Михаил", "Лазарев", "mikh", managerRepository.findByUsername("sergey@mail.ru"));
+        saveClient("ООО\"Донской\"", "nikita@mail.com", "password", "Никита", "Абрамов", "nikita", managerRepository.findByUsername("sergey@mail.ru"));
+
+        saveClient("ООО\"Афродита\"", "stepan@mail.com", "password", "Степан", "Сутулин", "stepan", managerRepository.findByUsername("egor@mail.ru"));
+        saveClient("ООО\"Россия\"", "polina@mail.com", "password", "Полина", "Латкина", "polina", managerRepository.findByUsername("egor@mail.ru"));
+        saveClient("ООО\"Азия\"", "nina@mail.com", "password", "Нина", "Юдина", "nina", managerRepository.findByUsername("egor@mail.ru"));
+
+        saveAdmin("admin@mail.ru", "password", "Admin", "Admin", "Admin");
     }
 
-    public void initClient() {
-        Client client1 = new Client("ООО\"Форма\"");
-        client1.setFirstName("Иван");
-        client1.setLastName("Иванов");
-        client1.setPatronymic("ivanov");
-        client1.setUsername("ivanov@mail.ru");
-        client1.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles1 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client1.setRoles(roles1);
-        Manager manager = managerRepository.findById(1L).get();
-        client1.setManager(manager);
-        clientRepository.save(client1);
-
-        Client client2 = new Client("ООО\"Капитал\"");
-        client2.setFirstName("Артем");
-        client2.setLastName("Артемов");
-        client2.setPatronymic("artem");
-        client2.setUsername("artem@mail.com");
-        client2.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles2 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client2.setRoles(roles2);
-        Manager manager2 = managerRepository.findById(1L).get();
-        client2.setManager(manager2);
-        clientRepository.save(client2);
-
-        Client client3 = new Client("ООО\"Действие\"");
-        client3.setFirstName("Андрей");
-        client3.setLastName("Андреев");
-        client3.setPatronymic("andrew");
-        client3.setUsername("andrew@mail.com");
-        client3.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles3 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client3.setRoles(roles3);
-        Manager manager3 = managerRepository.findById(1L).get();
-        client3.setManager(manager3);
-        clientRepository.save(client3);
-
-        Client client4 = new Client("ООО\"Период\"");
-        client4.setFirstName("Алена");
-        client4.setLastName("Соловьева");
-        client4.setPatronymic("alena");
-        client4.setUsername("alena@mail.com");
-        client4.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles4 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client4.setRoles(roles4);
-        Manager manager4 = managerRepository.findById(2L).get();
-        client4.setManager(manager4);
-        clientRepository.save(client4);
-
-        Client client5 = new Client("ООО\"Цель\"");
-        client5.setFirstName("Лена");
-        client5.setLastName("Макашевва");
-        client5.setPatronymic("lena");
-        client5.setUsername("lena@mail.com");
-        client5.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles5 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client5.setRoles(roles5);
-        Manager manager5 = managerRepository.findById(2L).get();
-        client5.setManager(manager5);
-        clientRepository.save(client5);
-
-        Client client6 = new Client("ООО\"Развитие\"");
-        client6.setFirstName("Евгения");
-        client6.setLastName("Евгеньева");
-        client6.setPatronymic("evgeniya");
-        client6.setUsername("evgeniya@mail.com");
-        client6.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles6 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client6.setRoles(roles6);
-        Manager manager6 = managerRepository.findById(2L).get();
-        client6.setManager(manager6);
-        clientRepository.save(client6);
-
-        Client client7 = new Client("ООО\"Интернационал\"");
-        client7.setFirstName("Юрий");
-        client7.setLastName("Борисов");
-        client7.setPatronymic("yurii");
-        client7.setUsername("yurii@mail.com");
-        client7.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles7 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client7.setRoles(roles7);
-        Manager manager7 = managerRepository.findById(3L).get();
-        client7.setManager(manager7);
-        clientRepository.save(client7);
-
-        Client client8 = new Client("ООО\"Купидон\"");
-        client8.setFirstName("Борис");
-        client8.setLastName("Евгеньев");
-        client8.setPatronymic("boris");
-        client8.setUsername("boris@mail.com");
-        client8.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles8 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client8.setRoles(roles8);
-        Manager manager8 = managerRepository.findById(3L).get();
-        client8.setManager(manager8);
-        clientRepository.save(client8);
-
-        Client client9 = new Client("ООО\"Берсерк\"");
-        client9.setFirstName("Павел");
-        client9.setLastName("Дунин");
-        client9.setPatronymic("pavel");
-        client9.setUsername("pavel@mail.com");
-        client9.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles9 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client9.setRoles(roles9);
-        Manager manager9 = managerRepository.findById(3L).get();
-        client9.setManager(manager9);
-        clientRepository.save(client9);
-
-        Client client10 = new Client("ООО\"Платон\"");
-        client10.setFirstName("Игорь");
-        client10.setLastName("Черний");
-        client10.setPatronymic("igor");
-        client10.setUsername("igor@mail.com");
-        client10.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles10 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client10.setRoles(roles10);
-        Manager manager10 = managerRepository.findById(4L).get();
-        client10.setManager(manager10);
-        clientRepository.save(client10);
-
-        Client client11 = new Client("ООО\"Юпитер\"");
-        client11.setFirstName("Александр");
-        client11.setLastName("Болотный");
-        client11.setPatronymic("alex");
-        client11.setUsername("alex@mail.com");
-        client11.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles11 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client11.setRoles(roles11);
-        Manager manager11 = managerRepository.findById(4L).get();
-        client11.setManager(manager11);
-        clientRepository.save(client11);
-
-        Client client12 = new Client("ООО\"Авто Моторс\"");
-        client12.setFirstName("Матвей");
-        client12.setLastName("Хрущев");
-        client12.setPatronymic("matvey");
-        client12.setUsername("matvey@mail.com");
-        client12.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles12 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client12.setRoles(roles12);
-        Manager manager12 = managerRepository.findById(4L).get();
-        client12.setManager(manager12);
-        clientRepository.save(client12);
-
-        Client client13 = new Client("ООО\"Индекс\"");
-        client13.setFirstName("Антон");
-        client13.setLastName("Чехов");
-        client13.setPatronymic("anton");
-        client13.setUsername("anton@mail.com");
-        client13.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles13 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client13.setRoles(roles13);
-        Manager manager13 = managerRepository.findById(5L).get();
-        client13.setManager(manager13);
-        clientRepository.save(client13);
-
-        Client client14 = new Client("ООО\"Линия Жизни\"");
-        client14.setFirstName("Дмитрий");
-        client14.setLastName("Еремин");
-        client14.setPatronymic("dmitriy");
-        client14.setUsername("dmitriy@mail.com");
-        client14.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles14 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client14.setRoles(roles14);
-        Manager manager14 = managerRepository.findById(5L).get();
-        client14.setManager(manager14);
-        clientRepository.save(client14);
-
-        Client client15 = new Client("ООО\"Инфраструктура\"");
-        client15.setFirstName("Леонид");
-        client15.setLastName("Макаров");
-        client15.setPatronymic("leonid");
-        client15.setUsername("leonid@mail.com");
-        client15.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles15 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client15.setRoles(roles15);
-        Manager manager15 = managerRepository.findById(5L).get();
-        client15.setManager(manager15);
-        clientRepository.save(client15);
-
-        Client client16 = new Client("ООО\"Завтрашний День\"");
-        client16.setFirstName("Арина");
-        client16.setLastName("Печенкина");
-        client16.setPatronymic("arina");
-        client16.setUsername("arina@mail.com");
-        client16.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles16 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client16.setRoles(roles16);
-        Manager manager16 = managerRepository.findById(6L).get();
-        client16.setManager(manager16);
-        clientRepository.save(client16);
-
-        Client client17 = new Client("ООО\"Форма\"");
-        client17.setFirstName("Михаил");
-        client17.setLastName("Лазарев");
-        client17.setPatronymic("mikh");
-        client17.setUsername("mikh@mail.com");
-        client17.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles17 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client17.setRoles(roles17);
-        Manager manager17 = managerRepository.findById(6L).get();
-        client17.setManager(manager17);
-        clientRepository.save(client17);
-
-        Client client18 = new Client("ООО\"Донской\"");
-        client18.setFirstName("Никита");
-        client18.setLastName("Абрамов");
-        client18.setPatronymic("nikita");
-        client18.setUsername("nikita@mail.com");
-        client18.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles18 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client18.setRoles(roles18);
-        Manager manager18 = managerRepository.findById(6L).get();
-        client18.setManager(manager18);
-        clientRepository.save(client18);
-
-        Client client19 = new Client("ООО\"Афродита\"");
-        client19.setFirstName("Степан");
-        client19.setLastName("Сутулин");
-        client19.setPatronymic("stepan");
-        client19.setUsername("stepan@mail.com");
-        client19.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles19 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client19.setRoles(roles19);
-        Manager manager19 = managerRepository.findById(7L).get();
-        client19.setManager(manager19);
-        clientRepository.save(client19);
-
-        Client client20 = new Client("ООО\"Россия\"");
-        client20.setFirstName("Полина");
-        client20.setLastName("Латкина");
-        client20.setPatronymic("polina");
-        client20.setUsername("polina@mail.com");
-        client20.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles20 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client20.setRoles(roles20);
-        Manager manager20 = managerRepository.findById(7L).get();
-        client20.setManager(manager20);
-        clientRepository.save(client20);
-
-        Client client21 = new Client("ООО\"Азия\"");
-        client21.setFirstName("Нина");
-        client21.setLastName("Юдина");
-        client21.setPatronymic("nina");
-        client21.setUsername("nina@mail.com");
-        client21.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles21 = Set.of(roleRepository.findByRoleName("CLIENT"));
-        client21.setRoles(roles21);
-        Manager manager21 = managerRepository.findById(7L).get();
-        client21.setManager(manager21);
-        clientRepository.save(client21);
+    private void saveAdmin(String username, String password, String firstName, String lastName, String patronymic) {
+        Set<Role> adminRoles = Set.of(roleRepository.findByRoleName("ADMIN"));
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPatronymic(patronymic);
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRoles(adminRoles);
+        userRepository.save(user);
     }
 
-    public void initManager() {
-        Manager manager1 = new Manager();
-        manager1.setFirstName("Алексей");
-        manager1.setLastName("Бабин");
-        manager1.setPatronymic("alexey");
-        manager1.setUsername("alexey@mail.ru");
-        manager1.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles1 = Set.of(roleRepository.findByRoleName("MANAGER"));
-        manager1.setRoles(roles1);
-        managerRepository.save(manager1);
+    private void saveManager(String username, String password, String firstName, String lastName, String patronymic) {
+        Set<Role> managerRoles = Set.of(roleRepository.findByRoleName("MANAGER"));
+        Manager manager = new Manager();
+        manager.setFirstName(firstName);
+        manager.setLastName(lastName);
+        manager.setPatronymic(patronymic);
+        manager.setUsername(username);
+        manager.setPassword(passwordEncoder.encode(password));
+        manager.setRoles(managerRoles);
+        managerRepository.save(manager);
+    }
 
-        Manager manager2 = new Manager();
-        manager2.setFirstName("Николай");
-        manager2.setLastName("Шадрин");
-        manager2.setPatronymic("nicolla");
-        manager2.setUsername("nicolla@mail.ru");
-        manager2.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles2 = Set.of(roleRepository.findByRoleName("MANAGER"));
-        manager2.setRoles(roles2);
-        managerRepository.save(manager2);
-
-        Manager manager3 = new Manager();
-        manager3.setFirstName("Иван");
-        manager3.setLastName("Москалец");
-        manager3.setPatronymic("mockal");
-        manager3.setUsername("moscal@mail.ru");
-        manager3.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles3 = Set.of(roleRepository.findByRoleName("MANAGER"));
-        manager3.setRoles(roles3);
-        managerRepository.save(manager3);
-
-        Manager manager4 = new Manager();
-        manager4.setFirstName("Антон");
-        manager4.setLastName("Ефимов");
-        manager4.setPatronymic("efimov");
-        manager4.setUsername("efimov@mail.ru");
-        manager4.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles4 = Set.of(roleRepository.findByRoleName("MANAGER"));
-        manager4.setRoles(roles4);
-        managerRepository.save(manager4);
-
-        Manager manager5 = new Manager();
-        manager5.setFirstName("Лев");
-        manager5.setLastName("Николаев");
-        manager5.setPatronymic("lev");
-        manager5.setUsername("lev@mail.ru");
-        manager5.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles5 = Set.of(roleRepository.findByRoleName("MANAGER"));
-        manager5.setRoles(roles5);
-        managerRepository.save(manager5);
-
-        Manager manager6 = new Manager();
-        manager6.setFirstName("Сергей");
-        manager6.setLastName("Сергеенко");
-        manager6.setPatronymic("sergey");
-        manager6.setUsername("sergey@mail.ru");
-        manager6.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles6 = Set.of(roleRepository.findByRoleName("MANAGER"));
-        manager6.setRoles(roles6);
-        managerRepository.save(manager6);
-
-        Manager manager7 = new Manager();
-        manager7.setFirstName("Егор");
-        manager7.setLastName("Демин");
-        manager7.setPatronymic("egor");
-        manager7.setUsername("egor@mail.ru");
-        manager7.setPassword(passwordEncoder.encode("password"));
-        Set<Role> roles7 = Set.of(roleRepository.findByRoleName("MANAGER"));
-        manager7.setRoles(roles7);
-        managerRepository.save(manager7);
+    private void saveClient(String clientName, String username, String password, String firstName, String lastName, String patronymic, Manager manager) {
+        Set<Role> clientRoles = Set.of(roleRepository.findByRoleName("CLIENT"));
+        Client client = new Client(clientName);
+        client.setFirstName(firstName);
+        client.setLastName(lastName);
+        client.setPatronymic(patronymic);
+        client.setUsername(username);
+        client.setPassword(passwordEncoder.encode(password));
+        client.setRoles(clientRoles);
+        client.setManager(manager);
+        clientRepository.save(client);
     }
 }

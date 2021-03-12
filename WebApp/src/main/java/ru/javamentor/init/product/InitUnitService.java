@@ -21,6 +21,5 @@ public class InitUnitService {
         Unit unit2 = new Unit();
         unit2.setUnitName("шт");
         unitRepository.save(unit2);
-
     }
 }

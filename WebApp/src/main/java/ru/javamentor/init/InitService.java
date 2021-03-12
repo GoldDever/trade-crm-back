@@ -1,6 +1,7 @@
 package ru.javamentor.init;
 
 import org.springframework.stereotype.Component;
+import ru.javamentor.init.order.InitOrderApproveService;
 import ru.javamentor.init.order.InitOrderItemService;
 import ru.javamentor.init.order.InitOrderService;
 import ru.javamentor.init.product.InitManufacturerService;
@@ -28,9 +29,10 @@ public class InitService {
     private final InitProductService initProductService;
     private final InitRoleService initRoleService;
     private final InitUserService initUserService;
+    private final InitOrderApproveService initOrderApproveService;
 
 
-    public InitService(InitOrderService initOrderService, InitOrderItemService initOrderItemService, InitManufacturerService initManufacturerService, InitUnitService initUnitService, InitReserveProductService initReserveProductService, InitSupplierService initSupplierService, InitProductCategoryService initProductCategoryService, InitProductService initProductService, InitRoleService initRoleService, InitUserService initUserService) {
+    public InitService(InitOrderService initOrderService, InitOrderItemService initOrderItemService, InitManufacturerService initManufacturerService, InitUnitService initUnitService, InitReserveProductService initReserveProductService, InitSupplierService initSupplierService, InitProductCategoryService initProductCategoryService, InitProductService initProductService, InitRoleService initRoleService, InitUserService initUserService, InitOrderApproveService initOrderApproveService) {
         this.initOrderService = initOrderService;
         this.initOrderItemService = initOrderItemService;
         this.initManufacturerService = initManufacturerService;
@@ -41,13 +43,12 @@ public class InitService {
         this.initProductService = initProductService;
         this.initRoleService = initRoleService;
         this.initUserService = initUserService;
+        this.initOrderApproveService = initOrderApproveService;
     }
     @PostConstruct
     private void init() {
         initRoleService.initRole();
-        initUserService.initManager();
-        initUserService.initClient();
-        initUserService.initAdmin();
+        initUserService.initUser();
         initManufacturerService.initManufacturer();
         initProductCategoryService.initProductCategory();
         initSupplierService.initSupplier();
@@ -56,6 +57,7 @@ public class InitService {
         initOrderService.initOrder();
         initOrderItemService.initOrderItem();
         initReserveProductService.initReserveProduct();
+        initOrderApproveService.initOrderApprove();
     }
 
 

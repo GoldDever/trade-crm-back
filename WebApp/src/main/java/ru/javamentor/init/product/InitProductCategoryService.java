@@ -39,9 +39,7 @@ public class InitProductCategoryService {
         createProductCategory("Карбонад", false, productCategoryRepository.findProductCategoryByCategoryName("Колбасы, сосиски деликатесы"));
     }
 
-    private void createProductCategory(String categoryName,
-                                       Boolean mainCategory,
-                                       ProductCategory mainProductCategory) {
+    private void createProductCategory(String categoryName, Boolean mainCategory, ProductCategory mainProductCategory) {
         ProductCategory productCategory = new ProductCategory();
         productCategory.setCategoryName(categoryName);
         productCategory.setMainCategory(mainCategory);

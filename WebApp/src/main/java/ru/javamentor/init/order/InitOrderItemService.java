@@ -6,6 +6,8 @@ import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
 
+import java.math.BigDecimal;
+
 @Component
 public class InitOrderItemService {
 
@@ -21,21 +23,20 @@ public class InitOrderItemService {
         this.orderRepository = orderRepository;
     }
 
-     public void initOrderItem() {
-        OrderItem orderItem1 = new OrderItem();
-        orderItem1.setInvoiceIssued("invoiceIssued");
-        orderItem1.setProductCount(10);
-        orderItem1.setProduct(productRepository.findById(1L).get());
-        orderItem1.setOrder(orderRepository.findById(1L).get());
-        orderItem1.setPosition(1);
-        orderItemRepository.save(orderItem1);
+    public void initOrderItem() {
+        createOrderItem("invoiceIssued", 10, 1L, 1L, BigDecimal.valueOf(18.0), 1);
 
-        OrderItem orderItem2 = new OrderItem();
-        orderItem2.setInvoiceIssued("invoiceIssued");
-        orderItem2.setProductCount(2);
-        orderItem2.setProduct(productRepository.findById(1L).get());
-        orderItem2.setOrder(orderRepository.findById(1L).get());
-        orderItem2.setPosition(2);
-        orderItemRepository.save(orderItem2);
+        createOrderItem("invoiceIssued", 2, 1L, 1L, BigDecimal.valueOf(18.0) , 2);
+    }
+
+    private void createOrderItem(String invoiceIssued, int productCount, long productId, long orderId, BigDecimal currentMargePercent, int position) {
+        OrderItem orderItem = new OrderItem();
+        orderItem.setInvoiceIssued(invoiceIssued);
+        orderItem.setProductCount(productCount);
+        orderItem.setProduct(productRepository.findById(productId).get());
+        orderItem.setOrder(orderRepository.findById(orderId).get());
+        orderItem.setCurrentMargePercent(currentMargePercent);
+        orderItem1.setPosition(position);
+        orderItemRepository.save(orderItem);
     }
 }
