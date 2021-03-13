@@ -7,9 +7,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.javamentor.dto.product.ReserveProductDto;
 import ru.javamentor.service.order.OrderService;
 import ru.javamentor.service.product.ProductService;
 import ru.javamentor.service.product.ReserveProductService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/manager/productReserve")
@@ -25,10 +29,28 @@ public class ManagerProductReserveRestController {
         this.orderService = orderService;
     }
 
+    /**
+     * Метод возвращает список резервов товара по переданному productId
+     *
+     * @param productId
+     * @return
+     */
     @GetMapping("/all/{productId}")
     public ResponseEntity<?> getAllReserveProductByProductId(@PathVariable String productId) {
-        //TODO Метод принимает productId и возвращает List<ReserveProductDto> которые относятся к данному продукту
-        return null;
+        try {
+            List<ReserveProductDto> reserveProductDtoList = reserveProductService
+                    .getListReserveProductDtoByProductId(Long.valueOf(productId));
+
+            if (reserveProductDtoList.size() > 0) {
+                return ResponseEntity.ok().body(reserveProductDtoList);
+            } else {
+                return ResponseEntity.badRequest().body("Отсутствуют резервы по данному товару.");
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("Произошла ошибка при попытке получить информацию по резервам на Товар с id = " + productId);
+        }
     }
 
     /**

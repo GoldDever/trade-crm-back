@@ -1,6 +1,8 @@
 package ru.javamentor.service.product;
 
 import org.springframework.stereotype.Service;
+import ru.javamentor.dto.product.ProductDto;
+import ru.javamentor.dto.product.ReserveProductDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
@@ -43,8 +45,8 @@ public class ReserveProductServiceImpl implements ReserveProductService {
      * Если количество резерва равно входному параметру.
      * Иначе сохраняет новое значение.
      *
-     * @param orderId - id заказа
-     * @param productId - id продукта
+     * @param orderId      - id заказа
+     * @param productId    - id продукта
      * @param productCount - количество удаляемого продукта из резерва
      * @return - код ответа для проверки на наличие в резерва в БД
      */
@@ -61,7 +63,7 @@ public class ReserveProductServiceImpl implements ReserveProductService {
 
         if (reserveProductCountList.isEmpty()) {
             return "Резерв не найден!";
-        } else if (countReserveProductSum < productCount){
+        } else if (countReserveProductSum < productCount) {
             return "Нет достаточного количества резерва";
         } else {
             for (ReserveProduct reserveProduct : reserveProductCountList) {
@@ -80,8 +82,8 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     /**
      * Метод сохранения резерва
      *
-     * @param orderId - id Order
-     * @param productId - id продукта по которому сохраняется резерв
+     * @param orderId      - id Order
+     * @param productId    - id продукта по которому сохраняется резерв
      * @param productCount - количество продукта, которое необходимо зарезервировать
      * @return - сообщение о результате резервирования продукта
      */
@@ -122,11 +124,10 @@ public class ReserveProductServiceImpl implements ReserveProductService {
 
         List<OrderItem> orderItems = new ArrayList<>(reserveProductRepository.getOrderItemListByOrderId(orderId));
 
-        for(OrderItem item: orderItems){
-            if(reserveProductRepository.countReserveProducts(item.getProduct().getId()) >= item.getProductCount()){
+        for (OrderItem item : orderItems) {
+            if (reserveProductRepository.countReserveProducts(item.getProduct().getId()) >= item.getProductCount()) {
                 reserveProductRepository.save(new ReserveProduct(item.getProduct(), item.getOrder(), item.getProductCount()));
-            }
-            else{
+            } else {
                 result.append(item.getProduct().getProductName());
                 result.append("\n");
             }
@@ -135,8 +136,9 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     }
 
     /**
+     * Метод Вовзращает количество резервов товара с id = productId в заказе с id = orderId
      *
-     * @param orderId - id заказа
+     * @param orderId   - id заказа
      * @param productId - id продукта
      * @return - количество зарезервированных продуктов
      */
@@ -144,5 +146,29 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     @Override
     public Integer getCountReservedProductByOrderIdAndProductId(Long orderId, Long productId) {
         return reserveProductRepository.getCountReservedProduct(orderId, productId);
+    }
+
+    /**
+     * Возвращает список ReserveProductDto по id продукта, с заполненными id, ProductCount, CreateDateTime
+     *
+     * @param productId
+     * @return
+     */
+    @Override
+    public List<ReserveProductDto> getListReserveProductDtoByProductId(Long productId) {
+        List<ReserveProduct> reserveProductList = reserveProductRepository.getReserveProductListByProductId(productId);
+        List<ReserveProductDto> reserveProductDtoList = new ArrayList<>();
+
+        for (ReserveProduct reserveProduct : reserveProductList) {
+            ReserveProductDto reserveProductDto = new ReserveProductDto();
+
+            reserveProductDto.setId(reserveProduct.getId());
+            reserveProductDto.setProductCount(reserveProduct.getProductCount());
+            reserveProductDto.setCreateTime(reserveProduct.getCreateDateTime());
+
+            reserveProductDtoList.add(reserveProductDto);
+        }
+
+        return reserveProductDtoList;
     }
 }
