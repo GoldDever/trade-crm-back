@@ -39,8 +39,8 @@ public interface ReserveProductRepository extends JpaRepository<ReserveProduct, 
                                    @Param("reserveProductCountEdit") Integer reserveProductCountEdit,
                                    @Param("count") Integer count);
 
-    @Query("SELECT (p.productCount - SUM(rp.productCount)) FROM ReserveProduct rp, Product p " +
-            "WHERE rp.product.id = :productId and p.id = :productId GROUP BY p.productCount")
+    @Query("SELECT p.productCount - COALESCE(SUM(rp.productCount),0) FROM  Product p LEFT JOIN ReserveProduct rp ON p.id = rp.id " +
+            "WHERE p.id = :productId GROUP BY p.productCount")
     Integer countReserveProducts(@Param("productId") Long productId);
 
     Boolean existsByProductId(Long productId);
@@ -48,4 +48,3 @@ public interface ReserveProductRepository extends JpaRepository<ReserveProduct, 
     @Query("SELECT oi FROM OrderItem oi "+ "WHERE oi.order.id = :orderId")
     List<OrderItem> getOrderItemListByOrderId(@Param("orderId") Long orderId);
 }
-
