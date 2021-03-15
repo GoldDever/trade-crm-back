@@ -65,7 +65,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "p.price," +
             "p.minMargin," +
             "p.standardMargin) " +
-            "FROM Product p")
+            "FROM Product p " +
+            "LEFT OUTER JOIN ReserveProduct rp ON p.id = rp.product")
     List<ProductDto> findAllProductDto();
 
 }
