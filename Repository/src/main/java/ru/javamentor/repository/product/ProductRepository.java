@@ -23,10 +23,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "p.madeCountry, " +
             "p.article, " +
             "p.price," +
+            "p.productCount, " +
+            "SUM (rp.productCount), " +
             "p.minMargin," +
             "p.standardMargin) " +
             "FROM Product p " +
-            "WHERE p.id = :productId")
+            "LEFT OUTER JOIN ReserveProduct rp ON p.id = rp.product " +
+            "WHERE p.id = :productId " +
+            "GROUP BY p.id")
     ProductDto findProductDtoByProductId(@Param("productId") Long ProductId);
 
     @Query("SELECT p.manufacturer.id " +
@@ -45,16 +49,22 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "WHERE p.id = :productId")
     List<Long> findListSupplierIdByProductId(@Param("productId") Long ProductId);
 
+
+
     @Query("SELECT new ru.javamentor.dto.product.ProductDto(" +
             "p.id, " +
             "p.productName, " +
             "p.madeCountry, " +
             "p.article, " +
             "p.price," +
+            "p.productCount, " +
+            "SUM (rp.productCount), " +
             "p.minMargin," +
             "p.standardMargin) " +
             "FROM Product p " +
-            "WHERE lower(p.productName) like concat('%', lower( :search), '%')")
+            "LEFT OUTER JOIN ReserveProduct rp ON p.id = rp.product " +
+            "WHERE lower(p.productName) like concat('%', lower( :search), '%') " +
+            "GROUP BY p.id")
     List<ProductDto> findByProductNameIgnoreCaseContaining(String search);
 
     @Query("SELECT new ru.javamentor.dto.product.ProductDto(" +
@@ -63,10 +73,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "p.madeCountry, " +
             "p.article, " +
             "p.price," +
+            "p.productCount, " +
+            "SUM (rp.productCount), " +
             "p.minMargin," +
             "p.standardMargin) " +
             "FROM Product p " +
-            "LEFT OUTER JOIN ReserveProduct rp ON p.id = rp.product")
+            "LEFT OUTER JOIN ReserveProduct rp ON p.id = rp.product " +
+            "GROUP BY p.id")
     List<ProductDto> findAllProductDto();
 
 }
