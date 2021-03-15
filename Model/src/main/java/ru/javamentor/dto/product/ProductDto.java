@@ -183,4 +183,20 @@ public class ProductDto {
     public void setStandardMargin(BigDecimal standardMargin) {
         this.standardMargin = standardMargin;
     }
+
+    public Integer getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(Integer productCount) {
+        this.productCount = productCount;
+    }
+
+    public Long getProductReserveCount() {
+        return productReserveCount;
+    }
+
+    public void setProductReserveCount(Long productReserveCount) {
+        this.productReserveCount = productReserveCount;
+    }
 }
