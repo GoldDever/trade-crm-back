@@ -1,9 +1,7 @@
 package ru.javamentor.service.product;
 
 import org.springframework.stereotype.Service;
-import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.product.ReserveProductDto;
-import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
@@ -12,6 +10,7 @@ import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
 import ru.javamentor.repository.user.ManagerRepository;
+import ru.javamentor.service.order.OrderService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -25,12 +24,14 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final ManagerRepository managerRepository;
+    private final OrderService orderService;
 
-    public ReserveProductServiceImpl(ReserveProductRepository reserveProductRepository, OrderRepository orderRepository, ProductRepository productRepository, ManagerRepository managerRepository) {
+    public ReserveProductServiceImpl(ReserveProductRepository reserveProductRepository, OrderRepository orderRepository, ProductRepository productRepository, ManagerRepository managerRepository, OrderService orderService) {
         this.reserveProductRepository = reserveProductRepository;
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.managerRepository = managerRepository;
+        this.orderService = orderService;
     }
 
     /**
@@ -171,16 +172,11 @@ public class ReserveProductServiceImpl implements ReserveProductService {
                 reserveProductDto.setProductCount(reserveProduct.getProductCount());
                 reserveProductDto.setCreateTime(reserveProduct.getCreateDateTime());
 
-                Long managerId = orderRepository.getManagerIdByOrderId(reserveProduct.getOrder().getId());
-                ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
-
-                OrderDto orderDto = orderRepository.getOrderDtoWithOrderId(reserveProduct.getOrder().getId());
-                orderDto.setManager(managerDto);
-                reserveProductDto.setOrder(orderDto);
+                reserveProductDto.setOrder(orderService.getOrderDtoByOrderId(reserveProduct.getOrder().getId()));
 
                 reserveProductDtoList.add(reserveProductDto);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return reserveProductDtoList;
