@@ -30,7 +30,7 @@ public class ManagerProductReserveRestController {
     }
 
     /**
-     * Метод возвращает список резервов товара по переданному productId
+     * Метод возвращает список резервов товара по переданному productId (среди всех заказов)
      *
      * @param productId
      * @return
@@ -54,6 +54,8 @@ public class ManagerProductReserveRestController {
     }
 
     /**
+     * Метод возвращает Количество зарезервированных товаров в ордере по orderId и productId
+     *
      * @param orderId   - id заказа
      * @param productId - id продукта
      * @return - количество зарезервированных продуктов в заказе
