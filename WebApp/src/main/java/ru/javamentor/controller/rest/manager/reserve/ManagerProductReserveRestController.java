@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.javamentor.dto.product.ReserveProductDto;
 import ru.javamentor.service.order.OrderService;
 import ru.javamentor.service.product.ProductService;
 import ru.javamentor.service.product.ReserveProductService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/manager/productReserve")
@@ -31,15 +34,33 @@ public class ManagerProductReserveRestController {
         return null;
     }
 
+
+    /**
+     * Метод возвращает резервы товара с productId в конкретном заказе с orderId
+     *
+     * @param orderId
+     * @param productId
+     * @return
+     */
     @GetMapping("/all/order/{orderId}/product/{productId}")
     public ResponseEntity<?> getAllReserveProductByOrderIdAndProductId(@PathVariable Long orderId,
                                                                        @PathVariable Long productId){
         try {
-            return null;
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
+            List<ReserveProductDto> reserveProductDtoList = reserveProductService
+                    .getListReserveProductDtoByOrderIdAndProductId(orderId, productId);
+
+            if (reserveProductDtoList.size() > 0) {
+                return ResponseEntity.ok().body(reserveProductDtoList);
+            } else {
+                return ResponseEntity.badRequest().body("В заказе №" + orderId + "отсутствуют резервы по данному товару.");
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("Произошла ошибка при попытке получить информацию по резервам в заказе с id = " + orderId +
+                            " на Товар с id = " + productId);
         }
+
     }
 
     /**

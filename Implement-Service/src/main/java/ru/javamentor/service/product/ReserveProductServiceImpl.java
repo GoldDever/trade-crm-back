@@ -1,6 +1,7 @@
 package ru.javamentor.service.product;
 
 import org.springframework.stereotype.Service;
+import ru.javamentor.dto.product.ReserveProductDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
@@ -135,7 +136,7 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     }
 
     /**
-     *
+     * Метод возвращает количество зарезервированного товара c productId в заказе с orderId
      * @param orderId - id заказа
      * @param productId - id продукта
      * @return - количество зарезервированных продуктов
@@ -144,5 +145,30 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     @Override
     public Integer getCountReservedProductByOrderIdAndProductId(Long orderId, Long productId) {
         return reserveProductRepository.getCountReservedProduct(orderId, productId);
+    }
+
+    /**
+     * Метод возвращает список ReserveProductDto с id productId в конкретном заказе с orderId
+     *
+     * @param orderId
+     * @param productId
+     * @return
+     */
+    @Override
+    public List<ReserveProductDto> getListReserveProductDtoByOrderIdAndProductId(Long orderId, Long productId) {
+        List<ReserveProduct> reserveProductList =
+                reserveProductRepository.getReserveProductList(orderId, productId);
+        List<ReserveProductDto> reserveProductDtoList = new ArrayList<>();
+
+        for (ReserveProduct reserveProduct : reserveProductList) {
+            ReserveProductDto reserveProductDto = new ReserveProductDto();
+
+            reserveProductDto.setId(reserveProduct.getId());
+            reserveProductDto.setProductCount(reserveProduct.getProductCount());
+            reserveProductDto.setCreateTime(reserveProduct.getCreateDateTime());
+
+            reserveProductDtoList.add(reserveProductDto);
+        }
+        return reserveProductDtoList;
     }
 }
