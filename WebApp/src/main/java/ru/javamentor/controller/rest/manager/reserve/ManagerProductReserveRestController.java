@@ -31,6 +31,17 @@ public class ManagerProductReserveRestController {
         return null;
     }
 
+    @GetMapping("/all/order/{orderId}/product/{productId}")
+    public ResponseEntity<?> getAllReserveProductByOrderIdAndProductId(@PathVariable Long orderId,
+                                                                       @PathVariable Long productId){
+        try {
+            return null;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     /**
      * @param orderId   - id заказа
      * @param productId - id продукта
