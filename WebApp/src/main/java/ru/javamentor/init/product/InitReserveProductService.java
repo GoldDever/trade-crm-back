@@ -21,9 +21,16 @@ public class InitReserveProductService {
     }
 
     public void initReserveProduct() {
-        createReserveProduct(23, productRepository.findById(1L).get(), orderRepository.findById(1L).get());
+        createReserveProduct(10, productRepository.findById(1L).get(), orderRepository.findById(1L).get());
+        createReserveProduct(5, productRepository.findById(1L).get(), orderRepository.findById(1L).get());
+
+        createReserveProduct(7, productRepository.findById(2L).get(), orderRepository.findById(1L).get());
+        createReserveProduct(3, productRepository.findById(2L).get(), orderRepository.findById(1L).get());
+
+        createReserveProduct(2, productRepository.findById(3L).get(), orderRepository.findById(1L).get());
+
+        createReserveProduct(23, productRepository.findById(2L).get(), orderRepository.findById(2L).get());
         createReserveProduct(15, productRepository.findById(2L).get(), orderRepository.findById(2L).get());
-        createReserveProduct(12, productRepository.findById(1L).get(), orderRepository.findById(2L).get());
     }
 
     private void createReserveProduct(int productCount, Product product, Order order) {

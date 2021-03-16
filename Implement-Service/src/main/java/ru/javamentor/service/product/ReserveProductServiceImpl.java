@@ -1,8 +1,9 @@
 package ru.javamentor.service.product;
 
 import org.springframework.stereotype.Service;
-import ru.javamentor.dto.product.ProductDto;
+import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.product.ReserveProductDto;
+import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
@@ -10,6 +11,7 @@ import ru.javamentor.model.product.ReserveProduct;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
+import ru.javamentor.repository.user.ManagerRepository;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -22,11 +24,13 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     private final ReserveProductRepository reserveProductRepository;
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final ManagerRepository managerRepository;
 
-    public ReserveProductServiceImpl(ReserveProductRepository reserveProductRepository, OrderRepository orderRepository, ProductRepository productRepository) {
+    public ReserveProductServiceImpl(ReserveProductRepository reserveProductRepository, OrderRepository orderRepository, ProductRepository productRepository, ManagerRepository managerRepository) {
         this.reserveProductRepository = reserveProductRepository;
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.managerRepository = managerRepository;
     }
 
     /**
@@ -149,7 +153,8 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     }
 
     /**
-     * Возвращает список ReserveProductDto по id продукта, с заполненными id, ProductCount, CreateDateTime
+     * Возвращает список ReserveProductDto по id продукта, с заполненными id, ProductCount, CreateDateTime,
+     * OrderDTO.Manager.firstName и lastName
      *
      * @param productId
      * @return
@@ -159,16 +164,25 @@ public class ReserveProductServiceImpl implements ReserveProductService {
         List<ReserveProduct> reserveProductList = reserveProductRepository.getReserveProductListByProductId(productId);
         List<ReserveProductDto> reserveProductDtoList = new ArrayList<>();
 
-        for (ReserveProduct reserveProduct : reserveProductList) {
-            ReserveProductDto reserveProductDto = new ReserveProductDto();
+        try {
+            for (ReserveProduct reserveProduct : reserveProductList) {
+                ReserveProductDto reserveProductDto = new ReserveProductDto();
+                reserveProductDto.setId(reserveProduct.getId());
+                reserveProductDto.setProductCount(reserveProduct.getProductCount());
+                reserveProductDto.setCreateTime(reserveProduct.getCreateDateTime());
 
-            reserveProductDto.setId(reserveProduct.getId());
-            reserveProductDto.setProductCount(reserveProduct.getProductCount());
-            reserveProductDto.setCreateTime(reserveProduct.getCreateDateTime());
+                Long managerId = orderRepository.getManagerIdByOrderId(reserveProduct.getOrder().getId());
+                ManagerDto managerDto = managerRepository.getManagerDtoById(managerId);
 
-            reserveProductDtoList.add(reserveProductDto);
+                OrderDto orderDto = orderRepository.getOrderDtoWithOrderId(reserveProduct.getOrder().getId());
+                orderDto.setManager(managerDto);
+                reserveProductDto.setOrder(orderDto);
+
+                reserveProductDtoList.add(reserveProductDto);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-
         return reserveProductDtoList;
     }
 }
