@@ -31,6 +31,8 @@ public class InitOrderService {
 
         Client client2 = clientRepository.findByUsername("ivanov@mail.ru");
         createOrder(manager, client2, "2020-11-30T11:03:12");
+
+        createOrder(manager, client1, "2020-11-30T11:03:12");
     }
 
     private void createOrder(Manager manager, Client client, String dateTime) {

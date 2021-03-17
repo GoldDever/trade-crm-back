@@ -11,4 +11,6 @@ public interface ReserveProductService {
     String addReserveByOrder(Long orderId);
 
     Integer getCountReservedProductByOrderIdAndProductId(Long orderId, Long productId);
+
+    boolean isAllProductReservedByOrder(Long orderId);
 }
