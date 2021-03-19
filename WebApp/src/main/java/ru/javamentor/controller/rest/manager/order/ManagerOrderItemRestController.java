@@ -86,6 +86,7 @@ public class ManagerOrderItemRestController {
      *
      * @param newPrice
      * @param orderItemId
+     * @param orderItemDto
      */
     @PutMapping(value = "/{orderItemId}/{newPrice}")
     public ResponseEntity<String> editProductPrice(@PathVariable Long orderItemId, @PathVariable Double newPrice,
