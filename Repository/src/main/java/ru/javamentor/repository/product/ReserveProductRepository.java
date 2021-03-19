@@ -45,7 +45,10 @@ public interface ReserveProductRepository extends JpaRepository<ReserveProduct, 
 
     Boolean existsByProductId(Long productId);
 
-    @Query("SELECT oi FROM OrderItem oi "+ "WHERE oi.order.id = :orderId")
+    @Query("SELECT oi FROM OrderItem oi " + "WHERE oi.order.id = :orderId")
     List<OrderItem> getOrderItemListByOrderId(@Param("orderId") Long orderId);
+
+    @Query("SELECT rp FROM ReserveProduct rp WHERE rp.product.id = :productId")
+    List<ReserveProduct> getReserveProductListByProductId(@Param("productId") Long productId);
 }
 
