@@ -105,17 +105,6 @@ public class ClientServiceImpl implements ClientService {
 
     }
 
-    /**
-     * Метод возвращает ClientDto, клиента по email
-     *
-     * @param email - email клиента
-     * @return ClientDto клиента
-     */
-    @Transactional
-    @Override
-    public ClientDto getClientDtoByClientEmail(String email) {
-        return clientRepository.getClientDtoByEmail(email);
-    }
 
     /**
      * Метод возвращает boolean при проверке существования клиента с данным email.
@@ -127,6 +116,18 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public boolean isExistsClientByEmail(String email) {
         return clientRepository.existsClientByUsername(email);
+    }
+
+
+    /**
+     * Метод возвращает имя и фамилию клиента по email
+     *
+     * @param email - email клиента
+     * @return ClientFullName клиента
+     */
+    @Override
+    public String getClientFullNameByEmail(String email) {
+        return clientRepository.getClientFullNameByEmail(email);
     }
 
 }

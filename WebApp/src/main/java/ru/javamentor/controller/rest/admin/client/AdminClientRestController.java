@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.dto.user.ClientPostDto;
-import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.repository.user.ManagerRepository;
 import ru.javamentor.service.client.ClientService;
@@ -33,11 +32,10 @@ public class AdminClientRestController {
     @PostMapping("/")
     public ResponseEntity<?> addNewClient(@RequestBody ClientPostDto clientDto) {
 
-        if (!clientService.isExistsClientByEmail(clientDto.getEmail())
-                && managerService.isExistsManagerByEmail(clientDto.getEmail())) {
-            ManagerDto managerDto = managerService.getManagerDtoByManagerEmail(clientDto.getEmail());
-            return new ResponseEntity<>("На данный id, зарегистрирован менеджер " + managerDto.getLastName() + " " +
-                    managerDto.getFirstName(), HttpStatus.BAD_REQUEST);
+
+        if (managerService.isExistsManagerByEmail(clientDto.getEmail())) {
+            return new ResponseEntity<>("На данный id, зарегистрирован менеджер " +
+                    managerService.getManagerFullNameByEmail(clientDto.getEmail()), HttpStatus.BAD_REQUEST);
         } else if (clientService.isExistsClientByEmail(clientDto.getEmail())) {
             return new ResponseEntity<>("Клиент с таким email уже существует", HttpStatus.BAD_REQUEST);
 
@@ -45,7 +43,6 @@ public class AdminClientRestController {
             clientService.saveNewClient(clientDto);
             return ResponseEntity.ok("Клиент c email " + clientDto.getEmail() + ", успешно добавлен");
         }
-
     }
 
     @PutMapping("/update")

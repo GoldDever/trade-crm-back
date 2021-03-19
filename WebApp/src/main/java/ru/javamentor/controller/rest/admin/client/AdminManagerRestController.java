@@ -30,11 +30,9 @@ public class AdminManagerRestController {
     @PostMapping("/")
     public ResponseEntity<?> addNewManager(@RequestBody ManagerPostDto managerDto) {
 
-        if (!managerService.isExistsManagerByEmail(managerDto.getEmail())
-                && clientService.isExistsClientByEmail(managerDto.getEmail())) {
-            ClientDto clientDto = clientService.getClientDtoByClientEmail(managerDto.getEmail());
-            return new ResponseEntity<>("На данный id, зарегистрирован клиент " + clientDto.getLastName() + " " +
-                    clientDto.getFirstName(), HttpStatus.BAD_REQUEST);
+        if (clientService.isExistsClientByEmail(managerDto.getEmail())) {
+            return new ResponseEntity<>("На данный id, зарегистрирован клиент " +
+                    clientService.getClientFullNameByEmail(managerDto.getEmail()), HttpStatus.BAD_REQUEST);
         } else if (managerService.isExistsManagerByEmail(managerDto.getEmail())) {
             return new ResponseEntity<>("Менеджер с таким email уже существует", HttpStatus.BAD_REQUEST);
 

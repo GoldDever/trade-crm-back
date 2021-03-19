@@ -76,15 +76,15 @@ public class ManagerServiceImpl implements ManagerService {
         return managerRepository.existsManagerByUsername(email);
     }
 
+
     /**
-     * Метод возвращает ManagerDto, менеджера по email
+     * Метод возвращает имя и фамилию менеджера по email
      *
      * @param email - email менеджера
-     * @return ManagerDto менеджера
+     * @return ManagerFullName менеджера
      */
-    @Transactional
     @Override
-    public ManagerDto getManagerDtoByManagerEmail(String email) {
-        return managerRepository.getManagerDtoByEmail(email);
+    public String getManagerFullNameByEmail(String email) {
+        return managerRepository.getManagerFullNameByEmail(email);
     }
 }

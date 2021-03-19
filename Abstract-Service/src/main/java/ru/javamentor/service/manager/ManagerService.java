@@ -14,5 +14,5 @@ public interface ManagerService {
 
     boolean isExistsManagerByEmail(String email);
 
-    ManagerDto getManagerDtoByManagerEmail(String email);
+    String getManagerFullNameByEmail(String email);
 }

@@ -14,7 +14,7 @@ public interface ClientService {
     boolean relationClientWithManager(Long clientId, Long managerId);
     void updateClient(ClientDto clientDto);
     void saveNewClient(ClientPostDto clientPostDto);
-    ClientDto getClientDtoByClientEmail(String email);
     boolean isExistsClientByEmail(String email);
+    String getClientFullNameByEmail(String email);
 
 }
