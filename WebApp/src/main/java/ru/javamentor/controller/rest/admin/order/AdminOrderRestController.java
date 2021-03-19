@@ -66,7 +66,7 @@ public class AdminOrderRestController {
             orderApproveAnswerService.saveOrderApproveAnswer(orderApproveAnswer);
             return ResponseEntity.status(HttpStatus.CREATED).body("Ответ на утверждение заказа успешно добавлен, id заказа=" + orderId);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось добавить ответ на утверждение заказа c id="
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось добавить ответ на утверждение заказа c id="
                     + orderId);
         }
     }
