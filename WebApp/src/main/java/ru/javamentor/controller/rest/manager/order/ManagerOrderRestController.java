@@ -6,12 +6,15 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.javamentor.dto.order.OrderApproveRequestDto;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.model.user.User;
 import ru.javamentor.service.client.ClientService;
+import ru.javamentor.service.order.OrderApproveRequestService;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
 import ru.javamentor.service.product.ReserveProductService;
@@ -25,14 +28,16 @@ public class ManagerOrderRestController {
     private final OrderItemService orderItemService;
     private final ClientService clientService;
     private final ReserveProductService reserveProductService;
+    private final OrderApproveRequestService orderApproveRequestService;
 
     public ManagerOrderRestController(OrderService orderService,
                                       OrderItemService orderItemService,
-                                      ClientService clientService, ReserveProductService reserveProductService) {
+                                      ClientService clientService, ReserveProductService reserveProductService, OrderApproveRequestService orderApproveRequestService) {
         this.orderService = orderService;
         this.orderItemService = orderItemService;
         this.clientService = clientService;
         this.reserveProductService = reserveProductService;
+        this.orderApproveRequestService = orderApproveRequestService;
     }
 
     /**
@@ -66,8 +71,6 @@ public class ManagerOrderRestController {
     }
 
 
-
-
     /**
      * Метод для сохранения нового Order
      *
@@ -84,7 +87,6 @@ public class ManagerOrderRestController {
     }
 
 
-
     /**
      * GET метод для получения orderDTO на странице менеджера
      *
@@ -98,6 +100,26 @@ public class ManagerOrderRestController {
             return ResponseEntity.status(HttpStatus.OK).body(orderDto);
         }
         return ResponseEntity.badRequest().body("Нет ордера с Id - " + orderId);
+    }
+
+
+    /**
+     * Метод добавления нового OrderApproveRequest
+     *
+     * @param orderId
+     * @param orderApproveRequest
+     * @return - статус добавления запроса на утверждение заказа
+     */
+    @PostMapping(value = "/{orderId}/requestApprove")
+    public ResponseEntity<String> addNewOrderApproveRequest(@PathVariable Long orderId, @RequestBody OrderApproveRequestDto orderApproveRequest) {
+        try {
+            orderApproveRequestService.saveOrderApproveRequest(orderApproveRequest);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Запрос на утверждение заказа успешно добавлен, id заказа=" + orderId);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось добавить запрос на утверждение заказа c id="
+                    + orderId);
+        }
+
     }
 
 }
