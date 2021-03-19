@@ -14,8 +14,10 @@ public class ProductDto {
     private List<SupplierDto> supplierDto;
     private String article;
     private UnitDto unit;
-    private String productCategory;
+    private ProductCategoryDto productCategoryDto;
     private BigDecimal price;
+    private Integer productCount;
+    private Long productReserveCount;
     private BigDecimal minMargin;
     private BigDecimal standardMargin;
 
@@ -28,11 +30,10 @@ public class ProductDto {
             List<SupplierDto> supplierDto,
             String article,
             UnitDto unit,
-            String productCategory,
+            ProductCategoryDto productCategoryDto,
             BigDecimal price,
             BigDecimal minMargin,
-            BigDecimal standardMargin)
-    {
+            BigDecimal standardMargin) {
         this.id = id;
         this.productName = productName;
         this.madeCountry = madeCountry;
@@ -40,7 +41,7 @@ public class ProductDto {
         this.supplierDto = supplierDto;
         this.article = article;
         this.unit = unit;
-        this.productCategory = productCategory;
+        this.productCategoryDto = productCategoryDto;
         this.price = price;
         this.minMargin = minMargin;
         this.standardMargin = standardMargin;
@@ -66,6 +67,8 @@ public class ProductDto {
             String madeCountry,
             String article,
             BigDecimal price,
+            Integer productCount,
+            Long productReserveCount,
             BigDecimal minMargin,
             BigDecimal standardMargin
     ) {
@@ -74,8 +77,14 @@ public class ProductDto {
         this.madeCountry = madeCountry;
         this.article = article;
         this.price = price;
+        this.productCount = productCount;
+        this.productReserveCount = productReserveCount;
         this.minMargin = minMargin;
         this.standardMargin = standardMargin;
+
+        if (productReserveCount != null) {
+            this.productCount -= productReserveCount.intValue();
+        }
     }
 
 
@@ -135,14 +144,12 @@ public class ProductDto {
         this.article = article;
     }
 
-
-
-    public String getProductCategory() {
-        return productCategory;
+    public ProductCategoryDto getProductCategory() {
+        return productCategoryDto;
     }
 
-    public void setProductCategory(String productCategory) {
-        this.productCategory = productCategory;
+    public void setProductCategory(ProductCategoryDto productCategoryDto) {
+        this.productCategoryDto = productCategoryDto;
     }
 
     public BigDecimal getPrice() {
@@ -153,7 +160,9 @@ public class ProductDto {
         this.price = price;
     }
 
-    public UnitDto getUnit() { return unit; }
+    public UnitDto getUnit() {
+        return unit;
+    }
 
     public void setUnit(UnitDto unit) {
         this.unit = unit;
@@ -173,5 +182,21 @@ public class ProductDto {
 
     public void setStandardMargin(BigDecimal standardMargin) {
         this.standardMargin = standardMargin;
+    }
+
+    public Integer getProductCount() {
+        return productCount;
+    }
+
+    public void setProductCount(Integer productCount) {
+        this.productCount = productCount;
+    }
+
+    public Long getProductReserveCount() {
+        return productReserveCount;
+    }
+
+    public void setProductReserveCount(Long productReserveCount) {
+        this.productReserveCount = productReserveCount;
     }
 }
