@@ -180,7 +180,7 @@ public class ReserveProductServiceImpl implements ReserveProductService {
 
     /**
      * Возвращает список ReserveProductDto по id продукта, с заполненными id, ProductCount, CreateDateTime,
-     * OrderDTO.Manager.firstName и lastName
+     * OrderDTO.Manager.firstName и  lastName
      *
      * @param productId
      * @return
