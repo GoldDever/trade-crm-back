@@ -5,12 +5,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.order.OrderItemDto;
+import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
+
+import java.math.BigDecimal;
 
 
 @RestController
@@ -76,4 +80,35 @@ public class ManagerOrderItemRestController {
                     + orderId);
         }
     }
+
+    /**
+     * Метод изменяет currentMargePercent в соответствии с входящей ценой
+     *
+     * @param newPrice
+     * @param orderItemId
+     */
+    @PutMapping(value = "/{orderItemId}/{newPrice}")
+    public ResponseEntity<String> editProductPrice(@PathVariable Long orderItemId, @PathVariable Double newPrice,
+                                                   @RequestBody OrderItemDto orderItemDto) {
+
+        OrderItem orderItem = orderItemService.getOrderItemByDTO(orderItemDto);
+        BigDecimal price = orderItem.getProduct().getPrice();
+        BigDecimal currentMargeRub = BigDecimal.valueOf(newPrice).subtract(price);
+        BigDecimal currentMargePercent = currentMargeRub.multiply(BigDecimal.valueOf(100)).divide(price);
+
+        if (currentMargePercent.compareTo(orderItem.getProduct().getMinMargin()) > 0) {
+            orderItem.setCurrentMargePercent(currentMargePercent);
+        } else {
+            orderItem.setCurrentMargePercent(orderItem.getProduct().getMinMargin());
+        }
+
+        try {
+            orderItemService.saveOrderItem(orderItemId, orderItemDto);
+            return ResponseEntity.status(HttpStatus.OK).body("Значение маржи изменено");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось изменить маржу в строке заказа id="
+                + orderItemId);
+        }
+    }
+
 }
