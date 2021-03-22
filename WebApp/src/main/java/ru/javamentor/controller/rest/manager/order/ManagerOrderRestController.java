@@ -112,14 +112,16 @@ public class ManagerOrderRestController {
      */
     @PostMapping(value = "/{orderId}/requestApprove")
     public ResponseEntity<String> addNewOrderApproveRequest(@PathVariable Long orderId, @RequestBody OrderApproveRequestDto orderApproveRequest) {
-        try {
-            orderApproveRequestService.saveOrderApproveRequest(orderApproveRequest);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Запрос на утверждение заказа успешно добавлен, id заказа=" + orderId);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось добавить запрос на утверждение заказа c id="
-                    + orderId);
+        if (orderService.isExistsByOrderId(orderId)) {
+            try {
+                orderApproveRequestService.saveOrderApproveRequest(orderApproveRequest);
+                return ResponseEntity.status(HttpStatus.CREATED).body("Запрос на утверждение заказа успешно добавлен, id заказа=" + orderId);
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось добавить запрос на утверждение заказа c id="
+                        + orderId);
+            }
         }
-
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Заказ с id = " + orderId + " не найден.");
     }
 
 }
