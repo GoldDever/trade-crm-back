@@ -16,5 +16,7 @@ public interface ReserveProductService {
 
     Integer getCountReservedProductByOrderIdAndProductId(Long orderId, Long productId);
 
+    List<ReserveProductDto>  getListReserveProductDtoByOrderIdAndProductId(Long orderId, Long productId);
+
     List<ReserveProductDto> getListReserveProductDtoByProductId(Long productId);
 }

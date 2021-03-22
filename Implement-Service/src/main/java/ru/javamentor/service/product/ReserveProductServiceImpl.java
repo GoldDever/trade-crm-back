@@ -154,8 +154,33 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     }
 
     /**
+     * Метод возвращает список ReserveProductDto с id productId в конкретном заказе с orderId
+     *
+     * @param orderId
+     * @param productId
+     * @return
+     */
+    @Override
+    public List<ReserveProductDto> getListReserveProductDtoByOrderIdAndProductId(Long orderId, Long productId) {
+        List<ReserveProduct> reserveProductList =
+                reserveProductRepository.getReserveProductList(orderId, productId);
+        List<ReserveProductDto> reserveProductDtoList = new ArrayList<>();
+
+        for (ReserveProduct reserveProduct : reserveProductList) {
+            ReserveProductDto reserveProductDto = new ReserveProductDto();
+
+            reserveProductDto.setId(reserveProduct.getId());
+            reserveProductDto.setProductCount(reserveProduct.getProductCount());
+            reserveProductDto.setCreateTime(reserveProduct.getCreateDateTime());
+
+            reserveProductDtoList.add(reserveProductDto);
+        }
+        return reserveProductDtoList;
+    }
+
+    /**
      * Возвращает список ReserveProductDto по id продукта, с заполненными id, ProductCount, CreateDateTime,
-     * OrderDTO.Manager.firstName и lastName
+     * OrderDTO.Manager.firstName и  lastName
      *
      * @param productId
      * @return
