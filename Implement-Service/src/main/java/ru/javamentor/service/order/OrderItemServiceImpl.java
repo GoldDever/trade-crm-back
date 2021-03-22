@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
-import ru.javamentor.model.order.OrderApprove;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.repository.order.OrderItemRepository;
@@ -128,6 +127,16 @@ public class OrderItemServiceImpl implements OrderItemService {
         }
 
         orderItemRepository.save(orderItem);
+    }
+
+    /**
+     * Метод возвращает boolean при проверке существования orderItem с данным Id.
+     *
+     * @param orderItemId
+     */
+    @Override
+    public boolean isExistsByOrderItemId(Long orderItemId) {
+        return orderItemRepository.existsById(orderItemId);
     }
 
 }

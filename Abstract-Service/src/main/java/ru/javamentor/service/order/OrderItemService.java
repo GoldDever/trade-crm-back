@@ -1,6 +1,5 @@
 package ru.javamentor.service.order;
 
-import org.springframework.web.bind.annotation.PathVariable;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.OrderItem;
 
@@ -17,5 +16,7 @@ public interface OrderItemService {
     void updatePositions(Long orderId, Integer deletedPosition);
 
     void editProductPrice(Long orderItemId, Double newPrice);
+
+    boolean isExistsByOrderItemId(Long orderItemId);
 
 }
