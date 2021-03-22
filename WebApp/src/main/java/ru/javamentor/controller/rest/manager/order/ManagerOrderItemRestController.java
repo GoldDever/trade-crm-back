@@ -14,7 +14,10 @@ import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.service.order.OrderItemService;
 import ru.javamentor.service.order.OrderService;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.IllegalFormatException;
 
 
 @RestController
@@ -86,25 +89,11 @@ public class ManagerOrderItemRestController {
      *
      * @param newPrice
      * @param orderItemId
-     * @param orderItemDto
      */
     @PutMapping(value = "/{orderItemId}/{newPrice}")
-    public ResponseEntity<String> editProductPrice(@PathVariable Long orderItemId, @PathVariable Double newPrice,
-                                                   @RequestBody OrderItemDto orderItemDto) {
-
-        OrderItem orderItem = orderItemService.getOrderItemByDTO(orderItemDto);
-        BigDecimal price = orderItem.getProduct().getPrice();
-        BigDecimal currentMargeRub = BigDecimal.valueOf(newPrice).subtract(price);
-        BigDecimal currentMargePercent = currentMargeRub.multiply(BigDecimal.valueOf(100)).divide(price);
-
-        if (currentMargePercent.compareTo(orderItem.getProduct().getMinMargin()) > 0) {
-            orderItem.setCurrentMargePercent(currentMargePercent);
-        } else {
-            orderItem.setCurrentMargePercent(orderItem.getProduct().getMinMargin());
-        }
-
+    public ResponseEntity<String> editProductPrice(@PathVariable Long orderItemId, @PathVariable Double newPrice) {
         try {
-            orderItemService.saveOrderItem(orderItemId, orderItemDto);
+            orderItemService.editProductPrice(orderItemId, newPrice);
             return ResponseEntity.status(HttpStatus.OK).body("Значение маржи изменено");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось изменить маржу в строке заказа id="
