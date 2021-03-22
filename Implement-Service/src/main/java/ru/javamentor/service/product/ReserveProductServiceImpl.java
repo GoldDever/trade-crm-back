@@ -1,7 +1,7 @@
 package ru.javamentor.service.product;
 
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import ru.javamentor.dto.product.ReserveProductDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
@@ -10,6 +10,8 @@ import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
+import ru.javamentor.repository.user.ManagerRepository;
+import ru.javamentor.service.order.OrderService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -22,12 +24,18 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     private final ReserveProductRepository reserveProductRepository;
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final OrderService orderService;
     private final OrderItemRepository orderItemRepository;
 
-    public ReserveProductServiceImpl(ReserveProductRepository reserveProductRepository, OrderRepository orderRepository, ProductRepository productRepository, OrderItemRepository orderItemRepository) {
+    public ReserveProductServiceImpl(ReserveProductRepository reserveProductRepository,
+                                     OrderRepository orderRepository,
+                                     ProductRepository productRepository,
+                                     OrderService orderService,
+                                     OrderItemRepository orderItemRepository) {
         this.reserveProductRepository = reserveProductRepository;
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.orderService = orderService;
         this.orderItemRepository = orderItemRepository;
     }
 
@@ -143,6 +151,8 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     }
 
     /**
+     * Метод Вовзращает количество резервов товара с id = productId в заказе с id = orderId
+     *
      * @param orderId   - id заказа
      * @param productId - id продукта
      * @return - количество зарезервированных продуктов
@@ -176,5 +186,59 @@ public class ReserveProductServiceImpl implements ReserveProductService {
             }
         }
         return true;
+    }
+
+    /**
+     * Метод возвращает список ReserveProductDto с id productId в конкретном заказе с orderId
+     *
+     * @param orderId
+     * @param productId
+     * @return
+     */
+    @Override
+    public List<ReserveProductDto> getListReserveProductDtoByOrderIdAndProductId(Long orderId, Long productId) {
+        List<ReserveProduct> reserveProductList =
+                reserveProductRepository.getReserveProductList(orderId, productId);
+        List<ReserveProductDto> reserveProductDtoList = new ArrayList<>();
+
+        for (ReserveProduct reserveProduct : reserveProductList) {
+            ReserveProductDto reserveProductDto = new ReserveProductDto();
+
+            reserveProductDto.setId(reserveProduct.getId());
+            reserveProductDto.setProductCount(reserveProduct.getProductCount());
+            reserveProductDto.setCreateTime(reserveProduct.getCreateDateTime());
+
+            reserveProductDtoList.add(reserveProductDto);
+        }
+        return reserveProductDtoList;
+    }
+
+    /**
+     * Возвращает список ReserveProductDto по id продукта, с заполненными id, ProductCount, CreateDateTime,
+     * OrderDTO.Manager.firstName и  lastName
+     *
+     * @param productId
+     * @return
+     */
+    @Override
+    public List<ReserveProductDto> getListReserveProductDtoByProductId(Long productId) {
+        List<ReserveProduct> reserveProductList = reserveProductRepository.getReserveProductListByProductId(productId);
+        List<ReserveProductDto> reserveProductDtoList = new ArrayList<>();
+
+        try {
+            for (ReserveProduct reserveProduct : reserveProductList) {
+                ReserveProductDto reserveProductDto = new ReserveProductDto();
+                reserveProductDto.setId(reserveProduct.getId());
+                reserveProductDto.setProductCount(reserveProduct.getProductCount());
+                reserveProductDto.setCreateTime(reserveProduct.getCreateDateTime());
+
+                reserveProductDto.setOrder(orderService.getOrderDtoByOrderId(reserveProduct.getOrder().getId()));
+
+                reserveProductDtoList.add(reserveProductDto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return reserveProductDtoList;
     }
 }
