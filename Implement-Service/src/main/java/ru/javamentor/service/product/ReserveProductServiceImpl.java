@@ -135,15 +135,18 @@ public class ReserveProductServiceImpl implements ReserveProductService {
         List<OrderItem> orderItems = new ArrayList<>(reserveProductRepository.getOrderItemListByOrderId(orderId));
 
         for (OrderItem item : orderItems) {
-            int availableCountProducts = reserveProductRepository.countReserveProducts(item.getProduct().getId());
-            if (availableCountProducts >= item.getProductCount()) {
-                reserveProductRepository.save(new ReserveProduct(item.getProduct(), item.getOrder(), item.getProductCount()));
-            } else {
-                if (availableCountProducts > 0) {
-                    reserveProductRepository.save(new ReserveProduct(item.getProduct(), item.getOrder(), availableCountProducts));
-                    result.append(item.getProduct().getProductName()).append(", зарезервирован в количестве: ").append(availableCountProducts).append("/").append(item.getProductCount()).append("\n");
+            int SumReservedProductInOrder = reserveProductRepository.getSumOfReserveProductCounts(orderId, item.getProduct().getId());
+            if (SumReservedProductInOrder < item.getProductCount()) {
+                int availableCountProducts = reserveProductRepository.countReserveProducts(item.getProduct().getId());
+                if (availableCountProducts >= item.getProductCount()) {
+                    reserveProductRepository.save(new ReserveProduct(item.getProduct(), item.getOrder(), item.getProductCount()));
                 } else {
-                    result.append(item.getProduct().getProductName()).append(": товар полностью отсутствует в наличии").append("\n");
+                    if (availableCountProducts > 0) {
+                        reserveProductRepository.save(new ReserveProduct(item.getProduct(), item.getOrder(), availableCountProducts));
+                        result.append(item.getProduct().getProductName()).append(", зарезервирован в количестве: ").append(availableCountProducts).append("/").append(item.getProductCount()).append("\n");
+                    } else {
+                        result.append(item.getProduct().getProductName()).append(": товар полностью отсутствует в наличии").append("\n");
+                    }
                 }
             }
         }

@@ -22,7 +22,7 @@ public interface ReserveProductRepository extends JpaRepository<ReserveProduct, 
     @Query("SELECT rp.productCount FROM ReserveProduct rp " + "WHERE rp.product.id = :productId AND rp.order.id = :orderId")
     Integer getCountReservedProduct(@Param("orderId") Long orderId, @Param("productId") Long productId);
 
-    @Query("SELECT SUM(rp.productCount) FROM ReserveProduct rp " +
+    @Query("SELECT COALESCE(SUM(rp.productCount),0) FROM ReserveProduct rp " +
             "WHERE rp.product.id = :productId AND rp.order.id = :orderId")
     Integer getSumOfReserveProductCounts(@Param("orderId") Long orderId, @Param("productId") Long productId);
 
