@@ -2,27 +2,26 @@ package ru.javamentor.init.order;
 
 import org.springframework.stereotype.Component;
 import ru.javamentor.model.order.Order;
-import ru.javamentor.model.order.OrderApprove;
-import ru.javamentor.repository.order.OrderApproveRepository;
+import ru.javamentor.model.order.OrderApproveRequest;
+import ru.javamentor.repository.order.OrderApproveRequestRepository;
 import ru.javamentor.repository.order.OrderRepository;
 
 @Component
 public class InitOrderApproveService {
-    private final OrderApproveRepository orderApproveRepository;
+    private final OrderApproveRequestRepository orderApproveRequestRepository;
     private final OrderRepository orderRepository;
 
-    public InitOrderApproveService(OrderApproveRepository orderApproveRepository, OrderRepository orderRepository) {
-        this.orderApproveRepository = orderApproveRepository;
+    public InitOrderApproveService(OrderApproveRequestRepository orderApproveRequestRepository, OrderRepository orderRepository) {
+        this.orderApproveRequestRepository = orderApproveRequestRepository;
         this.orderRepository = orderRepository;
     }
 
     public void initOrderApprove() {
-        createOrderApprove(true, "approved", orderRepository.getOne(1L));
-        createOrderApprove(true, "approved", orderRepository.getOne(2L));
+        createOrderApprove("Need to be approved", orderRepository.getOne(1L));
     }
 
-    private void createOrderApprove(boolean isApprove, String text, Order order) {
-        OrderApprove orderApprove = new OrderApprove(isApprove, text, order);
-        orderApproveRepository.save(orderApprove);
+    private void createOrderApprove(String text, Order order) {
+        OrderApproveRequest orderApproveRequest = new OrderApproveRequest(text, order);
+        orderApproveRequestRepository.save(orderApproveRequest);
     }
 }

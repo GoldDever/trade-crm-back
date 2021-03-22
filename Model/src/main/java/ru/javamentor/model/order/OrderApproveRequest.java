@@ -10,15 +10,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "order_approve")
-public class OrderApprove {
+@Table(name = "order_approve_requests")
+public class OrderApproveRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "is_approve")
-    private boolean isApprove;
 
     @Column(name = "text")
     private String text;
@@ -27,18 +24,16 @@ public class OrderApprove {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    public OrderApprove() {
+    public OrderApproveRequest() {
     }
 
-    public OrderApprove(boolean isApprove, String text, Order order) {
-        this.isApprove = isApprove;
+    public OrderApproveRequest(String text, Order order) {
         this.text = text;
         this.order = order;
     }
 
-    public OrderApprove(Long id, boolean isApprove, String text, Order order) {
+    public OrderApproveRequest(Long id, String text, Order order) {
         this.id = id;
-        this.isApprove = isApprove;
         this.text = text;
         this.order = order;
     }
@@ -49,14 +44,6 @@ public class OrderApprove {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public boolean isApprove() {
-        return isApprove;
-    }
-
-    public void setApprove(boolean approve) {
-        isApprove = approve;
     }
 
     public String getText() {

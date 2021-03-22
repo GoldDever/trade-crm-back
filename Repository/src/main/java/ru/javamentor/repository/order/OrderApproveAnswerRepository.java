@@ -2,8 +2,8 @@ package ru.javamentor.repository.order;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.javamentor.model.order.OrderApprove;
+import ru.javamentor.model.order.OrderApproveAnswer;
 
 @Repository
-public interface OrderApproveRepository extends JpaRepository<OrderApprove, Long> {
+public interface OrderApproveAnswerRepository extends JpaRepository<OrderApproveAnswer, Long> {
 }

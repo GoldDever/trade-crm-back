@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.javamentor.dto.order.OrderApproveDto;
+import ru.javamentor.dto.order.OrderApproveAnswerDto;
+import ru.javamentor.service.order.OrderApproveAnswerService;
 import ru.javamentor.service.order.OrderService;
 
 @RestController
@@ -15,9 +16,11 @@ import ru.javamentor.service.order.OrderService;
 public class AdminOrderRestController {
 
     private final OrderService orderService;
+    private final OrderApproveAnswerService orderApproveAnswerService;
 
-    public AdminOrderRestController(OrderService orderService) {
+    public AdminOrderRestController(OrderService orderService, OrderApproveAnswerService orderApproveAnswerService) {
         this.orderService = orderService;
+        this.orderApproveAnswerService = orderApproveAnswerService;
     }
 
 
@@ -25,11 +28,12 @@ public class AdminOrderRestController {
      * Метод получает новый флаг approve и устанавливает его в Order
      */
     @PostMapping(value = "/{orderId}/approve/")
-    public ResponseEntity<String> changeApproveStatus(@RequestBody OrderApproveDto orderApproveDto, @PathVariable Long orderId) {
-        orderService.updateApproveStatus(orderApproveDto, orderId);
+    public ResponseEntity<String> changeApproveStatus(@RequestBody OrderApproveAnswerDto orderApproveAnswer, @PathVariable Long orderId) {
+        orderService.updateApproveStatus(orderApproveAnswer, orderId);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
     /**
      * Метод изменяет статус заказа на Отгружено.
@@ -47,4 +51,24 @@ public class AdminOrderRestController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+    /**
+     * Метод добавления нового OrderApproveAnswer
+     *
+     * @param orderId
+     * @param orderApproveAnswer
+     * @return - статус добавления ответа на утверждение заказа
+     */
+    @PostMapping(value = "/{orderId}/answerApprove")
+    public ResponseEntity<String> addNewOrderApproveAnswer(@RequestBody OrderApproveAnswerDto orderApproveAnswer, @PathVariable String orderId) {
+        try {
+            orderApproveAnswerService.saveOrderApproveAnswer(orderApproveAnswer);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Ответ на утверждение заказа успешно добавлен, id заказа=" + orderId);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось добавить ответ на утверждение заказа c id="
+                    + orderId);
+        }
+    }
+
 }
