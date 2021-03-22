@@ -5,17 +5,20 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import ru.javamentor.dto.order.OrderApproveDto;
+import ru.javamentor.dto.order.OrderApproveAnswerDto;
+import ru.javamentor.dto.order.OrderApproveRequestDto;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.dto.product.ProductDto;
 import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.model.order.Order;
-import ru.javamentor.model.order.OrderApprove;
+import ru.javamentor.model.order.OrderApproveAnswer;
+import ru.javamentor.model.order.OrderApproveRequest;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
-import ru.javamentor.repository.order.OrderApproveRepository;
+import ru.javamentor.repository.order.OrderApproveAnswerRepository;
+import ru.javamentor.repository.order.OrderApproveRequestRepository;
 import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
@@ -45,7 +48,9 @@ public class OrderServiceImplTest {
     @Mock
     OrderRepository orderRepository;
     @Mock
-    OrderApproveRepository orderApproveRepository;
+    OrderApproveAnswerRepository orderApproveAnswerRepository;
+    @Mock
+    OrderApproveRequestRepository orderApproveRequestRepository;
     @Mock
     ReserveProductRepository reserveProductRepository;
     @Mock
@@ -66,30 +71,39 @@ public class OrderServiceImplTest {
 
         Order order = new Order();
         order.setId(1L);
-        OrderApproveDto orderApproveDto = new OrderApproveDto();
-        orderApproveDto.setApprove(approve);
+
+        OrderApproveRequestDto orderApproveRequestDto = new OrderApproveRequestDto();
+        orderApproveRequestDto.setOrderId(1L);
+        orderApproveRequestDto.setId(1L);
+
+        OrderApproveRequest orderApproveRequest = new OrderApproveRequest();
+        orderApproveRequest.setId(1L);
+        orderApproveRequest.setOrder(order);
+
+        OrderApproveAnswerDto orderApproveAnswerDto = new OrderApproveAnswerDto();
+        orderApproveAnswerDto.setIsApprove(approve);
+        orderApproveAnswerDto.setOrderApproveRequest(orderApproveRequestDto);
 
         when(orderRepository.findById(order.getId())).thenReturn(Optional.of(order));
+        when(orderApproveRequestRepository.findById(orderApproveAnswerDto.getOrderApproveRequest().getId())).thenReturn(Optional.of(orderApproveRequest));
 
         doAnswer(invocationOnMock -> null)
                 .when(orderRepository).save(order);
 
-        AtomicReference<OrderApprove> orderApproveAR = new AtomicReference<>();
+        AtomicReference<OrderApproveAnswer> orderApproveAR = new AtomicReference<>();
         doAnswer(invocationOnMock -> {
             orderApproveAR.set(invocationOnMock.getArgument(0));
             return null;
-        }).when(orderApproveRepository).save(any(OrderApprove.class));
+        }).when(orderApproveAnswerRepository).save(any(OrderApproveAnswer.class));
 
-        orderService.updateApproveStatus(orderApproveDto, order.getId());
+        orderService.updateApproveStatus(orderApproveAnswerDto, order.getId());
 
         assertEquals(order.getApprove(), approve);
         assertEquals(orderApproveAR.get().isApprove(), approve);
-        assertEquals(orderApproveAR.get().getOrder(), order);
 
         verify(orderRepository, times(1)).findById(order.getId());
         verify(orderRepository, times(1)).save(order);
-        verify(orderApproveRepository, times(1)).save(any());
-
+        verify(orderApproveAnswerRepository, times(1)).save(any());
     }
 
     @Test

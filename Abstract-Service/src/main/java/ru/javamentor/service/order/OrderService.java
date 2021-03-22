@@ -1,13 +1,13 @@
 package ru.javamentor.service.order;
 
-import ru.javamentor.dto.order.OrderApproveDto;
+import ru.javamentor.dto.order.OrderApproveAnswerDto;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.model.user.User;
 
 import java.util.List;
 
 public interface OrderService {
-    void updateApproveStatus(OrderApproveDto orderApproveDto, Long orderId);
+    void updateApproveStatus(OrderApproveAnswerDto orderApproveAnswerDto, Long orderId);
 
     Long updateShippedStatus(String orderIdFromErp);
 
