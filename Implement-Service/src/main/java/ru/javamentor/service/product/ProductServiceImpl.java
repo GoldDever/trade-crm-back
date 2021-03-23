@@ -12,12 +12,20 @@ import ru.javamentor.repository.product.ProductCategoryRepository;
 import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.product.SupplierRepository;
 import ru.javamentor.repository.product.UnitRepository;
+import ru.javamentor.service.storage.FileStorageException;
+import ru.javamentor.service.storage.FileStorageService;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -31,6 +39,8 @@ public class ProductServiceImpl implements ProductService {
     private UnitRepository unitRepository;
     private ProductCategoryRepository productCategoryRepository;
     private SupplierRepository supplierRepository;
+
+    Logger logger = Logger.getLogger(ProductService.class.getName());
 
     public ProductServiceImpl() {
     }
@@ -198,4 +208,22 @@ public class ProductServiceImpl implements ProductService {
 
         return dtoList;
     }
+
+    @Override
+    public byte[] getProductImage(Long productId, String productImageUrl) {
+        Product product = productRepository.findProductById(productId);
+        if (!product.getImageUrl().equals(productImageUrl)) {
+            throw new ProductServiceException("У продукта с ID - " + productId +
+                    ", отсутствует изображение с Url - " + productImageUrl);
+        } else {
+            try {
+                File file = new File(productImageUrl);
+                return Files.readAllBytes(file.toPath());
+            } catch (IOException e) {
+                logger.log(Level.WARNING, e.getMessage());
+                throw new ProductServiceException("Не удалось прочитать изображение!");
+            }
+        }
+    }
+
 }

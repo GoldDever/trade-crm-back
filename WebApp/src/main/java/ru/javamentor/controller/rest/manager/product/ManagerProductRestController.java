@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.javamentor.dto.product.ProductDto;
+import ru.javamentor.model.product.Product;
 import ru.javamentor.service.product.ProductService;
 
 import java.util.List;
@@ -22,14 +23,14 @@ public class ManagerProductRestController {
     }
 
     /**
-     *  Метод для получения продукта
+     * Метод для получения продукта
      *
      * @param productId - id продукта
      * @return - продуктДТО
      */
     @GetMapping("/{productId}")
     public ResponseEntity<?> getProductDtoByProductId(@PathVariable Long productId) {
-        if (productService.isProductIdExists(productId)){
+        if (productService.isProductIdExists(productId)) {
             return ResponseEntity.ok().body(productService.getProductDtoByProductId(productId));
         }
 
@@ -45,5 +46,17 @@ public class ManagerProductRestController {
     @GetMapping()
     public ResponseEntity<?> getProductListBySearch(@RequestParam(required = false) String search) {
         return ResponseEntity.ok(productService.getProductListBySearch(search));
+    }
+
+    @GetMapping("/image/{productId}/{productImageUrl}")
+    public ResponseEntity<?> getProductImage(@PathVariable Long productId,
+                                             @PathVariable String productImageUrl) {
+        if (!productService.isProductIdExists(productId)) {
+            return ResponseEntity.badRequest().body("Продукт с id = " + productId + " не найден");
+        }
+        if (productImageUrl == null || productImageUrl.isEmpty()) {
+            return ResponseEntity.badRequest().body("Продукт с Url = " + productImageUrl + " не найден");
+        }
+        return ResponseEntity.ok(productService.getProductImage(productId, productImageUrl));
     }
 }
