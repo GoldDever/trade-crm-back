@@ -25,4 +25,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     String getClientFullNameByEmail(@Param("clientEmail") String email);
 
     boolean existsClientByUsername(String username);
+
+    Client findByUsername(String username);
 }

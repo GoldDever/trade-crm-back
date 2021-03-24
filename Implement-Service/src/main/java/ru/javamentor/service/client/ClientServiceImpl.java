@@ -1,12 +1,14 @@
 package ru.javamentor.service.client;
 
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.dto.user.ClientPostDto;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.repository.user.ClientRepository;
+import ru.javamentor.service.PasswordGenerator;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -15,12 +17,13 @@ import java.util.List;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
-
-    public ClientServiceImpl(ClientRepository clientRepository) {
+    public ClientServiceImpl(ClientRepository clientRepository, BCryptPasswordEncoder passwordEncoder) {
         this.clientRepository = clientRepository;
 
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -95,12 +98,20 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     @Override
     public void saveNewClient(ClientPostDto clientPostDto) {
+        PasswordGenerator passwordGenerator = new PasswordGenerator.PasswordGeneratorBuilder()
+                .useDigits(true)
+                .useLower(true)
+                .useUpper(true)
+                .build();
+        String password = passwordGenerator.generate(10);
         Client clientDto = new Client();
         clientDto.setFirstName(clientPostDto.getFirstName());
         clientDto.setLastName(clientPostDto.getLastName());
+        clientDto.setPassword(passwordEncoder.encode(password));
         clientDto.setClientName(clientPostDto.getClientName());
         clientDto.setPatronymic(clientPostDto.getPatronymic());
         clientDto.setUsername(clientPostDto.getEmail());
+        clientDto.setRoles(clientPostDto.getRoles());
         clientRepository.save(clientDto);
 
     }

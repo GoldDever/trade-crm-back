@@ -2,11 +2,13 @@ package ru.javamentor.service.manager;
 
 
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.dto.user.ManagerPostDto;
 import ru.javamentor.model.user.Manager;
 import ru.javamentor.repository.user.ManagerRepository;
+import ru.javamentor.service.PasswordGenerator;
 
 import javax.transaction.Transactional;
 
@@ -14,10 +16,11 @@ import javax.transaction.Transactional;
 public class ManagerServiceImpl implements ManagerService {
 
     private final ManagerRepository managerRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-
-    public ManagerServiceImpl(ManagerRepository managerRepository) {
+    public ManagerServiceImpl(ManagerRepository managerRepository, BCryptPasswordEncoder passwordEncoder) {
         this.managerRepository = managerRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -56,14 +59,24 @@ public class ManagerServiceImpl implements ManagerService {
     @Transactional
     @Override
     public void saveNewManager(ManagerPostDto managerPostDto) {
+
+        PasswordGenerator passwordGenerator = new PasswordGenerator.PasswordGeneratorBuilder()
+                .useDigits(true)
+                .useLower(true)
+                .useUpper(true)
+                .build();
+        String password = passwordGenerator.generate(10);
         Manager managerDto = new Manager();
         managerDto.setFirstName(managerPostDto.getFirstName());
         managerDto.setLastName(managerPostDto.getLastName());
+        managerDto.setPassword(passwordEncoder.encode(password));
         managerDto.setPatronymic(managerPostDto.getPatronymic());
         managerDto.setUsername(managerPostDto.getEmail());
+        managerDto.setRoles(managerPostDto.getRoles());
         managerRepository.save(managerDto);
 
     }
+
 
     /**
      * Метод проверяет, сущестует ли менеджер с таким Email

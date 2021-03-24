@@ -1,5 +1,9 @@
 package ru.javamentor.dto.user;
 
+import ru.javamentor.model.user.Role;
+
+import java.util.Set;
+
 /**
  * DTO для создания нового менеджера
  */
@@ -9,6 +13,7 @@ public class ManagerPostDto {
     private String lastName;
     private String patronymic;
     private String email;
+    private Set<Role> roles;
 
 
 
@@ -46,6 +51,14 @@ public class ManagerPostDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
 }

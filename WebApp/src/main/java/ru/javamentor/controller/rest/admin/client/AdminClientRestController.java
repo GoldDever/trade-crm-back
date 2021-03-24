@@ -34,7 +34,7 @@ public class AdminClientRestController {
 
 
         if (managerService.isExistsManagerByEmail(clientDto.getEmail())) {
-            return new ResponseEntity<>("На данный id, зарегистрирован менеджер " +
+            return new ResponseEntity<>("На данный email, зарегистрирован менеджер " +
                     managerService.getManagerFullNameByEmail(clientDto.getEmail()), HttpStatus.BAD_REQUEST);
         } else if (clientService.isExistsClientByEmail(clientDto.getEmail())) {
             return new ResponseEntity<>("Клиент с таким email уже существует", HttpStatus.BAD_REQUEST);
