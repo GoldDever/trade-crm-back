@@ -80,13 +80,13 @@ public class ManagerOrderItemRestController {
      */
     @PutMapping(value = "/{orderItemId}/{newPrice}")
     public ResponseEntity<String> editProductPrice(@PathVariable Long orderItemId, @PathVariable Double newPrice) {
-
+        
         if (orderItemService.isExistsByOrderItemId(orderItemId)) {
             orderItemService.editProductPrice(orderItemId, newPrice);
             return ResponseEntity.status(HttpStatus.OK).body("Значение наценки изменено");
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Нет orederItem с id - " + orderItemId);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Нет orderItem с id - " + orderItemId);
     }
 
 }

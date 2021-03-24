@@ -11,6 +11,7 @@ import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -114,11 +115,13 @@ public class OrderItemServiceImpl implements OrderItemService {
      */
 
     @Override
+    @Transactional
     public void editProductPrice(Long orderItemId, Double newPrice) {
         OrderItem orderItem = orderItemRepository.getOne(orderItemId);
         BigDecimal price = orderItem.getProduct().getPrice();
         BigDecimal currentMargeRub = BigDecimal.valueOf(newPrice).subtract(price);
-        BigDecimal currentMargePercent = currentMargeRub.multiply(BigDecimal.valueOf(100)).divide(price);
+        BigDecimal currentMargePercent = currentMargeRub.multiply(BigDecimal.valueOf(100)).divide(price, 2, RoundingMode.UP);
+        orderItem.getProduct().setPrice(BigDecimal.valueOf(newPrice));
 
         if (currentMargePercent.compareTo(orderItem.getProduct().getMinMargin()) > 0) {
             orderItem.setCurrentMargePercent(currentMargePercent);
