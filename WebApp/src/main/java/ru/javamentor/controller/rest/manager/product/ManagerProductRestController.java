@@ -48,9 +48,16 @@ public class ManagerProductRestController {
         return ResponseEntity.ok(productService.getProductListBySearch(search));
     }
 
+    /**
+     * Метод для получения картинки продукта
+     *
+     * @param productId - id продукта
+     * @param productImageUrl - url картинки продукта
+     * @return - массив байтов
+     */
     @GetMapping("/image/{productId}/{productImageUrl}")
     public ResponseEntity<?> getProductImage(@PathVariable Long productId,
-                                             @PathVariable String productImageUrl) {
+                                             @PathVariable("productImageUrl") String productImageUrl) {
         if (!productService.isProductIdExists(productId)) {
             return ResponseEntity.badRequest().body("Продукт с id = " + productId + " не найден");
         }
