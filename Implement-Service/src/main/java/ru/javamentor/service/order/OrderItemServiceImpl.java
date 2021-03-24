@@ -121,7 +121,6 @@ public class OrderItemServiceImpl implements OrderItemService {
         BigDecimal price = orderItem.getProduct().getPrice();
         BigDecimal currentMargeRub = BigDecimal.valueOf(newPrice).subtract(price);
         BigDecimal currentMargePercent = currentMargeRub.multiply(BigDecimal.valueOf(100)).divide(price, 2, RoundingMode.HALF_UP);
-        orderItem.getProduct().setPrice(BigDecimal.valueOf(newPrice));
 
         if (currentMargePercent.compareTo(orderItem.getProduct().getMinMargin()) > 0) {
             orderItem.setCurrentMargePercent(currentMargePercent);
