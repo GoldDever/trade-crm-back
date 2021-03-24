@@ -10,7 +10,7 @@ public class ProductDto {
     private Long id;
     private String productName;
     private String madeCountry;
-    private ManufacturerDto manufacturerDto;
+    private ManufacturerDto manufacturer;
     private List<SupplierDto> supplierDto;
     private String article;
     private UnitDto unit;
@@ -26,7 +26,7 @@ public class ProductDto {
             Long id,
             String productName,
             String madeCountry,
-            ManufacturerDto manufacturerDto,
+            ManufacturerDto manufacturer,
             List<SupplierDto> supplierDto,
             String article,
             UnitDto unit,
@@ -37,7 +37,7 @@ public class ProductDto {
         this.id = id;
         this.productName = productName;
         this.madeCountry = madeCountry;
-        this.manufacturerDto = manufacturerDto;
+        this.manufacturer = manufacturer;
         this.supplierDto = supplierDto;
         this.article = article;
         this.unit = unit;
@@ -89,7 +89,7 @@ public class ProductDto {
 
 
     public ProductDto(String productName, String madeCountry,
-                      ManufacturerDto manufacturerDto) {
+                      ManufacturerDto manufacturer) {
         this.productName = productName;
     }
 
@@ -120,12 +120,12 @@ public class ProductDto {
         this.madeCountry = madeCountry;
     }
 
-    public ManufacturerDto getManufacturerDto() {
-        return manufacturerDto;
+    public ManufacturerDto getManufacturer() {
+        return manufacturer;
     }
 
-    public void setManufacturerDto(ManufacturerDto manufacturerDto) {
-        this.manufacturerDto = manufacturerDto;
+    public void setManufacturer(ManufacturerDto manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
     public List<SupplierDto> getSupplierDto() {

@@ -136,7 +136,7 @@ public class ProductServiceImpl implements ProductService {
         Long manufacturerId = productRepository.findManufacturerIdByProductId(productId);
         Long unitId = productRepository.findUnitIdByProductId(productId);
         List<Long> supplierIdList = productRepository.findListSupplierIdByProductId(productId);
-        dto.setManufacturerDto(manufacturerRepository.findManufacturerDtoByManufacturerId(manufacturerId));
+        dto.setManufacturer(manufacturerRepository.findManufacturerDtoByManufacturerId(manufacturerId));
         dto.setSupplierDto(supplierRepository.findSupplierDtoBySupplierId(supplierIdList));
         dto.setUnit(unitRepository.findUnitDtoByUnitId(unitId));
         dto.setProductCategory(productCategoryRepository.findProductCategoryByProductId(productId));
@@ -200,7 +200,7 @@ public class ProductServiceImpl implements ProductService {
             Long manufacturerId = productRepository.findManufacturerIdByProductId(productDto.getId());
             Long unitId = productRepository.findUnitIdByProductId(productDto.getId());
             List<Long> supplierIdList = productRepository.findListSupplierIdByProductId(productDto.getId());
-            productDto.setManufacturerDto(manufacturerRepository.findManufacturerDtoByManufacturerId(manufacturerId));
+            productDto.setManufacturer(manufacturerRepository.findManufacturerDtoByManufacturerId(manufacturerId));
             productDto.setSupplierDto(supplierRepository.findSupplierDtoBySupplierId(supplierIdList));
             productDto.setUnit(unitRepository.findUnitDtoByUnitId(unitId));
             productDto.setProductCategory(productCategoryRepository.findProductCategoryByProductId(productDto.getId()));
