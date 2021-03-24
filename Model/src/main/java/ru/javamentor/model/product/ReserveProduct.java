@@ -49,6 +49,16 @@ public class ReserveProduct {
     }
 
     public ReserveProduct(
+            Product product,
+            Order order,
+            Long productCount) {
+        this.product = product;
+        this.order = order;
+        this.productCount = Math.toIntExact(productCount);
+        this.createDateTime = LocalDateTime.now();
+    }
+
+    public ReserveProduct(
             Long id,
             Product product,
             Order order,

@@ -117,7 +117,22 @@ public class ManagerProductReserveRestController {
         if (result.isEmpty()) {
             return new ResponseEntity<>("Товар зарезирвирован", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n" + result, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: " + " \n" + result, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Метод для проверки есть в заказе незарезервированные продукты
+     *
+     * @param orderId - id заказа
+     * @return - HTTP ответ с BODY
+     */
+    @GetMapping("/{orderId}/all/isReserved")
+    public ResponseEntity<String> isAllProductsReservedInOrder(@PathVariable Long orderId) {
+        if (reserveProductService.isAllProductReservedByOrder(orderId)) {
+            return new ResponseEntity<>("Все товары в заказе зарезервированы", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("В заказе есть незарезервированные товары", HttpStatus.BAD_REQUEST);
         }
     }
 
