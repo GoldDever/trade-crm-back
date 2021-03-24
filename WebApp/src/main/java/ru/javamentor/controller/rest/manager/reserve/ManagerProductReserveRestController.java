@@ -54,6 +54,35 @@ public class ManagerProductReserveRestController {
         }
     }
 
+
+    /**
+     * Метод возвращает резервы товара с productId в конкретном заказе с orderId
+     *
+     * @param orderId
+     * @param productId
+     * @return
+     */
+    @GetMapping("/all/order/{orderId}/product/{productId}")
+    public ResponseEntity<?> getAllReserveProductByOrderIdAndProductId(@PathVariable Long orderId,
+                                                                       @PathVariable Long productId){
+        try {
+            List<ReserveProductDto> reserveProductDtoList = reserveProductService
+                    .getListReserveProductDtoByOrderIdAndProductId(orderId, productId);
+
+            if (reserveProductDtoList.size() > 0) {
+                return ResponseEntity.ok().body(reserveProductDtoList);
+            } else {
+                return ResponseEntity.badRequest().body("В заказе №" + orderId + "отсутствуют резервы по данному товару.");
+            }
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest()
+                    .body("Произошла ошибка при попытке получить информацию по резервам в заказе с id = " + orderId +
+                            " на Товар с id = " + productId);
+        }
+
+    }
+
     /**
      * Метод возвращает Количество зарезервированных товаров в ордере по orderId и productId
      *
@@ -88,7 +117,22 @@ public class ManagerProductReserveRestController {
         if (result.isEmpty()) {
             return new ResponseEntity<>("Товар зарезирвирован", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: \n" + result, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: " + " \n" + result, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
+     * Метод для проверки есть в заказе незарезервированные продукты
+     *
+     * @param orderId - id заказа
+     * @return - HTTP ответ с BODY
+     */
+    @GetMapping("/{orderId}/all/isReserved")
+    public ResponseEntity<String> isAllProductsReservedInOrder(@PathVariable Long orderId) {
+        if (reserveProductService.isAllProductReservedByOrder(orderId)) {
+            return new ResponseEntity<>("Все товары в заказе зарезервированы", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("В заказе есть незарезервированные товары", HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -6,6 +6,7 @@ import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.model.product.ReserveProduct;
+import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
@@ -23,15 +24,19 @@ public class ReserveProductServiceImpl implements ReserveProductService {
     private final ReserveProductRepository reserveProductRepository;
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
-    private final ManagerRepository managerRepository;
     private final OrderService orderService;
+    private final OrderItemRepository orderItemRepository;
 
-    public ReserveProductServiceImpl(ReserveProductRepository reserveProductRepository, OrderRepository orderRepository, ProductRepository productRepository, ManagerRepository managerRepository, OrderService orderService) {
+    public ReserveProductServiceImpl(ReserveProductRepository reserveProductRepository,
+                                     OrderRepository orderRepository,
+                                     ProductRepository productRepository,
+                                     OrderService orderService,
+                                     OrderItemRepository orderItemRepository) {
         this.reserveProductRepository = reserveProductRepository;
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
-        this.managerRepository = managerRepository;
         this.orderService = orderService;
+        this.orderItemRepository = orderItemRepository;
     }
 
     /**
@@ -130,11 +135,19 @@ public class ReserveProductServiceImpl implements ReserveProductService {
         List<OrderItem> orderItems = new ArrayList<>(reserveProductRepository.getOrderItemListByOrderId(orderId));
 
         for (OrderItem item : orderItems) {
-            if (reserveProductRepository.countReserveProducts(item.getProduct().getId()) >= item.getProductCount()) {
-                reserveProductRepository.save(new ReserveProduct(item.getProduct(), item.getOrder(), item.getProductCount()));
-            } else {
-                result.append(item.getProduct().getProductName());
-                result.append("\n");
+            int SumReservedProductInOrder = reserveProductRepository.getSumOfReserveProductCounts(orderId, item.getProduct().getId());
+            if (SumReservedProductInOrder < item.getProductCount()) {
+                int availableCountProducts = reserveProductRepository.countReserveProducts(item.getProduct().getId());
+                if (availableCountProducts >= item.getProductCount()) {
+                    reserveProductRepository.save(new ReserveProduct(item.getProduct(), item.getOrder(), item.getProductCount()));
+                } else {
+                    if (availableCountProducts > 0) {
+                        reserveProductRepository.save(new ReserveProduct(item.getProduct(), item.getOrder(), availableCountProducts));
+                        result.append(item.getProduct().getProductName()).append(", зарезервирован в количестве: ").append(availableCountProducts).append("/").append(item.getProductCount()).append("\n");
+                    } else {
+                        result.append(item.getProduct().getProductName()).append(": товар полностью отсутствует в наличии").append("\n");
+                    }
+                }
             }
         }
         return String.valueOf(result);
@@ -153,9 +166,59 @@ public class ReserveProductServiceImpl implements ReserveProductService {
         return reserveProductRepository.getCountReservedProduct(orderId, productId);
     }
 
+
+    /**
+     * Метод возвращает флаг зарезервированы ли все товары в заказе (суммирует количество для каждого товара в заказе и резерве)
+     *
+     * @param orderId - id заказа
+     * @return - флаг зарезервированы ли все товары в заказе
+     */
+    @Transactional
+    @Override
+    public boolean isAllProductReservedByOrder(Long orderId) {
+        List<ReserveProduct> listReservedProduct = new ArrayList<>(reserveProductRepository.getReserveProductByOrder(orderId));
+        List<ReserveProduct> listFutureReservedProduct = new ArrayList<>(orderItemRepository.getFutureReserveProductByOrder(orderId));
+        if (listFutureReservedProduct.size() != listReservedProduct.size()) {
+            return false;
+        } else {
+            for (int i = 0; i < listFutureReservedProduct.size(); i++) {
+                if ((listFutureReservedProduct.get(i).getProduct().getId() != listReservedProduct.get(i).getProduct().getId())
+                        && (listFutureReservedProduct.get(i).getProductCount() != listReservedProduct.get(i).getProductCount())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Метод возвращает список ReserveProductDto с id productId в конкретном заказе с orderId
+     *
+     * @param orderId
+     * @param productId
+     * @return
+     */
+    @Override
+    public List<ReserveProductDto> getListReserveProductDtoByOrderIdAndProductId(Long orderId, Long productId) {
+        List<ReserveProduct> reserveProductList =
+                reserveProductRepository.getReserveProductList(orderId, productId);
+        List<ReserveProductDto> reserveProductDtoList = new ArrayList<>();
+
+        for (ReserveProduct reserveProduct : reserveProductList) {
+            ReserveProductDto reserveProductDto = new ReserveProductDto();
+
+            reserveProductDto.setId(reserveProduct.getId());
+            reserveProductDto.setProductCount(reserveProduct.getProductCount());
+            reserveProductDto.setCreateTime(reserveProduct.getCreateDateTime());
+
+            reserveProductDtoList.add(reserveProductDto);
+        }
+        return reserveProductDtoList;
+    }
+
     /**
      * Возвращает список ReserveProductDto по id продукта, с заполненными id, ProductCount, CreateDateTime,
-     * OrderDTO.Manager.firstName и lastName
+     * OrderDTO.Manager.firstName и  lastName
      *
      * @param productId
      * @return

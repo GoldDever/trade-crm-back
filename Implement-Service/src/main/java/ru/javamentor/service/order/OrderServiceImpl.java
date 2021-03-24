@@ -1,15 +1,17 @@
 package ru.javamentor.service.order;
 
 import org.springframework.stereotype.Service;
+import ru.javamentor.dto.order.OrderApproveAnswerDto;
 import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.dto.user.ManagerDto;
-import ru.javamentor.dto.order.OrderApproveDto;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
-import ru.javamentor.model.order.OrderApprove;
+import ru.javamentor.model.order.OrderApproveAnswer;
+import ru.javamentor.model.order.OrderApproveRequest;
 import ru.javamentor.model.user.User;
-import ru.javamentor.repository.order.OrderApproveRepository;
+import ru.javamentor.repository.order.OrderApproveAnswerRepository;
+import ru.javamentor.repository.order.OrderApproveRequestRepository;
 import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
@@ -25,45 +27,49 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderApproveRepository orderApproveRepository;
+    private final OrderApproveRequestRepository orderApproveRequestRepository;
     private final OrderItemRepository orderItemRepository;
     private final ClientRepository clientRepository;
     private final ManagerRepository managerRepository;
     private final ReserveProductRepository reserveProductRepository;
     private final ProductService productService;
+    private final OrderApproveAnswerRepository orderApproveAnswerRepository;
 
 
     public OrderServiceImpl(OrderRepository orderRepository,
-                            OrderApproveRepository orderApproveRepository,
+                            OrderApproveRequestRepository orderApproveRequestRepository,
                             OrderItemRepository orderItemRepository,
                             ClientRepository clientRepository,
                             ManagerRepository managerRepository,
                             ReserveProductRepository reserveProductRepository,
-                            ProductService productService) {
+                            ProductService productService, OrderApproveAnswerRepository orderApproveAnswerRepository) {
         this.orderRepository = orderRepository;
-        this.orderApproveRepository = orderApproveRepository;
+        this.orderApproveRequestRepository = orderApproveRequestRepository;
         this.orderItemRepository = orderItemRepository;
         this.clientRepository = clientRepository;
         this.managerRepository = managerRepository;
         this.reserveProductRepository = reserveProductRepository;
         this.productService = productService;
+        this.orderApproveAnswerRepository = orderApproveAnswerRepository;
     }
 
     /**
-     * Метод меняет флаг в Order на тот, что пришёл в orderApproveDto
-     * сохраняет новый OrderApprove
+     * Метод меняет флаг в Order на тот, что пришёл в OrderApproveAnswerDto
+     * сохраняет новый OrderApproveAnswer
      *
-     * @param orderApproveDto - ДТО из которого получаем новый флаг isApprove
+     * @param orderApproveAnswerDto - ДТО из которого получаем новый флаг isApprove
      * @param orderId         - id по которому находим Order и изменяем у него флаг isApprove
      */
     @Override
-    public void updateApproveStatus(OrderApproveDto orderApproveDto, Long orderId) {
-        Order order = orderRepository.findById(orderId).get();
-        OrderApprove orderApprove = new OrderApprove(orderApproveDto.isApprove(), orderApproveDto.getText(), order);
+    public void updateApproveStatus(OrderApproveAnswerDto orderApproveAnswerDto, Long orderId) {
 
-        order.setApprove(orderApproveDto.isApprove());
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        OrderApproveRequest orderApproveRequest = orderApproveRequestRepository.findById(orderApproveAnswerDto.getOrderApproveRequest().getId()).orElseThrow();
+        OrderApproveAnswer orderApproveAnswer = new OrderApproveAnswer(orderApproveAnswerDto.isApprove(), orderApproveAnswerDto.getText(), orderApproveRequest);
+
+        order.setApprove(orderApproveAnswer.isApprove());
         orderRepository.save(order);
-        orderApproveRepository.save(orderApprove);
+        orderApproveAnswerRepository.save(orderApproveAnswer);
     }
 
     /**

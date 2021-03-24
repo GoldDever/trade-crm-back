@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
-import ru.javamentor.model.order.OrderApprove;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.Product;
 import ru.javamentor.repository.order.OrderItemRepository;
