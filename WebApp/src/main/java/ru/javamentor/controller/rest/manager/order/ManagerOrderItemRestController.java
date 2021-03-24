@@ -80,7 +80,7 @@ public class ManagerOrderItemRestController {
      */
     @PutMapping(value = "/{orderItemId}/{newPrice}")
     public ResponseEntity<String> editProductPrice(@PathVariable Long orderItemId, @PathVariable Double newPrice) {
-        
+
         if (orderItemService.isExistsByOrderItemId(orderItemId)) {
             orderItemService.editProductPrice(orderItemId, newPrice);
             return ResponseEntity.status(HttpStatus.OK).body("Значение наценки изменено");
