@@ -1,16 +1,17 @@
 package ru.javamentor.controller.rest.manager.product;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.javamentor.dto.product.ProductDto;
-import ru.javamentor.model.product.Product;
+import org.springframework.web.servlet.HandlerMapping;
 import ru.javamentor.service.product.ProductService;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
+
 
 @RestController
 @RequestMapping("api/manager/product")
@@ -51,19 +52,33 @@ public class ManagerProductRestController {
     /**
      * Метод для получения картинки продукта
      *
-     * @param productId - id продукта
+     * @param productId       - id продукта
      * @param productImageUrl - url картинки продукта
      * @return - массив байтов
      */
-    @GetMapping("/image/{productId}/{productImageUrl}")
+    @GetMapping("/image/{productId}/{productImageUrl}/**")
     public ResponseEntity<?> getProductImage(@PathVariable Long productId,
-                                             @PathVariable("productImageUrl") String productImageUrl) {
+                                             @PathVariable String productImageUrl,
+                                             HttpServletRequest request) {
+        final String path =
+                request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString();
+        final String bestMatchingPattern =
+                request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE).toString();
+
+        String arguments = new AntPathMatcher().extractPathWithinPattern(bestMatchingPattern, path);
+
+        String resultUrl;
+        if (arguments != null && !arguments.isEmpty()) {
+            resultUrl = productImageUrl + '/' + arguments;
+        } else {
+            resultUrl = productImageUrl;
+        }
         if (!productService.isProductIdExists(productId)) {
             return ResponseEntity.badRequest().body("Продукт с id = " + productId + " не найден");
         }
         if (productImageUrl == null || productImageUrl.isEmpty()) {
             return ResponseEntity.badRequest().body("Продукт с Url = " + productImageUrl + " не найден");
         }
-        return ResponseEntity.ok(productService.getProductImage(productId, productImageUrl));
+        return ResponseEntity.ok(productService.getProductImage(productId, resultUrl));
     }
 }
