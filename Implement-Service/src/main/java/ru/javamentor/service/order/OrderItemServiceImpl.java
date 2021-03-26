@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
+
 @Service
 public class OrderItemServiceImpl implements OrderItemService {
 
@@ -40,17 +41,24 @@ public class OrderItemServiceImpl implements OrderItemService {
         Order order = orderRepository.findById(orderId).orElseThrow();
         Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElseThrow();
         Integer lastPosition = orderItemRepository.getNumberOfPositionInOrder(order.getId());
-        OrderItem orderItem = new OrderItem(
-                orderItemDto.getId(),
-                orderItemDto.getInvoiceIssued(),
-                orderItemDto.getProductCount(),
-                product,
-                order,
-                lastPosition + 1,
-                orderItemDto.getCurrentMargePercent()
-        );
 
-        orderItemRepository.save(orderItem);
+        List<OrderItem> orderItemList = orderItemRepository.getListOrderItemByOrderId(orderId);
+
+        orderItemRepository.save(orderItemList.stream()
+                .filter(p -> p.getProduct().getId().equals(orderItemDto.getProduct().getId()))
+                .findFirst()
+                .map(p -> {
+                    p.setProductCount(p.getProductCount() + orderItemDto.getProductCount());
+                    return p;
+                }).orElseGet(() -> new OrderItem(
+                        orderItemDto.getId(),
+                        orderItemDto.getInvoiceIssued(),
+                        orderItemDto.getProductCount(),
+                        product,
+                        order,
+                        lastPosition + 1,
+                        orderItemDto.getCurrentMargePercent()
+                )));
     }
 
 
