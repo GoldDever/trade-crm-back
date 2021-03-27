@@ -52,33 +52,14 @@ public class ManagerProductRestController {
     /**
      * Метод для получения картинки продукта
      *
-     * @param productId       - id продукта
-     * @param productImageUrl - url картинки продукта
+     * @param productId - id продукта
      * @return - массив байтов
      */
-    @GetMapping("/image/{productId}/{productImageUrl}/**")
-    public ResponseEntity<?> getProductImage(@PathVariable Long productId,
-                                             @PathVariable String productImageUrl,
-                                             HttpServletRequest request) {
-        final String path =
-                request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE).toString();
-        final String bestMatchingPattern =
-                request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE).toString();
-
-        String arguments = new AntPathMatcher().extractPathWithinPattern(bestMatchingPattern, path);
-
-        String resultUrl;
-        if (arguments != null && !arguments.isEmpty()) {
-            resultUrl = productImageUrl + '/' + arguments;
-        } else {
-            resultUrl = productImageUrl;
-        }
+    @GetMapping("/image/{productId}")
+    public ResponseEntity<?> getProductImage(@PathVariable Long productId) {
         if (!productService.isProductIdExists(productId)) {
             return ResponseEntity.badRequest().body("Продукт с id = " + productId + " не найден");
         }
-        if (productImageUrl == null || productImageUrl.isEmpty()) {
-            return ResponseEntity.badRequest().body("Продукт с Url = " + productImageUrl + " не найден");
-        }
-        return ResponseEntity.ok(productService.getProductImage(productId, resultUrl));
+        return ResponseEntity.ok(productService.getProductImage(productId));
     }
 }

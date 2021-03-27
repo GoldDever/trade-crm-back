@@ -19,5 +19,5 @@ public interface ProductService {
     Product getProductByIdFromErp(String idFromErp);
     void setProductImageUrl(Product product, String imageUrl);
     List<ProductDto> getProductListBySearch(String search);
-    byte[] getProductImage(Long productId, String productImageUrl);
+    byte[] getProductImage(Long productId);
 }
