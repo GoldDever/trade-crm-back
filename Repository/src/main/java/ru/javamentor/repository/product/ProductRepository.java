@@ -82,4 +82,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "GROUP BY p.id")
     List<ProductDto> findAllProductDto();
 
+    @Query("SELECT p.ImageUrl " +
+            "FROM Product p " +
+            "WHERE p.id = :productId")
+    String findImageUrlByProductId(@Param("productId") Long ProductId);
+
 }
