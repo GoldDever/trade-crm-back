@@ -15,4 +15,8 @@ public interface OrderItemService {
 
     void updatePositions(Long orderId, Integer deletedPosition);
 
+    void editProductPrice(Long orderItemId, Double newPrice);
+
+    boolean isExistsByOrderItemId(Long orderItemId);
+
 }

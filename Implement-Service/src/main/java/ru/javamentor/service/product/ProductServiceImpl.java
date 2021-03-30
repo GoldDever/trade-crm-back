@@ -13,11 +13,17 @@ import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.product.SupplierRepository;
 import ru.javamentor.repository.product.UnitRepository;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -31,6 +37,8 @@ public class ProductServiceImpl implements ProductService {
     private UnitRepository unitRepository;
     private ProductCategoryRepository productCategoryRepository;
     private SupplierRepository supplierRepository;
+
+    Logger logger = Logger.getLogger(ProductService.class.getName());
 
     public ProductServiceImpl() {
     }
@@ -198,4 +206,25 @@ public class ProductServiceImpl implements ProductService {
 
         return dtoList;
     }
+
+    /**
+     * Метод возвращает массив байтов картинки продукта.
+     *
+     * @param productId - id продукта
+     * @return - массив байтов картинки
+     */
+
+    @Override
+    public byte[] getProductImage(Long productId) {
+        String productImageUrl = productRepository.findImageUrlByProductId(productId);
+        try {
+            Path pathImageUrl = Paths.get(productImageUrl);
+            return Files.readAllBytes(pathImageUrl);
+        } catch (IOException e) {
+            logger.log(Level.WARNING, e.getMessage());
+            throw new ProductServiceException("Не удалось прочитать изображение!");
+        }
+    }
 }
+
+
