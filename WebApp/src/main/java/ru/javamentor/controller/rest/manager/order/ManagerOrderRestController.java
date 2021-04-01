@@ -106,8 +106,8 @@ public class ManagerOrderRestController {
     /**
      * Метод добавления нового OrderApproveRequest
      *
-     * @param orderId
-     * @param orderApproveRequest
+     * @param orderId             - Принимает orderId как аргумент
+     * @param orderApproveRequest - объект запроса на согласование
      * @return - статус добавления запроса на утверждение заказа
      */
     @PostMapping(value = "/{orderId}/requestApprove")

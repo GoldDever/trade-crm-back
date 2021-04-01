@@ -56,10 +56,10 @@ public class ManagerOrderItemRestController {
     }
 
     /**
-     * Метод добавления нового orderItem в order
+     * Метод добавления новой строки в заказ
      *
-     * @param orderId
-     * @param orderItemDto
+     * @param orderId      - id заказа
+     * @param orderItemDto - объект новой строки заказа
      */
     @PostMapping(value = "/addOrderItem/{orderId}")
     public ResponseEntity<String> newOrderItem(@PathVariable Long orderId, @RequestBody OrderItemDto orderItemDto) {
@@ -75,8 +75,8 @@ public class ManagerOrderItemRestController {
     /**
      * Метод изменяет currentMargePercent в соответствии с входящей ценой
      *
-     * @param newPrice
-     * @param orderItemId
+     * @param newPrice    - новая цена
+     * @param orderItemId - id строки в заказе
      */
     @PutMapping(value = "/{orderItemId}/{newPrice}")
     public ResponseEntity<String> editProductPrice(@PathVariable Long orderItemId, @PathVariable Double newPrice) {
