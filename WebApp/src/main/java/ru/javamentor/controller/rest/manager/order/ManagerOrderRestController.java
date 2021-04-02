@@ -84,7 +84,6 @@ public class ManagerOrderRestController {
         
         Long id = Long.valueOf(clientId);
         Long orderId = orderService.newOrder(id, user);
-
         return new ResponseEntity<>(orderId, HttpStatus.CREATED);
     }
 
