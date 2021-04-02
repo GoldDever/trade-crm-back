@@ -78,22 +78,10 @@ public class ManagerOrderRestController {
      * @param user     - user из principal для получения manager
      * @return - статус http-запроса
      */
-    @PostMapping("new/client/{clientId}")
+    @PostMapping(value= {"new/client/{clientId}", "new/client/"})
     public ResponseEntity<?> newOrder(@PathVariable(required = false) Long clientId,
                                       @AuthenticationPrincipal User user) {
         Long orderId = orderService.newOrder(clientId, user);
-        return new ResponseEntity<>(orderId, HttpStatus.CREATED);
-    }
-
-    /**
-     * Метод для сохранения нового Order при условии отсутствия у него клиента
-     *
-     * @param user     - user из principal для получения manager
-     * @return - статус http-запроса
-     */
-    @PostMapping("new/client/")
-    public ResponseEntity<?> newOrderWithoutClientId(@AuthenticationPrincipal User user) {
-        Long orderId = orderService.newOrder(null, user);
         return new ResponseEntity<>(orderId, HttpStatus.CREATED);
     }
 
