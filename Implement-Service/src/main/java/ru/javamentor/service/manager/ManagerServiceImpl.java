@@ -1,7 +1,6 @@
 package ru.javamentor.service.manager;
 
 
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.user.ManagerDto;
@@ -17,10 +16,16 @@ public class ManagerServiceImpl implements ManagerService {
 
     private final ManagerRepository managerRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordGenerator passwordGenerator;
 
-    public ManagerServiceImpl(ManagerRepository managerRepository, BCryptPasswordEncoder passwordEncoder) {
+
+
+    public ManagerServiceImpl(ManagerRepository managerRepository, BCryptPasswordEncoder passwordEncoder, PasswordGenerator passwordGenerator) {
         this.managerRepository = managerRepository;
         this.passwordEncoder = passwordEncoder;
+        this.passwordGenerator = passwordGenerator;
+
+
     }
 
     /**
@@ -60,16 +65,10 @@ public class ManagerServiceImpl implements ManagerService {
     @Override
     public void saveNewManager(ManagerPostDto managerPostDto) {
 
-        PasswordGenerator passwordGenerator = new PasswordGenerator.PasswordGeneratorBuilder()
-                .useDigits(true)
-                .useLower(true)
-                .useUpper(true)
-                .build();
-        String password = passwordGenerator.generate(10);
         Manager managerDto = new Manager();
         managerDto.setFirstName(managerPostDto.getFirstName());
         managerDto.setLastName(managerPostDto.getLastName());
-        managerDto.setPassword(passwordEncoder.encode(password));
+        managerDto.setPassword(passwordEncoder.encode(passwordGenerator.generateStrongPassword()));
         managerDto.setPatronymic(managerPostDto.getPatronymic());
         managerDto.setUsername(managerPostDto.getEmail());
         managerDto.setRoles(managerPostDto.getRoles());

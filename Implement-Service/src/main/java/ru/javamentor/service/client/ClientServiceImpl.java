@@ -18,12 +18,13 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordGenerator passwordGenerator;
 
-
-    public ClientServiceImpl(ClientRepository clientRepository, BCryptPasswordEncoder passwordEncoder) {
+    public ClientServiceImpl(ClientRepository clientRepository,
+                             BCryptPasswordEncoder passwordEncoder, PasswordGenerator passwordGenerator) {
         this.clientRepository = clientRepository;
-
         this.passwordEncoder = passwordEncoder;
+        this.passwordGenerator = passwordGenerator;
     }
 
     /**
@@ -60,6 +61,7 @@ public class ClientServiceImpl implements ClientService {
     public ClientDto getClientDtoByClientId(Long clientId) {
         return clientRepository.getClientDtoFromClientWithId(clientId);
     }
+
     /**
      * Метод возвращает айди менеджера клиента по clientId
      *
@@ -68,7 +70,7 @@ public class ClientServiceImpl implements ClientService {
      */
     @Transactional
     @Override
-    public boolean relationClientWithManager(Long clientId, Long managerId){
+    public boolean relationClientWithManager(Long clientId, Long managerId) {
         return clientRepository.relationClientWithManager(clientId, managerId);
     }
 
@@ -98,16 +100,11 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     @Override
     public void saveNewClient(ClientPostDto clientPostDto) {
-        PasswordGenerator passwordGenerator = new PasswordGenerator.PasswordGeneratorBuilder()
-                .useDigits(true)
-                .useLower(true)
-                .useUpper(true)
-                .build();
-        String password = passwordGenerator.generate(10);
+
         Client clientDto = new Client();
         clientDto.setFirstName(clientPostDto.getFirstName());
         clientDto.setLastName(clientPostDto.getLastName());
-        clientDto.setPassword(passwordEncoder.encode(password));
+        clientDto.setPassword(passwordEncoder.encode(passwordGenerator.generateStrongPassword()));
         clientDto.setClientName(clientPostDto.getClientName());
         clientDto.setPatronymic(clientPostDto.getPatronymic());
         clientDto.setUsername(clientPostDto.getEmail());
