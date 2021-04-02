@@ -94,15 +94,17 @@ public class OrderServiceImpl implements OrderService {
      *
      * @param clientId - id клиента
      * @param user     - user из principal для получения manager
+     * @return - id созданного заказа
      */
     @Transactional
     @Override
-    public void newOrder(Long clientId, User user) {
+    public Long newOrder(Long clientId, User user) {
         Order order = new Order(
                 clientRepository.findById(clientId).orElseThrow(),
                 managerRepository.findById(user.getId()).orElseThrow()
         );
         orderRepository.save(order);
+        return order.getId();
     }
 
     /**

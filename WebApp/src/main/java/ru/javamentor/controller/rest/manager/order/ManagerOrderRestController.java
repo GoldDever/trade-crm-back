@@ -79,7 +79,7 @@ public class ManagerOrderRestController {
      * @return - статус http-запроса
      */
     @PostMapping("new/client/{clientId}")
-    public ResponseEntity<?> newOrder(@PathVariable Long clientId,
+    public ResponseEntity<?> newOrder(@PathVariable(required = false) Long clientId,
                                       @AuthenticationPrincipal User user) {
         orderService.newOrder(clientId, user);
 
@@ -106,8 +106,8 @@ public class ManagerOrderRestController {
     /**
      * Метод добавления нового OrderApproveRequest
      *
-     * @param orderId
-     * @param orderApproveRequest
+     * @param orderId             - Принимает orderId как аргумент
+     * @param orderApproveRequest - объект запроса на согласование
      * @return - статус добавления запроса на утверждение заказа
      */
     @PostMapping(value = "/{orderId}/requestApprove")

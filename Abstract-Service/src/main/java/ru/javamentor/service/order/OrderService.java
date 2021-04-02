@@ -11,7 +11,7 @@ public interface OrderService {
 
     Long updateShippedStatus(String orderIdFromErp);
 
-    void newOrder(Long clientId, User user);
+    Long newOrder(Long clientId, User user);
 
     OrderDto getOrderDtoByOrderId(Long orderId);
 

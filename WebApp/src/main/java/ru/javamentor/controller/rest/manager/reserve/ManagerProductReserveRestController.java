@@ -12,7 +12,6 @@ import ru.javamentor.service.order.OrderService;
 import ru.javamentor.service.product.ProductService;
 import ru.javamentor.service.product.ReserveProductService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -33,8 +32,8 @@ public class ManagerProductReserveRestController {
      * Метод возвращает список резервов товара по переданному productId (среди всех заказов).
      * Включая Имя и Фамилию Менеджера оформившего заказ.
      *
-     * @param productId
-     * @return
+     * @param productId - id продукта
+     * @return List<ReserveProductDto> - список резервов да данный товар
      */
     @GetMapping("/all/{productId}")
     public ResponseEntity<?> getAllReserveProductByProductId(@PathVariable String productId) {
@@ -56,15 +55,15 @@ public class ManagerProductReserveRestController {
 
 
     /**
-     * Метод возвращает резервы товара с productId в конкретном заказе с orderId
+     * Метод возвращает резервы товара с productId в конкретном заказе
      *
-     * @param orderId
-     * @param productId
-     * @return
+     * @param orderId   - id заказа
+     * @param productId - id продукта
+     * @return List<ReserveProductDto> - список резервов на товар в текущем заказе
      */
     @GetMapping("/all/order/{orderId}/product/{productId}")
     public ResponseEntity<?> getAllReserveProductByOrderIdAndProductId(@PathVariable Long orderId,
-                                                                       @PathVariable Long productId){
+                                                                       @PathVariable Long productId) {
         try {
             List<ReserveProductDto> reserveProductDtoList = reserveProductService
                     .getListReserveProductDtoByOrderIdAndProductId(orderId, productId);
@@ -106,67 +105,64 @@ public class ManagerProductReserveRestController {
     }
 
     /**
-     * Метод для добавления резерва по orderId
+     * Метод для добавления резерва полностью на заказ
      *
      * @param orderId - id заказа
-     * @return - HTTP ответ с BODY
+     * @return - Результат выполнения запроса
      */
     @GetMapping("/{orderId}/all/addReserve")
     public ResponseEntity<String> addProductReserveForAllProductInOrder(@PathVariable Long orderId) {
         String result = reserveProductService.addReserveByOrder(orderId);
         if (result.isEmpty()) {
-            return new ResponseEntity<>("Товар зарезирвирован", HttpStatus.OK);
+            return new ResponseEntity<>("Товар зарезервирован", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Часть товаров не может быть зарезирвированна: " + " \n" + result, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Часть товаров не может быть зарезервирована: " + " \n" + result, HttpStatus.BAD_REQUEST);
         }
     }
 
     /**
-     * Метод для проверки есть в заказе незарезервированные продукты
+     * Метод для проверки есть ли в заказе незарезервированные продукты
      *
      * @param orderId - id заказа
-     * @return - HTTP ответ с BODY
+     * @return - Результат выполнения запроса
      */
     @GetMapping("/{orderId}/all/isReserved")
     public ResponseEntity<String> isAllProductsReservedInOrder(@PathVariable Long orderId) {
         if (reserveProductService.isAllProductReservedByOrder(orderId)) {
-            return new ResponseEntity<>("Все товары в заказе зарезервированы", HttpStatus.OK);
+            return ResponseEntity.ok("Все товары в заказе зарезервированы");
         } else {
-            return new ResponseEntity<>("В заказе есть незарезервированные товары", HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().body("В заказе есть незарезервированные товары");
         }
     }
 
     /**
-     * POST метод для резервирования продукта
+     * Метод для резервирования продукта
      *
      * @param orderId      - id Order
      * @param productId    - id продукта по которому сохраняется резерв
      * @param productCount - количество продукта, которое необходимо зарезервировать
-     * @return - сообщение о состоянии HTTP-ответа
+     * @return - Результат выполнения запроса
      */
     @PostMapping("/count/order/{orderId}/product/{productId}/count/{productCount}/addReserve")
     public ResponseEntity<String> addProductReserve(@PathVariable Long orderId,
                                                     @PathVariable Long productId,
                                                     @PathVariable Integer productCount) {
-        String response = reserveProductService.saveProductReserve(orderId, productId, productCount);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return ResponseEntity.ok(reserveProductService.saveProductReserve(orderId, productId, productCount));
     }
 
 
     /**
-     * Метод для удаления
-     * зарезирвированного продукта
+     * Метод для удаления снятия с резерва определенного количества товара
      *
      * @param orderId      - id заказа
      * @param productId    - id продукта
-     * @param productCount - количество удалеямого продукта из резерва
-     * @return - HTTP ответ с BODY
+     * @param productCount - количество продуктов для снятия резерва
+     * @return - Результат выполнения запроса
      */
     @GetMapping("/count/order/{orderId}/product/{productId}/count/{productCount}/removeReserve")
     public ResponseEntity<String> removeProductReserve(@PathVariable Long orderId,
                                                        @PathVariable Long productId,
                                                        @PathVariable Integer productCount) {
-        return new ResponseEntity<>(
-                reserveProductService.removeProductReserve(orderId, productId, productCount), HttpStatus.OK);
+        return ResponseEntity.ok(reserveProductService.removeProductReserve(orderId, productId, productCount));
     }
 }
