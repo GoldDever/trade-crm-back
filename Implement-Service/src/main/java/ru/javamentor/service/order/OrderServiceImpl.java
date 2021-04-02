@@ -101,12 +101,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Long newOrder(Long clientId, User user) {
         Order order = new Order();
-        order.setManager(managerRepository.findById(user.getId()).orElseThrow());
 
         if (clientId != null) {
             order.setClient(clientRepository.findById(clientId).orElseThrow());
         }
 
+        order.setManager(managerRepository.findById(user.getId()).orElseThrow());
         order.setApprove(true);
         order.setPaid(false);
         order.setShipped(false);
