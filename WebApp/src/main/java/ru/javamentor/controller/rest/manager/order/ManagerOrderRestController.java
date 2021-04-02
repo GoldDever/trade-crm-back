@@ -79,11 +79,19 @@ public class ManagerOrderRestController {
      * @return - статус http-запроса
      */
     @PostMapping("new/client/{clientId}")
-    public ResponseEntity<?> newOrder(@PathVariable(required = false) Long clientId,
+    public ResponseEntity<?> newOrder(@PathVariable(required = false) String clientId,
                                       @AuthenticationPrincipal User user) {
-        orderService.newOrder(clientId, user);
+        
+        Long id = Long.valueOf(clientId);
+        Long orderId = orderService.newOrder(id, user);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(orderId, HttpStatus.CREATED);
+    }
+
+    @PostMapping("new/client/")
+    public ResponseEntity<?> newOrderWithoutClientId(@AuthenticationPrincipal User user) {
+        Long orderId = orderService.newOrder(null, user);
+        return new ResponseEntity<>(orderId, HttpStatus.CREATED);
     }
 
 
