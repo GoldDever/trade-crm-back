@@ -22,7 +22,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     Boolean relationClientWithManager(@Param("clientId") Long clientId, @Param("managerId") Long managerId);
 
     @Query("select concat(c.lastName,' ',c.firstName) from Client c where c.username =:clientEmail")
-    String getClientFullNameByEmail(@Param("clientEmail") String email);
+    String getFullNameClientPerEmail(@Param("clientEmail") String email);
 
     boolean existsClientByUsername(String username);
 

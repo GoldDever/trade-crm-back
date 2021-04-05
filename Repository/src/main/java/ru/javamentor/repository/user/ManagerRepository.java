@@ -13,7 +13,7 @@ public interface ManagerRepository extends JpaRepository<Manager, Long> {
     ManagerDto getManagerDtoById(@Param("managerId") Long managerId);
 
     @Query("select concat(m.lastName,' ',m.firstName) from Manager m where m.username =:managerEmail")
-    String getManagerFullNameByEmail(@Param("managerEmail") String email);
+    String getManagerFullNamePerEmail(@Param("managerEmail") String email);
 
     boolean existsManagerByUsername(String username);
 

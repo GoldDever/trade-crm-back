@@ -14,7 +14,6 @@ public class ClientPostDto {
     private String patronymic;
     private String email;
     private String clientName;
-    private Set<Role> roles;
 
 
     public ClientPostDto() {
@@ -59,14 +58,6 @@ public class ClientPostDto {
 
     public void setClientName(String clientName) {
         this.clientName = clientName;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 }
 

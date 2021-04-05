@@ -13,9 +13,6 @@ public class ManagerPostDto {
     private String lastName;
     private String patronymic;
     private String email;
-    private Set<Role> roles;
-
-
 
     public ManagerPostDto() {
     }
@@ -51,14 +48,6 @@ public class ManagerPostDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
 }

@@ -6,26 +6,29 @@ import org.springframework.stereotype.Service;
 import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.dto.user.ManagerPostDto;
 import ru.javamentor.model.user.Manager;
+import ru.javamentor.repository.RoleRepository;
 import ru.javamentor.repository.user.ManagerRepository;
-import ru.javamentor.service.PasswordGenerator;
 
 import javax.transaction.Transactional;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class ManagerServiceImpl implements ManagerService {
 
     private final ManagerRepository managerRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final PasswordGenerator passwordGenerator;
+    private final RoleRepository roleRepository;
 
 
 
-    public ManagerServiceImpl(ManagerRepository managerRepository, BCryptPasswordEncoder passwordEncoder, PasswordGenerator passwordGenerator) {
+    public ManagerServiceImpl(
+            ManagerRepository managerRepository,
+            BCryptPasswordEncoder passwordEncoder,
+            RoleRepository roleRepository) {
         this.managerRepository = managerRepository;
         this.passwordEncoder = passwordEncoder;
-        this.passwordGenerator = passwordGenerator;
-
-
+        this.roleRepository = roleRepository;
     }
 
     /**
@@ -64,23 +67,22 @@ public class ManagerServiceImpl implements ManagerService {
     @Transactional
     @Override
     public void saveNewManager(ManagerPostDto managerPostDto) {
-
+        String randomPassword = UUID.randomUUID().toString();
         Manager managerDto = new Manager();
         managerDto.setFirstName(managerPostDto.getFirstName());
         managerDto.setLastName(managerPostDto.getLastName());
-        managerDto.setPassword(passwordEncoder.encode(passwordGenerator.generateStrongPassword()));
+        managerDto.setPassword(passwordEncoder.encode(randomPassword));
         managerDto.setPatronymic(managerPostDto.getPatronymic());
         managerDto.setUsername(managerPostDto.getEmail());
-        managerDto.setRoles(managerPostDto.getRoles());
+        managerDto.setRoles(Set.of(roleRepository.findByRoleName("MANAGER")));
         managerRepository.save(managerDto);
-
     }
 
 
     /**
-     * Метод проверяет, сущестует ли менеджер с таким Email
+     * Метод проверяет, существует ли менеджер с таким Email
      *
-     * @param email - email предпологаемого менеджера
+     * @param email - email предполагаемого менеджера
      * @return email менеджера
      */
     @Override
@@ -97,6 +99,6 @@ public class ManagerServiceImpl implements ManagerService {
      */
     @Override
     public String getManagerFullNameByEmail(String email) {
-        return managerRepository.getManagerFullNameByEmail(email);
+        return managerRepository.getManagerFullNamePerEmail(email);
     }
 }

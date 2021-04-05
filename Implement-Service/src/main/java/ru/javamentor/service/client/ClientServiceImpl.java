@@ -7,24 +7,28 @@ import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.dto.user.ClientPostDto;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
+import ru.javamentor.repository.RoleRepository;
 import ru.javamentor.repository.user.ClientRepository;
-import ru.javamentor.service.PasswordGenerator;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final PasswordGenerator passwordGenerator;
+    private final RoleRepository roleRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository,
-                             BCryptPasswordEncoder passwordEncoder, PasswordGenerator passwordGenerator) {
+    public ClientServiceImpl(
+            ClientRepository clientRepository,
+            BCryptPasswordEncoder passwordEncoder,
+            RoleRepository roleRepository) {
         this.clientRepository = clientRepository;
         this.passwordEncoder = passwordEncoder;
-        this.passwordGenerator = passwordGenerator;
+        this.roleRepository = roleRepository;
     }
 
     /**
@@ -100,17 +104,16 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     @Override
     public void saveNewClient(ClientPostDto clientPostDto) {
-
+        String randomPassword = UUID.randomUUID().toString();
         Client clientDto = new Client();
         clientDto.setFirstName(clientPostDto.getFirstName());
         clientDto.setLastName(clientPostDto.getLastName());
-        clientDto.setPassword(passwordEncoder.encode(passwordGenerator.generateStrongPassword()));
+        clientDto.setPassword(passwordEncoder.encode(randomPassword));
         clientDto.setClientName(clientPostDto.getClientName());
         clientDto.setPatronymic(clientPostDto.getPatronymic());
         clientDto.setUsername(clientPostDto.getEmail());
-        clientDto.setRoles(clientPostDto.getRoles());
+        clientDto.setRoles(Set.of(roleRepository.findByRoleName("CLIENT")));
         clientRepository.save(clientDto);
-
     }
 
 
@@ -135,7 +138,7 @@ public class ClientServiceImpl implements ClientService {
      */
     @Override
     public String getClientFullNameByEmail(String email) {
-        return clientRepository.getClientFullNameByEmail(email);
+        return clientRepository.getFullNameClientPerEmail(email);
     }
 
 }
