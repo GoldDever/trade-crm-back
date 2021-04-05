@@ -1,9 +1,8 @@
 package ru.javamentor.dto.user;
 
 
-
 /**
- *  * DTO для передачи Client на страницу
+ * * DTO для передачи Client на страницу
  */
 
 public class ClientDto extends UserDto {
@@ -15,6 +14,11 @@ public class ClientDto extends UserDto {
 
     public ClientDto(Long id, String firstName, String lastName, String patronymic, String email, String clientName) {
         super(id, firstName, lastName, patronymic, email);
+        this.clientName = clientName;
+    }
+
+    public ClientDto(String firstName, String lastName, String patronymic, String email, String clientName) {
+        super(firstName, lastName, patronymic, email);
         this.clientName = clientName;
     }
 

@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.javamentor.dto.user.ClientDto;
 import ru.javamentor.model.user.Client;
-import ru.javamentor.model.user.Manager;
 
 import java.util.List;
 
@@ -21,6 +20,11 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     @Query("select count(c.id) > 0  from Client c where c.id = :clientId and c.manager.id = :managerId ")
     Boolean relationClientWithManager(@Param("clientId") Long clientId, @Param("managerId") Long managerId);
+
+    @Query("select concat(c.lastName,' ',c.firstName) from Client c where c.username =:clientEmail")
+    String getClientFullNameByEmail(@Param("clientEmail") String email);
+
+    boolean existsClientByUsername(String username);
 
     Client findByUsername(String username);
 }

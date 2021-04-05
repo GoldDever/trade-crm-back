@@ -1,11 +1,10 @@
 package ru.javamentor.service.client;
 
 import ru.javamentor.dto.user.ClientDto;
-import ru.javamentor.model.user.Client;
+import ru.javamentor.dto.user.ClientPostDto;
 import ru.javamentor.model.user.Manager;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ClientService {
 
@@ -14,5 +13,8 @@ public interface ClientService {
     ClientDto getClientDtoByClientId(Long clientId);
     boolean relationClientWithManager(Long clientId, Long managerId);
     void updateClient(ClientDto clientDto);
+    void saveNewClient(ClientPostDto clientPostDto);
+    boolean isExistsClientByEmail(String email);
+    String getClientFullNameByEmail(String email);
 
 }
