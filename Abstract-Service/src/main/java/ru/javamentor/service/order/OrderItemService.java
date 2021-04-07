@@ -17,4 +17,8 @@ public interface OrderItemService {
 
     void updateOrderItem(Long orderId, OrderItemDto orderItemDto);
 
+    void editProductPrice(Long orderItemId, Double newPrice);
+
+    boolean isExistsByOrderItemId(Long orderItemId);
+
 }

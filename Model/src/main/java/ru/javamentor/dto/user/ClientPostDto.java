@@ -1,41 +1,22 @@
 package ru.javamentor.dto.user;
 
-public class UserDto {
+import ru.javamentor.model.user.Role;
 
-    private Long id;
+import java.util.Set;
+
+/**
+ * DTO для создания нового клиента
+ */
+public class ClientPostDto {
+
     private String firstName;
     private String lastName;
     private String patronymic;
     private String email;
+    private String clientName;
 
 
-
-    public UserDto() {
-    }
-
-    public UserDto(Long id, String firstName, String lastName, String patronymic, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.patronymic = patronymic;
-        this.email = email;
-
-
-    }
-
-    public UserDto(String firstName, String lastName, String patronymic, String username) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.patronymic = patronymic;
-        this.email = username;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public ClientPostDto() {
     }
 
     public String getFirstName() {
@@ -54,6 +35,7 @@ public class UserDto {
         this.lastName = lastName;
     }
 
+
     public String getPatronymic() {
         return patronymic;
     }
@@ -69,4 +51,13 @@ public class UserDto {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
 }
+

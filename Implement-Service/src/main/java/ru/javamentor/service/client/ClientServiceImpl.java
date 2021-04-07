@@ -1,26 +1,34 @@
 package ru.javamentor.service.client;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.user.ClientDto;
+import ru.javamentor.dto.user.ClientPostDto;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
+import ru.javamentor.repository.RoleRepository;
 import ru.javamentor.repository.user.ClientRepository;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
-    public ClientServiceImpl(ClientRepository clientRepository) {
+    public ClientServiceImpl(
+            ClientRepository clientRepository,
+            BCryptPasswordEncoder passwordEncoder,
+            RoleRepository roleRepository) {
         this.clientRepository = clientRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     /**
@@ -57,6 +65,7 @@ public class ClientServiceImpl implements ClientService {
     public ClientDto getClientDtoByClientId(Long clientId) {
         return clientRepository.getClientDtoFromClientWithId(clientId);
     }
+
     /**
      * Метод возвращает айди менеджера клиента по clientId
      *
@@ -65,13 +74,19 @@ public class ClientServiceImpl implements ClientService {
      */
     @Transactional
     @Override
-    public boolean relationClientWithManager(Long clientId, Long managerId){
+    public boolean relationClientWithManager(Long clientId, Long managerId) {
         return clientRepository.relationClientWithManager(clientId, managerId);
     }
-@Transactional
-@Override
-public void updateClient (ClientDto clientDto) {
-     Client updateClient = clientRepository.findById(clientDto.getId()).get();
+
+    /**
+     * Метод обновляет существующего клиента
+     *
+     * @param clientDto - данные клиента
+     */
+    @Transactional
+    @Override
+    public void updateClient(ClientDto clientDto) {
+        Client updateClient = clientRepository.findById(clientDto.getId()).get();
         updateClient.setClientName(clientDto.getClientName());
         updateClient.setId(clientDto.getId());
         updateClient.setFirstName(clientDto.getFirstName());
@@ -79,7 +94,52 @@ public void updateClient (ClientDto clientDto) {
         updateClient.setPatronymic(clientDto.getPatronymic());
         updateClient.setUsername(clientDto.getEmail());
         clientRepository.save(updateClient);
-}
-
     }
+
+    /**
+     * Метод сохраняет нового клиента
+     *
+     * @param clientPostDto - данные клиента
+     */
+    @Transactional
+    @Override
+    public void saveNewClient(ClientPostDto clientPostDto) {
+        String randomPassword = UUID.randomUUID().toString();
+        Client clientDto = new Client();
+        clientDto.setFirstName(clientPostDto.getFirstName());
+        clientDto.setLastName(clientPostDto.getLastName());
+        clientDto.setPassword(passwordEncoder.encode(randomPassword));
+        clientDto.setClientName(clientPostDto.getClientName());
+        clientDto.setPatronymic(clientPostDto.getPatronymic());
+        clientDto.setUsername(clientPostDto.getEmail());
+        clientDto.setRoles(Set.of(roleRepository.findByRoleName("CLIENT")));
+        clientRepository.save(clientDto);
+    }
+
+
+    /**
+     * Метод возвращает boolean при проверке существования клиента с данным email.
+     *
+     * @param email - почта клиента
+     * @return - Возвращает boolean, соответствующий результату.
+     */
+    @Transactional
+    @Override
+    public boolean isExistsClientByEmail(String email) {
+        return clientRepository.existsClientByUsername(email);
+    }
+
+
+    /**
+     * Метод возвращает имя и фамилию клиента по email
+     *
+     * @param email - email клиента
+     * @return ClientFullName клиента
+     */
+    @Override
+    public String getClientFullNameByEmail(String email) {
+        return clientRepository.getFullNameClientPerEmail(email);
+    }
+
+}
 

@@ -40,7 +40,7 @@ public class ManagerOrderItemRestController {
             return ResponseEntity.status(HttpStatus.OK).body("Строка id=" + orderItemDto.getId()
                     + " успешно изменена.");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось обновить строку id="
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось обновить строку id="
                     + orderItemDto.getId());
         }
     }
@@ -57,16 +57,16 @@ public class ManagerOrderItemRestController {
             return ResponseEntity.status(HttpStatus.OK).body("Строка id=" + orderItemId
                     + " успешно удалена.");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось удалить строку id="
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось удалить строку id="
                     + orderItemId);
         }
     }
 
     /**
-     * Метод добавления нового orderItem в order
+     * Метод добавления новой строки в заказ
      *
-     * @param orderId
-     * @param orderItemDto
+     * @param orderId      - id заказа
+     * @param orderItemDto - объект новой строки заказа
      */
     @PostMapping(value = "/addOrderItem/{orderId}")
     public ResponseEntity<String> newOrderItem(@PathVariable Long orderId, @RequestBody OrderItemDto orderItemDto) {
@@ -74,7 +74,7 @@ public class ManagerOrderItemRestController {
             orderItemService.saveOrderItem(orderId, orderItemDto);
             return ResponseEntity.status(HttpStatus.OK).body("Новая строка успешно добавлена");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось добавить строку в заказ id="
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось добавить строку в заказ id="
                     + orderId);
         }
     }
@@ -88,4 +88,22 @@ public class ManagerOrderItemRestController {
         orderService.updateOrderDto(orderDto);
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * Метод изменяет currentMargePercent в соответствии с входящей ценой
+     *
+     * @param newPrice    - новая цена
+     * @param orderItemId - id строки в заказе
+     */
+    @PutMapping(value = "/{orderItemId}/{newPrice}")
+    public ResponseEntity<String> editProductPrice(@PathVariable Long orderItemId, @PathVariable Double newPrice) {
+
+        if (orderItemService.isExistsByOrderItemId(orderItemId)) {
+            orderItemService.editProductPrice(orderItemId, newPrice);
+            return ResponseEntity.status(HttpStatus.OK).body("Значение наценки изменено");
+        }
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Нет orderItem с id - " + orderItemId);
+    }
+
 }

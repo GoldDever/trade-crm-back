@@ -21,6 +21,7 @@ import ru.javamentor.repository.user.ManagerRepository;
 import ru.javamentor.service.product.ProductService;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -100,15 +101,25 @@ public class OrderServiceImpl implements OrderService {
      *
      * @param clientId - id клиента
      * @param user     - user из principal для получения manager
+     * @return - id созданного заказа
      */
     @Transactional
     @Override
-    public void newOrder(Long clientId, User user) {
-        Order order = new Order(
-                clientRepository.findById(clientId).orElseThrow(),
-                managerRepository.findById(user.getId()).orElseThrow()
-        );
+    public Long newOrder(Long clientId, User user) {
+        Order order = new Order();
+
+        if (clientId != null) {
+            order.setClient(clientRepository.findById(clientId).orElseThrow());
+        }
+
+        order.setManager(managerRepository.findById(user.getId()).orElseThrow());
+        order.setApprove(true);
+        order.setPaid(false);
+        order.setShipped(false);
+        order.setCreateTime(LocalDateTime.now());
+
         orderRepository.save(order);
+        return order.getId();
     }
 
     /**

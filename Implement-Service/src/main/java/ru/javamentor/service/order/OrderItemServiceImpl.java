@@ -10,7 +10,10 @@ import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
+
 
 @Service
 public class OrderItemServiceImpl implements OrderItemService {
@@ -38,17 +41,24 @@ public class OrderItemServiceImpl implements OrderItemService {
         Order order = orderRepository.findById(orderId).orElseThrow();
         Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElseThrow();
         Integer lastPosition = orderItemRepository.getNumberOfPositionInOrder(order.getId());
-        OrderItem orderItem = new OrderItem(
-                orderItemDto.getId(),
-                orderItemDto.getInvoiceIssued(),
-                orderItemDto.getProductCount(),
-                product,
-                order,
-                lastPosition + 1,
-                orderItemDto.getCurrentMargePercent()
-        );
 
-        orderItemRepository.save(orderItem);
+        List<OrderItem> orderItemList = orderItemRepository.getListOrderItemByOrderId(orderId);
+
+        orderItemRepository.save(orderItemList.stream()
+                .filter(p -> p.getProduct().getId().equals(orderItemDto.getProduct().getId()))
+                .findFirst()
+                .map(p -> {
+                    p.setProductCount(p.getProductCount() + orderItemDto.getProductCount());
+                    return p;
+                }).orElseGet(() -> new OrderItem(
+                        orderItemDto.getId(),
+                        orderItemDto.getInvoiceIssued(),
+                        orderItemDto.getProductCount(),
+                        product,
+                        order,
+                        lastPosition + 1,
+                        orderItemDto.getCurrentMargePercent()
+                )));
     }
 
 
@@ -128,4 +138,38 @@ public class OrderItemServiceImpl implements OrderItemService {
 
         orderItemRepository.save(orderItem);
     }
+    /**
+     * Метод изменяет currentMargePercent в соответствии с входящей ценой
+     *
+     * @param newPrice
+     * @param orderItemId
+     */
+
+    @Override
+    @Transactional
+    public void editProductPrice(Long orderItemId, Double newPrice) {
+        OrderItem orderItem = orderItemRepository.getOne(orderItemId);
+        BigDecimal price = orderItem.getProduct().getPrice();
+        BigDecimal currentMargeRub = BigDecimal.valueOf(newPrice).subtract(price);
+        BigDecimal currentMargePercent = currentMargeRub.multiply(BigDecimal.valueOf(100)).divide(price, 2, RoundingMode.HALF_UP);
+
+        if (currentMargePercent.compareTo(orderItem.getProduct().getMinMargin()) > 0) {
+            orderItem.setCurrentMargePercent(currentMargePercent);
+        } else {
+            orderItem.setCurrentMargePercent(orderItem.getProduct().getMinMargin());
+        }
+
+        orderItemRepository.save(orderItem);
+    }
+
+    /**
+     * Метод возвращает boolean при проверке существования orderItem с данным Id.
+     *
+     * @param orderItemId
+     */
+    @Override
+    public boolean isExistsByOrderItemId(Long orderItemId) {
+        return orderItemRepository.existsById(orderItemId);
+    }
+
 }
