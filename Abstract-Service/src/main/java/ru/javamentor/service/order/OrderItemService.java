@@ -15,4 +15,6 @@ public interface OrderItemService {
 
     void updatePositions(Long orderId, Integer deletedPosition);
 
+    void updateOrderItem(Long orderId, OrderItemDto orderItemDto);
+
 }

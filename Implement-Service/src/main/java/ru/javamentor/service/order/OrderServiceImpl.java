@@ -1,5 +1,6 @@
 package ru.javamentor.service.order;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.order.OrderApproveAnswerDto;
 import ru.javamentor.dto.user.ClientDto;
@@ -34,6 +35,8 @@ public class OrderServiceImpl implements OrderService {
     private final ReserveProductRepository reserveProductRepository;
     private final ProductService productService;
     private final OrderApproveAnswerRepository orderApproveAnswerRepository;
+    private final ModelMapper modelMapper;
+    private final OrderItemService orderItemService;
 
 
     public OrderServiceImpl(OrderRepository orderRepository,
@@ -42,7 +45,8 @@ public class OrderServiceImpl implements OrderService {
                             ClientRepository clientRepository,
                             ManagerRepository managerRepository,
                             ReserveProductRepository reserveProductRepository,
-                            ProductService productService, OrderApproveAnswerRepository orderApproveAnswerRepository) {
+                            ProductService productService, OrderApproveAnswerRepository orderApproveAnswerRepository,
+                            ModelMapper modelMapper, OrderItemService orderItemService) {
         this.orderRepository = orderRepository;
         this.orderApproveRequestRepository = orderApproveRequestRepository;
         this.orderItemRepository = orderItemRepository;
@@ -51,6 +55,8 @@ public class OrderServiceImpl implements OrderService {
         this.reserveProductRepository = reserveProductRepository;
         this.productService = productService;
         this.orderApproveAnswerRepository = orderApproveAnswerRepository;
+        this.modelMapper = modelMapper;
+        this.orderItemService = orderItemService;
     }
 
     /**
@@ -187,6 +193,21 @@ public class OrderServiceImpl implements OrderService {
             orderDto.setManager(managerDto);
         });
         return allOrderDtoList;
+    }
+    /**
+     * Метод сохраняет измененный order
+     *
+     * @param orderDto - DTO из которого получаем order
+     */
+    @Transactional
+    @Override
+    public void updateOrderDto(OrderDto orderDto) {
+        Order order = modelMapper.map(orderDto, Order.class);
+        orderDto.getOrderItemList().stream()
+                .forEach(x -> orderItemService.updateOrderItem(order.getId(), x));
+
+        order.setApprove(orderDto.getApproved());
+        orderRepository.save(order);
     }
 }
 

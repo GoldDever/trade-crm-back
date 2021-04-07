@@ -1,5 +1,6 @@
 package ru.javamentor.configuration.mail;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.SimpleMailMessage;
@@ -17,5 +18,10 @@ public class MailTemplates {
                 "Данный пароль необходимо сменить.");
 
         return message;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }
