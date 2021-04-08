@@ -16,6 +16,7 @@ import ru.javamentor.service.order.OrderService;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -86,6 +87,40 @@ public class ReserveProductServiceImpl implements ReserveProductService {
                 }
             }
             return String.format("Товар в количестве %s снят с резерва.", productCount);
+        }
+    }
+
+    /**
+     * Метод удаляет продукт из резерва с переданным id.
+     * Если объём резерва равен входному параметру.
+     * Иначе сохраняет новое значение.
+     *
+     * @param reserveId    - id резерва
+     * @param productCount - количество удаляемого продукта из резерва
+     * @return - код ответа для проверки на наличие в резерва в БД
+     */
+    @Transactional
+    @Override
+    public String removeProductReserve(Long reserveId, Integer productCount) {
+        Optional<ReserveProduct> reserveProduct = reserveProductRepository.findById(reserveId);
+        if (reserveProduct.isEmpty()) {
+            return "Резерв не найден!";
+        } else {
+            Integer oldProductCount = reserveProduct.get().getProductCount();
+            if (productCount > oldProductCount) {
+                return "Не достаточно продуктов в резерве";
+            } else if (productCount < 1) {
+                return "Число не может меньше 1";
+            } else {
+                int remainder = oldProductCount - productCount;
+                reserveProduct.get().setProductCount(remainder);
+                if (remainder == 0) {
+                    reserveProductRepository.delete(reserveProduct.get());
+                } else {
+                    reserveProductRepository.save(reserveProduct.get());
+                }
+                return String.format("%s в количестве %s снят с резерва.", reserveProduct.get().getProduct().getProductName(), productCount);
+            }
         }
     }
 

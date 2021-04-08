@@ -165,4 +165,18 @@ public class ManagerProductReserveRestController {
                                                        @PathVariable Integer productCount) {
         return ResponseEntity.ok(reserveProductService.removeProductReserve(orderId, productId, productCount));
     }
+
+
+    /**
+     * Метод для снятия с резерва определенного количества товара
+     *
+     * @param reserveId    - id резерва
+     * @param productCount - количество продуктов для снятия резерва
+     * @return - Результат выполнения запроса
+     */
+    @PostMapping("/count/{productCount}/reserve/{reserveId}/removeReserve")
+    public ResponseEntity<String> removeProductReserveByReserveAndProductCount(@PathVariable Long reserveId,
+                                                                               @PathVariable Integer productCount) {
+        return ResponseEntity.ok(reserveProductService.removeProductReserve(reserveId, productCount));
+    }
 }
