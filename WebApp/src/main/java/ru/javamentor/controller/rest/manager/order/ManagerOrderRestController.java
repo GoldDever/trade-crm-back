@@ -3,6 +3,7 @@ package ru.javamentor.controller.rest.manager.order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,6 +71,19 @@ public class ManagerOrderRestController {
         return ResponseEntity.badRequest().body("Нет клиента с Id - " + clientId);
     }
 
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<?> deleteOrder(@PathVariable Long orderId) {
+        try {
+            orderService.deleteOrder(orderId);
+            ;
+            return ResponseEntity.status(HttpStatus.OK).body("Заказ " + orderId
+                    + " успешно удален.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось удалить заказ id="
+                    + orderId);
+        }
+    }
+
 
     /**
      * Метод для сохранения нового Order
@@ -78,7 +92,7 @@ public class ManagerOrderRestController {
      * @param user     - user из principal для получения manager
      * @return - статус http-запроса
      */
-    @PostMapping(value= {"new/client/{clientId}", "new/client/"})
+    @PostMapping(value = {"new/client/{clientId}", "new/client/"})
     public ResponseEntity<?> newOrder(@PathVariable(required = false) Long clientId,
                                       @AuthenticationPrincipal User user) {
         Long orderId = orderService.newOrder(clientId, user);

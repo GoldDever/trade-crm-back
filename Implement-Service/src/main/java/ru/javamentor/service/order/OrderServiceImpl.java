@@ -116,6 +116,12 @@ public class OrderServiceImpl implements OrderService {
         return order.getId();
     }
 
+    @Override
+    @Transactional
+    public void deleteOrder(Long orderId) {
+        orderRepository.deleteOrderById(orderId);
+    }
+
     /**
      * Метод инициализирующий orderDTO ордером из Базы Данных
      *

@@ -1,5 +1,7 @@
 package ru.javamentor.model.product;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.javamentor.model.order.Order;
 
 import javax.persistence.Column;
@@ -27,6 +29,7 @@ public class ReserveProduct {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Order order;
 
     @Column(name = "product_count")

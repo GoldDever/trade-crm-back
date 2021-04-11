@@ -1,5 +1,7 @@
 package ru.javamentor.model.order;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.javamentor.model.product.Product;
 
 import javax.persistence.Column;
@@ -34,6 +36,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Order order;
 
     @Transient

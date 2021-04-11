@@ -49,6 +49,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "WHERE o.client.id = :clientId")
     List<OrderDto> getOrderDtoListWithClientId(Long clientId);
 
+    @Modifying
+    @Query("DELETE FROM Order oi WHERE oi.id = :orderId")
+    void deleteOrderById(@Param("orderId") Long orderId);
+
+
     @Query("SELECT new ru.javamentor.dto.order.OrderDto(" +
             "o.id, " +
             "o.idFromErp, " +

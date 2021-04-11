@@ -13,6 +13,7 @@ public interface OrderService {
 
     Long newOrder(Long clientId, User user);
 
+    void deleteOrder(Long orderId);
     OrderDto getOrderDtoByOrderId(Long orderId);
 
     boolean isExistsByOrderId(Long orderId);
