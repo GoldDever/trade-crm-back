@@ -59,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
      * сохраняет новый OrderApproveAnswer
      *
      * @param orderApproveAnswerDto - ДТО из которого получаем новый флаг isApprove
-     * @param orderId         - id по которому находим Order и изменяем у него флаг isApprove
+     * @param orderId               - id по которому находим Order и изменяем у него флаг isApprove
      */
     @Override
     public void updateApproveStatus(OrderApproveAnswerDto orderApproveAnswerDto, Long orderId) {
@@ -198,6 +198,15 @@ public class OrderServiceImpl implements OrderService {
             orderDto.setManager(managerDto);
         });
         return allOrderDtoList;
+    }
+
+    @Transactional
+    @Override
+    public void deleteOrderByOrderId(Long orderId) {
+        reserveProductRepository.deleteReserveByOrderId(orderId);
+        List<OrderItemDto> list = orderItemRepository.getListOrderItemDtoByOrderId(orderId);
+        list.stream().map(OrderItemDto::getId).forEach(orderItemRepository::deleteOrderItemById);
+        orderRepository.deleteOrderById(orderId);
     }
 }
 

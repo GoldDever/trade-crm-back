@@ -1,9 +1,12 @@
 package ru.javamentor.repository.order;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.model.order.Order;
 
@@ -58,5 +61,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "o.createTime) " +
             "FROM Order o " +
             "WHERE o.manager.id = :managerId")
-    List<OrderDto> getAllOrderDtoListByManagerId(@Param("managerId")Long managerId);
+    List<OrderDto> getAllOrderDtoListByManagerId(@Param("managerId") Long managerId);
+
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM Order o WHERE o.id = :orderId")
+    void deleteOrderById(@Param("orderId") Long orderId);
 }

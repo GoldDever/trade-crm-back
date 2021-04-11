@@ -3,12 +3,7 @@ package ru.javamentor.controller.rest.manager.order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.javamentor.dto.order.OrderApproveRequestDto;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.model.user.Manager;
@@ -78,7 +73,7 @@ public class ManagerOrderRestController {
      * @param user     - user из principal для получения manager
      * @return - статус http-запроса
      */
-    @PostMapping(value= {"new/client/{clientId}", "new/client/"})
+    @PostMapping(value = {"new/client/{clientId}", "new/client/"})
     public ResponseEntity<?> newOrder(@PathVariable(required = false) Long clientId,
                                       @AuthenticationPrincipal User user) {
         Long orderId = orderService.newOrder(clientId, user);
@@ -121,6 +116,15 @@ public class ManagerOrderRestController {
             }
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Заказ с id = " + orderId + " не найден.");
+    }
+
+    @DeleteMapping(value = "/{orderId}")
+    public ResponseEntity<String> deleteOrderByOrderId(@PathVariable Long orderId) {
+        if (orderService.isExistsByOrderId(orderId)) {
+            orderService.deleteOrderByOrderId(orderId);
+            return ResponseEntity.status(HttpStatus.OK).body("Ордер успешно удален");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Во время удаления произошла ошибка");
     }
 
 }

@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import ru.javamentor.model.order.OrderItem;
 import ru.javamentor.model.product.ReserveProduct;
 
@@ -54,4 +55,9 @@ public interface ReserveProductRepository extends JpaRepository<ReserveProduct, 
 
     @Query("SELECT rp FROM ReserveProduct rp WHERE rp.product.id = :productId")
     List<ReserveProduct> getReserveProductListByProductId(@Param("productId") Long productId);
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM ReserveProduct rp " +
+            "WHERE rp.order.id = :orderId")
+    void deleteReserveByOrderId(Long orderId);
 }
