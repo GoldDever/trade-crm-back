@@ -10,13 +10,11 @@ import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
-import ru.javamentor.repository.user.ManagerRepository;
 import ru.javamentor.service.order.OrderService;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -101,27 +99,35 @@ public class ReserveProductServiceImpl implements ReserveProductService {
      */
     @Transactional
     @Override
-    public String removeProductReserve(Long reserveId, Integer productCount) {
-        Optional<ReserveProduct> reserveProduct = reserveProductRepository.findById(reserveId);
-        if (reserveProduct.isEmpty()) {
-            return "Резерв не найден!";
+    public void removeProductReserve(Long reserveId, Integer productCount) {
+        if (productCount == 0) {
+            reserveProductRepository.deleteReserveProductById(reserveId);
         } else {
-            Integer oldProductCount = reserveProduct.get().getProductCount();
-            if (productCount > oldProductCount) {
-                return "Не достаточно продуктов в резерве";
-            } else if (productCount < 1) {
-                return "Число не может меньше 1";
-            } else {
-                int remainder = oldProductCount - productCount;
-                reserveProduct.get().setProductCount(remainder);
-                if (remainder == 0) {
-                    reserveProductRepository.delete(reserveProduct.get());
-                } else {
-                    reserveProductRepository.save(reserveProduct.get());
-                }
-                return String.format("%s в количестве %s снят с резерва.", reserveProduct.get().getProduct().getProductName(), productCount);
-            }
+            reserveProductRepository.setProductCountByProductReserveId(reserveId, productCount);
         }
+    }
+
+
+    /**
+     * Метод проверяет наличие в базе данных резерва с указанным id
+     *
+     * @param reserveId - id резерва
+     * @return - результат проверки
+     */
+    @Override
+    public boolean isExistById(Long reserveId) {
+        return reserveProductRepository.existsById(reserveId);
+    }
+
+    /**
+     * Метод возвращает количество товара в резерве
+     *
+     * @param reserveId - id резерва
+     * @return - количество товара
+     */
+    @Override
+    public Integer getProductCountByProductReserveId(Long reserveId) {
+        return reserveProductRepository.findById(reserveId).get().getProductCount();
     }
 
     /**

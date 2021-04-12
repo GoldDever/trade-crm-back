@@ -10,7 +10,7 @@ public interface ReserveProductService {
 
     String removeProductReserve(Long orderId, Long productId, Integer productCount);
 
-    String removeProductReserve(Long reserveId, Integer productCount);
+    void removeProductReserve(Long reserveId, Integer productCount);
 
     String saveProductReserve(Long orderId, Long productId, Integer productCount);
 
@@ -23,4 +23,8 @@ public interface ReserveProductService {
     List<ReserveProductDto>  getListReserveProductDtoByOrderIdAndProductId(Long orderId, Long productId);
 
     List<ReserveProductDto> getListReserveProductDtoByProductId(Long productId);
+
+    boolean isExistById(Long reserveId);
+
+    Integer getProductCountByProductReserveId(Long reserveId);
 }

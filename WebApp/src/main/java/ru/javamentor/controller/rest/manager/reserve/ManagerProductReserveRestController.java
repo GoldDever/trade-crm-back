@@ -177,6 +177,21 @@ public class ManagerProductReserveRestController {
     @PostMapping("/count/{productCount}/reserve/{reserveId}/removeReserve")
     public ResponseEntity<String> removeProductReserveByReserveAndProductCount(@PathVariable Long reserveId,
                                                                                @PathVariable Integer productCount) {
-        return ResponseEntity.ok(reserveProductService.removeProductReserve(reserveId, productCount));
+        if (productCount < 1) {
+            return ResponseEntity.badRequest().body("Число не может меньше 1");
+        }
+
+        if (reserveProductService.isExistById(reserveId)) {
+
+            Integer oldProductCount = reserveProductService.getProductCountByProductReserveId(reserveId);
+            if (productCount > oldProductCount) {
+                return ResponseEntity.badRequest().body("Не достаточно продуктов в резерве");
+            }
+
+            reserveProductService.removeProductReserve(reserveId, oldProductCount - productCount);
+            return ResponseEntity.ok(String.format("Товар в количестве %s снят с резерва.", productCount));
+        } else {
+            return ResponseEntity.badRequest().body(String.format("Резерв c Id %s не найден!", reserveId));
+        }
     }
 }
