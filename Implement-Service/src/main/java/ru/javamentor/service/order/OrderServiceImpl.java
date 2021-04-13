@@ -200,6 +200,12 @@ public class OrderServiceImpl implements OrderService {
         return allOrderDtoList;
     }
 
+    /**
+     * Метод удаления Order по orderId
+     *
+     * @param orderId             - Принимает orderId как аргумент
+     * Перед удалением Order: удаляется ReserveProduct и OrderItem
+     */
     @Transactional
     @Override
     public void deleteOrderByOrderId(Long orderId) {

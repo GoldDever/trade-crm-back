@@ -118,13 +118,20 @@ public class ManagerOrderRestController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Заказ с id = " + orderId + " не найден.");
     }
 
+    /**
+     * Метод удаления Order по orderId
+     *
+     * @param orderId - Принимает orderId как аргумент
+     * @return - возвращает строку об успешном или не успешном удалении
+     */
     @DeleteMapping(value = "/{orderId}")
     public ResponseEntity<String> deleteOrderByOrderId(@PathVariable Long orderId) {
         if (orderService.isExistsByOrderId(orderId)) {
             orderService.deleteOrderByOrderId(orderId);
             return ResponseEntity.status(HttpStatus.OK).body("Ордер успешно удален");
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Во время удаления произошла ошибка");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Во время удаления " +
+                "заказа с id " + orderId + " произошла ошибка");
     }
 
 }
