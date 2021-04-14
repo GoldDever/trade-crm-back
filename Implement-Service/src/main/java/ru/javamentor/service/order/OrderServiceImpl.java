@@ -209,7 +209,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public void deleteOrderByOrderId(Long orderId) {
-        reserveProductRepository.deleteReserveByOrderId(orderId);
+        reserveProductRepository.deleteByOrderId(orderId);
         List<OrderItemDto> list = orderItemRepository.getListOrderItemDtoByOrderId(orderId);
         list.stream().map(OrderItemDto::getId).forEach(orderItemRepository::deleteOrderItemById);
         orderRepository.deleteOrderById(orderId);
