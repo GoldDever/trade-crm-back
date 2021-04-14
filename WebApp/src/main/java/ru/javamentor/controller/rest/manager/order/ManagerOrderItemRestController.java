@@ -79,17 +79,6 @@ public class ManagerOrderItemRestController {
         }
     }
     /**
-     * Метод сохраняет измененный order
-     *
-     * @param orderDto - DTO из которого получаем order
-     */
-    @PutMapping(value = "/update")
-    public ResponseEntity<?> updateOrder(@RequestBody OrderDto orderDto) {
-        orderService.updateOrderDto(orderDto);
-        return ResponseEntity.ok().build();
-    }
-
-    /**
      * Метод изменяет currentMargePercent в соответствии с входящей ценой
      *
      * @param newPrice    - новая цена

@@ -15,7 +15,7 @@ public interface OrderItemService {
 
     void updatePositions(Long orderId, Integer deletedPosition);
 
-    void updateOrderItem(Long orderId, OrderItemDto orderItemDto);
+    void updateOrderItem(OrderItemDto orderItemDto);
 
     void editProductPrice(Long orderItemId, Double newPrice);
 

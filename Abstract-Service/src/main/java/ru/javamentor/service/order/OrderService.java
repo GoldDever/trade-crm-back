@@ -22,5 +22,5 @@ public interface OrderService {
 
     List<OrderDto> getAllOrderDtoListByManagerId(Long managerId);
 
-    void updateOrderDto(OrderDto orderDto);
+    void updateOrderFromOrderDto(OrderDto orderDto);
 }

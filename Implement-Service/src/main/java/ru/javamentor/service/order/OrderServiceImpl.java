@@ -1,6 +1,5 @@
 package ru.javamentor.service.order;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.order.OrderApproveAnswerDto;
 import ru.javamentor.dto.user.ClientDto;
@@ -10,6 +9,8 @@ import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderApproveAnswer;
 import ru.javamentor.model.order.OrderApproveRequest;
+import ru.javamentor.model.user.Client;
+import ru.javamentor.model.user.Manager;
 import ru.javamentor.model.user.User;
 import ru.javamentor.repository.order.OrderApproveAnswerRepository;
 import ru.javamentor.repository.order.OrderApproveRequestRepository;
@@ -23,6 +24,7 @@ import ru.javamentor.service.product.ProductService;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -36,7 +38,6 @@ public class OrderServiceImpl implements OrderService {
     private final ReserveProductRepository reserveProductRepository;
     private final ProductService productService;
     private final OrderApproveAnswerRepository orderApproveAnswerRepository;
-    private final ModelMapper modelMapper;
     private final OrderItemService orderItemService;
 
 
@@ -47,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
                             ManagerRepository managerRepository,
                             ReserveProductRepository reserveProductRepository,
                             ProductService productService, OrderApproveAnswerRepository orderApproveAnswerRepository,
-                            ModelMapper modelMapper, OrderItemService orderItemService) {
+                            OrderItemService orderItemService) {
         this.orderRepository = orderRepository;
         this.orderApproveRequestRepository = orderApproveRequestRepository;
         this.orderItemRepository = orderItemRepository;
@@ -56,7 +57,6 @@ public class OrderServiceImpl implements OrderService {
         this.reserveProductRepository = reserveProductRepository;
         this.productService = productService;
         this.orderApproveAnswerRepository = orderApproveAnswerRepository;
-        this.modelMapper = modelMapper;
         this.orderItemService = orderItemService;
     }
 
@@ -212,10 +212,21 @@ public class OrderServiceImpl implements OrderService {
      */
     @Transactional
     @Override
-    public void updateOrderDto(OrderDto orderDto) {
-        Order order = modelMapper.map(orderDto, Order.class);
+    public void updateOrderFromOrderDto(OrderDto orderDto) {
+        Order order = orderRepository.findOrderById(orderDto.getId());
+        Optional<Client> client = clientRepository.findById(orderDto.getClient().getId());
+        Optional<Manager> manager = managerRepository.findById(orderDto.getManager().getId());
+
+        order.setIdFromErp(orderDto.getIdFromErp());
+        order.setClient(client.get());
+        order.setManager(manager.get());
+        order.setApprove(orderDto.getApproved());
+        order.setPaid(orderDto.getPaid());
+        order.setShipped(orderDto.getShipped());
+        order.setCreateTime(orderDto.getCreateTime());
+
         orderDto.getOrderItemList().stream()
-                .forEach(x -> orderItemService.updateOrderItem(order.getId(), x));
+                .forEach(x -> orderItemService.updateOrderItem(x));
 
         order.setApprove(orderDto.getApproved());
         orderRepository.save(order);

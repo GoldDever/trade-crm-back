@@ -118,23 +118,19 @@ public class OrderItemServiceImpl implements OrderItemService {
      * Метод преобразует DTO в сущность и обновляет значения
      *
      * @param orderItemDto DTO из которого получаем OrderItem
-     * @param orderId id для order
      */
 
     @Override
-    public void updateOrderItem(Long orderId, OrderItemDto orderItemDto) {
-        Order order = orderRepository.findById(orderId).orElseThrow();
+    public void updateOrderItem(OrderItemDto orderItemDto) {
+        OrderItem orderItem = orderItemRepository.getOrderItemByDtoID(orderItemDto.getId());
         Product product = productRepository.findById(orderItemDto.getProduct().getId()).orElseThrow();
         Integer position = orderItemDto.getPosition();
-        OrderItem orderItem = new OrderItem(
-                orderItemDto.getId(),
-                orderItemDto.getInvoiceIssued(),
-                orderItemDto.getProductCount(),
-                product,
-                order,
-                position,
-                orderItemDto.getCurrentMargePercent()
-        );
+
+        orderItem.setInvoiceIssued(orderItemDto.getInvoiceIssued());
+        orderItem.setProductCount(orderItemDto.getProductCount());
+        orderItem.setProduct(product);
+        orderItem.setPosition(position);
+        orderItem.setCurrentMargePercent(orderItemDto.getCurrentMargePercent());
 
         orderItemRepository.save(orderItem);
     }
