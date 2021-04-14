@@ -56,9 +56,5 @@ public interface ReserveProductRepository extends JpaRepository<ReserveProduct, 
     @Query("SELECT rp FROM ReserveProduct rp WHERE rp.product.id = :productId")
     List<ReserveProduct> getReserveProductListByProductId(@Param("productId") Long productId);
 
-    @Transactional
-    @Modifying
-    @Query("DELETE FROM ReserveProduct rp " +
-            "WHERE rp.order.id = :orderId")
     void deleteReserveByOrderId(Long orderId);
 }

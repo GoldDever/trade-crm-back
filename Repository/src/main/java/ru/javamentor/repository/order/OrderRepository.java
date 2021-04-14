@@ -63,8 +63,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "WHERE o.manager.id = :managerId")
     List<OrderDto> getAllOrderDtoListByManagerId(@Param("managerId") Long managerId);
 
-    @Transactional
+
     @Modifying
-    @Query("DELETE FROM Order o WHERE o.id = :orderId")
-    void deleteOrderById(@Param("orderId") Long orderId);
+    void deleteOrderById(Long orderId);
 }
