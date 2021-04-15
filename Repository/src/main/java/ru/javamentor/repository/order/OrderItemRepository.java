@@ -61,4 +61,8 @@ public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     @Query("SELECT new ru.javamentor.model.product.ReserveProduct(oi.product, oi.order, SUM(oi.productCount)) " +
             "FROM OrderItem oi WHERE  oi.order.id = :orderId GROUP BY oi.product, oi.order  ORDER BY oi.product.id")
     List<ReserveProduct> getFutureReserveProductByOrder(@Param("orderId") Long orderId);
+
+
+    @Query("SELECT oi FROM OrderItem oi WHERE oi.order.id = :orderId and (oi.currentMargePercent < oi.product.standardMargin)")
+    List<OrderItem> getOrderItemsWithLowMarge(@Param("orderId") Long orderId);
 }

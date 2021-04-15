@@ -139,6 +139,25 @@ public class OrderItemServiceImpl implements OrderItemService {
         orderItemRepository.save(orderItem);
     }
 
+
+    /**
+     * Метод получает все из базы список orderItem у которых наценка меньше стандартной
+     * если список не пустой, то флаг isApprove изменяется на false
+     *
+     * @param orderItemId
+     */
+    @Override
+    @Transactional
+    public void updateApprove(Long orderItemId) {
+
+        orderItemRepository.findById(orderItemId).ifPresent(orderItem -> {
+            Long orderId = orderItem.getOrder().getId();
+            if (!orderItemRepository.getOrderItemsWithLowMarge(orderId).isEmpty()) {
+                orderRepository.setApprove(orderId, false);
+            }
+        });
+    }
+
     /**
      * Метод возвращает boolean при проверке существования orderItem с данным Id.
      *

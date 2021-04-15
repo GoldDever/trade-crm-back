@@ -59,4 +59,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "FROM Order o " +
             "WHERE o.manager.id = :managerId")
     List<OrderDto> getAllOrderDtoListByManagerId(@Param("managerId")Long managerId);
+
+    @Modifying
+    @Query("UPDATE Order o SET o.isApprove = :approve WHERE o.id = :orderId")
+    void setApprove(@Param("orderId") Long orderId, @Param("approve") Boolean approve);
 }
