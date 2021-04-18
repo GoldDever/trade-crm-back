@@ -9,6 +9,7 @@ import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderApproveAnswer;
 import ru.javamentor.model.order.OrderApproveRequest;
+import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.User;
 import ru.javamentor.repository.order.OrderApproveAnswerRepository;
 import ru.javamentor.repository.order.OrderApproveRequestRepository;
@@ -59,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
      * сохраняет новый OrderApproveAnswer
      *
      * @param orderApproveAnswerDto - ДТО из которого получаем новый флаг isApprove
-     * @param orderId         - id по которому находим Order и изменяем у него флаг isApprove
+     * @param orderId               - id по которому находим Order и изменяем у него флаг isApprove
      */
     @Override
     public void updateApproveStatus(OrderApproveAnswerDto orderApproveAnswerDto, Long orderId) {
@@ -111,7 +112,6 @@ public class OrderServiceImpl implements OrderService {
         order.setPaid(false);
         order.setShipped(false);
         order.setCreateTime(LocalDateTime.now());
-
         orderRepository.save(order);
         return order.getId();
     }
@@ -144,6 +144,28 @@ public class OrderServiceImpl implements OrderService {
         orderDto.setOrderItemList(orderItemDtoList);
         return orderDto;
     }
+
+
+    /**
+     * Метод, обновляющий принадлежность клиента к заказу.
+     *
+     * @param orderId - Принимает Id ордера как аргумент.
+     * @param clientId - Принимает Id клиента как аргумент.
+     */
+
+    @Transactional
+    @Override
+    public void updateOrderClient(Long orderId, Long clientId) {
+
+        if(clientId !=null) {
+            clientRepository.getClientDtoFromClientWithId(clientId);
+            Client client = clientRepository.findByUsername(clientRepository.getClientDtoFromClientWithId(clientId).getEmail());
+            orderRepository.updateOrderClient(orderId, client);
+        }else{
+            orderRepository.updateOrderClient(orderId, null);
+        }
+    }
+
 
     /**
      * Метод, возвращающий boolean при проверке существования ордера с данным Id.

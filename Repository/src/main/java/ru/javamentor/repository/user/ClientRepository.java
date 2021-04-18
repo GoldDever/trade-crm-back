@@ -24,6 +24,7 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     @Query("select concat(c.lastName,' ',c.firstName) from Client c where c.username =:clientEmail")
     String getFullNameClientPerEmail(@Param("clientEmail") String email);
 
+    @Query()
     boolean existsClientByUsername(String username);
 
     Client findByUsername(String username);
