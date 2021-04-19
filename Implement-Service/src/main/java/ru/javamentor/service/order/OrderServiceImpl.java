@@ -2,10 +2,10 @@ package ru.javamentor.service.order;
 
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.order.OrderApproveAnswerDto;
-import ru.javamentor.dto.user.ClientDto;
-import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.order.OrderItemDto;
+import ru.javamentor.dto.user.ClientDto;
+import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderApproveAnswer;
 import ru.javamentor.model.order.OrderApproveRequest;
@@ -59,7 +59,7 @@ public class OrderServiceImpl implements OrderService {
      * сохраняет новый OrderApproveAnswer
      *
      * @param orderApproveAnswerDto - ДТО из которого получаем новый флаг isApprove
-     * @param orderId         - id по которому находим Order и изменяем у него флаг isApprove
+     * @param orderId               - id по которому находим Order и изменяем у него флаг isApprove
      */
     @Override
     public void updateApproveStatus(OrderApproveAnswerDto orderApproveAnswerDto, Long orderId) {
@@ -198,6 +198,21 @@ public class OrderServiceImpl implements OrderService {
             orderDto.setManager(managerDto);
         });
         return allOrderDtoList;
+    }
+
+    /**
+     * Метод удаления Order по orderId
+     *
+     * @param orderId             - Принимает orderId как аргумент
+     * Перед удалением Order: удаляется ReserveProduct и OrderItem
+     */
+    @Transactional
+    @Override
+    public void deleteOrderByOrderId(Long orderId) {
+        reserveProductRepository.deleteByOrderId(orderId);
+        List<OrderItemDto> list = orderItemRepository.getListOrderItemDtoByOrderId(orderId);
+        list.stream().map(OrderItemDto::getId).forEach(orderItemRepository::deleteOrderItemById);
+        orderRepository.deleteOrderById(orderId);
     }
 }
 
