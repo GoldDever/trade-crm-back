@@ -2,10 +2,10 @@ package ru.javamentor.service.order;
 
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.order.OrderApproveAnswerDto;
-import ru.javamentor.dto.user.ClientDto;
-import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.order.OrderItemDto;
+import ru.javamentor.dto.user.ClientDto;
+import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderApproveAnswer;
 import ru.javamentor.model.order.OrderApproveRequest;
