@@ -9,6 +9,8 @@ import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderApproveAnswer;
 import ru.javamentor.model.order.OrderApproveRequest;
+import ru.javamentor.model.user.Client;
+import ru.javamentor.model.user.Manager;
 import ru.javamentor.model.user.User;
 import ru.javamentor.repository.order.OrderApproveAnswerRepository;
 import ru.javamentor.repository.order.OrderApproveRequestRepository;
@@ -22,6 +24,7 @@ import ru.javamentor.service.product.ProductService;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -35,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
     private final ReserveProductRepository reserveProductRepository;
     private final ProductService productService;
     private final OrderApproveAnswerRepository orderApproveAnswerRepository;
+    private final OrderItemService orderItemService;
 
 
     public OrderServiceImpl(OrderRepository orderRepository,
@@ -43,7 +47,8 @@ public class OrderServiceImpl implements OrderService {
                             ClientRepository clientRepository,
                             ManagerRepository managerRepository,
                             ReserveProductRepository reserveProductRepository,
-                            ProductService productService, OrderApproveAnswerRepository orderApproveAnswerRepository) {
+                            ProductService productService, OrderApproveAnswerRepository orderApproveAnswerRepository,
+                            OrderItemService orderItemService) {
         this.orderRepository = orderRepository;
         this.orderApproveRequestRepository = orderApproveRequestRepository;
         this.orderItemRepository = orderItemRepository;
@@ -52,6 +57,7 @@ public class OrderServiceImpl implements OrderService {
         this.reserveProductRepository = reserveProductRepository;
         this.productService = productService;
         this.orderApproveAnswerRepository = orderApproveAnswerRepository;
+        this.orderItemService = orderItemService;
     }
 
     /**
@@ -199,6 +205,32 @@ public class OrderServiceImpl implements OrderService {
         });
         return allOrderDtoList;
     }
+    
+    /**
+     * Метод сохраняет измененный order
+     *
+     * @param orderDto - DTO из которого получаем order
+     */
+    @Transactional
+    @Override
+    public void updateOrderFromOrderDto(OrderDto orderDto) {
+        Order order = orderRepository.findOrderById(orderDto.getId());
+        Optional<Client> client = clientRepository.findById(orderDto.getClient().getId());
+        Optional<Manager> manager = managerRepository.findById(orderDto.getManager().getId());
+
+        order.setIdFromErp(orderDto.getIdFromErp());
+        order.setClient(client.get());
+        order.setManager(manager.get());
+        order.setApprove(orderDto.getApproved());
+        order.setPaid(orderDto.getPaid());
+        order.setShipped(orderDto.getShipped());
+        order.setCreateTime(orderDto.getCreateTime());
+
+        orderDto.getOrderItemList().stream()
+                .forEach(x -> orderItemService.updateOrderItem(x));
+
+        order.setApprove(orderDto.getApproved());
+        orderRepository.save(order);
 
     /**
      * Метод удаления Order по orderId
