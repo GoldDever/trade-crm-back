@@ -58,5 +58,9 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "o.createTime) " +
             "FROM Order o " +
             "WHERE o.manager.id = :managerId")
-    List<OrderDto> getAllOrderDtoListByManagerId(@Param("managerId")Long managerId);
+    List<OrderDto> getAllOrderDtoListByManagerId(@Param("managerId") Long managerId);
+
+
+    @Modifying
+    void deleteOrderById(Long orderId);
 }
