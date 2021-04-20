@@ -199,5 +199,22 @@ public class OrderServiceImpl implements OrderService {
         });
         return allOrderDtoList;
     }
+
+    /**
+     * Метод получает все из базы список orderItem у которых наценка меньше стандартной
+     * если список не пустой, то флаг isApprove изменяется на false
+     *
+     * @param orderId
+     */
+    @Override
+    @Transactional
+    public void updateApprove(Long orderId) {
+
+        orderRepository.findById(orderId).ifPresent(order -> {
+            if (orderRepository.checkingLowMargin(orderId)) {
+                orderRepository.setApprove(orderId, false);
+            }
+        });
+    }
 }
 

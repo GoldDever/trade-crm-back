@@ -121,7 +121,6 @@ public class OrderItemServiceImpl implements OrderItemService {
      * @param newPrice
      * @param orderItemId
      */
-
     @Override
     @Transactional
     public void editProductPrice(Long orderItemId, Double newPrice) {
@@ -141,24 +140,6 @@ public class OrderItemServiceImpl implements OrderItemService {
 
 
     /**
-     * Метод получает все из базы список orderItem у которых наценка меньше стандартной
-     * если список не пустой, то флаг isApprove изменяется на false
-     *
-     * @param orderItemId
-     */
-    @Override
-    @Transactional
-    public void updateApprove(Long orderItemId) {
-
-        orderItemRepository.findById(orderItemId).ifPresent(orderItem -> {
-            Long orderId = orderItem.getOrder().getId();
-            if (!orderItemRepository.getOrderItemsWithLowMarge(orderId).isEmpty()) {
-                orderRepository.setApprove(orderId, false);
-            }
-        });
-    }
-
-    /**
      * Метод возвращает boolean при проверке существования orderItem с данным Id.
      *
      * @param orderItemId
@@ -168,4 +149,14 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemRepository.existsById(orderItemId);
     }
 
+    /**
+     * Метод возвращает id ордера которому принадлежит orderItem с переданным id
+     *
+     * @param orderItemId
+     * @return - id ордера
+     */
+    @Override
+    public Long getOrderId(Long orderItemId) {
+        return orderItemRepository.getOrderId(orderItemId);
+    }
 }

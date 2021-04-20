@@ -19,5 +19,5 @@ public interface OrderItemService {
 
     boolean isExistsByOrderItemId(Long orderItemId);
 
-    void updateApprove(Long orderItemId);
+    Long getOrderId(Long orderItemId);
 }

@@ -20,4 +20,6 @@ public interface OrderService {
     List<OrderDto> getOrderDtoListByClientId(Long clientId);
 
     List<OrderDto> getAllOrderDtoListByManagerId(Long managerId);
+
+    void updateApprove(Long orderId);
 }
