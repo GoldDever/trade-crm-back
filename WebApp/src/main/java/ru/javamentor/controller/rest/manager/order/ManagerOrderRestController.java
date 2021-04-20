@@ -72,19 +72,6 @@ public class ManagerOrderRestController {
         return ResponseEntity.badRequest().body("Нет клиента с Id - " + clientId);
     }
 
-    @DeleteMapping("/{orderId}")
-    public ResponseEntity<?> deleteOrder(@PathVariable Long orderId) {
-        try {
-            orderService.deleteOrder(orderId);
-            ;
-            return ResponseEntity.status(HttpStatus.OK).body("Заказ " + orderId
-                    + " успешно удален.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось удалить заказ id="
-                    + orderId);
-        }
-    }
-
 
     /**
      * Метод для сохранения нового Order
@@ -109,14 +96,14 @@ public class ManagerOrderRestController {
      */
     @PutMapping(value = {"/{orderId}/client/{clientId}","/{orderId}/client"})
     public ResponseEntity<?> updateClientInOrder(@PathVariable Long orderId, @PathVariable(required = false) Long clientId) {
-        if (clientId != null) {
-            if (clientService.isExistsByClientId(clientId) && orderService.isExistsByOrderId(orderId)) {
-                orderService.updateOrderClient(orderId, clientId);
+        if (clientId == null) {
+            if (orderService.isExistsByOrderId(orderId)) {
+                orderService.updateOrderClient(orderId, null);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
         } else {
-            if (orderService.isExistsByOrderId(orderId)) {
-                orderService.updateOrderClient(orderId, null);
+            if (clientService.isExistsByClientId(clientId) && orderService.isExistsByOrderId(orderId)) {
+                orderService.updateOrderClient(orderId, clientId);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
         }

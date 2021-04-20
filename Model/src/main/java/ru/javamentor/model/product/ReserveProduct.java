@@ -29,7 +29,6 @@ public class ReserveProduct {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Order order;
 
     @Column(name = "product_count")

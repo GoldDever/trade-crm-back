@@ -116,11 +116,6 @@ public class OrderServiceImpl implements OrderService {
         return order.getId();
     }
 
-    @Override
-    @Transactional
-    public void deleteOrder(Long orderId) {
-        orderRepository.deleteOrderById(orderId);
-    }
 
     /**
      * Метод инициализирующий orderDTO ордером из Базы Данных
@@ -157,12 +152,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrderClient(Long orderId, Long clientId) {
 
-        if(clientId !=null) {
-            clientRepository.getClientDtoFromClientWithId(clientId);
-            Client client = clientRepository.findByUsername(clientRepository.getClientDtoFromClientWithId(clientId).getEmail());
-            orderRepository.updateOrderClient(orderId, client);
-        }else{
+        if (clientId == null) {
             orderRepository.updateOrderClient(orderId, null);
+        } else {
+            orderRepository.updateOrderClient(orderId, clientId);
         }
     }
 

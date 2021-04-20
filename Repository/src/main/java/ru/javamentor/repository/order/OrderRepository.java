@@ -34,8 +34,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     OrderDto getOrderDtoWithOrderId(@Param("orderId") Long orderId);
 
     @Modifying
-    @Query("UPDATE Order o SET o.client = :client WHERE o.id =:orderId")
-    void updateOrderClient(@Param("orderId") Long orderId,@Param("client") Client client);
+    @Query("UPDATE Order o SET o.client =(SELECT u.id FROM  User u WHERE u.id = :clientId) WHERE o.id =:orderId")
+    void updateOrderClient(@Param("orderId") Long orderId,@Param("clientId") Long clientId);
 
     @Query("SELECT o.client.id FROM Order o WHERE o.id = :orderId")
     Long getClientIdByOrderId(@Param("orderId") Long orderId);
@@ -53,10 +53,6 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "FROM Order o " +
             "WHERE o.client.id = :clientId")
     List<OrderDto> getOrderDtoListWithClientId(Long clientId);
-
-    @Modifying
-    @Query("DELETE FROM Order oi WHERE oi.id = :orderId")
-    void deleteOrderById(@Param("orderId") Long orderId);
 
 
     @Query("SELECT new ru.javamentor.dto.order.OrderDto(" +
