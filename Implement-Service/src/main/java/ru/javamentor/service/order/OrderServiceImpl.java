@@ -226,8 +226,8 @@ public class OrderServiceImpl implements OrderService {
         order.setShipped(orderDto.getShipped());
         order.setCreateTime(orderDto.getCreateTime());
 
-        orderDto.getOrderItemList().stream()
-                .forEach(x -> orderItemService.updateOrderItem(x));
+        orderDto.getOrderItemList()
+                .forEach(orderItemService::updateOrderItem);
 
         order.setApprove(orderDto.getApproved());
         orderRepository.save(order);
@@ -239,6 +239,7 @@ public class OrderServiceImpl implements OrderService {
      * @param orderId             - Принимает orderId как аргумент
      * Перед удалением Order: удаляется ReserveProduct и OrderItem
      */
+
     @Transactional
     @Override
     public void deleteOrderByOrderId(Long orderId) {
