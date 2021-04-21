@@ -1,7 +1,7 @@
 package ru.javamentor.init;
 
 import org.springframework.stereotype.Component;
-import ru.javamentor.init.notification.NotificationService;
+import ru.javamentor.init.notification.InitNotificationService;
 import ru.javamentor.init.order.InitOrderApproveService;
 import ru.javamentor.init.order.InitOrderItemService;
 import ru.javamentor.init.order.InitOrderService;
@@ -31,7 +31,7 @@ public class InitService {
     private final InitRoleService initRoleService;
     private final InitUserService initUserService;
     private final InitOrderApproveService initOrderApproveService;
-    private final NotificationService notificationService;
+    private final InitNotificationService initNotificationService;
 
 
     public InitService(InitOrderService initOrderService, InitOrderItemService initOrderItemService,
@@ -39,7 +39,7 @@ public class InitService {
                        InitReserveProductService initReserveProductService, InitSupplierService initSupplierService,
                        InitProductCategoryService initProductCategoryService, InitProductService initProductService,
                        InitRoleService initRoleService, InitUserService initUserService,
-                       InitOrderApproveService initOrderApproveService, NotificationService notificationService) {
+                       InitOrderApproveService initOrderApproveService, InitNotificationService initNotificationService) {
         this.initOrderService = initOrderService;
         this.initOrderItemService = initOrderItemService;
         this.initManufacturerService = initManufacturerService;
@@ -51,7 +51,7 @@ public class InitService {
         this.initRoleService = initRoleService;
         this.initUserService = initUserService;
         this.initOrderApproveService = initOrderApproveService;
-        this.notificationService = notificationService;
+        this.initNotificationService = initNotificationService;
     }
     @PostConstruct
     private void init() {
@@ -66,7 +66,7 @@ public class InitService {
         initOrderItemService.initOrderItem();
         initReserveProductService.initReserveProduct();
         initOrderApproveService.initOrderApprove();
-        notificationService.initNotification();
+        initNotificationService.initNotification();
     }
 
 

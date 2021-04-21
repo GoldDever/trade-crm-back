@@ -1,6 +1,5 @@
 package ru.javamentor.model.notification;
 
-import ru.javamentor.model.user.Manager;
 import ru.javamentor.model.user.User;
 
 import javax.persistence.Column;
@@ -12,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "notifications")
@@ -28,8 +26,8 @@ public class Notification {
     @Column(name = "notification_text")
     private String notificationText;
 
-    @Column(name = "createdAt")
-    private LocalDateTime createdAt;
+    @Column(name = "createTime")
+    private LocalDateTime createTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -38,11 +36,11 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(Long id, String notificationTitle, String notificationText, LocalDateTime createdAt, User user) {
+    public Notification(Long id, String notificationTitle, String notificationText, LocalDateTime createTime, User user) {
         this.id = id;
         this.notificationTitle = notificationTitle;
         this.notificationText = notificationText;
-        this.createdAt = createdAt;
+        this.createTime = createTime;
         this.user = user;
     }
 
@@ -70,12 +68,12 @@ public class Notification {
         this.notificationText = notificationText;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
     }
 
     public User getUser() {
