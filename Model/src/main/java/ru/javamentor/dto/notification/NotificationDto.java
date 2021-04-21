@@ -18,17 +18,15 @@ public class NotificationDto {
     private String notificationTitle;
     private String notificationText;
     private LocalDateTime createdAt;
-    private User user;
 
     public NotificationDto() {
     }
 
-    public NotificationDto(Long id, String notificationTitle, String notificationText, LocalDateTime createdAt, User user) {
+    public NotificationDto(Long id, String notificationTitle, String notificationText, LocalDateTime createdAt) {
         this.id = id;
         this.notificationTitle = notificationTitle;
         this.notificationText = notificationText;
         this.createdAt = createdAt;
-        this.user = user;
     }
 
     public Long getId() {
@@ -61,13 +59,5 @@ public class NotificationDto {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
