@@ -231,6 +231,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setApprove(orderDto.getApproved());
         orderRepository.save(order);
+    }
 
     /**
      * Метод удаления Order по orderId
