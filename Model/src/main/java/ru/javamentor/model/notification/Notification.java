@@ -1,5 +1,7 @@
 package ru.javamentor.model.notification;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.javamentor.model.user.User;
 
 import javax.persistence.Column;
@@ -31,6 +33,7 @@ public class Notification {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     public Notification() {
