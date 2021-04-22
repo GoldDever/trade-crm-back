@@ -32,12 +32,12 @@ public class InitNotificationService {
     }
 
     public void createNotification(User user, String notificationTitle,
-                                   String notificationText, LocalDateTime dateTime) {
+                                   String notificationText, LocalDateTime createTime) {
         Notification notification = new Notification();
         notification.setUser(user);
         notification.setNotificationTitle(notificationTitle);
         notification.setNotificationText(notificationText);
-        notification.setCreateTime(dateTime);
+        notification.setCreateTime(createTime);
 
         notificationRepository.save(notification);
 
