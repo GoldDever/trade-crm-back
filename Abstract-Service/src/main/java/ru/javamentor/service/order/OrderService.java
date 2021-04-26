@@ -16,6 +16,8 @@ public interface OrderService {
 
     OrderDto getOrderDtoByOrderId(Long orderId);
 
+    void updateOrderClient(Long orderId,Long clientId);
+
     boolean isExistsByOrderId(Long orderId);
 
     List<OrderDto> getOrderDtoListByClientId(Long clientId);

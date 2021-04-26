@@ -1,5 +1,7 @@
 package ru.javamentor.model.order;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ru.javamentor.model.user.Client;
 import ru.javamentor.model.user.Manager;
 

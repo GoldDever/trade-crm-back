@@ -87,6 +87,28 @@ public class ManagerOrderRestController {
         return new ResponseEntity<>(orderId, HttpStatus.CREATED);
     }
 
+    /**
+     * PUT метод для обновления клиента в заказе
+     *
+     * @param orderId - Принимает orderId как аргумент
+     * @param clientId - Принимает clientId как аргумент
+     * @return - Http status для подтверждения результата операции
+     */
+    @PutMapping(value = {"/{orderId}/client/{clientId}","/{orderId}/client"})
+    public ResponseEntity<?> updateClientInOrder(@PathVariable Long orderId, @PathVariable(required = false) Long clientId) {
+        if (clientId == null) {
+            if (orderService.isExistsByOrderId(orderId)) {
+                orderService.updateOrderClient(orderId, null);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        } else {
+            if (clientService.isExistsByClientId(clientId) && orderService.isExistsByOrderId(orderId)) {
+                orderService.updateOrderClient(orderId, clientId);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
     /**
      * GET метод для получения orderDTO на странице менеджера

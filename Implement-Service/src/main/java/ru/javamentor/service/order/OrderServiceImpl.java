@@ -117,10 +117,10 @@ public class OrderServiceImpl implements OrderService {
         order.setPaid(false);
         order.setShipped(false);
         order.setCreateTime(LocalDateTime.now());
-
         orderRepository.save(order);
         return order.getId();
     }
+
 
     /**
      * Метод инициализирующий orderDTO ордером из Базы Данных
@@ -144,6 +144,26 @@ public class OrderServiceImpl implements OrderService {
         orderDto.setOrderItemList(orderItemDtoList);
         return orderDto;
     }
+
+
+    /**
+     * Метод, обновляющий принадлежность клиента к заказу.
+     *
+     * @param orderId - Принимает Id ордера как аргумент.
+     * @param clientId - Принимает Id клиента как аргумент.
+     */
+
+    @Transactional
+    @Override
+    public void updateOrderClient(Long orderId, Long clientId) {
+
+        if (clientId == null) {
+            orderRepository.updateOrderClient(orderId, null);
+        } else {
+            orderRepository.updateOrderClient(orderId, clientId);
+        }
+    }
+
 
     /**
      * Метод, возвращающий boolean при проверке существования ордера с данным Id.

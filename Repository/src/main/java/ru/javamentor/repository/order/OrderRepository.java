@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.model.order.Order;
+import ru.javamentor.model.user.Client;
 
 import java.util.List;
 
@@ -32,6 +33,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "WHERE o.id = :orderId")
     OrderDto getOrderDtoWithOrderId(@Param("orderId") Long orderId);
 
+    @Modifying
+    @Query("UPDATE Order o SET o.client =(SELECT u.id FROM  User u WHERE u.id = :clientId) WHERE o.id =:orderId")
+    void updateOrderClient(@Param("orderId") Long orderId,@Param("clientId") Long clientId);
+
     @Query("SELECT o.client.id FROM Order o WHERE o.id = :orderId")
     Long getClientIdByOrderId(@Param("orderId") Long orderId);
 
@@ -48,6 +53,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "FROM Order o " +
             "WHERE o.client.id = :clientId")
     List<OrderDto> getOrderDtoListWithClientId(Long clientId);
+
 
     @Query("SELECT new ru.javamentor.dto.order.OrderDto(" +
             "o.id, " +
