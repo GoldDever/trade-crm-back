@@ -58,6 +58,6 @@ public class NotificationDto {
     }
 
     public void setCreateTime(LocalDateTime createTime) {
-        this.createTimet = createTime;
+        this.createTime = createTime;
     }
 }
