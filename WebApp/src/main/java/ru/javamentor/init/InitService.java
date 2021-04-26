@@ -1,6 +1,7 @@
 package ru.javamentor.init;
 
 import org.springframework.stereotype.Component;
+import ru.javamentor.init.notification.InitNotificationService;
 import ru.javamentor.init.order.InitOrderApproveService;
 import ru.javamentor.init.order.InitOrderItemService;
 import ru.javamentor.init.order.InitOrderService;
@@ -30,9 +31,15 @@ public class InitService {
     private final InitRoleService initRoleService;
     private final InitUserService initUserService;
     private final InitOrderApproveService initOrderApproveService;
+    private final InitNotificationService initNotificationService;
 
 
-    public InitService(InitOrderService initOrderService, InitOrderItemService initOrderItemService, InitManufacturerService initManufacturerService, InitUnitService initUnitService, InitReserveProductService initReserveProductService, InitSupplierService initSupplierService, InitProductCategoryService initProductCategoryService, InitProductService initProductService, InitRoleService initRoleService, InitUserService initUserService, InitOrderApproveService initOrderApproveService) {
+    public InitService(InitOrderService initOrderService, InitOrderItemService initOrderItemService,
+                       InitManufacturerService initManufacturerService, InitUnitService initUnitService,
+                       InitReserveProductService initReserveProductService, InitSupplierService initSupplierService,
+                       InitProductCategoryService initProductCategoryService, InitProductService initProductService,
+                       InitRoleService initRoleService, InitUserService initUserService,
+                       InitOrderApproveService initOrderApproveService, InitNotificationService initNotificationService) {
         this.initOrderService = initOrderService;
         this.initOrderItemService = initOrderItemService;
         this.initManufacturerService = initManufacturerService;
@@ -44,6 +51,7 @@ public class InitService {
         this.initRoleService = initRoleService;
         this.initUserService = initUserService;
         this.initOrderApproveService = initOrderApproveService;
+        this.initNotificationService = initNotificationService;
     }
     @PostConstruct
     private void init() {
@@ -58,6 +66,7 @@ public class InitService {
         initOrderItemService.initOrderItem();
         initReserveProductService.initReserveProduct();
         initOrderApproveService.initOrderApprove();
+        initNotificationService.initNotification();
     }
 
 

@@ -3,9 +3,11 @@ package ru.javamentor.controller.rest.manager.order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -78,13 +80,35 @@ public class ManagerOrderRestController {
      * @param user     - user из principal для получения manager
      * @return - статус http-запроса
      */
-    @PostMapping(value= {"new/client/{clientId}", "new/client/"})
+    @PostMapping(value = {"new/client/{clientId}", "new/client/"})
     public ResponseEntity<?> newOrder(@PathVariable(required = false) Long clientId,
                                       @AuthenticationPrincipal User user) {
         Long orderId = orderService.newOrder(clientId, user);
         return new ResponseEntity<>(orderId, HttpStatus.CREATED);
     }
 
+    /**
+     * PUT метод для обновления клиента в заказе
+     *
+     * @param orderId - Принимает orderId как аргумент
+     * @param clientId - Принимает clientId как аргумент
+     * @return - Http status для подтверждения результата операции
+     */
+    @PutMapping(value = {"/{orderId}/client/{clientId}","/{orderId}/client"})
+    public ResponseEntity<?> updateClientInOrder(@PathVariable Long orderId, @PathVariable(required = false) Long clientId) {
+        if (clientId == null) {
+            if (orderService.isExistsByOrderId(orderId)) {
+                orderService.updateOrderClient(orderId, null);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        } else {
+            if (clientService.isExistsByClientId(clientId) && orderService.isExistsByOrderId(orderId)) {
+                orderService.updateOrderClient(orderId, clientId);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 
     /**
      * GET метод для получения orderDTO на странице менеджера
@@ -121,6 +145,32 @@ public class ManagerOrderRestController {
             }
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Заказ с id = " + orderId + " не найден.");
+    }
+    /**
+     * Метод сохраняет измененный order
+     *
+     * @param orderDto - DTO из которого получаем order
+     */
+    @PutMapping(value = "/update")
+    public ResponseEntity<?> updateOrder(@RequestBody OrderDto orderDto) {
+        orderService.updateOrderFromOrderDto(orderDto);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Метод удаления Order по orderId
+     *
+     * @param orderId - Принимает orderId как аргумент
+     * @return - возвращает строку об успешном или не успешном удалении
+     */
+    @DeleteMapping(value = "/{orderId}")
+    public ResponseEntity<String> deleteOrderByOrderId(@PathVariable Long orderId) {
+        if (orderService.isExistsByOrderId(orderId)) {
+            orderService.deleteOrderByOrderId(orderId);
+            return ResponseEntity.status(HttpStatus.OK).body("Ордер успешно удален");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Во время удаления " +
+                "заказа с id " + orderId + " произошла ошибка");
     }
 
 }

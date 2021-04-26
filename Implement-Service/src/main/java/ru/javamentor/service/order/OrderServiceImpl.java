@@ -2,13 +2,15 @@ package ru.javamentor.service.order;
 
 import org.springframework.stereotype.Service;
 import ru.javamentor.dto.order.OrderApproveAnswerDto;
-import ru.javamentor.dto.user.ClientDto;
-import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.dto.order.OrderDto;
 import ru.javamentor.dto.order.OrderItemDto;
+import ru.javamentor.dto.user.ClientDto;
+import ru.javamentor.dto.user.ManagerDto;
 import ru.javamentor.model.order.Order;
 import ru.javamentor.model.order.OrderApproveAnswer;
 import ru.javamentor.model.order.OrderApproveRequest;
+import ru.javamentor.model.user.Client;
+import ru.javamentor.model.user.Manager;
 import ru.javamentor.model.user.User;
 import ru.javamentor.repository.order.OrderApproveAnswerRepository;
 import ru.javamentor.repository.order.OrderApproveRequestRepository;
@@ -22,6 +24,7 @@ import ru.javamentor.service.product.ProductService;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 
@@ -35,6 +38,7 @@ public class OrderServiceImpl implements OrderService {
     private final ReserveProductRepository reserveProductRepository;
     private final ProductService productService;
     private final OrderApproveAnswerRepository orderApproveAnswerRepository;
+    private final OrderItemService orderItemService;
 
 
     public OrderServiceImpl(OrderRepository orderRepository,
@@ -43,7 +47,8 @@ public class OrderServiceImpl implements OrderService {
                             ClientRepository clientRepository,
                             ManagerRepository managerRepository,
                             ReserveProductRepository reserveProductRepository,
-                            ProductService productService, OrderApproveAnswerRepository orderApproveAnswerRepository) {
+                            ProductService productService, OrderApproveAnswerRepository orderApproveAnswerRepository,
+                            OrderItemService orderItemService) {
         this.orderRepository = orderRepository;
         this.orderApproveRequestRepository = orderApproveRequestRepository;
         this.orderItemRepository = orderItemRepository;
@@ -52,6 +57,7 @@ public class OrderServiceImpl implements OrderService {
         this.reserveProductRepository = reserveProductRepository;
         this.productService = productService;
         this.orderApproveAnswerRepository = orderApproveAnswerRepository;
+        this.orderItemService = orderItemService;
     }
 
     /**
@@ -59,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
      * сохраняет новый OrderApproveAnswer
      *
      * @param orderApproveAnswerDto - ДТО из которого получаем новый флаг isApprove
-     * @param orderId         - id по которому находим Order и изменяем у него флаг isApprove
+     * @param orderId               - id по которому находим Order и изменяем у него флаг isApprove
      */
     @Override
     public void updateApproveStatus(OrderApproveAnswerDto orderApproveAnswerDto, Long orderId) {
@@ -111,10 +117,10 @@ public class OrderServiceImpl implements OrderService {
         order.setPaid(false);
         order.setShipped(false);
         order.setCreateTime(LocalDateTime.now());
-
         orderRepository.save(order);
         return order.getId();
     }
+
 
     /**
      * Метод инициализирующий orderDTO ордером из Базы Данных
@@ -138,6 +144,26 @@ public class OrderServiceImpl implements OrderService {
         orderDto.setOrderItemList(orderItemDtoList);
         return orderDto;
     }
+
+
+    /**
+     * Метод, обновляющий принадлежность клиента к заказу.
+     *
+     * @param orderId - Принимает Id ордера как аргумент.
+     * @param clientId - Принимает Id клиента как аргумент.
+     */
+
+    @Transactional
+    @Override
+    public void updateOrderClient(Long orderId, Long clientId) {
+
+        if (clientId == null) {
+            orderRepository.updateOrderClient(orderId, null);
+        } else {
+            orderRepository.updateOrderClient(orderId, clientId);
+        }
+    }
+
 
     /**
      * Метод, возвращающий boolean при проверке существования ордера с данным Id.
@@ -201,6 +227,34 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * Метод сохраняет измененный order
+     *
+     * @param orderDto - DTO из которого получаем order
+     */
+    @Transactional
+    @Override
+    public void updateOrderFromOrderDto(OrderDto orderDto) {
+        Order order = orderRepository.findOrderById(orderDto.getId());
+        Optional<Client> client = clientRepository.findById(orderDto.getClient().getId());
+        Optional<Manager> manager = managerRepository.findById(orderDto.getManager().getId());
+
+        order.setIdFromErp(orderDto.getIdFromErp());
+        order.setClient(client.get());
+        order.setManager(manager.get());
+        order.setApprove(orderDto.getApproved());
+        order.setPaid(orderDto.getPaid());
+        order.setShipped(orderDto.getShipped());
+        order.setCreateTime(orderDto.getCreateTime());
+
+        orderDto.getOrderItemList()
+                .forEach(orderItemService::updateOrderItem);
+
+        order.setApprove(orderDto.getApproved());
+        orderRepository.save(order);
+    }
+
+
+    /**
      * Метод получает все из базы список orderItem у которых наценка меньше стандартной
      * если список не пустой, то флаг isApprove изменяется на false
      *
@@ -215,6 +269,22 @@ public class OrderServiceImpl implements OrderService {
                 orderRepository.setApprove(orderId, false);
             }
         });
+    }
+
+    /**
+     * Метод удаления Order по orderId
+     *
+     * @param orderId             - Принимает orderId как аргумент
+     * Перед удалением Order: удаляется ReserveProduct и OrderItem
+     */
+
+    @Transactional
+    @Override
+    public void deleteOrderByOrderId(Long orderId) {
+        reserveProductRepository.deleteByOrderId(orderId);
+        List<OrderItemDto> list = orderItemRepository.getListOrderItemDtoByOrderId(orderId);
+        list.stream().map(OrderItemDto::getId).forEach(orderItemRepository::deleteOrderItemById);
+        orderRepository.deleteOrderById(orderId);
     }
 }
 
