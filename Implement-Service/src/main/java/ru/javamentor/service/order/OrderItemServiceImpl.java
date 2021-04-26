@@ -140,7 +140,6 @@ public class OrderItemServiceImpl implements OrderItemService {
      * @param newPrice
      * @param orderItemId
      */
-
     @Override
     @Transactional
     public void editProductPrice(Long orderItemId, Double newPrice) {
@@ -158,6 +157,7 @@ public class OrderItemServiceImpl implements OrderItemService {
         orderItemRepository.save(orderItem);
     }
 
+
     /**
      * Метод возвращает boolean при проверке существования orderItem с данным Id.
      *
@@ -168,4 +168,14 @@ public class OrderItemServiceImpl implements OrderItemService {
         return orderItemRepository.existsById(orderItemId);
     }
 
+    /**
+     * Метод возвращает id ордера которому принадлежит orderItem с переданным id
+     *
+     * @param orderItemId
+     * @return - id ордера
+     */
+    @Override
+    public Long getOrderId(Long orderItemId) {
+        return orderItemRepository.getOrderId(orderItemId);
+    }
 }

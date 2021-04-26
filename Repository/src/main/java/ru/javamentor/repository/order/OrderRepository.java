@@ -66,6 +66,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "WHERE o.manager.id = :managerId")
     List<OrderDto> getAllOrderDtoListByManagerId(@Param("managerId") Long managerId);
 
+    @Modifying
+    @Query("UPDATE Order o SET o.isApprove = :approve WHERE o.id = :orderId")
+    void setApprove(@Param("orderId") Long orderId, @Param("approve") Boolean approve);
+
+    @Query("SELECT CASE WHEN (COUNT(orderItem) > 0) THEN TRUE ELSE FALSE END FROM OrderItem orderItem " +
+            "WHERE orderItem.order.id = :orderId AND (orderItem.currentMargePercent < orderItem.product.standardMargin)")
+    boolean checkingLowMargin(@Param("orderId") Long orderId);
+
 
     @Modifying
     void deleteOrderById(Long orderId);

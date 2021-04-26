@@ -26,6 +26,8 @@ public interface OrderService {
 
     void updateOrderFromOrderDto(OrderDto orderDto);
 
+    void updateApprove(Long orderId);
+
     void deleteOrderByOrderId(Long orderId);
 
 }

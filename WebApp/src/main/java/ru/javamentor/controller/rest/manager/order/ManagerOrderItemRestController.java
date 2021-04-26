@@ -89,6 +89,7 @@ public class ManagerOrderItemRestController {
 
         if (orderItemService.isExistsByOrderItemId(orderItemId)) {
             orderItemService.editProductPrice(orderItemId, newPrice);
+            orderService.updateApprove(orderItemService.getOrderId(orderItemId));
             return ResponseEntity.status(HttpStatus.OK).body("Значение наценки изменено");
         }
 

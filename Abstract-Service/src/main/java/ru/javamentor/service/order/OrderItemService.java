@@ -21,4 +21,5 @@ public interface OrderItemService {
 
     boolean isExistsByOrderItemId(Long orderItemId);
 
+    Long getOrderId(Long orderItemId);
 }
