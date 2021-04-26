@@ -61,9 +61,10 @@ public class AdminOrderRestController {
      * @return - статус добавления ответа на утверждение заказа
      */
     @PostMapping(value = "/{orderId}/answerApprove")
-    public ResponseEntity<String> addNewOrderApproveAnswer(@RequestBody OrderApproveAnswerDto orderApproveAnswer, @PathVariable String orderId) {
+    public ResponseEntity<String> addNewOrderApproveAnswer(@RequestBody OrderApproveAnswerDto orderApproveAnswer, @PathVariable Long orderId) {
         try {
             orderApproveAnswerService.saveOrderApproveAnswer(orderApproveAnswer);
+            orderService.updateApproveStatus(orderApproveAnswer, orderId);
             return ResponseEntity.status(HttpStatus.CREATED).body("Ответ на утверждение заказа успешно добавлен, id заказа=" + orderId);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Не удалось добавить ответ на утверждение заказа c id="

@@ -54,4 +54,10 @@ public interface ReserveProductRepository extends JpaRepository<ReserveProduct, 
 
     @Query("SELECT rp FROM ReserveProduct rp WHERE rp.product.id = :productId")
     List<ReserveProduct> getReserveProductListByProductId(@Param("productId") Long productId);
+
+    @Modifying
+    @Query("UPDATE ReserveProduct rp SET rp.productCount = :productCount WHERE rp.id = :reserveId")
+    void setProductCountByProductReserveId(@Param("reserveId") Long reserveId, @Param("productCount") Integer productCount);
+
+    void deleteReserveProductById(Long id);
 }

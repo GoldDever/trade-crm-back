@@ -10,7 +10,6 @@ import ru.javamentor.repository.order.OrderItemRepository;
 import ru.javamentor.repository.order.OrderRepository;
 import ru.javamentor.repository.product.ProductRepository;
 import ru.javamentor.repository.product.ReserveProductRepository;
-import ru.javamentor.repository.user.ManagerRepository;
 import ru.javamentor.service.order.OrderService;
 
 import javax.transaction.Transactional;
@@ -87,6 +86,48 @@ public class ReserveProductServiceImpl implements ReserveProductService {
             }
             return String.format("Товар в количестве %s снят с резерва.", productCount);
         }
+    }
+
+    /**
+     * Метод удаляет продукт из резерва с переданным id.
+     * Если объём резерва равен входному параметру.
+     * Иначе сохраняет новое значение.
+     *
+     * @param reserveId    - id резерва
+     * @param productCount - количество удаляемого продукта из резерва
+     * @return - код ответа для проверки на наличие в резерва в БД
+     */
+    @Transactional
+    @Override
+    public void removeProductReserve(Long reserveId, Integer productCount) {
+        if (productCount == 0) {
+            reserveProductRepository.deleteReserveProductById(reserveId);
+        } else {
+            reserveProductRepository.setProductCountByProductReserveId(reserveId, productCount);
+        }
+    }
+
+
+    /**
+     * Метод проверяет наличие в базе данных резерва с указанным id
+     *
+     * @param reserveId - id резерва
+     * @return - результат проверки
+     */
+    @Override
+    public boolean isExistById(Long reserveId) {
+        return reserveProductRepository.existsById(reserveId);
+    }
+
+    /**
+     * Метод возвращает количество товара в резерве
+     *
+     * @param reserveId - id резерва
+     * @return - количество товара
+     */
+    @Override
+    public Integer getProductCountByProductReserveId(Long reserveId) {
+        return reserveProductRepository.findById(reserveId).get().getProductCount();
     }
 
     /**

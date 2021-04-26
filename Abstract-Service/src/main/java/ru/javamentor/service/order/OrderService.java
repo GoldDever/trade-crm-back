@@ -2,6 +2,7 @@ package ru.javamentor.service.order;
 
 import ru.javamentor.dto.order.OrderApproveAnswerDto;
 import ru.javamentor.dto.order.OrderDto;
+import ru.javamentor.dto.order.OrderItemDto;
 import ru.javamentor.model.user.User;
 
 import java.util.List;
@@ -22,4 +23,9 @@ public interface OrderService {
     List<OrderDto> getOrderDtoListByClientId(Long clientId);
 
     List<OrderDto> getAllOrderDtoListByManagerId(Long managerId);
+
+    void updateOrderFromOrderDto(OrderDto orderDto);
+
+    void deleteOrderByOrderId(Long orderId);
+
 }
